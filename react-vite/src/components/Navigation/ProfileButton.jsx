@@ -1,15 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FaUserCircle } from 'react-icons/fa';
+import { FaUserCircle } from "react-icons/fa";
 import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
+import "./ProfileButton.css";
 
 function ProfileButton() {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const user = useSelector((store) => store.session.user);
+  console.log(user);
   const ulRef = useRef();
 
   const toggleMenu = (e) => {
@@ -41,8 +43,16 @@ function ProfileButton() {
 
   return (
     <>
-      <button onClick={toggleMenu}>
-        <FaUserCircle />
+      <button onClick={toggleMenu} className="hiddenButton">
+        {user ? (
+          <img
+            src={user.profile_url}
+            alt="Profile_URL"
+            className="profileIcon"
+          />
+        ) : (
+          "Sign In"
+        )}
       </button>
       {showMenu && (
         <ul className={"profile-dropdown"} ref={ulRef}>
