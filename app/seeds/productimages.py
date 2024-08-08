@@ -5,152 +5,152 @@ from sqlalchemy.sql import text
 def seed_productImages():
     image1 = ProductImage(
         product_id=1,
-        url="/images/product1_01",
+        url="/images/product1_01.webp",
         preview=True
     )
     image2 = ProductImage(
         product_id=1,
-        url="/images/product1_02",
+        url="/images/product1_02.webp",
         preview=False
     )
     image3 = ProductImage(
         product_id=1,
-        url="/images/product1_03",
+        url="/images/product1_03.webp",
         preview=False
     )
     image4 = ProductImage(
         product_id=1,
-        url="/images/product1_04",
+        url="/images/product1_04.webp",
         preview=False
     )
     image5 = ProductImage(
         product_id=1,
-        url="/images/product1_05",
+        url="/images/product1_05.webp",
         preview=False
     )
     image6 = ProductImage(
         product_id=1,
-        url="/images/product1_06",
+        url="/images/product1_06.webp",
         preview=False
     )
     image7 = ProductImage(
         product_id=2,
-        url="/images/product2_01",
+        url="/images/product2_01.webp",
         preview=True
     )
     image8 = ProductImage(
         product_id=2,
-        url="/images/product2_02",
+        url="/images/product2_02.webp",
         preview=False
     )
     image9 = ProductImage(
         product_id=2,
-        url="/images/product2_03",
+        url="/images/product2_03.webp",
         preview=False
     )
     image10 = ProductImage(
         product_id=2,
-        url="/images/product2_04",
+        url="/images/product2_04.webp",
         preview=False
     )
     image11 = ProductImage(
         product_id=2,
-        url="/images/product2_05",
+        url="/images/product2_05.webp",
         preview=False
     )
     image12 = ProductImage(
         product_id=2,
-        url="/images/product2_06",
+        url="/images/product2_06.webp",
         preview=False
     )
     image13 = ProductImage(
         product_id=3,
-        url="/images/product3_01",
+        url="/images/product3_01.webp",
         preview=True
     )
     image14 = ProductImage(
         product_id=3,
-        url="/images/product3_02",
+        url="/images/product3_02.webp",
         preview=False
     )
     image15 = ProductImage(
         product_id=3,
-        url="/images/product3_03",
+        url="/images/product3_03.webp",
         preview=False
     )
     image16 = ProductImage(
         product_id=3,
-        url="/images/product3_04",
+        url="/images/product3_04.webp",
         preview=False
     )
     image17 = ProductImage(
         product_id=3,
-        url="/images/product3_05",
+        url="/images/product3_05.webp",
         preview=False
     )
     image18 = ProductImage(
         product_id=3,
-        url="/images/product3_06",
+        url="/images/product3_06.webp",
         preview=False
     )
     image19 = ProductImage(
         product_id=4,
-        url="/images/product4_01",
+        url="/images/product4_01.webp",
         preview=True
     )
     image20 = ProductImage(
         product_id=4,
-        url="/images/product4_02",
+        url="/images/product4_02.webp",
         preview=False
     )
     image21 = ProductImage(
         product_id=4,
-        url="/images/product4_03",
+        url="/images/product4_03.webp",
         preview=False
     )
     image22 = ProductImage(
         product_id=4,
-        url="/images/product4_04",
+        url="/images/product4_04.webp",
         preview=False
     )
     image23 = ProductImage(
         product_id=4,
-        url="/images/product4_05",
+        url="/images/product4_05.webp",
         preview=False
     )
     image24 = ProductImage(
         product_id=4,
-        url="/images/product5_06",
+        url="/images/product5_06.webp",
         preview=False
     )
     image25 = ProductImage(
         product_id=5,
-        url="/images/product6_01",
+        url="/images/product6_01.webp",
         preview=True
     )
     image26 = ProductImage(
         product_id=5,
-        url="/images/product6_02",
+        url="/images/product6_02.webp",
         preview=False
     )
     image27 = ProductImage(
         product_id=5,
-        url="/images/product6_03",
+        url="/images/product6_03.webp",
         preview=False
     )
     image28 = ProductImage(
         product_id=5,
-        url="/images/product6_04",
+        url="/images/product6_04.webp",
         preview=False
     )
     image29 = ProductImage(
         product_id=5,
-        url="/images/product6_05",
+        url="/images/product6_05.webp",
         preview=False
     )
     image30 = ProductImage(
         product_id=5,
-        url="/images/product6_06",
+        url="/images/product6_06.webp",
         preview=False
     )
 
