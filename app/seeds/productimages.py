@@ -93,6 +93,66 @@ def seed_productImages():
         url="/images/product3_06",
         preview=False
     )
+    image19 = ProductImage(
+        product_id=4,
+        url="/images/product4_01",
+        preview=True
+    )
+    image20 = ProductImage(
+        product_id=4,
+        url="/images/product4_02",
+        preview=False
+    )
+    image21 = ProductImage(
+        product_id=4,
+        url="/images/product4_03",
+        preview=False
+    )
+    image22 = ProductImage(
+        product_id=4,
+        url="/images/product4_04",
+        preview=False
+    )
+    image23 = ProductImage(
+        product_id=4,
+        url="/images/product4_05",
+        preview=False
+    )
+    image24 = ProductImage(
+        product_id=4,
+        url="/images/product5_06",
+        preview=False
+    )
+    image25 = ProductImage(
+        product_id=5,
+        url="/images/product6_01",
+        preview=True
+    )
+    image26 = ProductImage(
+        product_id=5,
+        url="/images/product6_02",
+        preview=False
+    )
+    image27 = ProductImage(
+        product_id=5,
+        url="/images/product6_03",
+        preview=False
+    )
+    image28 = ProductImage(
+        product_id=5,
+        url="/images/product6_04",
+        preview=False
+    )
+    image29 = ProductImage(
+        product_id=5,
+        url="/images/product6_05",
+        preview=False
+    )
+    image30 = ProductImage(
+        product_id=5,
+        url="/images/product6_06",
+        preview=False
+    )
 
     db.session.add(image1)
     db.session.add(image2)
@@ -112,6 +172,19 @@ def seed_productImages():
     db.session.add(image16)
     db.session.add(image17)
     db.session.add(image18)
+    db.session.add(image19)
+    db.session.add(image20)
+    db.session.add(image21)
+    db.session.add(image22)
+    db.session.add(image23)
+    db.session.add(image24)
+    db.session.add(image25)
+    db.session.add(image26)
+    db.session.add(image27)
+    db.session.add(image28)
+    db.session.add(image29)
+    db.session.add(image30)
+
    
     db.session.commit()
 

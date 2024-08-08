@@ -27,10 +27,39 @@ def seed_products():
         category_id=1,
         seller_id=1,
     )
+    product4 = Product(
+        title="Handcrafted Ceramic Coffee Cup with Floral Design",
+        description="Experience elegance with this handcrafted ceramic coffee cup featuring a stunning floral design. Made from high-quality, recyclable ceramic, this cup combines beauty with sustainability. The intricate flower pattern and round shape add a touch of sophistication to your coffee time. Designed for adults, it’s perfect for those who appreciate fine craftsmanship and nature-inspired aesthetics. Please note, for longevity, hand washing is recommended. Enjoy your favorite hot beverages in style with this reusable and eco-friendly coffee cup.",
+        inventory=50,
+        price=16,
+        category_id=1,
+        seller_id=1,
+    )
+    product5 = Product(
+        title="Modern Flower Ceramic Cup & Saucer Set",
+        description="Elevate your tea or coffee experience with the Modern Flower Ceramic Cup & Saucer Set. Crafted from high-quality ceramic, this set features a stunning floral design that adds a touch of elegance to any table setting. The poly-coated finish ensures durability and a smooth, glossy appearance. Designed as a matching set, it brings a cohesive look to your drinkware collection. For easy maintenance, this set is machine washable, making it perfect for daily use. Enjoy your favorite beverages in style with this charming and practical cup and saucer set.",
+        inventory=50,
+        price=22,
+        category_id=1,
+        seller_id=1,
+    )
+    product6 = Product(
+        title="Ceramic Happy Face Bud Vase",
+        description="This Ceramic Happy Face Bud Vase features a charming round shape adorned with a whimsical cartoon pattern, perfect for brightening any space. Crafted from high-quality ceramic, it's designed as a bud vase, ideal for displaying small floral arrangements. Its cheerful design adds a playful touch to your decor, making it a delightful addition to any room.",
+        inventory=50,
+        price=19,
+        category_id=1,
+        seller_id=1,
+    )
 
     db.session.add(product1)
     db.session.add(product2)
     db.session.add(product3)
+    db.session.add(product4)
+    db.session.add(product5)
+    db.session.add(product6)
+
+
     db.session.commit()
 
 
