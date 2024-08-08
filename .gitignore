@@ -10,3 +10,5 @@ __pycache__
 .docker
 .devcontainer
 README.CONTAINER.md
+dev.db
+

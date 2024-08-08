@@ -1,2 +1,1 @@
 # etsy-clone
-changes
