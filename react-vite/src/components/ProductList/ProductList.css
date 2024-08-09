@@ -1,6 +1,13 @@
 .product_container {
   display: flex;
   flex-wrap: wrap;
+  justify-content: start;
+  margin: 20px;
+}
+
+.product_small_container {
+  max-width: 220px;
+  margin: 10px;
 }
 
 .product_small_container img {

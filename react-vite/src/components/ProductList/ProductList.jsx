@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { thunkAllProducts } from "../../redux/product"
+import { Link } from "react-router-dom"
 import "./ProductList.css"
 
 
@@ -25,16 +26,19 @@ function ProductList() {
 
     if (!products) return null;
 
-    // ! This needs to be refactored!! map should be inside of a return object.
-    return products.map((product) => (
-        <>
-        <a href={`/products/${product?.id}`}>Check out the product!</a>
-        <div className="product_small_container" key={product?.id}>
-            <p>{product.title}</p>
-            <p>${product.price}</p>
-        </div>
-        </>
-    ))
+    return (
+    <div className="product_container">
+        {products? products.map((product) => (
+            <div key={product?.id} className="product_small_container">
+                <Link key={product?.id} to={`/products/${product?.id}`}>
+                    <img src={product.product_images[0].url} alt={product.title}/>
+                <p>{product.title}</p>
+                <p>${product.price}</p>
+                </Link>
+            </div>
+        )): "no product yet"}
+    </div>
+    ) 
 }
 
 export default ProductList;
