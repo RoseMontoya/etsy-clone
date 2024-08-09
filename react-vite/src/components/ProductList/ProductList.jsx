@@ -12,19 +12,23 @@ function ProductList() {
     // const [price, setprice] = useState("");
     // const [category_id, setcategory_id] = useState({});
     // const [seller_id, setseller_id] = useState({});
-    const products = useSelector((state) => {
+    let products = useSelector((state) => {
         console.log(state);
         return state.products.allProducts
     })
-    
+
+    products = Object.values(products)
+
     useEffect(() => {
         dispatch(thunkAllProducts());
     }, [dispatch]);
 
     if (!products) return null;
 
+    // ! This needs to be refactored!! map should be inside of a return object.
     return products.map((product) => (
         <>
+        <a href={`/products/${product?.id}`}>Check out the product!</a>
         <div key={product?.id} >
             <p>{product.title}</p>
             <p>${product.price}</p>

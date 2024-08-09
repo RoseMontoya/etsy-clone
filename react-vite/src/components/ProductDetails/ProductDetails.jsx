@@ -1,31 +1,27 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useParams } from "react-router-dom"
+import { useDispatch, useSelector } from 'react-redux'
+import { productById } from "../../redux/product"
 
 function ProductDetails() {
     const {productId} = useParams()
-    const [product, setProduct] = useState({})
+    const dispatch = useDispatch()
+    const products = useSelector(state => state.products.productById)
+    // const products = useSelector(state => state.products.allProducts)
 
-    // console.log(productId)
-    
+    const product = products[productId]
+    console.log(product)
+
     useEffect(() => {
-        const fetchDetails = async (productId) => {
-            productId = parseInt(productId)
-            // console.log("INSIDE FETCH", typeof productId)
-            const data = await fetch(`/api/products/${productId}`)
-            const product = await data.json()
-            // console.log("PRODUCT DETAILS", product)
-            return product
-        }
 
-        const prod = fetchDetails(productId)
-        setProduct(prod)
-    }, [])
+        dispatch(productById(productId))
+    }, [dispatch, productId])
 
     // Check if product is loaded
     if (!product) {
         return <div>Loading...</div>; // Or any loading indicator you prefer
     }
-    
+
     // console.log("BEFORE RETURN", product)
     return (
         <>
