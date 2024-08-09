@@ -1,15 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FaUserCircle } from 'react-icons/fa';
+// import { FaUserCircle } from "react-icons/fa";
 import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
-import SignupFormModal from "../SignupFormModal";
+// import SignupFormModal from "../SignupFormModal";
+import "./ProfileButton.css";
 
 function ProfileButton() {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const user = useSelector((store) => store.session.user);
+  console.log(user);
   const ulRef = useRef();
 
   const toggleMenu = (e) => {
@@ -41,8 +43,21 @@ function ProfileButton() {
 
   return (
     <>
-      <button onClick={toggleMenu}>
-        <FaUserCircle />
+      <button onClick={toggleMenu} className="hiddenButton grey-hover">
+        {user ? (
+          <img
+            src={user.profile_url}
+            alt="Profile_URL"
+            className="profileIcon"
+          />
+        ) : (
+          <OpenModalMenuItem
+          itemText="Sign in"
+          onItemClick={closeMenu}
+          modalComponent={<LoginFormModal />}
+          />
+
+        )}
       </button>
       {showMenu && (
         <ul className={"profile-dropdown"} ref={ulRef}>
@@ -56,16 +71,16 @@ function ProfileButton() {
             </>
           ) : (
             <>
-              <OpenModalMenuItem
-                itemText="Log In"
+              {/* <OpenModalMenuItem
+                itemText="Sign in"
                 onItemClick={closeMenu}
                 modalComponent={<LoginFormModal />}
-              />
-              <OpenModalMenuItem
+              /> */}
+              {/* <OpenModalMenuItem
                 itemText="Sign Up"
                 onItemClick={closeMenu}
-                modalComponent={<SignupFormModal />}
-              />
+                modalComponent={<SignupFormModal />} */}
+              {/* /> */}
             </>
           )}
         </ul>

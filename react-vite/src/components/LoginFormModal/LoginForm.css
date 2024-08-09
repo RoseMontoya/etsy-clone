@@ -1,0 +1,19 @@
+.form-modal {
+    margin: 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+/* .register {
+
+} */
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: space-between;
+    /* gap: 1em; */
+}
