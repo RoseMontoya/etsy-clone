@@ -1,1 +1,29 @@
 /* TODO: Add sitewide styles */
+input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: .75em;
+    border-radius: 5px;
+}
+
+
+form {
+    width: 100%;
+}
+
+button {
+    padding: 1em;
+    border-radius: 25px;
+}
+
+
+
+.inline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.inline li {
+    display: flex;
+}
