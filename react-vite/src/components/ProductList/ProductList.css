@@ -1,0 +1,10 @@
+.product_container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.product_small_container img {
+  height: 220px;
+  width: 220px;
+  object-fit: cover;
+}
