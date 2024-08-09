@@ -17,3 +17,44 @@ h1 {
   font-family: "Libre Baskerville", serif;
   font-weight: 300;
 }
+
+.nav_icon {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-self:auto;
+}
+.nav_container {
+  display: flex;
+  justify-content: space-between; /* Distributes space between items */
+  align-items: center; /* Centers items vertically */
+  padding: 0 20px; /* Adjust padding as needed */
+  background-color: #f8f9fa; /* Background color of the navbar */
+  height: 60px; /* Height of the navbar */
+  border-bottom: 1px solid #dee2e6; /* Bottom border for separation */
+}
+.search_container {
+  width: 75%;
+  flex: 1;
+  /*This flex:1 is to strach the searchbar*/
+  display: flex;
+  justify-content: center; /* Centers the search bar horizontally */
+}
+
+.search_bar {
+  width: 100%;
+  max-width: 400px; /* Max width for the search bar */
+  padding: 8px 12px 8px 40px; /* Padding for text and space for the button */
+  border: 1px solid #ced4da; /* Border color */
+  border-radius: 25px; /* Rounded corners */
+  font-size: 16px; /* Font size */
+  box-sizing: border-box; /* Ensures padding is included in width */
+}
+.search_button {
+  border-radius: 100%;
+  cursor: pointer;
+  /* z-index: 1; Ensure button is above the input */
+  transform: translateX(-150%);
+  margin: 5px;
+}
