@@ -26,7 +26,7 @@ function ProductDetails() {
         return <div>Loading...</div>; // Or any loading indicator you prefer
     }
     
-    console.log("BEFORE RETURN", product)
+    // console.log("BEFORE RETURN", product)
     return (
         <>
             <h1>Product Details</h1>
