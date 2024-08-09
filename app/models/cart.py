@@ -1,4 +1,4 @@
-from .db import db, SCHEMA, environment, add_prefix_for_prod
+from .db import db, SCHEMA, environment
 # from sqlalchemy.schema import ForeignKey #type: ignore
 from sqlalchemy.orm import relationship #type: ignore
 print('Database in CART', db)
