@@ -25,7 +25,7 @@ function ProductList() {
 
     return products.map((product) => (
         <>
-        <div>
+        <div key={product?.id} >
             <p>{product.title}</p>
             <p>${product.price}</p>
 
