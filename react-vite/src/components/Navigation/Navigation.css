@@ -9,7 +9,7 @@ nav ul {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: solid lightgrey 2px;
+  /* border-bottom: solid lightgrey 2px; */
 }
 
 h1 {
@@ -29,8 +29,6 @@ h1 {
   display: flex;
   justify-content: space-between; /* Distributes space between items */
   align-items: center; /* Centers items vertically */
-  padding: 0 20px; /* Adjust padding as needed */
-  background-color: #f8f9fa; /* Background color of the navbar */
   height: 60px; /* Height of the navbar */
   border-bottom: 1px solid #dee2e6; /* Bottom border for separation */
 }

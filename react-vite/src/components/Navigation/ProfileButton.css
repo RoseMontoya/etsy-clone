@@ -7,15 +7,22 @@
     border:none;
     background-color: white;
     /* border-radius: 100%; */
-    animation: fadeIn 0.25s ease-in-out forwards;
+    /* animation: fadeIn 0.25s ease-in-out forwards; */
 }
 
 
-@keyframes fadeIn {
+/* @keyframes fadeIn {
   0% {
-    background-color: white; /* Start with red */
+    background-color: white;
   }
   100% {
-    background-color: rgb(207, 207, 207); /* End with blue */
+    background-color: rgb(207, 207, 207);
   }
+}  */
+
+/* .hiddenButton:hover{
+/* .hiddenButton:hover{
+  box-shadow:grey 1px 1px;
+  border-radius: 100%;
+}
 } */
