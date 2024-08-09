@@ -35,7 +35,7 @@ function LoginFormModal() {
     <>
       <div className='form-modal'>
       <span className="inline" style={{width: '100%'}}>
-      <h2>Log In</h2>
+      <h2 >Sign in</h2>
         <OpenModalMenuItem
                   itemText="Register"
                   // onItemClick={closeMenu}
@@ -62,7 +62,7 @@ function LoginFormModal() {
             required
           />
         {errors.password && <p>{errors.password}</p>}
-        <button type="submit">Log In</button>
+        <button type="submit" className="black-button">Sign in</button>
       </form>
       </div>
     </>

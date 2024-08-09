@@ -1,3 +1,19 @@
 .profile-dropdown {
   position: absolute;
 }
+
+nav ul {
+  height: 4em;
+  padding: .5em 2em;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: solid lightgrey 2px;
+}
+
+h1 {
+  font-size: 35px;
+  font-family: "Libre Baskerville", serif;
+  font-weight: 300;
+}

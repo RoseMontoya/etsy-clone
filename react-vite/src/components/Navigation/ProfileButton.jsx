@@ -43,7 +43,7 @@ function ProfileButton() {
 
   return (
     <>
-      <button onClick={toggleMenu} className="hiddenButton">
+      <button onClick={toggleMenu} className="hiddenButton grey-hover">
         {user ? (
           <img
             src={user.profile_url}
@@ -51,7 +51,11 @@ function ProfileButton() {
             className="profileIcon"
           />
         ) : (
-          "Sign In"
+          <OpenModalMenuItem
+          itemText="Sign in"
+          onItemClick={closeMenu}
+          modalComponent={<LoginFormModal />}
+        />
         )}
       </button>
       {showMenu && (
@@ -66,11 +70,11 @@ function ProfileButton() {
             </>
           ) : (
             <>
-              <OpenModalMenuItem
-                itemText="Log In"
+              {/* <OpenModalMenuItem
+                itemText="Sign in"
                 onItemClick={closeMenu}
                 modalComponent={<LoginFormModal />}
-              />
+              /> */}
               {/* <OpenModalMenuItem
                 itemText="Sign Up"
                 onItemClick={closeMenu}

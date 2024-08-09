@@ -6,9 +6,8 @@
 .hiddenButton{
     border:none;
     background-color: white;
-    border-radius: 100%;
 }
-.hiddenButton:hover{
+/* .hiddenButton:hover{
     box-shadow:grey 1px 1px;
     border-radius: 100%;
-}
+} */
