@@ -25,7 +25,6 @@ function ProductList() {
 
     return products.map((product) => (
         <div className="product_small_container" key={product?.id}>
-            <img src={product.product_images[0].url} alt={product.title} />
             <p>{product.title}</p>
             <p>${product.price}</p>
         </div>
