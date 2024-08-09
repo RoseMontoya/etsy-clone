@@ -1,4 +1,4 @@
-from .db import db, SCHEMA, environment
+from .db import db, SCHEMA, environment, add_prefix_for_prod
 # from sqlalchemy.schema import ForeignKey #type: ignore
 from sqlalchemy.orm import relationship #type: ignore
 print('Database in CART', db)
@@ -9,7 +9,7 @@ class Cart(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False, unique=True)
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False, unique=True)
     
     user = db.relationship('User', back_populates='cart')
     cart_items = db.relationship('CartItem', back_populates='cart', cascade='all, delete-orphan')
@@ -28,8 +28,8 @@ class CartItem(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    cart_id = db.Column(db.Integer, db.ForeignKey("carts.id"), nullable=False)
-    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
+    cart_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("carts.id")), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('products.id')), nullable=False)
     quantity = db.Column(db.Integer, default=1)
     gift = db.Column(db.Boolean, default=False)
 

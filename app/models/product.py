@@ -1,5 +1,5 @@
 from sqlalchemy import func
-from .db import db, environment, SCHEMA
+from .db import db, environment, SCHEMA, add_prefix_for_prod
 
 class Product(db.Model):
     __tablename__ = "products"
@@ -12,8 +12,8 @@ class Product(db.Model):
     description = db.Column(db.Text)
     inventory = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Integer, nullable=False)
-    category_id = db.Column(db.Integer, db.ForeignKey("categories.id"), nullable=False)
-    seller_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    category_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("categories.id")), nullable=False)
+    seller_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
     # created_at = db.Column(db.DateTime, server_default=func.now())
     # updated_at = db.Column(db.DateTime, onupdate=func.now())
 
@@ -44,7 +44,7 @@ class ProductImage(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    product_id = db.Column(db.Integer, db.ForeignKey("products.id"), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("products.id")), nullable=False)
     url = db.Column(db.Text, nullable=False)
     preview = db.Column(db.Boolean, nullable=False)
     # created_at = db.Column(db.DateTime, server_default=func.now())
