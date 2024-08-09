@@ -3,12 +3,25 @@
   height: 20px;
   border-radius: 100%;
 }
-.hiddenButton{
-    border:none;
-    background-color: white;
-    border-radius: 100%;
+.hiddenButton {
+  padding: 1em;
+  border-radius: 25px;
+  border: none;
+  background-color: white;
 }
-.hiddenButton:hover{
-    box-shadow:grey 1px 1px;
-    border-radius: 100%;
+.hiddenButton:hover {
+  /* Optionally include the box-shadow */
+  /* box-shadow: grey 1px 1px; */
+
+  /* Trigger background color animation */
+  animation: fadeIn 0.25s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    background-color: white; /* Start with red */
+  }
+  100% {
+    background-color: rgb(207, 207, 207); /* End with blue */
+  }
 }
