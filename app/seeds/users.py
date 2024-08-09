@@ -4,28 +4,63 @@ from sqlalchemy.sql import text
 
 # Adds a demo user, you can add other users here if you want
 def seed_users():
-    demo = User(
-        username="Demo",
-        email="demo@aa.io",
-        password="password",
-        profile_url="/images/product1_04.webp",
+    user1 = User(
+        username="JohnDoe",
+        email="john.doe@example.com",
+        password="password1",
+        profile_url="/images/profile1.jpg",
     )
-    marnie = User(
-        username="marnie",
-        email="marnie@aa.io",
-        password="password",
-        profile_url="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+    user2 = User(
+        username="JaneSmith",
+        email="jane.smith@example.com",
+        password="password2",
+        profile_url="/images/profile2.jpg",
     )
-    bobbie = User(
-        username="bobbie",
-        email="bobbie@aa.io",
-        password="password",
-        profile_url="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+    user3 = User(
+        username="AliceJohnson",
+        email="alice.johnson@example.com",
+        password="password3",
+        profile_url="/images/profile3.jpg",
+    )
+    user4 = User(
+        username="EmilyDavis",
+        email="emily.davis@example.com",
+        password="password4",
+        profile_url="/images/profile4.jpg",
+    )
+    user5 = User(
+        username="SarahWilson",
+        email="sarah.wilson@example.com",
+        password="password5",
+        profile_url="/images/profile5.jpg",
+    )
+    user6 = User(
+        username="RobertBrown",
+        email="robert.brown@example.com",
+        password="password6",
+        profile_url="/images/profile6.jpg",
+    )
+    user7 = User(
+        username="MichaelMiller",
+        email="michael.miller@example.com",
+        password="password7",
+        profile_url="/images/profile7.jpg",
+    )
+    user8 = User(
+        username="LauraAnderson",
+        email="laura.anderson@example.com",
+        password="password8",
+        profile_url="/images/profile8.jpg",
     )
 
-    db.session.add(demo)
-    db.session.add(marnie)
-    db.session.add(bobbie)
+    db.session.add(user1)
+    db.session.add(user2)
+    db.session.add(user3)
+    db.session.add(user4)
+    db.session.add(user5)
+    db.session.add(user6)
+    db.session.add(user7)
+    db.session.add(user8)
     db.session.commit()
 
 

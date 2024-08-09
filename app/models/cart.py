@@ -10,9 +10,8 @@ class Cart(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False, unique=True)
-
+    
     user = db.relationship('User', back_populates='cart')
-
     cart_items = db.relationship('CartItem', back_populates='cart', cascade='all, delete-orphan')
 
     def to_dict(self):
