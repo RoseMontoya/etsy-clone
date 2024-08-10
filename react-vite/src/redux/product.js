@@ -23,36 +23,34 @@ export const thunkAllProducts = () => async (dispatch) => {
   }
 };
 
-export const productById = (productId) => async dispatch => {
-    const response = await fetch(`/api/products/${productId}`)
+// export const productById = (productId) => async dispatch => {
+//     const response = await fetch(`/api/products/${productId}`)
 
-    const data = await response.json()
-    console.log("PRODUCT DETAILS Thunk", data)
-    if (response.ok) {
-      dispatch(getProductById(data))
-      return data
-    }
-    return data
-}
+//     const data = await response.json()
+//     console.log("PRODUCT DETAILS Thunk", data)
+//     if (response.ok) {
+//       dispatch(getProductById(data))
+//       return data
+//     }
+//     return data
+// }
 
-const initialState = { allProducts: {}, productById: {}};
+const initialState = {};
 
 function productReducer(state = initialState, action) {
   switch (action.type) {
     case GET_PRODUCTS:{
       const newState = {}
-      action.payload.map(product => {
+      action.payload.forEach(product => {
         newState[product.id] = product
       })
-      // console.log(newState);
       return { ...state, allProducts: newState };
     }
-    case GET_PRODUCT_BY_ID: {
-      console.log(state)
-      const newState = {...state.productById}
-      newState[action.payload.id] = action.payload
-      return {...state, productById: newState}
-    }
+    // case GET_PRODUCT_BY_ID: {
+    //   const newState = {...state.productById}
+    //   newState[action.payload.id] = action.payload
+    //   return {...state, productById: newState}
+    // }
     default:
       return state;
   }

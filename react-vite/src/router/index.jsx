@@ -4,7 +4,7 @@ import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import ProductList from '../components/ProductList'
 import Layout from './Layout';
-import ProductDetails from '../components/ProductDetails/ProductDetails';
+import ProductDetails from '../components/ProductDetails';
 
 export const router = createBrowserRouter([
   {

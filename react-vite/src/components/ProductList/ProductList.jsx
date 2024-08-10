@@ -13,22 +13,21 @@ function ProductList() {
     // const [price, setprice] = useState("");
     // const [category_id, setcategory_id] = useState({});
     // const [seller_id, setseller_id] = useState({});
-    let products = useSelector((state) => {
-        console.log(state);
-        return state.products.allProducts
-    })
+    const productsObj = useSelector((state) => state.products?.allProducts)
 
-    products = Object.values(products)
+    const products = productsObj? Object.values(productsObj) : []
 
     useEffect(() => {
-        dispatch(thunkAllProducts());
-    }, [dispatch]);
+        if (!products.length) {
+            dispatch(thunkAllProducts());
+        }
+    }, [dispatch, products]);
 
-    if (!products) return null;
+    if (!productsObj) return <h2>Loading...</h2>;
 
     return (
     <div className="product_container">
-        {products? products.map((product) => (
+        {products.length? products.map((product) => (
             <div key={product?.id} className="product_small_container">
                 <Link key={product?.id} to={`/products/${product?.id}`}>
                     <img src={product.product_images[0].url} alt={product.title}/>
@@ -36,9 +35,9 @@ function ProductList() {
                 <p>${product.price}</p>
                 </Link>
             </div>
-        )): "no product yet"}
+        )): <h2>No products to sell. Please check back later.</h2>}
     </div>
-    ) 
+    )
 }
 
 export default ProductList;
