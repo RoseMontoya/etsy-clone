@@ -12,7 +12,6 @@ const removeUser = () => ({
 
 export const thunkAuthenticate = () => async (dispatch) => {
   const response = await fetch("/api/auth/");
-  console.log('IN AUTH THUNK', response)
   if (response.ok) {
     const data = await response.json();
     if (data.errors) {
@@ -35,7 +34,6 @@ export const thunkLogin = (credentials) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     dispatch(setUser(data));
-    // console.log("--->Thunk", data);
   } else if (response.status < 500) {
     const errorMessages = await response.json();
     return errorMessages;
@@ -53,7 +51,7 @@ export const thunkSignup = (user) => async (dispatch) => {
 
   if (response.ok) {
     const data = await response.json();
-    console.log("Thunk===>", data);
+    // console.log("Thunk===>", data);
     dispatch(setUser(data));
   } else if (response.status < 500) {
     const errorMessages = await response.json();

@@ -8,25 +8,31 @@ function LandingPage() {
   const dispatch = useDispatch();
 
   let user = useSelector((state) => state.session.user);
-  console.log("User from session", user);
+  // console.log("User from session", user);
 
-  let products = useSelector((state) => {
-    return state.products.allProducts;
+  let productsObj = useSelector((state) => {
+    return state.products?.allProducts;
   });
-  console.log("Product from HomePage", products);
+
+  const products = productsObj? Object.values(productsObj): [];
+
   useEffect(() => {
-    dispatch(thunkAllProducts());
-  }, [dispatch]);
-  products = Object.values(products);
-  if (!products || products.length === 0) {
+    if (!productsObj) {
+      dispatch(thunkAllProducts());
+    }
+  }, [dispatch, productsObj]);
+
+
+  if (!productsObj) {
     return <p>Loading products...</p>;
   }
+  // console.log("Product from HomePage", products);
   const getRandomProduct = () => {
-    const productKeys = Object.keys(products);
+    const productKeys = Object.keys(productsObj);
     const randomKey =
       productKeys[Math.floor(Math.random() * productKeys.length)];
     // console.log( "Random length",productKeys.length);
-    return products[randomKey];
+    return productsObj[randomKey];
   };
 
   const randomProduct = getRandomProduct();
@@ -40,7 +46,7 @@ function LandingPage() {
               <h3>Featured Product:</h3>
               <div>
                 <img
-                  src={randomProduct.product_images[0].url}
+                  src={randomProduct.preview_image}
                   alt={randomProduct.title}
                 />
               </div>

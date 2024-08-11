@@ -8,11 +8,7 @@ function ProductDetails() {
     const {productId} = useParams()
     const dispatch = useDispatch()
     const product = useSelector(state => state.products.productById?.[productId])
-    // const product = useSelector(state => state.products.allProducts?.[productId])
     const [errors, setErrors] = useState({})
-
-    // console.log(product)
-    // const product = products[productId]
 
     useEffect(() => {
         if (!product) {
@@ -21,7 +17,6 @@ function ProductDetails() {
                     if (res.error) {
                         setErrors(res)
                     }
-
                 })
         }
     }, [dispatch, productId, product])
@@ -37,8 +32,6 @@ function ProductDetails() {
         return <div>Loading...</div>;
     }
 
-
-    // console.log("BEFORE RETURN", product)
     return (
         <>
             <h1>Product Details</h1>

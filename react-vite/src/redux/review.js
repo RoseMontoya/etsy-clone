@@ -18,9 +18,10 @@ export const getAllReviews = (productId) => async dispatch => {
     return errors
 }
 
-const initialState = { allReviews: {}}
+const initialState = {}
 const reviewsReducer = ( state = initialState, action) => {
     switch (action.type) {
+        // ! Fix so reviews clear or are seperate for seperate products
         case GET_REVIEWS: {
             const newState = {}
             action.payload.forEach(review => {
