@@ -33,7 +33,8 @@ class Product(db.Model):
             "price": self.price,
             "category_id": self.category_id,
             "seller": self.seller.to_dict_seller(),
-            "product_images": [image.to_dict() for image in self.images],
+            "preview_image": [image.url for image in self.images if image.preview == True][0],
+            # "product_images": [image.to_dict() for image in self.images],
             # "created_at": self.created_at,
             # "updated_at": self.updated_at,
         }

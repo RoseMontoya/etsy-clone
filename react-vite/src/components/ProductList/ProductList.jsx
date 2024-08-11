@@ -30,7 +30,7 @@ function ProductList() {
         {products.length? products.map((product) => (
             <div key={product?.id} className="product_small_container">
                 <Link key={product?.id} to={`/products/${product?.id}`}>
-                    <img src={product.product_images[0].url} alt={product.title}/>
+                    <img src={product.preview_image} alt={product.title}/>
                 <p>{product.title}</p>
                 <p>${product.price}</p>
                 </Link>

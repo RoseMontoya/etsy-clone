@@ -1,5 +1,5 @@
 const GET_PRODUCTS = "product/getProducts";
-const GET_PRODUCT_BY_ID = 'product/getProductById';
+const PRODUCT_BY_ID = 'product/getProductById';
 
 const getProducts = (products) => ({
   type: GET_PRODUCTS,
@@ -7,7 +7,7 @@ const getProducts = (products) => ({
 })
 
 const getProductById = (product) => ({
-  type: GET_PRODUCT_BY_ID,
+  type: PRODUCT_BY_ID,
   payload: product
 })
 
@@ -35,7 +35,7 @@ export const productById = (productId) => async dispatch => {
     return data
 }
 
-const initialState = {};
+const initialState = { productById: {}};
 
 function productReducer(state = initialState, action) {
   switch (action.type) {
@@ -46,20 +46,10 @@ function productReducer(state = initialState, action) {
       })
       return { ...state, allProducts: newState };
     }
-    case GET_PRODUCT_BY_ID: {
-      let newState = {...state}
-      console.log('NEW STATE', newState)
-      if (state.allProducts[action.payload.id]) {
-        console.log('_______________', state.allProducts[action.payload.id] )
-        const newProductState = {...state.allProducts, [action.payload.id]: [...state.allProducts[action.payload.id]]}
-        newProductState[action.payload.id] = action.payload
-        console.log(newProductState)
-        newState.allProducts = newProductState
-      } else {
-        newState.allProducts[action.payload.id] = action.payload
-      }
-      console.log('mod new state', newState)
-      return newState
+    case PRODUCT_BY_ID: {
+      let newState = {...state.productById}
+      newState[action.payload.id] = action.payload
+      return {...state, productById: newState}
     }
     default:
       return state;

@@ -1,7 +1,6 @@
 from flask import Blueprint
-from ..models.product import Product
+from ..models.product import Product, ProductImage
 from ..models.review import Review
-from sqlalchemy.sql import func
 
 products_routes = Blueprint("products", __name__)
 
@@ -15,10 +14,16 @@ def product_reviews(productId):
 # Get product by product id
 @products_routes.route("/<int:productId>")
 def product_by_id(productId):
-    product = Product.query.filter(Product.id == productId).one()
-    prod = product.to_dict()
-    prod['edited'] = True
-    return prod
+
+    # Find Product
+    productQ = Product.query.filter(Product.id == productId).one()
+    product = productQ.to_dict()
+
+    # Find Product Images and add to product
+    images = ProductImage.query.filter(ProductImage.product_id == productId).all()
+    product['images'] = [image.to_dict() for image in images]
+
+    return product
 
 
 """

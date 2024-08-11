@@ -42,7 +42,8 @@ class User(db.Model, UserMixin):
         return {
             "id": self.id,
             "username": self.username,
-            "avg_rating": round(sum([product.stars_sum() for product in self.products]) / self.review_count(), 1) if self.review_count() > 0 else 'No Reviews',
+            "profile_url": self.profile_url,
+            "seller_rating": round(sum([product.stars_sum() for product in self.products]) / self.review_count(), 1) if self.review_count() > 0 else 'No Reviews',
             "review_count": self.review_count()
         }
 
