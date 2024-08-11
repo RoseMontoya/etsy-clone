@@ -13,6 +13,7 @@ if (import.meta.env.MODE !== "production") {
   window.store = store;
   window.sessionActions = sessionActions;
 }
+console.log('IN MAIN.JSX')
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

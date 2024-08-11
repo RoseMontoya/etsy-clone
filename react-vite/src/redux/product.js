@@ -1,5 +1,5 @@
 const GET_PRODUCTS = "product/getProducts";
-const GET_PRODUCT_BY_ID = 'product/getProductById';
+const PRODUCT_BY_ID = 'product/getProductById';
 
 const getProducts = (products) => ({
   type: GET_PRODUCTS,
@@ -7,7 +7,7 @@ const getProducts = (products) => ({
 })
 
 const getProductById = (product) => ({
-  type: GET_PRODUCT_BY_ID,
+  type: PRODUCT_BY_ID,
   payload: product
 })
 
@@ -25,31 +25,29 @@ export const thunkAllProducts = () => async (dispatch) => {
 
 export const productById = (productId) => async dispatch => {
     const response = await fetch(`/api/products/${productId}`)
-
     const data = await response.json()
-    console.log("PRODUCT DETAILS Thunk", data)
+    // console.log("PRODUCT DETAILS Thunk", data)
     if (response.ok) {
       dispatch(getProductById(data))
       return data
     }
+    // console.log('~~~~~~~~~~~', data)
     return data
 }
 
-const initialState = { allProducts: {}, productById: {}};
+const initialState = { productById: {}};
 
 function productReducer(state = initialState, action) {
   switch (action.type) {
     case GET_PRODUCTS:{
       const newState = {}
-      action.payload.map(product => {
+      action.payload.forEach(product => {
         newState[product.id] = product
       })
-      // console.log(newState);
       return { ...state, allProducts: newState };
     }
-    case GET_PRODUCT_BY_ID: {
-      console.log(state)
-      const newState = {...state.productById}
+    case PRODUCT_BY_ID: {
+      let newState = {...state.productById}
       newState[action.payload.id] = action.payload
       return {...state, productById: newState}
     }

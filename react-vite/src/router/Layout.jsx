@@ -8,8 +8,10 @@ import Navigation from "../components/Navigation/Navigation";
 export default function Layout() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
+  console.log('IN LAYOUT JSX', isLoaded)
   useEffect(() => {
     dispatch(thunkAuthenticate()).then(() => setIsLoaded(true));
+  console.log('IN LAYOUT JSX USE EFFECT', isLoaded)
   }, [dispatch]);
 
   return (
