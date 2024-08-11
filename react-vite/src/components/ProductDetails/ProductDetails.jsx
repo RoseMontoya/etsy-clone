@@ -18,6 +18,7 @@ function ProductDetails() {
         if (!product) {
              dispatch(productById(productId))
                 .then(res => {
+                    console.log(res)
                     if (res.error) {
                         setErrors(res)
                     }

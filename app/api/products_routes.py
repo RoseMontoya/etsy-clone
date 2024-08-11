@@ -24,13 +24,9 @@ def product_by_id(productId):
     except SQLAlchemyError as e:
         return {'error': { 'message':'Product could not be found.', 'error': str(e)}}, 404
 
-    # if not productQ:
-    #     return {'error': { 'message':'Product could not be found.'}}, 404
-
-
     # Find Product Images and add to product
     images = ProductImage.query.filter(ProductImage.product_id == productId).all()
-    product['images'] = [image.to_dict() for image in images]
+    product['product_images'] = [image.to_dict() for image in images]
 
     return product
 
