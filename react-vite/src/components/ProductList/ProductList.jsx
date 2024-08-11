@@ -18,10 +18,10 @@ function ProductList() {
     const products = productsObj? Object.values(productsObj) : []
 
     useEffect(() => {
-        if (!products.length) {
+        if (!productsObj) {
             dispatch(thunkAllProducts());
         }
-    }, [dispatch, products]);
+    }, [dispatch, productsObj]);
 
     if (!productsObj) return <h2>Loading...</h2>;
 

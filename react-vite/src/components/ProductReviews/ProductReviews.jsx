@@ -6,24 +6,34 @@ function ProductReviews({productId}) {
     const dispatch = useDispatch()
     const reviewsObj = useSelector(state => state.reviews.allReviews)
 
-    const reviews = Object.values(reviewsObj)
+    const reviews = reviewsObj? Object.values(reviewsObj) : []
 
     useEffect(() => {
-        if (!reviews.length) {
+        if (!reviewsObj) {
             dispatch(getAllReviews(productId))
         }
     }, [dispatch, productId])
 
-    if (!reviews.length) return <h2>Loading...</h2>
+    if (!reviewsObj) return <h2>Loading...</h2>
+
+
 
     return (
         <div>
-            {reviews.map(review => (
+            {reviews.length? reviews.map(review => (
                 <div key={review?.id}>
-                    {review.review}
+                    <div>
+                        <p>{review.stars}</p>
+                        <p>{review.review}</p>
+                        <div>
+                            <p>{review.user.username}</p>
+                            {/* <p>{review.updated_at}</p> */}
+                        </div>
+                    </div>
+                    <p>{review.recommendation? "Recommends this item": ""}</p>
                 </div>
 
-            ))}
+            )): "Be the first to leave a review!"}
         </div>
     )
 }

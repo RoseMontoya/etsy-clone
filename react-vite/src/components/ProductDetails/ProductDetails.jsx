@@ -18,14 +18,13 @@ function ProductDetails() {
         if (!product) {
              dispatch(productById(productId))
                 .then(res => {
-                    console.log(res)
                     if (res.error) {
                         setErrors(res)
                     }
 
                 })
         }
-    }, [dispatch, productId])
+    }, [dispatch, productId, product])
 
     // Check if there were errors on the fetch
     if (errors.error) {
