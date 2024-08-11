@@ -1,10 +1,11 @@
-import { createBrowserRouter } from 'react-router-dom';
-import LandingPage from '../components/LandingPage';
-import LoginFormPage from '../components/LoginFormPage';
-import SignupFormPage from '../components/SignupFormPage';
-import ProductList from '../components/ProductList'
-import Layout from './Layout';
-import ProductDetails from '../components/ProductDetails/ProductDetails';
+import { createBrowserRouter } from "react-router-dom";
+import LandingPage from "../components/LandingPage";
+import LoginFormPage from "../components/LoginFormPage";
+import SignupFormPage from "../components/SignupFormPage";
+import ProductList from "../components/ProductList";
+import Layout from "./Layout";
+import ProductDetails from "../components/ProductDetails/ProductDetails";
+import HomePage from "../components/HomePage";
 
 export const router = createBrowserRouter([
   {
@@ -24,12 +25,13 @@ export const router = createBrowserRouter([
       },
       {
         path: "products/:productId",
-        element: <ProductDetails />
+        element: <ProductDetails />,
       },
       {
         path: "products",
-        element: <ProductList />
-      }
+        element: <ProductList />,
+      },
+      { path: "home", element: <HomePage /> },
     ],
   },
 ]);

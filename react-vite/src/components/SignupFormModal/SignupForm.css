@@ -12,3 +12,6 @@ form {
   align-items: space-between;
   gap: 0.5em;
 }
+.cursor {
+  cursor: pointer;
+}

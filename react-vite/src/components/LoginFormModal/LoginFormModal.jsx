@@ -30,12 +30,27 @@ function LoginFormModal() {
     }
   };
 
+  //DemoUser Set up
+  const handleDemoLogin = async () => {
+    const demoUser = {
+      email: "john.doe@example.com",
+      password: "password1",
+    };
+    const serverResponse = await dispatch(thunkLogin(demoUser));
+
+    if (serverResponse) {
+      setErrors(serverResponse);
+    } else {
+      closeModal();
+    }
+  };
+
   return (
     <>
       <div className="form-modal">
         <span className="inline" style={{ width: "100%" }}>
           <h2>Sign In</h2>
-          <button>
+          <button className="cursor">
             <OpenModalMenuItem
               itemText="Register"
               // onItemClick={closeMenu}
@@ -66,8 +81,20 @@ function LoginFormModal() {
           </div>
           {errors.password && <p>{errors.password}</p>}
           <div></div>
-          <button type="submit"className="black-button">Log In</button>
+          <button type="submit" className="black-button cursor">
+            Log In
+          </button>
         </form>
+        <div className="demo-login">
+          <p>// Or use the demo account:</p>
+          <button
+            type="button" // Changed to type="button" to avoid form submission
+            className="black-button demo-button cursor"
+            onClick={handleDemoLogin}
+          >
+            Demo User Login
+          </button>
+        </div>
       </div>
     </>
   );
