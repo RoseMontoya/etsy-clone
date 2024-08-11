@@ -1,6 +1,7 @@
 from flask import Blueprint
 from ..models.product import Product, ProductImage
 from ..models.review import Review
+from sqlalchemy.exc import SQLAlchemyError
 
 products_routes = Blueprint("products", __name__)
 
@@ -8,6 +9,7 @@ products_routes = Blueprint("products", __name__)
 @products_routes.route('/<int:productId>/reviews')
 def product_reviews(productId):
     reviews = Review.query.filter(Review.product_id == productId).all()
+
     return [ review.to_dict() for review in reviews ]
 
 
@@ -16,8 +18,15 @@ def product_reviews(productId):
 def product_by_id(productId):
 
     # Find Product
-    productQ = Product.query.filter(Product.id == productId).one()
-    product = productQ.to_dict()
+    try:
+        productQ = Product.query.filter(Product.id == productId).one()
+        product = productQ.to_dict()
+    except SQLAlchemyError as e:
+        return {'error': { 'message':'Product could not be found.', 'error': str(e)}}, 404
+
+    # if not productQ:
+    #     return {'error': { 'message':'Product could not be found.'}}, 404
+
 
     # Find Product Images and add to product
     images = ProductImage.query.filter(ProductImage.product_id == productId).all()
