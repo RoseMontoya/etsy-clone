@@ -16,12 +16,12 @@ class Review(db.Model):
     # updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp(), nullable=False)
 
     product = db.relationship('Product', back_populates='reviews')
-    user = db.relationship('User', back_populates='reviews')
-    
+    user = db.relationship('User', back_populates='users_reviews')
+
     # @property
     # def review(self):
     #     return self._review
-    
+
     # @review.setter
     # def review(self, value):
     #     if not isinstance(value, str):
@@ -52,7 +52,7 @@ class Review(db.Model):
         return {
             "id": self.id,
             "product_id": self.product_id,
-            "user_id": self.user_id,
+            "user": self.user.username,
             "review": self.review,
             "stars": self.stars,
             "recommendation": self.recommendation,

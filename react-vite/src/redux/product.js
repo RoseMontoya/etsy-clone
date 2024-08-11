@@ -23,17 +23,17 @@ export const thunkAllProducts = () => async (dispatch) => {
   }
 };
 
-// export const productById = (productId) => async dispatch => {
-//     const response = await fetch(`/api/products/${productId}`)
+export const productById = (productId) => async dispatch => {
+    const response = await fetch(`/api/products/${productId}`)
 
-//     const data = await response.json()
-//     console.log("PRODUCT DETAILS Thunk", data)
-//     if (response.ok) {
-//       dispatch(getProductById(data))
-//       return data
-//     }
-//     return data
-// }
+    const data = await response.json()
+    // console.log("PRODUCT DETAILS Thunk", data)
+    if (response.ok) {
+      dispatch(getProductById(data))
+      return data
+    }
+    return data
+}
 
 const initialState = {};
 
@@ -46,11 +46,21 @@ function productReducer(state = initialState, action) {
       })
       return { ...state, allProducts: newState };
     }
-    // case GET_PRODUCT_BY_ID: {
-    //   const newState = {...state.productById}
-    //   newState[action.payload.id] = action.payload
-    //   return {...state, productById: newState}
-    // }
+    case GET_PRODUCT_BY_ID: {
+      let newState = {...state}
+      console.log('NEW STATE', newState)
+      if (state.allProducts[action.payload.id]) {
+        console.log('_______________', state.allProducts[action.payload.id] )
+        const newProductState = {...state.allProducts, [action.payload.id]: [...state.allProducts[action.payload.id]]}
+        newProductState[action.payload.id] = action.payload
+        console.log(newProductState)
+        newState.allProducts = newProductState
+      } else {
+        newState.allProducts[action.payload.id] = action.payload
+      }
+      console.log('mod new state', newState)
+      return newState
+    }
     default:
       return state;
   }

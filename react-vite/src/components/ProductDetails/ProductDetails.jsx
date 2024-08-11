@@ -1,21 +1,23 @@
 import { useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
-import { thunkAllProducts } from "../../redux/product"
+import { productById, thunkAllProducts } from "../../redux/product"
+import ProductReviews from "../ProductReviews"
 
 function ProductDetails() {
     const {productId} = useParams()
     const dispatch = useDispatch()
-    // const products = useSelector(state => state.products.productById)
-    const product = useSelector(state => state.products.allProducts?.[productId])
+    const product = useSelector(state => state.products?.allProducts?.[productId])
+    // const product = useSelector(state => state.products.allProducts?.[productId])
 
-    console.log(product)
+    // console.log(product)
     // const product = products[productId]
 
     useEffect(() => {
-        if (!product) {
-            dispatch(thunkAllProducts())
-        }
+        // if (!product) {
+        //     dispatch(thunkAllProducts())
+        // }
+        dispatch(productById(productId))
     }, [dispatch, productId])
 
     // Check if product is loaded
@@ -31,6 +33,7 @@ function ProductDetails() {
             <p>Name: {product?.title}</p>
             <p>Description: {product?.description}</p>
             <p>Inventory: {product?.inventory}</p>
+            <ProductReviews productId={productId}/>
         </>
     )
 }

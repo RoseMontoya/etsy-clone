@@ -1,5 +1,6 @@
 from sqlalchemy import func
 from .db import db, environment, SCHEMA, add_prefix_for_prod
+from .review import Review
 
 class Product(db.Model):
     __tablename__ = "products"
@@ -17,12 +18,11 @@ class Product(db.Model):
     # created_at = db.Column(db.DateTime, server_default=func.now())
     # updated_at = db.Column(db.DateTime, onupdate=func.now())
 
-    category = db.relationship("Category", back_populates="product")
-    seller = db.relationship("User", back_populates="product")
-    image = db.relationship("ProductImage", back_populates="product", cascade="all, delete-orphan")
+    category = db.relationship("Category", back_populates="products")
+    seller = db.relationship("User", back_populates="products")
+    images = db.relationship("ProductImage", back_populates="product", cascade="all, delete-orphan")
     reviews = db.relationship('Review', back_populates='product', cascade="all, delete-orphan")
     favorites = db.relationship('Favorite', back_populates='product')
-
 
     def to_dict(self):
         return {
@@ -32,11 +32,19 @@ class Product(db.Model):
             "inventory": self.inventory,
             "price": self.price,
             "category_id": self.category_id,
-            "seller_id": self.seller_id,
-            "product_images": [image.to_dict() for image in self.image],
+            "seller": self.seller.to_dict_seller(),
+            "product_images": [image.to_dict() for image in self.images],
             # "created_at": self.created_at,
             # "updated_at": self.updated_at,
         }
+
+    def stars_sum(self):
+        sum = Review.query.with_entities(func.sum(Review.stars).label('sum')).filter(Review.product_id == self.id).one()
+        return sum[0] or 0
+
+    def review_count(self):
+        return len(self.reviews)
+
 
 
 class ProductImage(db.Model):
@@ -52,7 +60,7 @@ class ProductImage(db.Model):
     # created_at = db.Column(db.DateTime, server_default=func.now())
     # updated_at = db.Column(db.DateTime, onupdate=func.now())
 
-    product = db.relationship("Product", back_populates="image")
+    product = db.relationship("Product", back_populates="images")
 
     def to_dict(self):
         return {
@@ -74,7 +82,7 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String, nullable=False)
 
-    product = db.relationship("Product", back_populates="category")
+    products = db.relationship("Product", back_populates="category")
 
 
     def to_dict(self):
