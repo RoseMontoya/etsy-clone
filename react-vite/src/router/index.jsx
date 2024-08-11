@@ -5,7 +5,6 @@ import SignupFormPage from "../components/SignupFormPage";
 import ProductList from "../components/ProductList";
 import Layout from "./Layout";
 import ProductDetails from "../components/ProductDetails/ProductDetails";
-import HomePage from "../components/HomePage";
 
 export const router = createBrowserRouter([
   {
@@ -30,8 +29,7 @@ export const router = createBrowserRouter([
       {
         path: "products",
         element: <ProductList />,
-      },
-      { path: "home", element: <HomePage /> },
+      }
     ],
   },
 ]);
