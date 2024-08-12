@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
 import { productById } from "../../redux/product"
 import ProductReviews from "../ProductReviews"
+import OpenModalMenuItem from "../Navigation/OpenModalMenuItem"
+import CreateReviewModal from "../CreateReviewModal/CreateReviewModal"
 
 function ProductDetails() {
     const {productId} = useParams()
@@ -39,6 +41,11 @@ function ProductDetails() {
             <p>Name: {product?.title}</p>
             <p>Description: {product?.description}</p>
             <p>Inventory: {product?.inventory}</p>
+            <OpenModalMenuItem 
+                className="" 
+                itemText="Post Your Review!" 
+                modalComponent={<CreateReviewModal productId={product.id}/>}
+            />
             <ProductReviews productId={productId}/>
         </>
     )
