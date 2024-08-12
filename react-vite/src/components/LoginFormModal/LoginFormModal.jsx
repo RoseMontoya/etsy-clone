@@ -86,7 +86,7 @@ function LoginFormModal() {
           </button>
         </form>
         <div className="demo-login">
-          <p>// Or use the demo account:</p>
+          <p>Or use the demo account:</p>
           <button
             type="button" // Changed to type="button" to avoid form submission
             className="black-button demo-button cursor"
