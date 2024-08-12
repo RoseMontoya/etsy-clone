@@ -12,7 +12,7 @@ function ProductReviews({productId}) {
         if (!reviewsObj) {
             dispatch(getAllReviews(productId))
         }
-    }, [dispatch, productId])
+    }, [dispatch, productId, reviewsObj])
 
     if (!reviewsObj) return <h2>Loading...</h2>
 

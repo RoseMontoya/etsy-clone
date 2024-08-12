@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { thunkAllProducts } from "../../redux/product";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 import "./MainProfile.css";
 function HomePage() {
@@ -14,7 +14,7 @@ function HomePage() {
   useEffect(() => {
     dispatch(thunkAllProducts());
   }, [dispatch]);
-  if (!products) return null;
+  if (!product) return null;
   return <>Welcome back,</>;
 }
 export default HomePage;
