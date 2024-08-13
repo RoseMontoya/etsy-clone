@@ -4,10 +4,9 @@ from ..models.product import Product, ProductImage
 from ..models.review import Review
 from ..models.user import User
 from ..models import db
-from ..forms import ProductForm
 from flask_login import current_user, login_required
 from sqlalchemy.exc import SQLAlchemyError
-from ..forms import ReviewForm
+from ..forms import ReviewForm, ProductForm, ProductImageForm
 
 products_routes = Blueprint("products", __name__)
 
@@ -61,6 +60,28 @@ def create_review(productId):
         return new_review.to_dict()
     return form.errors, 400
 
+# Edit product
+@products_routes.route("/<int:productId>/edit", methods=["PUT"])
+@login_required
+def edit_product(productId):
+    form = ProductForm()
+    form["csrf_token"].data = request.cookies["csrf_token"]
+
+    if form.validate_on_submit():
+        product = Product.query.get(productId)
+        if product:
+            product.title=form.data["title"]
+            product.description=form.data["description"]
+            product.inventory=form.data["inventory"]
+            product.price=form.data["price"]
+            product.category_id=form.data["category_id"]
+        
+        db.session.commit()
+        return product.to_dict(), 200
+    else:
+        print("Form errors:", form.errors)
+        return form.errors, 400
+
 
 # Get product by product id
 @products_routes.route("/<int:productId>", methods=["GET"])
@@ -100,7 +121,6 @@ def delete_product(productId):
 @products_routes.route("/new", methods=["POST"])
 @login_required
 def create_product():
-    print("Cookies:", request.cookies)
     form = ProductForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
 
@@ -119,7 +139,48 @@ def create_product():
     else:
         print("Form errors:", form.errors)
         return form.errors, 400
+    
 
+# Create Images
+@products_routes.route("/images/new", methods=["POST"])
+@login_required
+def create_images():
+    form = ProductImageForm()
+    form["csrf_token"].data = request.cookies["csrf_token"]
+
+    if form.validate_on_submit():
+        new_image = ProductImage(
+            product_id=form.data["product_id"],
+            url=form.data["url"],
+            preview=form.data["preview"],
+        )
+        db.session.add(new_image)
+        db.session.commit()
+        return new_image.to_dict(), 201
+    else:
+        print("Form errors:", form.errors)
+        return form.errors, 400
+    
+# Update an existing product image
+@products_routes.route("/images/<int:imageId>", methods=["PUT"])
+@login_required
+def update_product_image(imageId):
+    form = ProductImageForm()
+    form["csrf_token"].data = request.cookies["csrf_token"]
+
+    if form.validate_on_submit():
+        image = ProductImage.query.get(imageId)
+        if image:
+            image.url = form.data["url"]
+            image.preview = form.data["preview"]
+
+            db.session.commit()
+            return image.to_dict(), 200
+        else:
+            return {"error": "Image not found"}, 404
+    else:
+        print("Form errors:", form.errors)
+        return form.errors, 400
 
 # Get all products
 @products_routes.route("/", methods=["GET"])

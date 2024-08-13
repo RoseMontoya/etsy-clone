@@ -23,6 +23,10 @@ function ProductDetails() {
         }
     }, [dispatch, productId, product])
 
+    useEffect(() => {
+        dispatch(productById(productId))
+    }, [dispatch, productId])
+
     // Check if there were errors on the fetch
     if (errors.error) {
         const message = errors.error.message

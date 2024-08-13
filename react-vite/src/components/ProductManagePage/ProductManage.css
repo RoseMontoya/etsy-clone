@@ -10,6 +10,7 @@
   position: relative;
   width: 100%;
   overflow: hidden;
+  margin-bottom: 20px;
 }
 
 .product_manage_single_container img {
@@ -20,6 +21,7 @@
 
 .product_manage_single_container button {
   border: none;
+  padding: 10px;
 }
 
 .product_manage_single_container button:hover {
@@ -29,6 +31,8 @@
 .drop_down_container {
   display: flex;
   justify-content: space-between;
+  margin: 0;
+  padding: 0;
 }
 
 .drop_down_button {

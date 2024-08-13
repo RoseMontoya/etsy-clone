@@ -25,6 +25,14 @@ class Product(db.Model):
     favorites = db.relationship('Favorite', back_populates='product')
 
     def to_dict(self):
+        preview_image_url = None
+        preview_images = []
+
+        if len(self.images):
+            preview_images = [image.url for image in self.images if image.preview]
+        if preview_images:
+            preview_image_url = preview_images[0]
+
         return {
             "id": self.id,
             "title": self.title,
@@ -33,7 +41,7 @@ class Product(db.Model):
             "price": self.price,
             "category_id": self.category_id,
             "seller": self.seller.to_dict_seller(),
-            "preview_image": [image.url for image in self.images if image.preview == True][0],
+            "preview_image": preview_image_url,
             # "product_images": [image.to_dict() for image in self.images],
             # "created_at": self.created_at,
             # "updated_at": self.updated_at,

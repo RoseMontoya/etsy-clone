@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { addProduct } from "../../redux/product";
+import { addProduct, addProductImage, productByUserId } from "../../redux/product";
 import "./ProductForm.css";
 
 function NewProductForm() {
@@ -10,6 +10,13 @@ function NewProductForm() {
   const [inventory, setInventory] = useState(0);
   const [price, setPrice] = useState(0);
   const [categoryId, setCategoryId] = useState(1);
+  const [previewImageUrl, setPreviewImageUrl] = useState("");
+  const [image1Url, setImage1Url] = useState("");
+  const [image2Url, setImage2Url] = useState("");
+  const [image3Url, setImage3Url] = useState("");
+  const [image4Url, setImage4Url] = useState("");
+  const [image5Url, setImage5Url] = useState("");
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -22,18 +29,50 @@ function NewProductForm() {
       description,
       inventory: Number(inventory),
       price: Number(price),
-      categoryId: Number(categoryId),
-      seller_id: user.id
+      category_id: Number(categoryId),
+      seller_id: user.id,
     };
 
     const result = await dispatch(addProduct(new_product));
-    console.log("add product", result)
-    if (result.ok) {
-      console.log("navigate to products")
+
+    const productId = result.id;
+    let imageArray = Array(6).fill(null);
+    console.log("......", imageArray);
+     imageArray = [
+        {
+          product_id: productId,
+          url: previewImageUrl,
+          preview: true,
+        },
+        {
+          product_id: productId,
+          url: image1Url? image1Url: null,
+          preview: false,
+        },
+        {
+          product_id: productId,
+          url: image2Url? image2Url: null,
+          preview: false,
+        },
+        {
+          product_id: productId,
+          url: image3Url? image3Url: null,
+          preview: false,
+        },
+        {
+          product_id: productId,
+          url: image4Url? image4Url: null,
+          preview: false,
+        },
+        {
+          product_id: productId,
+          url: image5Url? image5Url: null,
+          preview: false,
+        },
+      ];
+      await Promise.all(imageArray.map(image => dispatch(addProductImage(image))));
+      dispatch(productByUserId());
       navigate("/products/current");
-    } else {
-      console.error("Failed to create product:", result);
-    }
   };
   return (
     <form onSubmit={handleSubmit}>
@@ -77,6 +116,7 @@ function NewProductForm() {
       <div>
         <label>Category:</label>
         <select
+          name="category_id"
           value={categoryId}
           onChange={(e) => setCategoryId(e.target.value)}
           required
@@ -88,6 +128,55 @@ function NewProductForm() {
           <option value="4">Jewelry</option>
           <option value="5">Clothing</option>
         </select>
+      </div>
+      <div>
+        <label>Preview Image URL:</label>
+        <input
+          type="text"
+          value={previewImageUrl}
+          onChange={(e) => setPreviewImageUrl(e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <label>Image URL:</label>
+        <input
+          type="text"
+          value={image1Url}
+          onChange={(e) => setImage1Url(e.target.value)}
+        />
+      </div>
+      <div>
+        <label>Image URL:</label>
+        <input
+          type="text"
+          value={image2Url}
+          onChange={(e) => setImage2Url(e.target.value)}
+        />
+      </div>
+      <div>
+        <label>Image URL:</label>
+        <input
+          type="text"
+          value={image3Url}
+          onChange={(e) => setImage3Url(e.target.value)}
+        />
+      </div>
+      <div>
+        <label>Image URL:</label>
+        <input
+          type="text"
+          value={image4Url}
+          onChange={(e) => setImage4Url(e.target.value)}
+        />
+      </div>
+      <div>
+        <label>Image URL:</label>
+        <input
+          type="text"
+          value={image5Url}
+          onChange={(e) => setImage5Url(e.target.value)}
+        />
       </div>
       <button type="submit">Submit</button>
     </form>

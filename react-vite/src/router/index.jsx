@@ -7,6 +7,7 @@ import Layout from './Layout';
 import ProductDetails from '../components/ProductDetails';
 import ProductManage from '../components/ProductManagePage/ProductManage';
 import NewProductForm from '../components/ProductForm/CreateProduct';
+import EditProductForm from '../components/ProductForm/EditProduct';
 
 export const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ export const router = createBrowserRouter([
       {
         path: "products/:productId",
         element: <ProductDetails />,
+      },
+      {
+        path: "products/:productId/edit",
+        element: <EditProductForm />,
       },
       {
         path: "products",

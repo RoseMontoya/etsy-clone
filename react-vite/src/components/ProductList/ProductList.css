@@ -13,7 +13,7 @@
 }
 
 .product_small_container img {
-  height: 220px;
-  width: 220px;
+  width: 100%;
   object-fit: cover;
+  display: block;
 }
