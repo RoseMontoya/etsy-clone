@@ -4,7 +4,7 @@ import { getAllReviews } from "../../redux/review"
 
 function ProductReviews({productId}) {
     const dispatch = useDispatch()
-    const reviewsObj = useSelector(state => state.reviews.allReviews)
+    const reviewsObj = useSelector(state => state.reviews.reviewsByProdId ?. [productId])
 
     const reviews = reviewsObj? Object.values(reviewsObj) : []
 
@@ -26,8 +26,8 @@ function ProductReviews({productId}) {
                         <p>{review.stars}</p>
                         <p>{review.review}</p>
                         <div>
-                            <p>{review.user.username}</p>
-                            {/* <p>{review.updated_at}</p> */}
+                            <p>{review.user}</p>
+                            <p>{review.updated_at}</p>
                         </div>
                     </div>
                     <p>{review.recommendation? "Recommends this item": ""}</p>

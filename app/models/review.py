@@ -56,4 +56,5 @@ class Review(db.Model):
             "review": self.review,
             "stars": self.stars,
             "recommendation": self.recommendation,
+            "updated_at": self.updated_at
         }
