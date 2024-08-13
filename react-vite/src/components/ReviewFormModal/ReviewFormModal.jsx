@@ -1,11 +1,12 @@
 import {useModal} from '../../context/Modal';
-import { useDispatch } from 'react-redux';
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import { TiStarOutline } from "react-icons/ti";
 import { TiStarFullOutline } from "react-icons/ti";
-import { createReview } from '../../redux/review';
+import { createReview, editReview } from '../../redux/review';
 
-function CreateReviewModal({productId}) {
+
+function ReviewFormModal({productId, formType, reviewId}) {
     const dispatch = useDispatch()
     const [review, setReview] = useState('')
     const [rating, setRating] = useState(0)
@@ -20,13 +21,14 @@ function CreateReviewModal({productId}) {
 
         const payload = {productId, review, stars: rating, recommendation}
 
-        // console.log("PAYLOAD --------------->", payload)
+        if (reviewId) payload['id'] = reviewId
 
-        dispatch(createReview(payload))
+        const thunkAction = formType === 'create'? createReview : editReview
+
+        dispatch(thunkAction(payload))
         .then(async(res) => {
             if(res.status) {
                 const errors = await res.json()
-                console.log("ERRORS ================>", errors)
                 setErrors(errors)
             } else {
                 closeModal()
@@ -34,12 +36,20 @@ function CreateReviewModal({productId}) {
         })
     }
 
-    // console.log("recommendation ------->", recommendation)
+    const prevRev = useSelector(state => state.reviews.reviewsByProdId?.[productId]?.[reviewId])
+
+    useEffect(() => {
+        if (formType === 'edit') {
+            setRating(prevRev.stars)
+            setReview(prevRev.review)
+            setRecommendation(prevRev.recommendation)
+        }
+    }, [formType, prevRev])
 
     return (
         <>
             <div>
-                <h2>Leave a review:</h2>
+                {formType === 'create' ? <h2>Leave a review:</h2> : <h2>Edit your review:</h2>}
                 <form onSubmit={handleSubmit}>
                     {errors?.message && <p className='error' style={{margin: 0 }}>{errors.message}</p>}
                     <div>
@@ -85,14 +95,14 @@ function CreateReviewModal({productId}) {
                             value={review}
                             onChange={(e) => setReview(e.target.value)}
                         />
-                        
+
                         {/* recommendation */}
                         <div>
                             <label>Would you recommend this product?</label>
                             <input type='checkbox'
-                            // checked={recommendation}
+                            checked={recommendation}
                             // value={recommendation}
-                            onChange={(e) => 
+                            onChange={(e) =>
                                 {
                                     // e.target.value === "false" ? setRecommendation(false) : setRecommendation(true)
                                     setRecommendation(e.target.checked)
@@ -105,7 +115,7 @@ function CreateReviewModal({productId}) {
 
                     {/* submit button */}
                     <button className='submit-button' type="submit" disabled={review.length < 10 || rating < 1}>
-                        Submit Your Review
+                        {formType === 'create'? "Submit Your Review" : "Update"}
                     </button>
                 </form>
             </div>
@@ -113,4 +123,4 @@ function CreateReviewModal({productId}) {
     )
 }
 
-export default CreateReviewModal;
+export default ReviewFormModal;

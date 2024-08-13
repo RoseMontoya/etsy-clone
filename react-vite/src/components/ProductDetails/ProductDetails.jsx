@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { productById } from "../../redux/product"
 import ProductReviews from "../ProductReviews"
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem"
-import CreateReviewModal from "../CreateReviewModal/CreateReviewModal"
+import ReviewFormModal from "../ReviewFormModal"
 
 function ProductDetails() {
     const {productId} = useParams()
@@ -50,7 +50,7 @@ function ProductDetails() {
             <OpenModalMenuItem
                 className=""
                 itemText="Post Your Review!"
-                modalComponent={<CreateReviewModal productId={product.id}/>}
+                modalComponent={<ReviewFormModal productId={product.id} formType={'create'}/>}
             />
             <ProductReviews productId={productId}/>
         </>

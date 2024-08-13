@@ -4,7 +4,8 @@ const UPDATE_REVIEW = 'reviews/update-review'
 
 const getReviews = (reviews, productId) => ({
     type: GET_REVIEWS,
-    payload: reviews, productId
+    payload: reviews,
+    productId
 })
 
 const addReview = (review) => ({
@@ -48,21 +49,21 @@ export const createReview = (review) => async dispatch => {
     return response
 }
 
-// export const editReview = (review) = async dispatch => {
-//     const response = await fetch(`/api/reviews/${review.id}`, {
-//         method: 'PUT',
-//         headers: { 'Content-Type': 'application/json'},
-//         body: JSON.stringify(review)
-//     })
+export const editReview = (review) => async dispatch => {
+    const response = await fetch(`/api/reviews/${review.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify(review)
+    })
 
-//     if (response.ok) {
-//         const data = await response.json()
-//         dispatch(updateReview(data))
-//         return data
-//     }
+    if (response.ok) {
+        const data = await response.json()
+        dispatch(updateReview(data))
+        return data
+    }
 
-//     return response
-// }
+    return response
+}
 
 const initialState = {}
 const reviewsReducer = ( state = initialState, action) => {
@@ -83,7 +84,8 @@ const reviewsReducer = ( state = initialState, action) => {
         case UPDATE_REVIEW: {
             const newState = {...state.reviewsByProdId[action.payload.product_id]}
             newState[action.payload.id] = action.payload
-            return {...state, reviewsByProdId: {...state.reviewsByProdId, [action.payload.productId]: newState}}
+            console.log(action)
+            return {...state, reviewsByProdId: {...state.reviewsByProdId, [action.payload.product_id]: newState}}
         }
         default:
             return state;
