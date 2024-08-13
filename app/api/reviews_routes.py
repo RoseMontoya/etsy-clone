@@ -6,7 +6,7 @@ from flask_login import current_user, login_required
 
 reviews_routes = Blueprint("reviews", __name__)
 
-@reviews_routes.route('/<int:review_id>')
+@reviews_routes.route('/<int:review_id>', methods=['PUT'])
 @login_required
 def edit_review(review_id):
     updated_form = ReviewForm()
@@ -14,9 +14,12 @@ def edit_review(review_id):
 
     if updated_form.validate_on_submit():
         review = Review.query.filter(Review.id == review_id).first()
-        review.review = updated_form.data["review"],
-        review.stars = updated_form.data["stars"],
+        # print('REVIEW', review.review, updated_form.data['review'])
+        review.review = updated_form.data["review"]
+        review.stars = updated_form.data["stars"]
+        print('REVIEW', review.stars, updated_form.data['stars'])
         review.recommendation = updated_form.data["recommendation"]
+        print('review ~~~~~~~~~~~~~~~~~~~', review.to_dict())
         db.session.commit()
         return review.to_dict()
 

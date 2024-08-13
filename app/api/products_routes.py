@@ -42,7 +42,7 @@ def create_review(productId):
         .first()
     )
 
-    if user:
+    if prevRev:
         return {"message": "User already has a review for this product."}, 500
 
     if form.validate_on_submit():

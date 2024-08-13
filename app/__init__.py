@@ -21,10 +21,12 @@ app = Flask(__name__, static_folder="../react-vite/dist", static_url_path="/")
 login = LoginManager(app)
 login.login_view = "auth.unauthorized"
 
-
 @login.user_loader
 def load_user(id):
-    return User.query.get(int(id))
+    # print(f'LOAD USER with ID: {id}')
+    user = User.query.get(int(id))
+    # print(f'User found: {user}')
+    return user
 
 
 
@@ -57,17 +59,22 @@ def https_redirect():
             url = request.url.replace("http://", "https://", 1)
             code = 301
             return redirect(url, code=code)
+    # print('Request Headers:', request.headers)
+    # print('Request Cookies:', request.cookies)
 
 
 @app.after_request
 def inject_csrf_token(response):
+    csrf_token = generate_csrf()
+    # print(f'INJECT CSRF TOKEN: {csrf_token}')
     response.set_cookie(
         "csrf_token",
-        generate_csrf(),
+        csrf_token,
         secure=True if os.environ.get("FLASK_ENV") == "production" else False,
         samesite="Strict" if os.environ.get("FLASK_ENV") == "production" else None,
         httponly=False,
     )
+    # print('csrf token after', dir(response))
     return response
 
 

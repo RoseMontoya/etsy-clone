@@ -1,6 +1,9 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getAllReviews } from "../../redux/review"
+import OpenModalMenuItem from "../Navigation/OpenModalMenuItem"
+import ReviewFormModal from "../ReviewFormModal"
+
 
 function ProductReviews({productId}) {
     const dispatch = useDispatch()
@@ -31,6 +34,18 @@ function ProductReviews({productId}) {
                         </div>
                     </div>
                     <p>{review.recommendation? "Recommends this item": ""}</p>
+                    <div>
+                    <OpenModalMenuItem
+                        className=""
+                        itemText="Edit Review"
+                        modalComponent={<ReviewFormModal productId={productId} formType={'edit'} reviewId={review.id}/>}
+                    />
+                    <OpenModalMenuItem
+                        className=""
+                        itemText="Delete Review"
+                        modalComponent={<ReviewFormModal productId={productId} formType={'edit'} reviewId={review.id}/>}
+                    />
+                    </div>
                 </div>
 
             )): "Be the first to leave a review!"}
