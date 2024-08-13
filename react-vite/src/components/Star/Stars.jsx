@@ -4,7 +4,7 @@ import { TiStarFullOutline } from "react-icons/ti";
 function Stars({onClick, rating}){
     // console.log("IN STARS",onClick, rating)
     return (
-        <div id='stars'>
+        <div className='stars'>
             <div
                 onClick={() => onClick(1)}
                 className='star'

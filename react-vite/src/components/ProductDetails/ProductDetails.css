@@ -1,7 +1,7 @@
 .small-image {
     position: relative;
-    width: 3em;
-    height: 3em;
+    width: 4em;
+    height: 4em;
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -16,10 +16,29 @@
 
 .main-image {
     position: relative;
-    width: 30em;
-    height: 25em;
+    width: 40em;
+    height: 35em;
     overflow: hidden;
     display: flex;
     justify-content: center;
-    border-radius: 5px;
+    border-radius: 5px;;
+}
+
+#product-details {
+    display: flex;
+    justify-content: space-between;
+    padding: 1em;
+}
+
+#image-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+#image-sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+    gap: 0.5em;
 }

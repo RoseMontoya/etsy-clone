@@ -6,6 +6,7 @@ import ProductReviews from "../ProductReviews"
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem"
 import ReviewFormModal from "../ReviewFormModal"
 import './ProductDetails.css'
+import Stars from "../Star/Stars"
 
 function ProductDetails() {
     const {productId} = useParams()
@@ -62,17 +63,32 @@ function ProductDetails() {
 
     return (
         <>
-            <h1>Product Details</h1>
-            <p>ID: {product?.id}</p>
-            <p>Name: {product?.title}</p>
-            <div className="main-image"><img src={mainImage} className="image"/></div>
-            {product.product_images.map(image => (
-                <div className="small-image" key={image.id} onClick={() => imageSelect(image)}>
-                    <img className="image" src={image.url} alt={image.id}/>
+            <div id="product-details">
+                <div id="image-container">
+                    <div id="image-sidebar">
+                        {product.product_images.map(image => (
+                            <div className="small-image" key={image.id} onClick={() => imageSelect(image)}>
+                                <img className="image" src={image.url} alt={image.id}/>
+                            </div>
+                        ))}
+                    </div>
+                    <div><button className="circ">{"<"}</button></div>
+                    <div className="main-image"><img src={mainImage} className="image"/></div>
+                    <div><button className="circ">{">"}</button></div>
                 </div>
-            ))}
-            <p>Description: {product?.description}</p>
-            <p>Inventory: {product?.inventory}</p>
+                <div>
+                    <p className={`${product?.inventory > 5 ? 'hidden' : 'red bold'}`}>{`Only ${product.inventory} left in stock!`}</p>
+                    <p className="bold" style={{fontSize: "24px"}}>${product.price.toFixed(2)}</p>
+                    <p>{product?.title}</p>
+                    <p className="bold inline">{product.seller.username} <Stars rating={product.seller.seller_rating} /></p>
+                    <div>
+                        <button>Buy It Now</button>
+                        <button>Add to Cart</button>
+                        <button>Add to Collection</button>
+                    </div>
+                    <p>Item Details <p>{product?.description}</p></p>
+                </div>
+            </div>
             <OpenModalMenuItem
                 className={`${showReview()? "" : "hidden"}`}
                 itemText={`${reviews.length? "Post Your Review!" : "Be the first to leave a review!"}`}
