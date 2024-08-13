@@ -26,7 +26,7 @@ function ProductReviews({productId}) {
                         <p>{review.stars}</p>
                         <p>{review.review}</p>
                         <div>
-                            <p>{review.user.username}</p>
+                            <p>{review.user}</p>
                             <p>{review.updated_at}</p>
                         </div>
                     </div>

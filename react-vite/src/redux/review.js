@@ -48,21 +48,21 @@ export const createReview = (review) => async dispatch => {
     return response
 }
 
-export const editReview = (review) = async dispatch => {
-    const response = await fetch(`/api/reviews/${review.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json'},
-        body: JSON.stringify(review)
-    })
+// export const editReview = (review) = async dispatch => {
+//     const response = await fetch(`/api/reviews/${review.id}`, {
+//         method: 'PUT',
+//         headers: { 'Content-Type': 'application/json'},
+//         body: JSON.stringify(review)
+//     })
 
-    if (response.ok) {
-        const data = await response.json()
-        dispatch(updateReview(data))
-        return data
-    }
+//     if (response.ok) {
+//         const data = await response.json()
+//         dispatch(updateReview(data))
+//         return data
+//     }
 
-    return response
-}
+//     return response
+// }
 
 const initialState = {}
 const reviewsReducer = ( state = initialState, action) => {

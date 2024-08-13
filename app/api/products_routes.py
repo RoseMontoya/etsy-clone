@@ -27,7 +27,7 @@ def product_manage():
 def product_reviews(productId):
     reviews = Review.query.filter(Review.product_id == productId).all()
 
-    return [ review.to_dicts() for review in reviews ]
+    return [ review.to_dict() for review in reviews ]
 
 # Create a review for product
 @products_routes.route('/<int:productId>/reviews', methods=['POST'])
