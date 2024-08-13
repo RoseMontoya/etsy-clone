@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector} from 'react-redux'
 import { productById } from "../../redux/product"
 import ProductReviews from "../ProductReviews"
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem"
 import ReviewFormModal from "../ReviewFormModal"
 import './ProductDetails.css'
+import Stars from "../Star/Stars"
 
 function ProductDetails() {
     const {productId} = useParams()
@@ -13,6 +14,13 @@ function ProductDetails() {
     const product = useSelector(state => state.products.productById?.[productId])
     const [errors, setErrors] = useState({})
     const [mainImage, setMainImage] = useState(product?.preview_image)
+    const user = useSelector(state => state.session.user)
+    const reviewsObj = useSelector(state => state.reviews.reviewsByProdId?.[productId])
+
+    const reviews = reviewsObj? Object.values(reviewsObj) : []
+
+    let userReview;
+    if (reviewsObj) userReview = Object.values(reviewsObj).filter(review => review.user === user.username)
 
     useEffect(() => {
         if (!product) {
@@ -47,22 +55,47 @@ function ProductDetails() {
         setMainImage(image.url)
     }
 
+    const showReview = () => {
+        // Check if user is logged in
+        // Check if user already has review
+        // Check if product belongs to user
+        if (user && product.seller.id !== user.id && !userReview?.length) {
+            return true
+        }
+        return false
+    }
+
     return (
         <>
-            <h1>Product Details</h1>
-            <p>ID: {product?.id}</p>
-            <p>Name: {product?.title}</p>
-            <div className="main-image"><img src={mainImage} className="image"/></div>
-            {product.product_images.map(image => (
-                <div className="small-image" key={image.id} onClick={() => imageSelect(image)}>
-                    <img className="image" src={image.url} alt={image.id}/>
+            <div id="product-details">
+                <div id="image-container">
+                    <div id="image-sidebar">
+                        {product.product_images.map(image => (
+                            <div className="small-image" key={image.id} onClick={() => imageSelect(image)}>
+                                <img className="image" src={image.url} alt={image.id}/>
+                            </div>
+                        ))}
+                    </div>
+                    <div><button className="circ">{"<"}</button></div>
+                    <div className="main-image"><img src={mainImage} className="image"/></div>
+                    <div><button className="circ">{">"}</button></div>
                 </div>
-            ))}
-            <p>Description: {product?.description}</p>
-            <p>Inventory: {product?.inventory}</p>
+                <div>
+                    <p className={`${product?.inventory > 5 ? 'hidden' : 'red bold'}`}>{`Only ${product.inventory} left in stock!`}</p>
+                    <p className="bold" style={{fontSize: "24px"}}>${product.price.toFixed(2)}</p>
+                    <p>{product?.title}</p>
+                    <p className="bold inline">{product.seller.username} <Stars rating={product.seller.seller_rating} /></p>
+                    <div>
+                        <button>Buy It Now</button>
+                        <button>Add to Cart</button>
+                        <button>Add to Collection</button>
+                    </div>
+                    <p>Item Details <p>{product?.description}</p></p>
+                </div>
+            </div>
             <OpenModalMenuItem
-                className=""
-                itemText="Post Your Review!"
+                className={`${showReview()? "" : "hidden"}`}
+                itemText={`${reviews.length? "Post Your Review!" : "Be the first to leave a review!"}`}
                 modalComponent={<ReviewFormModal productId={product.id} formType={'create'}/>}
             />
             <ProductReviews productId={productId}/>

@@ -8,6 +8,3 @@ class ReviewForm(FlaskForm):
     stars = IntegerField("Stars", validators=[DataRequired()])
     recommendation = BooleanField("Recommend?")
     submit = SubmitField("Submit")
-
-
-

@@ -57,6 +57,14 @@ ul {
   color: #f1641e;
 }
 
+.red {
+  color: #9a0028
+}
+
+.bold {
+  font-weight: bold;
+}
+
 .icon {
   width: 1.5em;
   height: 1.5em;
@@ -97,4 +105,8 @@ button {
   background-color: black;
   color: white;
   border: none;
+}
+
+.hidden {
+  display: none;
 }

@@ -1,9 +1,10 @@
 import {useModal} from '../../context/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { TiStarOutline } from "react-icons/ti";
-import { TiStarFullOutline } from "react-icons/ti";
+// import { TiStarOutline } from "react-icons/ti";
+// import { TiStarFullOutline } from "react-icons/ti";
 import { createReview, editReview } from '../../redux/review';
+import Stars from '../Star/Stars'
 
 
 function ReviewFormModal({productId, formType, reviewId}) {
@@ -29,7 +30,7 @@ function ReviewFormModal({productId, formType, reviewId}) {
         .then(async(res) => {
             if(res.status) {
                 const errors = await res.json()
-                setErrors(errors)
+                setErrors(errors.errors)
             } else {
                 closeModal()
             }
@@ -46,6 +47,7 @@ function ReviewFormModal({productId, formType, reviewId}) {
         }
     }, [formType, prevRev])
 
+
     return (
         <>
             <div>
@@ -53,9 +55,8 @@ function ReviewFormModal({productId, formType, reviewId}) {
                 <form onSubmit={handleSubmit}>
                     {errors?.message && <p className='error' style={{margin: 0 }}>{errors.message}</p>}
                     <div>
-                        {/* stars */}
                         <div id='stars'>
-                            <div
+                        {/* <div
                             onClick={() => setRating(1)}
                             className='star'
                         >
@@ -84,7 +85,8 @@ function ReviewFormModal({productId, formType, reviewId}) {
                             className='star'
                         >
                             {rating >= 5? <TiStarFullOutline/> : <TiStarOutline/>}
-                        </div>
+                        </div> */}
+                        <Stars rating={rating} onClick={setRating}/>
                             <p style={{fontWeight: '700', padding: '.25em', paddingTop: 0}}>Stars</p>
                         </div>
 

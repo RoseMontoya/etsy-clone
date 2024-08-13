@@ -1,6 +1,7 @@
 const GET_REVIEWS = 'reviews/get-reviews'
 const CREATE_REVIEW = 'reviews/create-review'
 const UPDATE_REVIEW = 'reviews/update-review'
+const DELETE_REVIEW = 'reviews/delete-review'
 
 const getReviews = (reviews, productId) => ({
     type: GET_REVIEWS,
@@ -16,6 +17,11 @@ const addReview = (review) => ({
 const updateReview = (review) => ({
     type: UPDATE_REVIEW,
     payload: review
+})
+
+const removeReview = (reviewId, productId) => ({
+    type: DELETE_REVIEW,
+    payload: { reviewId, productId}
 })
 
 export const getAllReviews = (productId) => async dispatch => {
@@ -65,7 +71,29 @@ export const editReview = (review) => async dispatch => {
     return response
 }
 
+export const deleteReview = (reviewId, productId) => async dispatch => {
+    const response = await fetch(`/api/reviews/${reviewId}`, { method: 'DELETE'})
+
+    if (response.ok) {
+        dispatch(removeReview(reviewId, productId))
+        return await response.json()
+    }
+    return response
+}
+
 const initialState = {}
+
+/*
+    state: {
+        reviews: {
+            reviewByProdId:{
+                1: {
+
+                }
+            }
+        }
+    }
+*/
 const reviewsReducer = ( state = initialState, action) => {
     switch (action.type) {
         case GET_REVIEWS: {
@@ -84,8 +112,13 @@ const reviewsReducer = ( state = initialState, action) => {
         case UPDATE_REVIEW: {
             const newState = {...state.reviewsByProdId[action.payload.product_id]}
             newState[action.payload.id] = action.payload
-            console.log(action)
             return {...state, reviewsByProdId: {...state.reviewsByProdId, [action.payload.product_id]: newState}}
+        }
+        case DELETE_REVIEW: {
+            const {reviewId, productId} = action.payload
+            const newState = {...state.reviewsByProdId[productId]}
+            delete newState[reviewId]
+            return {...state, reviewsByProdId: {...state.reviewsByProdId, [productId]: newState}}
         }
         default:
             return state;

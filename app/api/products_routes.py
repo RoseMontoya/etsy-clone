@@ -34,16 +34,13 @@ def product_reviews(productId):
 @login_required
 def create_review(productId):
     form = ReviewForm()
-    form["csrf_token"].data = request.cookies["csrf_token"]
 
-    user = (
-        Review.query.filter(Review.user_id == current_user.id)
-        .filter(Review.product_id == productId)
-        .first()
-    )
+    form['csrf_token'].data = request.cookies['csrf_token']
+    print('current user', current_user.id)
+    prevRev = Review.query.filter(Review.user_id == current_user.id).filter(Review.product_id == productId).first()
 
     if prevRev:
-        return {"message": "User already has a review for this product."}, 500
+        return { "errors": {"message": "User already has a review for this product."}}, 500
 
     if form.validate_on_submit():
         new_review = Review(
