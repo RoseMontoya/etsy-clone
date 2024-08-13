@@ -6,6 +6,7 @@ import ReviewFormModal from "../ReviewFormModal";
 import './ProductReview.css'
 import { useModal } from '../../context/Modal';
 import DeleteReview from "../DeleteReviewModal";
+import Stars from '../Star/Stars'
 
 
 function ProductReviews({ productId }) {
@@ -41,7 +42,7 @@ function ProductReviews({ productId }) {
       {reviews.map((review) => (
             <div key={review?.id}>
               <div>
-                <p>{review.stars}</p>
+                <p><Stars rating={review.stars} /></p>
                 <p>{review.review}</p>
                 <div>
                   <p>{review.user}</p>
