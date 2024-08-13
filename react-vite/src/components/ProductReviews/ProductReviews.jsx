@@ -1,12 +1,17 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllReviews } from "../../redux/review";
+import { deleteReview, getAllReviews } from "../../redux/review";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import ReviewFormModal from "../ReviewFormModal";
 import './ProductReview.css'
+import { useModal } from '../../context/Modal';
+import DeleteReview from "../DeleteReviewModal";
+
 
 function ProductReviews({ productId }) {
   const dispatch = useDispatch();
+  const { closeModal, setModalContent } = useModal()
+
   const reviewsObj = useSelector(
     (state) => state.reviews.reviewsByProdId?.[productId]
   );
@@ -21,6 +26,15 @@ function ProductReviews({ productId }) {
   }, [dispatch, productId, reviewsObj]);
 
   if (!reviewsObj) return <h2>Loading...</h2>;
+
+  const handleDelete = (reviewId) => {
+     setModalContent(<DeleteReview onDelete={() => deleteConfirm(reviewId, productId)} onClose={() => closeModal()}/>)
+  }
+
+  const deleteConfirm = async (reviewId, productId) => {
+    await dispatch(deleteReview(reviewId, productId))
+    closeModal()
+  }
 
   return (
     <div>
@@ -47,17 +61,17 @@ function ProductReviews({ productId }) {
                     />
                   }
                 />
-                <OpenModalMenuItem
+                {/* <OpenModalMenuItem
                   className={`${review.user !== user? "hidden" : ""}`}
                   itemText="Delete Review"
                   modalComponent={
-                    <ReviewFormModal
+                    <DeleteReview
                       productId={productId}
-                      formType={"edit"}
                       reviewId={review.id}
                     />
                   }
-                />
+                /> */}
+                <button className={`${review.user !== user? "hidden" : ""}`} onClick={() => handleDelete(review.id)}>Delete Review</button>
               </div>
             </div>
           ))

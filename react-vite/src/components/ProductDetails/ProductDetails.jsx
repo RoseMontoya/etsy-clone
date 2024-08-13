@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { useDispatch, useSelector, useStore } from 'react-redux'
+import { useDispatch, useSelector} from 'react-redux'
 import { productById } from "../../redux/product"
 import ProductReviews from "../ProductReviews"
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem"
@@ -14,7 +14,7 @@ function ProductDetails() {
     const [errors, setErrors] = useState({})
     const [mainImage, setMainImage] = useState(product?.preview_image)
     const user = useSelector(state => state.session.user)
-    const reviewsObj = useSelector(state => state.reviews.reviewsByProdId[productId])
+    const reviewsObj = useSelector(state => state.reviews.reviewsByProdId?.[productId])
 
     const reviews = reviewsObj? Object.values(reviewsObj) : []
 

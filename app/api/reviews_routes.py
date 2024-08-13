@@ -25,3 +25,15 @@ def edit_review(review_id):
         return review.to_dict()
 
     return updated_form.errors, 400
+
+@reviews_routes.route('/<int:review_id>', methods=['DELETE'])
+@login_required
+def delete_review(review_id):
+    review = Review.query.filter(Review.id == review_id).one()
+
+    if not current_user.id == review.user_id:
+        return {"errors": {"message": "Unauthorized"}}, 401
+
+    db.session.delete(review)
+    db.session.commit()
+    return {"message": "Successfully deleted"}, 200
