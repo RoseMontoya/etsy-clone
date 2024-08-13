@@ -84,7 +84,6 @@ const reviewsReducer = ( state = initialState, action) => {
         case UPDATE_REVIEW: {
             const newState = {...state.reviewsByProdId[action.payload.product_id]}
             newState[action.payload.id] = action.payload
-            console.log(action)
             return {...state, reviewsByProdId: {...state.reviewsByProdId, [action.payload.product_id]: newState}}
         }
         default:

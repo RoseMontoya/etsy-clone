@@ -14,12 +14,13 @@ def edit_review(review_id):
 
     if updated_form.validate_on_submit():
         review = Review.query.filter(Review.id == review_id).first()
-        # print('REVIEW', review.review, updated_form.data['review'])
+
+        if not current_user.id == review.user_id:
+            return {"errors": {"message": "Unauthorized"}}, 401
+
         review.review = updated_form.data["review"]
         review.stars = updated_form.data["stars"]
-        print('REVIEW', review.stars, updated_form.data['stars'])
         review.recommendation = updated_form.data["recommendation"]
-        print('review ~~~~~~~~~~~~~~~~~~~', review.to_dict())
         db.session.commit()
         return review.to_dict()
 

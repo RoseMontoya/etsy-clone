@@ -29,7 +29,7 @@ function ReviewFormModal({productId, formType, reviewId}) {
         .then(async(res) => {
             if(res.status) {
                 const errors = await res.json()
-                setErrors(errors)
+                setErrors(errors.errors)
             } else {
                 closeModal()
             }
