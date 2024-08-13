@@ -39,11 +39,17 @@ function ProductDetails() {
             <h1>Product Details</h1>
             <p>ID: {product?.id}</p>
             <p>Name: {product?.title}</p>
+            <img src={product.preview_image} />
+            {product.product_images.map(image => (
+                <div className="small-image image" key={image.id}>
+                    <img src={image.url} alt={image.id}/>
+                </div>
+            ))}
             <p>Description: {product?.description}</p>
             <p>Inventory: {product?.inventory}</p>
-            <OpenModalMenuItem 
-                className="" 
-                itemText="Post Your Review!" 
+            <OpenModalMenuItem
+                className=""
+                itemText="Post Your Review!"
                 modalComponent={<CreateReviewModal productId={product.id}/>}
             />
             <ProductReviews productId={productId}/>
