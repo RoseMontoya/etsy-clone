@@ -6,48 +6,64 @@ from sqlalchemy.sql import text
 def seed_users():
     user1 = User(
         username="JohnDoe",
+        first_name='John',
+        last_name='Doe',
         email="john.doe@example.com",
         password="password1",
         profile_url="/images/profile1.jpg",
     )
     user2 = User(
         username="JaneSmith",
+        first_name='Jane',
+        last_name='Smith',
         email="jane.smith@example.com",
         password="password2",
         profile_url="/images/profile2.jpg",
     )
     user3 = User(
         username="AliceJohnson",
+        first_name='Alice',
+        last_name='Johnson',
         email="alice.johnson@example.com",
         password="password3",
         profile_url="/images/profile3.jpg",
     )
     user4 = User(
         username="EmilyDavis",
+        first_name='Emily',
+        last_name='Davis',
         email="emily.davis@example.com",
         password="password4",
         profile_url="/images/profile4.jpg",
     )
     user5 = User(
         username="SarahWilson",
+        first_name='Sarah',
+        last_name='Wilson',
         email="sarah.wilson@example.com",
         password="password5",
         profile_url="/images/profile5.jpg",
     )
     user6 = User(
         username="RobertBrown",
+        first_name='Robert',
+        last_name='Brown',
         email="robert.brown@example.com",
         password="password6",
         profile_url="/images/profile6.jpg",
     )
     user7 = User(
         username="MichaelMiller",
+        first_name='Michael',
+        last_name='Miller',
         email="michael.miller@example.com",
         password="password7",
         profile_url="/images/profile7.jpg",
     )
     user8 = User(
         username="LauraAnderson",
+        first_name='Laura',
+        last_name='Anderson',
         email="laura.anderson@example.com",
         password="password8",
         profile_url="/images/profile8.jpg",

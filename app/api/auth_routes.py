@@ -14,6 +14,7 @@ def authenticate():
     """
     print('IN AUTH ROUTE BACKEND', current_user)
     if current_user.is_authenticated:
+        print("-------->", request.cookies['csrf_token'])
         return current_user.to_dict()
     return {'errors': {'message': 'Unauthorized'}}, 401
 

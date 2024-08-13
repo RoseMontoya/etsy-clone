@@ -40,7 +40,7 @@ function LandingPage() {
     <>
       {user?.email ? (
         <>
-          Welcome back,{user.username.split()}
+          Welcome back, {user.first_name}
           <div>
             <div>
               <h3>Featured Product:</h3>

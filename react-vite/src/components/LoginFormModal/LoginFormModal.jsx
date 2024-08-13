@@ -47,7 +47,7 @@ function LoginFormModal() {
 
   return (
     <>
-      <div className="form-modal">
+      <div className="form-modal" >
         <span className="inline" style={{ width: "100%" }}>
           <h2>Sign In</h2>
           <button className="cursor">
@@ -85,7 +85,7 @@ function LoginFormModal() {
             Log In
           </button>
         </form>
-        <div className="demo-login">
+        <div className="demo-login" style={{ width: "100%" }}>
           <p>Or use the demo account:</p>
           <button
             type="button" // Changed to type="button" to avoid form submission

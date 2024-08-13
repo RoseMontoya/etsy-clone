@@ -15,8 +15,8 @@ class Product(db.Model):
     price = db.Column(db.Integer, nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("categories.id")), nullable=False)
     seller_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
-    # created_at = db.Column(db.DateTime, server_default=func.now())
-    # updated_at = db.Column(db.DateTime, onupdate=func.now())
+    created_at = db.Column(db.DateTime, server_default=func.now())
+    updated_at = db.Column(db.DateTime, onupdate=func.now())
 
     category = db.relationship("Category", back_populates="products")
     seller = db.relationship("User", back_populates="products")
