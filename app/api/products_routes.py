@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from ..models import db
 from ..models.product import Product, ProductImage
 from ..models.review import Review
 from ..models.user import User
@@ -6,6 +7,8 @@ from ..models import db
 from ..forms import ProductForm
 from flask_login import current_user, login_required
 from sqlalchemy.exc import SQLAlchemyError
+from ..forms import ReviewForm
+from flask_login import login_required, current_user
 
 products_routes = Blueprint("products", __name__)
 
@@ -15,7 +18,7 @@ products_routes = Blueprint("products", __name__)
 def product_manage():
     # Find Products
     products = Product.query.filter(Product.seller_id == current_user.id).all()
-    
+
     return [ product.to_dict() for product in products ]
 
 
@@ -26,6 +29,32 @@ def product_reviews(productId):
 
     return [ review.to_dicts() for review in reviews ]
 
+# Create a review for product
+@products_routes.route('/<int:productId>/reviews', methods=['POST'])
+@login_required
+def create_review(productId):
+    form = ReviewForm()
+    # print("FORM ===============================>", form.data)
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+    user = Review.query.filter(Review.user_id == current_user.id).first()
+    if user:
+        return {"message": "User already has a review for this product."}, 500
+
+    if form.validate_on_submit():
+        new_review = Review(
+            product_id = form.data["productId"],
+            user_id = current_user.id,
+            review = form.data["review"],
+            stars = form.data["stars"],
+            recommendation = form.data["recommendation"]
+        )
+
+        db.session.add(new_review)
+        db.session.commit()
+
+        return new_review.to_dict()
+    return form.errors, 400
 
 # Get product by product id
 @products_routes.route("/<int:productId>", methods=["GET"])
@@ -53,7 +82,7 @@ def delete_product(productId):
 
     if product is None:
         return {"error": "Product not found"}, 404
-    
+
     db.session.delete(product)
     db.session.commit()
 
