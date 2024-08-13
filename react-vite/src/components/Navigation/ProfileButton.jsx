@@ -78,6 +78,9 @@ function ProfileButton() {
                 <Link to="/products/current">Manage Products</Link>
               </li>
               <li>
+                <Link to="/favorites">Your Favorites</Link>
+              </li>
+              <li>
                 <button onClick={logout}>Log Out</button>
               </li>
             </div>

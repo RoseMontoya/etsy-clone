@@ -7,6 +7,10 @@ import OpenModalMenuItem from "../Navigation/OpenModalMenuItem"
 import ReviewFormModal from "../ReviewFormModal"
 import './ProductDetails.css'
 import Stars from "../Star/Stars"
+import { FaRegHeart } from "react-icons/fa"
+{/* <FaRegHeart /> */}
+
+
 
 function ProductDetails() {
     const {productId} = useParams()
