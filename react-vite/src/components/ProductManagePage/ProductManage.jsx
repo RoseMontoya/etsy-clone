@@ -79,7 +79,7 @@ function ProductManage() {
       <div className="product_manage_container">
         {products?.map((product) => (
           <div key={product.id} className="product_manage_single_container">
-            <Link to={`/products/${product.id}/edit`}>
+            <Link to={`/products/${product.id}`}>
               <img src={product.preview_image} alt={product.title} />
               <p>{product.title}</p>
               <p>{product.inventory} in stock</p>

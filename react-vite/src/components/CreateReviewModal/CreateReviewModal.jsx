@@ -20,8 +20,6 @@ function CreateReviewModal({productId}) {
 
         const payload = {productId, review, stars: rating, recommendation}
 
-        // console.log("PAYLOAD --------------->", payload)
-
         dispatch(createReview(payload))
         .then(async(res) => {
             if(res.status) {
@@ -33,8 +31,6 @@ function CreateReviewModal({productId}) {
             }
         })
     }
-
-    // console.log("recommendation ------->", recommendation)
 
     return (
         <>

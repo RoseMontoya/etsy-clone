@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addProduct } from "../../redux/product";
 import "./ProductForm.css";
-// import { thunkAuthenticate } from "../../redux/session";
+
 function NewProductForm() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -16,19 +16,6 @@ function NewProductForm() {
   const user = useSelector((state) => state.session.user);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted");
-    console.log("User in handleSubmit", user);
-    // Check if the user is authenticated
-    // if (!user) {
-    //   await dispatch(thunkAuthenticate());
-    //   const state = store.getState();
-    //   console.log("State in handleSubmit", state);
-    //   if (!state.session.user) {
-    //     console.error("User is not authenticated. Redirecting to home.");
-    //     navigate("/");
-    //     return;
-    //   }
-    // }
 
     const new_product = {
       title,
@@ -36,13 +23,13 @@ function NewProductForm() {
       inventory: Number(inventory),
       price: Number(price),
       categoryId: Number(categoryId),
+      seller_id: user.id
     };
 
-    console.log("new_product frontend", new_product);
-
     const result = await dispatch(addProduct(new_product));
-
+    console.log("add product", result)
     if (result.ok) {
+      console.log("navigate to products")
       navigate("/products/current");
     } else {
       console.error("Failed to create product:", result);
