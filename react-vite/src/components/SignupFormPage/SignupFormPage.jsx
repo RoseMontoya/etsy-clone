@@ -11,6 +11,9 @@ function SignupFormPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [first_name, setFirst_Name] = useState("");
+  const [last_name, setLast_Name] = useState("");
+
   const [errors, setErrors] = useState({});
 
   if (sessionUser) return <Navigate to="/" replace={true} />;
@@ -30,6 +33,8 @@ function SignupFormPage() {
         email,
         username,
         password,
+        first_name,
+        last_name,
       })
     );
 
@@ -84,6 +89,25 @@ function SignupFormPage() {
             required
           />
         </label>
+        <label>
+          First Name
+          <input
+            type="text"
+            value={first_name}
+            onChange={(e) => setFirst_Name(e.target.value)}
+            required
+          />
+        </label>
+        <label>
+          First Name
+          <input
+            type="text"
+            value={last_name}
+            onChange={(e) => setLast_Name(e.target.value)}
+            required
+          />
+        </label>
+
         {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
         <button type="submit">Sign Up</button>
       </form>

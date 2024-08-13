@@ -28,6 +28,26 @@ const removeProduct = (productId) => ({
   type: DELETE_PRODUCT,
   payload: productId,
 });
+// const getCsrfToken = () => {
+//   const csrfToken = document.cookie
+//     .split("; ")
+//     .find((row) => row.startsWith("csrf_token="));
+//   return csrfToken ? csrfToken.split("=")[1] : null;
+// };
+
+const fetchCsrfToken = async () => {
+  try {
+    const response = await fetch("/api/get-csrf-token", {
+      method: "GET",
+      credentials: "include", // Ensure cookies are included in the request
+    });
+    const data = await response.json();
+    return data.csrf_token;
+  } catch (error) {
+    console.error("Error fetching CSRF token:", error);
+    return null;
+  }
+};
 
 export const thunkAllProducts = () => async (dispatch) => {
   const response = await fetch("/api/products");
@@ -66,26 +86,34 @@ export const productByUserId = () => async (dispatch) => {
 
 // Create product
 export const addProduct = (product) => async (dispatch) => {
+  const csrfToken = await fetchCsrfToken(); // Fetch CSRF token via API
+  console.log("CSRF finally?", csrfToken);
+  if (!csrfToken) {
+    console.error("CSRF token not found.");
+    return;
+  }
+
+  console.log("Fine");
   const response = await fetch("/api/products", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "X-CSRFToken": csrfToken, // Include CSRF token here
     },
     body: JSON.stringify(product),
   });
   console.log("response---->", response);
 
+  const data = await response.json();
+  console.log("data in thunk --->", data);
+  console.log("dataproduct in thunk --->", data.product);
   if (response.ok) {
-    console.log("are we here?");
-    const data = await response.json();
-    console.log("data in thunk --->", data);
-    console.log("dataproduct in thunk --->", data.product);
     dispatch(createProduct(data.product));
-  } else {
-    const data = await response.json();
-    console.log({ thunkError: data.errors });
-    return data;
+  } else if (!response.ok) {
+    console.error("Failed to create product:", data);
   }
+
+  return response;
 };
 
 // Delete product by ID

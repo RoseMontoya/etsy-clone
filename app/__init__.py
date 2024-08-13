@@ -4,6 +4,7 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
+
 from .models import db, User
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
@@ -26,6 +27,7 @@ def load_user(id):
     return User.query.get(int(id))
 
 
+
 # Tell flask about our seed commands
 app.cli.add_command(seed_commands)
 
@@ -40,7 +42,7 @@ db.init_app(app)
 Migrate(app, db)
 
 # Application Security
-CORS(app)
+CORS(app, supports_credentials=True)
 
 
 # Since we are deploying with Docker and Flask,
@@ -64,7 +66,7 @@ def inject_csrf_token(response):
         generate_csrf(),
         secure=True if os.environ.get("FLASK_ENV") == "production" else False,
         samesite="Strict" if os.environ.get("FLASK_ENV") == "production" else None,
-        httponly=True,
+        httponly=False,
     )
     return response
 
@@ -102,3 +104,8 @@ def react_root(path):
 @app.errorhandler(404)
 def not_found(e):
     return app.send_static_file("index.html")
+
+
+@app.route("/api/get-csrf-token")
+def get_csrf_token():
+    return {"csrf_token": generate_csrf()}
