@@ -20,6 +20,8 @@ function ProductDetails() {
             .then(res => {
                 if (res.error) {
                     setErrors(res)
+                } else {
+                    setMainImage(res.preview_image)
                 }
             })
         }
