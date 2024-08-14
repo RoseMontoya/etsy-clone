@@ -47,7 +47,10 @@ function ProductList() {
       });
     });
   };
+
+
   return (
+    <main>
     <div className="product_container">
       {products.length ? (
         products.map((product) => (
@@ -65,11 +68,15 @@ function ProductList() {
               + Add to cart
             </button>
           </div>
+          
         ))
       ) : (
         <h2>No products to sell. Please check back later.</h2>
       )}
     </div>
+        {/* <div id="add_fav" style={{display: 'none'}} ><p>Saved to Favorites</p></div>
+        <div id="remove_fav" style={{display: 'none'}} ><p>Removed from Favorites</p></div> */}
+    </main>
   );
 }
 

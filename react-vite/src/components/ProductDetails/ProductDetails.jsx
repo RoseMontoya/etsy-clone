@@ -71,7 +71,14 @@ function ProductDetails() {
   };
 
   const handleAddFavorite = (productId) => {
-    dispatch(addFavorite(productId));
+    dispatch(addFavorite(productId))
+    .then(res => {
+      const popUpSaved = document.getElementById("add_fav");
+      popUpSaved.style.display = "block";
+      setTimeout(() => {
+          popUpSaved.style.display = "none";
+      }, 2000);
+  })
   };
 
   const handleAddToCart = () => {

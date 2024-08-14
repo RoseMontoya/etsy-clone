@@ -12,6 +12,11 @@ function Heart({initial, productId}) {
     const handleUnfavorite = (productId) => {
         dispatch(removeFavorite(productId))
         .then(res => {
+            const popUpRemoved = document.getElementById("remove_fav");
+            popUpRemoved.style.display = "block";
+            setTimeout(() => {
+                popUpRemoved.style.display = "none";
+            }, 2000);
             setFavorited(false)
         })
       };
@@ -19,6 +24,11 @@ function Heart({initial, productId}) {
     const handleFavorite = (productId) => {
         dispatch(addFavorite(productId))
         .then(res => {
+            const popUpSaved = document.getElementById("add_fav");
+            popUpSaved.style.display = "block";
+            setTimeout(() => {
+                popUpSaved.style.display = "none";
+            }, 2000);
             setFavorited(true)
         })
     };
@@ -26,7 +36,9 @@ function Heart({initial, productId}) {
     return (
     <div>
         {favorited? 
-        <div className="heart" onClick={() => handleUnfavorite(productId)}><FaHeart /></div>: <div className="heart" onClick={() => handleFavorite(productId)}><FaRegHeart /></div>}
+        <div className="heart remove_from_fav" onClick={() => handleUnfavorite(productId)}><FaHeart /></div>:
+        <div className="heart add_to_fav" onClick={() => handleFavorite(productId)}><FaRegHeart /></div>}
+        
     </div>)
 }
 

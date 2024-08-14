@@ -2,12 +2,15 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { favoritesByUserId } from "../../redux/favorite";
+import { addToCart, getAllCartItems } from "../../redux/cart";
+import { useNavigate } from "react-router-dom";
 import Heart from "../Heart/Heart";
 import { TiStarFullOutline } from "react-icons/ti";
 import "./FavoritesPage.css";
 
 function FavoritesPage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = useSelector((state) => state.session.user);
   const favorites = useSelector((state) => state.favorites?.[user.id]);
 
@@ -21,6 +24,22 @@ function FavoritesPage() {
   }, [dispatch, favorites, user.id]);
 
   if (!favorites) return <p>Loading...</p>;
+
+  const handleAddToCart = (product) => {
+    const cartItem = {
+      product_id: product.id,
+      quantity: 1,
+      gift: false,
+      cart_id: user.cart_id,
+      product: product, // The entire product object
+    };
+    dispatch(addToCart(cartItem)).then(() => {
+      dispatch(getAllCartItems()).then(() => {
+        navigate("/cart"); // Redirect to the cart page after updating the cart
+      });
+    });
+  };
+
 
 
   return (
@@ -48,7 +67,9 @@ function FavoritesPage() {
                   <TiStarFullOutline />({favorite.product.seller.review_count})
                 </p>
               </Link>
-              <button><Link to="/cart">Add to cart</Link></button>
+              <button onClick={() => handleAddToCart(favorite.product)}>
+              + Add to cart
+            </button>
             </div>
           ))
         ) : (
