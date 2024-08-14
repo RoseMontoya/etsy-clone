@@ -75,9 +75,11 @@ function NewProductForm() {
       navigate("/products/current");
   };
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="product_form">
       <div>
         <label>Title:</label>
+        <p>Include keywords that buyers would use to search for this item.
+        </p>
         <input
           type="text"
           value={title}
@@ -87,6 +89,8 @@ function NewProductForm() {
       </div>
       <div>
         <label>Description:</label>
+        <p>Tell the world all about your item and why they’ll love it. Buyers will only see the first few lines unless they expand the description.
+        </p>
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
