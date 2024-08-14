@@ -91,9 +91,11 @@ function EditProductForm() {
     navigate("/products/current");
   };
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="product_form">
       <div>
-        <label>Title:</label>
+        <label><h3>Title</h3></label>
+        <p>Include keywords that buyers would use to search for this item.
+        </p>
         <input
           type="text"
           value={title}
@@ -102,7 +104,9 @@ function EditProductForm() {
         />
       </div>
       <div>
-        <label>Description:</label>
+        <label><h3>Description</h3></label>
+        <p>Tell the world all about your item and why they’ll love it. Buyers will only see the first few lines unless they expand the description.
+        </p>
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -110,7 +114,8 @@ function EditProductForm() {
         ></textarea>
       </div>
       <div>
-        <label>Inventory:</label>
+      <label><h3>Inventory</h3></label>
+      <p>Keep your product availability up-to-date to ensure customers know when your item is in stock.</p>
         <input
           type="number"
           value={inventory}
@@ -120,7 +125,8 @@ function EditProductForm() {
         />
       </div>
       <div>
-        <label>Price:</label>
+        <label><h3>Price</h3></label>
+        <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
         <input
           type="number"
           value={price}
@@ -130,7 +136,8 @@ function EditProductForm() {
         />
       </div>
       <div>
-        <label>Category:</label>
+        <label><h3>Category</h3></label>
+        <p>Categorize your product accurately to help customers find it more easily.</p>
         <select
           name="category_id"
           value={categoryId}
@@ -146,7 +153,8 @@ function EditProductForm() {
         </select>
       </div>
       {/* <div>
-        <label>Preview Image URL:</label>
+        <label><h3>Preview Image URL</h3></label>
+        <p>Submit at least one photo to publish your product.</p>
         <input
           type="text"
           value={previewImageUrl}
@@ -194,7 +202,7 @@ function EditProductForm() {
           onChange={(e) => setImage5Url(e.target.value)}
         />
       </div> */}
-      <button type="submit">Update</button>
+      <button type="submit">Update Your Product</button>
     </form>
   );
 }
