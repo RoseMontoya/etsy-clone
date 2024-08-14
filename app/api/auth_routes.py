@@ -14,7 +14,7 @@ def authenticate():
     """
     print("IN AUTH ROUTE BACKEND", current_user)
     if current_user.is_authenticated:
-        print("-------->", request.cookies["csrf_token"])
+        print("CURRENT USER-------->", current_user)
         return current_user.to_dict()
     return {"errors": {"message": "Unauthorized"}}, 401
 
@@ -25,7 +25,7 @@ def login():
     Logs a user in
     """
     form = LoginForm()
-    print("Hello, am i here?")
+
     # Get the csrf_token from the request cookie and put it into the
     # form manually to validate_on_submit can be used
     form["csrf_token"].data = request.cookies["csrf_token"]
@@ -53,7 +53,7 @@ def sign_up():
     """
     form = SignUpForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
-    print("CSRF Token from cookie:", form["csrf_token"].data)
+
     if form.validate_on_submit():
         user = User(
             username=form.data["username"],

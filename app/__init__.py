@@ -66,7 +66,7 @@ def https_redirect():
 @app.after_request
 def inject_csrf_token(response):
     csrf_token = generate_csrf()
-    # print(f'INJECT CSRF TOKEN: {csrf_token}')
+    print(f'INJECT CSRF TOKEN')
     response.set_cookie(
         "csrf_token",
         csrf_token,
