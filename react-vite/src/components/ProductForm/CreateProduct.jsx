@@ -99,6 +99,7 @@ function NewProductForm() {
       </div>
       <div>
         <label><h3>Inventory</h3></label>
+        <p>Keep your product availability up-to-date to ensure customers know when your item is in stock.</p>
         <input
           type="number"
           value={inventory}
@@ -120,6 +121,7 @@ function NewProductForm() {
       </div>
       <div>
         <label><h3>Category</h3></label>
+        <p>Categorize your product accurately to help customers find it more easily.</p>
         <select
           name="category_id"
           value={categoryId}
@@ -136,7 +138,7 @@ function NewProductForm() {
       </div>
       <div>
         <label><h3>Preview Image URL</h3></label>
-        <p>Submit a link to at least one photo to publish your product.</p>
+        <p>Submit at least one photo to publish your product.</p>
         <input
           type="text"
           value={previewImageUrl}

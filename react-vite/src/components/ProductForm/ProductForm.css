@@ -30,5 +30,7 @@
 
 .product_form button {
   margin: 50px auto;
-  width: 50%;
+  width: 60%;
+  background-color: black;
+  color: white;
 }
