@@ -2,17 +2,19 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { productById } from "../../redux/product";
+import { favoritesByUserId } from "../../redux/favorite";
 import ProductReviews from "../ProductReviews";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import ReviewFormModal from "../ReviewFormModal";
 import "./ProductDetails.css";
 import Stars from "../Star/Stars";
-// import { FaRegHeart } from "react-icons/fa";
+import Heart from "../Heart/Heart";
+import { FaGreaterThan } from "react-icons/fa";
+import { FaLessThan } from "react-icons/fa";
 import { addFavorite } from "../../redux/favorite";
 import { addToCart } from "../../redux/cart";
-{
-  /* <FaRegHeart /> */
-}
+
+
 function ProductDetails() {
   const { productId } = useParams();
   const dispatch = useDispatch();
@@ -27,6 +29,10 @@ function ProductDetails() {
   );
 
   const reviews = reviewsObj ? Object.values(reviewsObj) : [];
+
+  const favoritesObj = useSelector(state => state.favorites?.[user.id])
+  const favProduct = favoritesObj? Object.values(favoritesObj).reduce((fav, current) => current.product_id === +productId? fav = [current]: fav, []): [];
+  console.log("fancyyyy", favProduct);
 
   let userReview;
   if (reviewsObj)
@@ -44,7 +50,10 @@ function ProductDetails() {
         }
       });
     }
-  }, [dispatch, productId, product]);
+    if (!favoritesObj && user) {
+      dispatch(favoritesByUserId(user.id))
+    }
+  }, [dispatch, productId, product, favoritesObj, user]);
 
   // Check if there were errors on the fetch
   if (errors.error) {
@@ -62,7 +71,14 @@ function ProductDetails() {
   };
 
   const handleAddFavorite = (productId) => {
-    dispatch(addFavorite(productId));
+    dispatch(addFavorite(productId))
+    .then(res => {
+      const popUpSaved = document.getElementById("add_fav");
+      popUpSaved.style.display = "block";
+      setTimeout(() => {
+          popUpSaved.style.display = "none";
+      }, 2000);
+  })
   };
 
   const handleAddToCart = () => {
@@ -102,15 +118,12 @@ function ProductDetails() {
               </div>
             ))}
           </div>
-          <div>
-            <button className="circ">{"<"}</button>
-          </div>
+            <button className="circ"><FaLessThan /></button>
           <div className="main-image">
             <img src={mainImage} className="image" />
+            <Heart initial={favProduct.length} productId={productId}/>
           </div>
-          <div>
-            <button className="circ">{">"}</button>
-          </div>
+            <button className="circ"><FaGreaterThan /></button>
         </div>
         <div>
           <p
