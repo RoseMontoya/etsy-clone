@@ -8,6 +8,30 @@ from ..models import db
 cart_routes = Blueprint("cart", __name__)
 
 
+@cart_routes.route("/<int:cart_item_id>/edit", methods=["PUT"])
+@login_required
+def edit_cart_item_quantity(cart_item_id):
+    cart_item = CartItem.query.get(cart_item_id)
+    if not cart_item:
+        return jsonify({"error": "Cart item not found"}), 404
+
+    data = request.get_json()
+    new_quantity = data.get("quantity")
+
+    if new_quantity is None or new_quantity < 1:
+        return jsonify({"error": "Invalid quantity"}), 400
+
+    # Ensure the cart item belongs to the current user's cart
+    cart = Cart.query.filter(Cart.user_id == current_user.id).first()
+    if cart_item.cart_id != cart.id:
+        return jsonify({"error": "Unauthorized action"}), 403
+
+    cart_item.quantity = new_quantity
+    db.session.commit()
+
+    return cart_item.to_dict(), 200
+
+
 ##All Prefixed are in __init__.py
 @cart_routes.route("/", methods=["GET"])
 @login_required

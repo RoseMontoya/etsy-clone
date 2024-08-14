@@ -21,7 +21,7 @@ function ProfileButton() {
     e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
     setShowMenu(!showMenu);
   };
-
+  
   useEffect(() => {
     if (!showMenu) return;
 
@@ -40,7 +40,7 @@ function ProfileButton() {
     if (user) {
       dispatch(getAllCartItems());
     }
-  }, [ user, dispatch]);
+  }, [user, dispatch]);
   const closeMenu = () => setShowMenu(false);
 
   const logout = (e) => {

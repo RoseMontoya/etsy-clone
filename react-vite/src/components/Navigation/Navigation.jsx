@@ -1,14 +1,21 @@
+import { useEffect } from "react";
 import { NavLink, Link } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
 import { PiShoppingCartSimpleBold } from "react-icons/pi";
 import "./Navigation.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAllCartItems } from "../../redux/cart";
 function Navigation() {
   const dispatch = useDispatch();
   const handleCartClick = () => {
     dispatch(getAllCartItems());
   };
+  const user = useSelector((state) => state.session.user);
+  useEffect(() => {
+    if (!user) {
+      dispatch(getAllCartItems());
+    }
+  }, [dispatch, user]);
   return (
     <nav>
       <div className="nav_container">

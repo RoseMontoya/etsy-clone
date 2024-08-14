@@ -2,11 +2,16 @@ import "./Cart.css";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { getAllCartItems, deleteCartItem, clearCart } from "../../redux/cart";
+import {
+  getAllCartItems,
+  deleteCartItem,
+  clearCart,
+  updateCartItemQuantity,
+} from "../../redux/cart";
 
 function Cart() {
   const dispatch = useDispatch();
-
+  // const [number, setNumber] = useState(1);
   const cartObj = useSelector((state) => state.cart?.cartItems);
 
   const cartArr = cartObj ? Object.values(cartObj) : [];
@@ -26,6 +31,16 @@ function Cart() {
 
   const handleClearCart = async () => {
     await dispatch(clearCart());
+  };
+
+  const handleQuantityChange = async (cartItemId, newQuantity) => {
+    try {
+      await dispatch(updateCartItemQuantity(cartItemId, newQuantity));
+    } catch (error) {
+      console.error("Failed to update quantity:", error);
+    } finally {
+      dispatch(getAllCartItems());
+    }
   };
 
   if (cartArr.length === 0) {
@@ -71,20 +86,37 @@ function Cart() {
                   <p className="cart-item-price">${product.price.toFixed(2)}</p>
                   <div className="cart-item-quantity">
                     <span>Quantity:</span>
-                    <span>{item.quantity}</span>
+                    <select
+                      value={item.quantity}
+                      onChange={(e) =>
+                        handleQuantityChange(item.id, Number(e.target.value))
+                      }
+                    >
+                      {[...Array(product.inventory).keys()].map((num) => (
+                        <option key={num + 1} value={num + 1}>
+                          {num + 1}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   {item.gift && (
                     <p className="cart-item-gift">Gift wrapping included</p>
                   )}
                 </div>
               </div>
-              <div className="cart-item-actions">
-                <button
-                  onClick={(e) => handleDelete(item.id, e)}
-                  className="cart-item-remove"
-                >
-                  Remove
-                </button>
+
+              <div>
+                <div>
+                  ${(Number(product.price) * Number(item.quantity)).toFixed(2)}
+                </div>
+                <div className="cart-item-actions">
+                  <button
+                    onClick={(e) => handleDelete(item.id, e)}
+                    className="cart-item-remove"
+                  >
+                    Remove
+                  </button>
+                </div>
               </div>
             </li>
           );

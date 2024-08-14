@@ -2,7 +2,7 @@ const GET_CART = "reviews/get-cart";
 const DELETE_ALLCART = "delete/all-cart";
 const DELETE_CART_ITEM = "delete/cart-item";
 const ADD_TO_CART = "cart/add-to-cart";
-
+const EDIT_QUANTITY_ITEM = "cart/edit-quantity-item";
 //Action to add 1 item in cart
 const addToCartAction = (cartItem) => ({
   type: ADD_TO_CART,
@@ -26,6 +26,12 @@ const deleteAllCartItemsAction = () => ({
   type: DELETE_ALLCART,
 });
 
+//Action for editing quantity for single item
+const editItemQuantity = (cartItemId, quantity) => ({
+  type: EDIT_QUANTITY_ITEM,
+  payload: { cartItemId, quantity },
+});
+
 export const deleteCartItem = (cartItemId) => async (dispatch) => {
   const response = await fetch(`/api/cart/item/${cartItemId}`, {
     method: "DELETE",
@@ -38,6 +44,27 @@ export const deleteCartItem = (cartItemId) => async (dispatch) => {
     return errors;
   }
 };
+
+export const updateCartItemQuantity =
+  (cartItemId, quantity) => async (dispatch) => {
+    const response = await fetch(`/api/cart/${cartItemId}/edit`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ quantity }),
+    });
+    console.log("Thunk Edit we are here", response);
+    if (response.ok) {
+      const updatedItem = await response.json();
+      console.log("Thunk Edit", updatedItem);
+      dispatch(editItemQuantity(cartItemId, quantity));
+    } else {
+      const errors = await response.json();
+      return errors;
+    }
+  };
+
 export const addToCart =
   (productId, quantity = 1, gift = false, cartId = null) =>
   async (dispatch) => {
@@ -125,7 +152,7 @@ const cartReducer = (state = initialState, action) => {
     case ADD_TO_CART: {
       const newState = { ...state };
       const cartItem = action.payload;
-     
+
       // if (!cartItem || !cartItem.product_id) {
       //   console.error("Invalid cart item or missing product_id:", cartItem);
 
@@ -145,6 +172,19 @@ const cartReducer = (state = initialState, action) => {
       } else {
         // Otherwise, add the new cart item
         newState.cartItems[cartItem.id] = cartItem;
+      }
+
+      return {
+        ...newState,
+        cartItems: { ...newState.cartItems },
+      };
+    }
+    case EDIT_QUANTITY_ITEM: {
+      const { cartItemId, quantity } = action.payload;
+      const newState = { ...state };
+
+      if (newState.cartItems[cartItemId]) {
+        newState.cartItems[cartItemId].quantity = quantity;
       }
 
       return {
