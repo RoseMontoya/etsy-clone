@@ -2,6 +2,7 @@ import "./LandingPage.css";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { thunkRandomProduct } from "../../redux/product";
+import Heart from "../Heart/Heart";
 import { Link } from "react-router-dom";
 
 function LandingPage() {
@@ -44,7 +45,9 @@ function LandingPage() {
           <div>
             <div>
               <h3>Featured Product:</h3>
-              <div>
+              
+              <div className="image_container">
+                <Heart initial={false} productId={randomProduct.id}/>
                 <img
                   src={randomProduct.preview_image}
                   alt={randomProduct.title}

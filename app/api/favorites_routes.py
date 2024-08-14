@@ -14,15 +14,17 @@ def get_favorites():
     return [favorite.to_dict() for favorite in favorites]
 
 
-@favorites_routes.route("/<int:favoriteId>", methods=['DELETE'])
+@favorites_routes.route("/<int:productId>", methods=['DELETE'])
 @login_required
-def remove_favorites(favoriteId):
-    preFav = Favorite.query.filter(Favorite.id == favoriteId).first()
+def remove_favorites(productId):
+    preFav = Favorite.query.filter(Favorite.product_id == productId).filter(Favorite.user_id == current_user.id).first()
+
 
     if preFav: 
+        print("....", preFav)
         db.session.delete(preFav)
         db.session.commit()
-        return {"message": "Successfully removed from favorites.", "userId": current_user.id}, 200
+        return {"id": preFav.id, "user_id": current_user.id}, 200
     
     return { "errors": {"message": "Favorite could not be found."}}, 404 
 

@@ -12,6 +12,7 @@ function FavoritesPage() {
   const favorites = useSelector((state) => state.favorites?.[user.id]);
 
   const favoritesArray = favorites ? Object.values(favorites) : [];
+  console.log("...", favoritesArray);
 
   useEffect(() => {
     if (!favorites) {
@@ -32,7 +33,7 @@ function FavoritesPage() {
         {favoritesArray.length ? (
           favoritesArray.map((favorite) => (
             <div key={favorite.id} className="grid-item">
-            <Heart initial={true} favoriteId={favorite.id} productId={favorite.product.id}/>
+            <Heart initial={true} productId={favorite.product.id}/>
               <Link key={favorite.id} to={`/products/${favorite.product.id}`}>
                 <div className="image_container">
                   <img
