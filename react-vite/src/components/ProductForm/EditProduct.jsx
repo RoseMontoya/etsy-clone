@@ -91,7 +91,7 @@ function EditProductForm() {
     navigate("/products/current");
   };
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="product_form">
       <div>
         <label>Title:</label>
         <input
