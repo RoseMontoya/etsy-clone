@@ -1,12 +1,16 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { productById } from "../../redux/product";
-import ProductReviews from "../ProductReviews";
-import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
-import ReviewFormModal from "../ReviewFormModal";
-import "./ProductDetails.css";
-import Stars from "../Star/Stars";
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
+import { useDispatch, useSelector} from 'react-redux'
+import { productById } from "../../redux/product"
+import ProductReviews from "../ProductReviews"
+import OpenModalMenuItem from "../Navigation/OpenModalMenuItem"
+import ReviewFormModal from "../ReviewFormModal"
+import './ProductDetails.css'
+import Stars from "../Star/Stars"
+import { FaRegHeart } from "react-icons/fa"
+{/* <FaRegHeart /> */}
+
+
 
 function ProductDetails() {
   const { productId } = useParams();

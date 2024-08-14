@@ -23,3 +23,5 @@ class Favorite(db.Model):
             "user_id": self.user_id,
             "product": self.product.to_dict()
         }
+
+
