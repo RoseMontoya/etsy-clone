@@ -1,14 +1,14 @@
-import { createBrowserRouter } from 'react-router-dom';
-import LandingPage from '../components/LandingPage';
-import LoginFormPage from '../components/LoginFormPage';
-import SignupFormPage from '../components/SignupFormPage';
-import ProductList from '../components/ProductList'
-import Layout from './Layout';
-import ProductDetails from '../components/ProductDetails';
-import FavoritesPage from '../components/FavoritesPage/FavoritesPage';
-import ProductManage from '../components/ProductManagePage/ProductManage';
-import NewProductForm from '../components/ProductForm/CreateProduct';
-import EditProductForm from '../components/ProductForm/EditProduct';
+import { createBrowserRouter } from "react-router-dom";
+import LandingPage from "../components/LandingPage";
+import LoginFormPage from "../components/LoginFormPage";
+import SignupFormPage from "../components/SignupFormPage";
+import ProductList from "../components/ProductList";
+import Layout from "./Layout";
+import ProductDetails from "../components/ProductDetails";
+import FavoritesPage from "../components/FavoritesPage/FavoritesPage";
+import ProductManage from "../components/ProductManagePage/ProductManage";
+import NewProductForm from "../components/ProductForm/CreateProduct";
+import EditProductForm from "../components/ProductForm/EditProduct";
 import Cart from "../components/Cart/Cart";
 
 export const router = createBrowserRouter([
@@ -29,15 +29,15 @@ export const router = createBrowserRouter([
       },
       {
         path: "products/current",
-        element: <ProductManage />
+        element: <ProductManage />,
       },
       {
         path: "favorites",
-        element: <FavoritesPage />
+        element: <FavoritesPage />,
       },
       {
         path: "products/new",
-        element: <NewProductForm />
+        element: <NewProductForm />,
       },
       {
         path: "products/:productId",
@@ -54,7 +54,7 @@ export const router = createBrowserRouter([
       {
         path: "cart",
         element: <Cart />,
-      }
+      },
     ],
   },
 ]);

@@ -28,11 +28,18 @@ h1 {
   border-bottom: 1px solid #eaeaea;
 }
 
+.cart-item-content {
+  display: flex;
+  align-items: center;
+  width: 100%; /* Ensure it takes the full width available */
+}
+
 .cart-item-image {
   width: 100px;
   height: 100px;
   object-fit: cover;
   margin-right: 20px;
+  cursor: pointer; /* Ensure pointer cursor on image */
 }
 
 .cart-item-details {
@@ -42,6 +49,13 @@ h1 {
 .cart-item-title {
   font-size: 18px;
   margin: 0;
+  cursor: pointer; /* Ensure pointer cursor on title */
+  color: #0073e6; /* Make the title appear as a link */
+  text-decoration: none;
+}
+
+.cart-item-title:hover {
+  text-decoration: underline; /* Underline on hover for clickable title */
 }
 
 .cart-item-seller {

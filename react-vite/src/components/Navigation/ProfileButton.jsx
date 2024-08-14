@@ -6,7 +6,7 @@ import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 // import SignupFormModal from "../SignupFormModal";
-
+import { getAllCartItems } from "../../redux/cart";
 import "./ProfileButton.css";
 
 function ProfileButton() {
@@ -36,6 +36,11 @@ function ProfileButton() {
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
+  useEffect(() => {
+    if (user) {
+      dispatch(getAllCartItems());
+    }
+  }, [ user, dispatch]);
   const closeMenu = () => setShowMenu(false);
 
   const logout = (e) => {

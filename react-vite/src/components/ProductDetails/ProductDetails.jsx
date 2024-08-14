@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
-import { useDispatch, useSelector} from 'react-redux'
-import { productById } from "../../redux/product"
-import ProductReviews from "../ProductReviews"
-import OpenModalMenuItem from "../Navigation/OpenModalMenuItem"
-import ReviewFormModal from "../ReviewFormModal"
-import './ProductDetails.css'
-import Stars from "../Star/Stars"
-import { FaRegHeart } from "react-icons/fa"
-import { addFavorite } from "../../redux/favorite"
-{/* <FaRegHeart /> */}
-
-
-
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { productById } from "../../redux/product";
+import ProductReviews from "../ProductReviews";
+import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
+import ReviewFormModal from "../ReviewFormModal";
+import "./ProductDetails.css";
+import Stars from "../Star/Stars";
+import { FaRegHeart } from "react-icons/fa";
+import { addFavorite } from "../../redux/favorite";
+import { addToCart } from "../../redux/cart";
+{
+  /* <FaRegHeart /> */
+}
 function ProductDetails() {
   const { productId } = useParams();
   const dispatch = useDispatch();
@@ -62,8 +62,20 @@ function ProductDetails() {
   };
 
   const handleAddFavorite = (productId) => {
-    dispatch(addFavorite(productId))
-  }
+    dispatch(addFavorite(productId));
+  };
+
+  const handleAddToCart = () => {
+    const cartItem = {
+      product_id: product.id,
+      quantity: 1, // Or whatever quantity you need
+      gift: false,
+      cart_id: user.cart_id, // If you have an existing cart ID
+      product: product, // The entire product object
+    };
+
+    dispatch(addToCart(cartItem));
+  };
 
   const showReview = () => {
     // Check if user is logged in
@@ -109,15 +121,15 @@ function ProductDetails() {
           </p>
           <p>{product?.title}</p>
           <div>
-              <p className="bold inline">
-                {product.seller.username}{" "}
-              </p>
-              <Stars rating={product.seller.seller_rating} />
+            <p className="bold inline">{product.seller.username} </p>
+            <Stars rating={product.seller.seller_rating} />
           </div>
           <div>
             <button>Buy It Now</button>
-            <button>Add to Cart</button>
-            <button onClick={() => handleAddFavorite(product.id)}>Add to Collection</button>
+            <button onClick={handleAddToCart}>Add to Cart</button>
+            <button onClick={() => handleAddFavorite(product.id)}>
+              Add to Collection
+            </button>
           </div>
           <div>
             <p>Item Details</p>

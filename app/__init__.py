@@ -23,13 +23,13 @@ app = Flask(__name__, static_folder="../react-vite/dist", static_url_path="/")
 login = LoginManager(app)
 login.login_view = "auth.unauthorized"
 
+
 @login.user_loader
 def load_user(id):
     # print(f'LOAD USER with ID: {id}')
     user = User.query.get(int(id))
     # print(f'User found: {user}')
     return user
-
 
 
 # Tell flask about our seed commands
@@ -71,7 +71,7 @@ def https_redirect():
 @app.after_request
 def inject_csrf_token(response):
     csrf_token = generate_csrf()
-    print(f'INJECT CSRF TOKEN')
+    print(f"INJECT CSRF TOKEN")
     response.set_cookie(
         "csrf_token",
         csrf_token,
