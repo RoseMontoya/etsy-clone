@@ -28,10 +28,9 @@ class Product(db.Model):
         preview_image_url = None
         preview_images = []
 
-        if len(self.images):
-            preview_images = [image.url for image in self.images if image.preview]
-        if preview_images:
-            preview_image_url = preview_images[0]
+        preview_image = list(filter(lambda image: image.preview is True, self.images))
+        if preview_image:
+            preview_image_url = preview_image[0].url
 
         return {
             "id": self.id,

@@ -1,41 +1,41 @@
 import "./LandingPage.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { thunkAllProducts } from "../../redux/product";
+import { thunkRandomProduct } from "../../redux/product";
 import { Link } from "react-router-dom";
 
 function LandingPage() {
   const dispatch = useDispatch();
-
+  const [productId, setProductId] = useState(0)
   let user = useSelector((state) => state.session.user);
-  // console.log("User from session", user);
 
-  let productsObj = useSelector((state) => {
-    return state.products?.allProducts;
+  let randomProduct = useSelector((state) => {
+    return state.products.productById?.[productId];
   });
 
-  // const products = productsObj? Object.values(productsObj): [];
-
   useEffect(() => {
-    if (!productsObj) {
-      dispatch(thunkAllProducts());
+    if (!randomProduct) {
+      dispatch(thunkRandomProduct())
+        .then(res => {
+          setProductId(res.id)
+        })
     }
-  }, [dispatch, productsObj]);
+  }, [dispatch, randomProduct]);
 
 
-  if (!productsObj) {
+  if (!randomProduct) {
     return <p>Loading products...</p>;
   }
   // console.log("Product from HomePage", products);
-  const getRandomProduct = () => {
-    const productKeys = Object.keys(productsObj);
-    const randomKey =
-      productKeys[Math.floor(Math.random() * productKeys.length)];
-    // console.log( "Random length",productKeys.length);
-    return productsObj[randomKey];
-  };
+  // const getRandomProduct = () => {
+  //   const productKeys = Object.keys(productsObj);
+  //   const randomKey =
+  //     productKeys[Math.floor(Math.random() * productKeys.length)];
+  //   // console.log( "Random length",productKeys.length);
+  //   return productsObj[randomKey];
+  // };
 
-  const randomProduct = getRandomProduct();
+  // const randomProduct = getRandomProduct();
   return (
     <>
       {user?.email ? (

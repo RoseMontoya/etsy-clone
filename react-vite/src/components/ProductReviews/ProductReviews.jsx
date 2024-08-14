@@ -42,7 +42,7 @@ function ProductReviews({ productId }) {
       {reviews.map((review) => (
             <div key={review?.id}>
               <div>
-                <p><Stars rating={review.stars} /></p>
+                <Stars rating={review.stars} />
                 <p>{review.review}</p>
                 <div>
                   <p>{review.user}</p>

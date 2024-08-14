@@ -45,10 +45,6 @@ function ProductDetails() {
     }
   }, [dispatch, productId, product]);
 
-  useEffect(() => {
-    dispatch(productById(productId));
-  }, [dispatch, productId]);
-
   // Check if there were errors on the fetch
   if (errors.error) {
     const message = errors.error.message;
@@ -77,7 +73,7 @@ function ProductDetails() {
   return (
     <>
       <div id="product-details">
-        <div id="image-container">
+        {/* <div id="image-container">
           <div id="image-sidebar">
             {product.product_images.map((image) => (
               <div
@@ -98,7 +94,7 @@ function ProductDetails() {
           <div>
             <button className="circ">{">"}</button>
           </div>
-        </div>
+        </div> */}
         <div>
           <p
             className={`${product?.inventory > 5 ? "hidden" : "red bold"}`}
@@ -107,18 +103,21 @@ function ProductDetails() {
             ${product.price.toFixed(2)}
           </p>
           <p>{product?.title}</p>
-          <p className="bold inline">
-            {product.seller.username}{" "}
-            <Stars rating={product.seller.seller_rating} />
-          </p>
+          <div>
+              <p className="bold inline">
+                {product.seller.username}{" "}
+              </p>
+              <Stars rating={product.seller.seller_rating} />
+          </div>
           <div>
             <button>Buy It Now</button>
             <button>Add to Cart</button>
             <button>Add to Collection</button>
           </div>
-          <p>
-            Item Details <p>{product?.description}</p>
-          </p>
+          <div>
+            <p>Item Details</p>
+            <p>{product?.description}</p>
+          </div>
         </div>
       </div>
       <OpenModalMenuItem
@@ -132,7 +131,7 @@ function ProductDetails() {
           <ReviewFormModal productId={product.id} formType={"create"} />
         }
       />
-      <ProductReviews productId={productId} />
+      {/* <ProductReviews productId={productId} /> */}
     </>
   );
 }

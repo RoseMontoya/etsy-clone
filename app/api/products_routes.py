@@ -6,6 +6,7 @@ from ..models.user import User
 from flask_login import current_user, login_required
 from sqlalchemy.exc import SQLAlchemyError
 from ..forms import ReviewForm, ProductForm, ProductImageForm
+import random
 
 products_routes = Blueprint("products", __name__)
 
@@ -18,6 +19,19 @@ def product_manage():
     products = Product.query.filter(Product.seller_id == current_user.id).all()
 
     return [product.to_dict() for product in products]
+
+# Get a random product
+@products_routes.route("/random")
+def get_random_product():
+
+    if not current_user.is_anonymous:
+        count = Product.query.filter(Product.seller_id != current_user.id).count()
+    else:
+        count = Product.query.count()
+    randomKey = random.randint(1, count)
+    product = Product.query.filter(Product.id == randomKey).first()
+    return product.to_dict()
+
 
 
 # Get all reviews for a product
@@ -71,7 +85,7 @@ def edit_product(productId):
             product.inventory=form.data["inventory"]
             product.price=form.data["price"]
             product.category_id=form.data["category_id"]
-        
+
         db.session.commit()
         return product.to_dict(), 200
     else:
@@ -135,7 +149,7 @@ def create_product():
     else:
         print("Form errors:", form.errors)
         return form.errors, 400
-    
+
 
 # Create Images
 @products_routes.route("/images/new", methods=["POST"])
@@ -156,7 +170,7 @@ def create_images():
     else:
         print("Form errors:", form.errors)
         return form.errors, 400
-    
+
 # Update an existing product image
 @products_routes.route("/images/<int:imageId>", methods=["PUT"])
 @login_required

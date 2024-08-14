@@ -63,6 +63,17 @@ export const thunkAllProducts = () => async (dispatch) => {
   }
 };
 
+export const thunkRandomProduct = () => async (dispatch) => {
+  const response = await fetch(`/api/products/random`)
+
+  if (response.ok) {
+    const data = await response.json()
+    dispatch(getProductById(data))
+    return data
+  }
+  return response
+}
+
 export const productById = (productId) => async (dispatch) => {
   const response = await fetch(`/api/products/${productId}`);
   const data = await response.json();
