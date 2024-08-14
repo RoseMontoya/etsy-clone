@@ -5,6 +5,7 @@ import SignupFormPage from '../components/SignupFormPage';
 import ProductList from '../components/ProductList'
 import Layout from './Layout';
 import ProductDetails from '../components/ProductDetails';
+import FavoritesPage from '../components/FavoritesPage/FavoritesPage';
 import ProductManage from '../components/ProductManagePage/ProductManage';
 import NewProductForm from '../components/ProductForm/CreateProduct';
 import EditProductForm from '../components/ProductForm/EditProduct';
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
       {
         path: "products/current",
         element: <ProductManage />
+      },
+      {
+        path: "favorites",
+        element: <FavoritesPage />
       },
       {
         path: "products/new",

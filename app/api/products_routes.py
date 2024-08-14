@@ -3,7 +3,6 @@ from ..models import db
 from ..models.product import Product, ProductImage
 from ..models.review import Review
 from ..models.user import User
-from ..models import db
 from flask_login import current_user, login_required
 from sqlalchemy.exc import SQLAlchemyError
 from ..forms import ReviewForm, ProductForm, ProductImageForm
