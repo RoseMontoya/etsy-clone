@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom";
 // import { FaUserCircle } from "react-icons/fa";
 import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 // import SignupFormModal from "../SignupFormModal";
-// import { productByUserId } from "../../redux/product";
+
 import "./ProfileButton.css";
 
 function ProfileButton() {
@@ -35,12 +35,6 @@ function ProfileButton() {
 
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
-
-  // useEffect(() => {
-  //   if (user) {
-  //     dispatch(productByUserId());
-  //   }
-  // }, [dispatch, user]);
 
   const closeMenu = () => setShowMenu(false);
 
@@ -71,7 +65,7 @@ function ProfileButton() {
       {showMenu && (
         <ul className={"profile-dropdown"} ref={ulRef}>
           {user ? (
-            <div >
+            <div>
               <li>{user.username}</li>
               <li>{user.email}</li>
               <li>
