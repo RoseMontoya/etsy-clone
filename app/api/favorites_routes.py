@@ -14,8 +14,18 @@ def get_favorites():
 
     return [favorite.to_dict() for favorite in favorites]
 
-
 @favorites_routes.route("/", methods=['POST'])
 @login_required
 def add_favorites():
-    product = request.body
+    productId = request.get_json()
+    preFavs = Favorite.query.filter(Favorite.product_id == productId).filter(Favorite.user_id == current_user.id).first()
+
+    if not preFavs: 
+        new_favorite = Favorite(
+        product_id=productId,
+        user_id=current_user.id
+        )
+        db.session.add(new_favorite)
+        db.session.commit()
+        return new_favorite.to_dict()
+    return { "errors": {"message": "User already favorited this product."}}, 500 

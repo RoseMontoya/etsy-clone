@@ -12,9 +12,7 @@ def authenticate():
     """
     Authenticates a user.
     """
-    print("IN AUTH ROUTE BACKEND", current_user)
     if current_user.is_authenticated:
-        print("CURRENT USER-------->", current_user)
         return current_user.to_dict()
     return {"errors": {"message": "Unauthorized"}}, 401
 

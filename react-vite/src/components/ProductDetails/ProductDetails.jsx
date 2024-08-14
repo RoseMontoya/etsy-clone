@@ -8,6 +8,7 @@ import ReviewFormModal from "../ReviewFormModal"
 import './ProductDetails.css'
 import Stars from "../Star/Stars"
 import { FaRegHeart } from "react-icons/fa"
+import { addFavorite } from "../../redux/favorite"
 {/* <FaRegHeart /> */}
 
 
@@ -59,6 +60,10 @@ function ProductDetails() {
   const imageSelect = (image) => {
     setMainImage(image.url);
   };
+
+  const handleAddFavorite = (productId) => {
+    dispatch(addFavorite(productId))
+  }
 
   const showReview = () => {
     // Check if user is logged in
@@ -112,7 +117,7 @@ function ProductDetails() {
           <div>
             <button>Buy It Now</button>
             <button>Add to Cart</button>
-            <button>Add to Collection</button>
+            <button onClick={() => handleAddFavorite(product.id)}>Add to Collection</button>
           </div>
           <div>
             <p>Item Details</p>
