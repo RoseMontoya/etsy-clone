@@ -34,6 +34,7 @@ function ProductList() {
                 <p>{product.title}</p>
                 <p>${product.price}</p>
                 </Link>
+                <button><Link to="/cart">+ Add to cart</Link></button>
             </div>
         )): <h2>No products to sell. Please check back later.</h2>}
     </div>

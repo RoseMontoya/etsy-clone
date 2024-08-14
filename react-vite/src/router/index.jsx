@@ -9,6 +9,7 @@ import FavoritesPage from '../components/FavoritesPage/FavoritesPage';
 import ProductManage from '../components/ProductManagePage/ProductManage';
 import NewProductForm from '../components/ProductForm/CreateProduct';
 import EditProductForm from '../components/ProductForm/EditProduct';
+import Cart from "../components/Cart/Cart";
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ export const router = createBrowserRouter([
       {
         path: "products",
         element: <ProductList />,
+      },
+      {
+        path: "cart",
+        element: <Cart />,
       }
     ],
   },

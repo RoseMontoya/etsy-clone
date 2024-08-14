@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
 import { PiShoppingCartSimpleBold } from "react-icons/pi";
 import "./Navigation.css";
@@ -22,7 +22,9 @@ function Navigation() {
           <li className="inline" style={{ gap: "1em" }}>
             <ProfileButton />
             <span className="icon">
-              <PiShoppingCartSimpleBold />
+              <Link to='/cart'>
+                <PiShoppingCartSimpleBold />
+              </Link>
             </span>
           </li>
         </ul>
