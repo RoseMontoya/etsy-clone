@@ -73,7 +73,7 @@ function ProductDetails() {
   return (
     <>
       <div id="product-details">
-        {/* <div id="image-container">
+        <div id="image-container">
           <div id="image-sidebar">
             {product.product_images.map((image) => (
               <div
@@ -94,7 +94,7 @@ function ProductDetails() {
           <div>
             <button className="circ">{">"}</button>
           </div>
-        </div> */}
+        </div>
         <div>
           <p
             className={`${product?.inventory > 5 ? "hidden" : "red bold"}`}
@@ -131,7 +131,7 @@ function ProductDetails() {
           <ReviewFormModal productId={product.id} formType={"create"} />
         }
       />
-      {/* <ProductReviews productId={productId} /> */}
+      <ProductReviews productId={productId} />
     </>
   );
 }
