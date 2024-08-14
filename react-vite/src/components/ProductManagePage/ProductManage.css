@@ -22,3 +22,38 @@
 .product_container {
   margin: 20px 30px;
 }
+
+.confirm_deletion {
+  position: fixed;
+  padding: 20px;
+  text-align: center;
+  border: none;
+  top: 45%; /* Center the modal vertically */
+  left: 50%; /* Center the modal horizontally */
+  transform: translate(
+    -50%,
+    -50%
+  ); /* Offset the modal by 50% of its own dimensions */
+  width: 30%;
+  max-width: 550px;
+}
+
+.confirm_deletion p {
+  margin: 20px auto;
+}
+
+.delete-yes,
+.delete-no {
+  padding: 10px 20px;
+  margin: 10px;
+  color: white;
+  border: none;
+}
+
+.delete-yes {
+  background-color: #b60130;
+}
+
+.delete-no {
+  background-color: lightgray;
+}
