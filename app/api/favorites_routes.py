@@ -14,3 +14,8 @@ def get_favorites():
 
     return [favorite.to_dict() for favorite in favorites]
 
+
+@favorites_routes.route("/", methods=['POST'])
+@login_required
+def add_favorites():
+    product = request.body
