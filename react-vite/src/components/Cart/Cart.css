@@ -86,15 +86,15 @@ h1 {
 }
 
 .cart-item-remove {
-  background-color: #e00;
-  color: #fff;
+  background-color: white;
+  color: black;
   border: none;
-  padding: 5px 10px;
+  padding: 10px 20px;
   cursor: pointer;
 }
 
 .cart-item-remove:hover {
-  background-color: #c00;
+  background-color: rgb(234, 231, 231);
 }
 
 .cart-footer {
@@ -105,7 +105,7 @@ h1 {
 }
 
 .checkout-button {
-  background-color: #f60;
+  background-color: black;
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -114,7 +114,7 @@ h1 {
 }
 
 .checkout-button:hover {
-  background-color: #e55;
+  background-color: gray;
 }
 
 .continue-shopping {

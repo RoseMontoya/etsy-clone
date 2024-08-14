@@ -4,7 +4,7 @@ function DeleteReview({ onDelete, onClose}) {
 
     return (
         <>
-         <div>
+         <div className="confirm_deletion">
             <h2>Confirm delete:</h2>
             <p>Are you sure you want to delete this review?</p>
             <div>

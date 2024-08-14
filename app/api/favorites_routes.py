@@ -3,7 +3,6 @@ from ..models import db
 from ..models.favorite import Favorite
 from flask_login import current_user, login_required
 from sqlalchemy.exc import SQLAlchemyError
-from ..forms import ReviewForm, ProductForm, ProductImageForm
 
 favorites_routes = Blueprint("favorites", __name__)
 
@@ -13,6 +12,20 @@ def get_favorites():
     favorites = Favorite.query.filter(Favorite.user_id == current_user.id).all()
 
     return [favorite.to_dict() for favorite in favorites]
+
+
+@favorites_routes.route("/<int:favoriteId>", methods=['DELETE'])
+@login_required
+def remove_favorites(favoriteId):
+    preFav = Favorite.query.filter(Favorite.id == favoriteId).first()
+
+    if preFav: 
+        db.session.delete(preFav)
+        db.session.commit()
+        return {"message": "Successfully removed from favorites.", "userId": current_user.id}, 200
+    
+    return { "errors": {"message": "Favorite could not be found."}}, 404 
+
 
 @favorites_routes.route("/", methods=['POST'])
 @login_required
@@ -28,4 +41,5 @@ def add_favorites():
         db.session.add(new_favorite)
         db.session.commit()
         return new_favorite.to_dict()
+    
     return { "errors": {"message": "User already favorited this product."}}, 500 

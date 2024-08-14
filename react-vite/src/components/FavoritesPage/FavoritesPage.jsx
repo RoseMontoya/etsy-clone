@@ -1,11 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { addFavorite, favoritesByUserId } from "../../redux/favorite";
+import { favoritesByUserId } from "../../redux/favorite";
+import Heart from "../Heart/Heart";
 import { TiStarFullOutline } from "react-icons/ti";
-import { FaHeart } from "react-icons/fa";
-import { FaRegHeart } from "react-icons/fa"
-
 import "./FavoritesPage.css";
 
 function FavoritesPage() {
@@ -23,14 +21,6 @@ function FavoritesPage() {
 
   if (!favorites) return <p>Loading...</p>;
 
-  const handleUnfavorite = () => {
-    // dispatch(removeFavorite(favoriteId));
-    
-  };
-
-  const handleFavorite = (productId) => {
-    dispatch(addFavorite(productId));
-  };
 
   return (
     <main>
@@ -42,8 +32,7 @@ function FavoritesPage() {
         {favoritesArray.length ? (
           favoritesArray.map((favorite) => (
             <div key={favorite.id} className="grid-item">
-              <div className="heart" onClick={() => handleUnfavorite(favorite.id)}><FaHeart /></div>
-              <div className="heart" onClick={() => handleFavorite(favorite.product.id)}><FaRegHeart /></div>
+            <Heart initial={true} favoriteId={favorite.id} productId={favorite.product.id}/>
               <Link key={favorite.id} to={`/products/${favorite.product.id}`}>
                 <div className="image_container">
                   <img
