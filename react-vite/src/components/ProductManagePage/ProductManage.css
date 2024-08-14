@@ -1,31 +1,15 @@
-.product_manage_container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: auto;
-  gap: 20px;
-  margin: 50px;
+.product_manage_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 50px;
 }
 
-.product_manage_single_container {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-
-.product_manage_single_container img {
-  width: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.product_manage_single_container button {
-  border: none;
-  padding: 10px;
-}
-
-.product_manage_single_container button:hover {
+.drop_down_setting:hover {
+  text-align: right;
   background-color: lightgray;
+  border-radius: 100%;
+  width: fit-content;
 }
 
 .drop_down_container {
@@ -35,7 +19,6 @@
   padding: 0;
 }
 
-.drop_down_button {
-  text-align: right;
-  width: 100%;
+.product_container {
+  margin: 20px 30px;
 }

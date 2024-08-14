@@ -14,6 +14,7 @@ function ProductManage() {
 
   const [showDropDownId, setShowDropDownId] = useState(null); // Track the product ID
 
+  const user = useSelector((state) => state.session.user);
   const products = useSelector((state) => state.products?.productByUserId);
 
   const toggleMenu = (e, productId) => {
@@ -73,37 +74,46 @@ function ProductManage() {
 
   return (
     <div>
-      <span>
-        <Link to="/products/new">Add new product</Link>
-      </span>
-      <div className="product_manage_container">
+      <div className="product_manage_header">
+        <div className="favorite_profile">
+          <img src={user.profile_url} alt={user.username} />
+          <p>{user.first_name}&apos;s Products</p>
+        </div>
+        <div>
+          <Link to="/products/new">Add new product</Link>
+        </div>
+      </div>
+      <div className="grid_container product_container">
         {products?.map((product) => (
-          <div key={product.id} className="product_manage_single_container">
+          <div key={product.id} className="grid-item">
             <Link to={`/products/${product.id}`}>
+            <div className="image_container">
               <img src={product.preview_image} alt={product.title} />
+            </div>
+              
               <p>{product.title}</p>
               <p>{product.inventory} in stock</p>
               <p>${parseInt(product.price).toFixed(2)}</p>
             </Link>
             <div>
-              <button
-                className="drop_down_button"
+              <p
+                className="drop_down_setting"
                 ref={buttonRef}
                 onClick={(e) => toggleMenu(e, product.id)}
               >
                 <IoSettingsOutline />
-              </button>
+              </p>
               {showDropDownId === product.id && (
                 <div className="drop_down_container">
-                  <button className="drop_down_item">
+                  <p className="drop_down_item">
                     <Link to={`/products/${product.id}/edit`}>Edit</Link>
-                  </button>
-                  <button
+                  </p>
+                  <p
                     onClick={() => handleDeleteClick(product.id)}
                     className="drop_down_item"
                   >
                     Delete
-                  </button>
+                  </p>
                 </div>
               )}
             </div>
