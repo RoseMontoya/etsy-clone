@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { addFavorite, favoritesByUserId } from "../../redux/favorite";
@@ -23,8 +23,9 @@ function FavoritesPage() {
 
   if (!favorites) return <p>Loading...</p>;
 
-  const handleUnfavorite = (favoriteId) => {
-    dispatch(removeFavorite(favoriteId));
+  const handleUnfavorite = () => {
+    // dispatch(removeFavorite(favoriteId));
+    
   };
 
   const handleFavorite = (productId) => {

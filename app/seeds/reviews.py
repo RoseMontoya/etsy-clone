@@ -103,7 +103,7 @@ def seed_reviews():
     )
     review15 = Review(
         product_id=7,
-        user_id=4,
+        user_id=7,
         review="This vase is adorable! It adds a cheerful touch to my living room, and the quality of the ceramic is excellent.",
         stars=4,
         recommendation=True,

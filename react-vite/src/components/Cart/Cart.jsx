@@ -1,14 +1,12 @@
 import "./Cart.css";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { getAllCartItems, deleteCartItem, clearCart } from "../../redux/cart";
 
 function Cart() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  //   const user = useSelector((state) => state.session.user);
   const cartObj = useSelector((state) => state.cart?.cartItems);
 
   const cartArr = cartObj ? Object.values(cartObj) : [];
@@ -18,7 +16,7 @@ function Cart() {
     if (!cartObj) {
       dispatch(getAllCartItems());
     }
-  }, [dispatch]);
+  }, [dispatch, cartObj]);
 
   const handleDelete = async (cartItemId, e) => {
     e.stopPropagation(); // Prevent click from propagating to the Link

@@ -7,7 +7,7 @@ import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import ReviewFormModal from "../ReviewFormModal";
 import "./ProductDetails.css";
 import Stars from "../Star/Stars";
-import { FaRegHeart } from "react-icons/fa";
+// import { FaRegHeart } from "react-icons/fa";
 import { addFavorite } from "../../redux/favorite";
 import { addToCart } from "../../redux/cart";
 {
