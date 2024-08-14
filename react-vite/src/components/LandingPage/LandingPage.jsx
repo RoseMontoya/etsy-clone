@@ -37,19 +37,17 @@ function LandingPage() {
 
   // const randomProduct = getRandomProduct();
   return (
-    <>
+    <div className="landing-page">
       {user?.email ? (
         <>
-          Welcome back, {user.first_name}
-          <div>
-            <div>
+          <div className="welcome-message">Welcome back, {user.first_name}</div>
+          <div className="featured-product">
+            <img
+              src={randomProduct.preview_image}
+              alt={randomProduct.title}
+            />
+            <div className="product-info">
               <h3>Featured Product:</h3>
-              <div>
-                <img
-                  src={randomProduct.preview_image}
-                  alt={randomProduct.title}
-                />
-              </div>
               <div>{randomProduct.title}</div>
               <div>{randomProduct.description}</div>
               <Link to="/products">Discover More</Link>
@@ -57,7 +55,7 @@ function LandingPage() {
           </div>
         </>
       ) : (
-        <>
+        <div className="no-user-message">
           <h2>There&apos;s a Person Behind Every Piece</h2>
           <p>
             Fall in love with original finds from standout small shops around
@@ -66,9 +64,9 @@ function LandingPage() {
           <Link to="/products">
             <button>Discover more</button>
           </Link>
-        </>
+        </div>
       )}
-    </>
+    </div>
   );
 }
 

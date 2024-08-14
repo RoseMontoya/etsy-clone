@@ -10,6 +10,8 @@ import ProductManage from "../components/ProductManagePage/ProductManage";
 import NewProductForm from "../components/ProductForm/CreateProduct";
 import EditProductForm from "../components/ProductForm/EditProduct";
 import Cart from "../components/Cart/Cart";
+import Checkout from "../components/Checkout/Checkout";
+import CompleteTransaction from "../components/CompleteTransaction/CompleteTransaction";
 
 export const router = createBrowserRouter([
   {
@@ -54,6 +56,14 @@ export const router = createBrowserRouter([
       {
         path: "cart",
         element: <Cart />,
+      },
+      {
+        path: "checkout",
+        element: <Checkout />,
+      },
+      {
+        path: "successful-transaction",
+        element: <CompleteTransaction />,
       },
     ],
   },

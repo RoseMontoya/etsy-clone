@@ -76,9 +76,12 @@ def add_to_cart():
     cart_item = CartItem.query.filter_by(cart_id=cart.id, product_id=product_id).first()
 
     if cart_item:
-        cart_item.quantity += quantity  # Update the quantity if item already in cart
+        if cart_item.quantity < product.inventory:
+            cart_item.quantity += 1  # Update the quantity if item already in cart
+        else: 
+            return {"message": "Cannot add more items than product inventory"}, 401
     else:
-        cart_item = CartItem(cart_id=cart.id, product_id=product_id, quantity=quantity)
+        cart_item = CartItem(cart_id=cart.id, product_id=product_id, quantity=1)
         db.session.add(cart_item)
 
     db.session.commit()

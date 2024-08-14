@@ -34,9 +34,13 @@ function Navigation() {
           <li className="inline" style={{ gap: "1em" }}>
             <ProfileButton />
             <span className="icon">
-              <Link to="/cart" onClick={handleCartClick}>
-                <PiShoppingCartSimpleBold />
-              </Link>
+              <div>
+                {user? 
+                <Link to="/cart" onClick={handleCartClick}>
+                  <PiShoppingCartSimpleBold />
+                </Link> : null
+                }
+              </div>
             </span>
           </li>
         </ul>

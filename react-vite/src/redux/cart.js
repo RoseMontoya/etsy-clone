@@ -168,7 +168,7 @@ const cartReducer = (state = initialState, action) => {
 
       if (existingItem) {
         // If the product is already in the cart, increment the quantity
-        existingItem.quantity += cartItem.quantity;
+        existingItem.quantity = cartItem.quantity;
       } else {
         // Otherwise, add the new cart item
         newState.cartItems[cartItem.id] = cartItem;

@@ -15,7 +15,7 @@ function Cart() {
   const cartObj = useSelector((state) => state.cart?.cartItems);
 
   const cartArr = cartObj ? Object.values(cartObj) : [];
-  console.log("FRONT END ========>", cartObj);
+  console.log("FRONT END ========>", cartArr);
 
   useEffect(() => {
     if (!cartObj) {
@@ -50,6 +50,14 @@ function Cart() {
         <Link to="/products">Discover something unique to fill it up</Link>
       </div>
     );
+  }
+
+  const cartTotal = (cartArr) => {
+    let total = 0;
+    for (let item of cartArr){
+        total += (Number(item.product.price) * Math.min(Number(item.quantity), Number(item.product.inventory)))
+    }
+    return total.toFixed(2)
   }
 
   return (
@@ -107,7 +115,7 @@ function Cart() {
 
               <div>
                 <div>
-                  ${(Number(product.price) * Number(item.quantity)).toFixed(2)}
+                  ${(Number(product.price) * Math.min(Number(item.quantity), Number(item.product.inventory))).toFixed(2)}
                 </div>
                 <div className="cart-item-actions">
                   <button
@@ -116,17 +124,22 @@ function Cart() {
                   >
                     Remove
                   </button>
+
                 </div>
               </div>
             </li>
           );
         })}
       </ul>
-      <button onClick={handleClearCart} className="clear-cart-button">
-        Clear Cart
-      </button>
+      <div>
+        <button onClick={handleClearCart} className="clear-cart-button">
+            Clear Cart
+        </button>
+
+        <span>Total: ${cartTotal(cartArr)}</span>
+      </div>
       <div className="cart-footer">
-        <button className="checkout-button">Proceed to Checkout</button>
+        <Link to="/checkout"><button className="checkout-button">Proceed to Checkout</button></Link>
         <Link to="/products" className="continue-shopping">
           Continue Shopping
         </Link>
