@@ -20,10 +20,10 @@ def product_manage():
 
     return [product.to_dict() for product in products]
 
+
 # Get a random product
 @products_routes.route("/random")
 def get_random_product():
-
     if not current_user.is_anonymous:
         count = Product.query.filter(Product.seller_id != current_user.id).count()
     else:
@@ -31,7 +31,6 @@ def get_random_product():
     randomKey = random.randint(1, count)
     product = Product.query.filter(Product.id == randomKey).first()
     return product.to_dict()
-
 
 
 # Get all reviews for a product

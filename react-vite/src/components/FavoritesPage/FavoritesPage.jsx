@@ -35,7 +35,7 @@ function FavoritesPage() {
     <main>
       <div className="favorite_profile">
         <img src={user.profile_url} alt={user.username} />
-        <p>{user.first_name}</p>
+        <p>{user.first_name}&apos;s Favorites</p>
       </div>
       <div className="grid_container">
         {favoritesArray.length ? (
@@ -57,7 +57,7 @@ function FavoritesPage() {
                   <TiStarFullOutline />({favorite.product.seller.review_count})
                 </p>
               </Link>
-              <button >Add to cart</button>
+              <button><Link to="/cart">Add to cart</Link></button>
             </div>
           ))
         ) : (
