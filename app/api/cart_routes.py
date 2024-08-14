@@ -59,7 +59,7 @@ def add_to_cart():
 
     db.session.commit()
 
-    return jsonify({"message": "Item added to cart"}), 200
+    return cart_item.to_dict(), 200
 
 
 # Delete ALL cart items / Reset Cart
