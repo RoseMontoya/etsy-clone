@@ -19,7 +19,10 @@ def product_manage():
     # Find Products
     products = Product.query.filter(Product.seller_id == current_user.id).all()
 
-    return {"products": [product.to_dict() for product in products], "user_id": current_user.id}
+    return {
+        "products": [product.to_dict() for product in products],
+        "user_id": current_user.id,
+    }
 
 
 # Get a random product
@@ -48,12 +51,18 @@ def product_reviews(productId):
 def create_review(productId):
     form = ReviewForm()
 
-    form['csrf_token'].data = request.cookies['csrf_token']
-    print('current user', current_user.id)
-    prevRev = Review.query.filter(Review.user_id == current_user.id).filter(Review.product_id == productId).first()
+    form["csrf_token"].data = request.cookies["csrf_token"]
+    print("current user", current_user.id)
+    prevRev = (
+        Review.query.filter(Review.user_id == current_user.id)
+        .filter(Review.product_id == productId)
+        .first()
+    )
 
     if prevRev:
-        return { "errors": {"message": "User already has a review for this product."}}, 500
+        return {
+            "errors": {"message": "User already has a review for this product."}
+        }, 500
 
     if form.validate_on_submit():
         new_review = Review(
@@ -70,6 +79,7 @@ def create_review(productId):
         return new_review.to_dict()
     return form.errors, 400
 
+
 # Edit product
 @products_routes.route("/<int:productId>/edit", methods=["PUT"])
 @login_required
@@ -80,11 +90,11 @@ def edit_product(productId):
     if form.validate_on_submit():
         product = Product.query.get(productId)
         if product:
-            product.title=form.data["title"]
-            product.description=form.data["description"]
-            product.inventory=form.data["inventory"]
-            product.price=form.data["price"]
-            product.category_id=form.data["category_id"]
+            product.title = form.data["title"]
+            product.description = form.data["description"]
+            product.inventory = form.data["inventory"]
+            product.price = form.data["price"]
+            product.category_id = form.data["category_id"]
 
         db.session.commit()
         return product.to_dict(), 200
@@ -171,6 +181,7 @@ def create_images():
         print("Form errors:", form.errors)
         return form.errors, 400
 
+
 # Update an existing product image
 @products_routes.route("/images/<int:imageId>", methods=["PUT"])
 @login_required
@@ -191,7 +202,8 @@ def update_product_image(imageId):
         print("Form errors:", form.errors)
         return form.errors, 400
 
-@products_routes.route('/images/<int:imageId>', methods=["DELETE"])
+
+@products_routes.route("/images/<int:imageId>", methods=["DELETE"])
 @login_required
 def delete_image(imageId):
     prevImg = ProductImage.query.get(imageId)
@@ -200,6 +212,7 @@ def delete_image(imageId):
         db.session.delete(prevImg)
         db.session.commit()
         return prevImg.to_dict()
+
 
 # Get all products
 @products_routes.route("/", methods=["GET"])

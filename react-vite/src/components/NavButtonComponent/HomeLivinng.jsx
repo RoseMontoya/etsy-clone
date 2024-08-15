@@ -5,7 +5,7 @@ import { thunkAllProducts } from "../../redux/product";
 import { addToCart, getAllCartItems } from "../../redux/cart";
 import { favoritesByUserId } from "../../redux/favorite";
 import {Heart, Stars} from "../SubComponents"
-import "./ProductList.css";
+import "./HomeLiving.css";
 
 
 function ProductList() {
@@ -13,7 +13,9 @@ function ProductList() {
   const navigate = useNavigate();
   const productsObj = useSelector((state) => state.products?.allProducts);
   const user = useSelector((state) => state.session.user);
-  const products = productsObj ? Object.values(productsObj) : [];
+  const rawProducts = productsObj ? Object.values(productsObj) : [];
+  const products= rawProducts.filter((product) => product.category_id === 1);
+  console.log("Checking PRODUCTS",products)
   const favoritesObj = useSelector(state => state.favorites?.[user?.id])
   const favProducts = favoritesObj? Object.values(favoritesObj).map(fav => fav.product.id): [];
 
@@ -51,7 +53,7 @@ function ProductList() {
     <main>
     <div className="product_container">
       {products.length ? (
-        products.sort((a, b) => b.id - a.id).map((product) => (
+        products.map((product) => (
           <div key={product?.id} className="product_small_container">
             <Heart initial={favProducts.includes(product.id)? true: false} productId={product.id}/>
             <Link key={product?.id} to={`/products/${product?.id}`}>

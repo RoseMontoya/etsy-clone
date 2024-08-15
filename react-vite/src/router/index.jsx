@@ -12,6 +12,11 @@ import EditProductForm from "../components/ProductForm/EditProduct";
 import Cart from "../components/Cart/Cart";
 import Checkout from "../components/Checkout/Checkout";
 import CompleteTransaction from "../components/CompleteTransaction/CompleteTransaction";
+import Homeliving from "../components/NavButtonComponent/HomeLivinng";
+import Accessories from "../components/NavButtonComponent/Accessories";
+import Crafting from "../components/NavButtonComponent/Crafting";
+import Clothing from "../components/NavButtonComponent/Clothing";
+import Jewelry from "../components/NavButtonComponent/Jewelry";
 
 export const router = createBrowserRouter([
   {
@@ -64,6 +69,26 @@ export const router = createBrowserRouter([
       {
         path: "successful-transaction",
         element: <CompleteTransaction />,
+      },
+      {
+        path: "/products/homeliving",
+        element: <Homeliving />,
+      },
+      {
+        path: "/products/accessories",
+        element: <Accessories />,
+      },
+      {
+        path: "/products/crafting",
+        element: <Crafting />,
+      },
+      {
+        path: "/products/clothing",
+        element: <Clothing />,
+      },
+      {
+        path: "/products/jewelry",
+        element: <Jewelry />,
       },
     ],
   },

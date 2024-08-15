@@ -192,7 +192,7 @@ def seed_products():
         description="This Keychain with House, Flower & Mushroom Designs is a whimsical accessory that brings a bit of nature and homey charm to your keys. Each piece is detailed and colorful, making it a fun and unique addition to your collection. Perfect for anyone who loves quirky and creative designs.",
         inventory=10,
         price=9,
-        category_id=5,
+        category_id=2,
         seller_id=5,
     )
     product25 = Product(
