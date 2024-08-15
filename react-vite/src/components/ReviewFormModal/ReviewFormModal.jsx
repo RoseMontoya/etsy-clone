@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 // import { TiStarOutline } from "react-icons/ti";
 // import { TiStarFullOutline } from "react-icons/ti";
 import { createReview, editReview } from '../../redux/review';
-import Stars from '../Star/Stars'
+import Stars from '../SubComponents/Stars'
 
 
 function ReviewFormModal({productId, formType, reviewId}) {

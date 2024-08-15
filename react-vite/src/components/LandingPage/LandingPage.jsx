@@ -2,7 +2,7 @@ import "./LandingPage.css";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { thunkRandomProduct } from "../../redux/product";
-import Heart from "../Heart/Heart";
+import { Heart } from "../SubComponents";
 import { Link } from "react-router-dom";
 
 function LandingPage() {

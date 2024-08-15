@@ -1,12 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { thunkAllProducts } from "../../redux/product";
 import { Link, useNavigate } from "react-router-dom";
-import Stars from "../Star/Stars";
-import Heart from "../Heart/Heart"
-import { addToCart } from "../../redux/cart";
-import { getAllCartItems } from "../../redux/cart";
+import { thunkAllProducts } from "../../redux/product";
+import { addToCart, getAllCartItems } from "../../redux/cart";
 import { favoritesByUserId } from "../../redux/favorite";
+import {Heart, Stars} from "../SubComponents"
 import "./ProductList.css";
 
 
@@ -61,14 +59,14 @@ function ProductList() {
               <p>{product.title}</p>
               <div className="inline">
               <Stars rating={product.seller.seller_rating}/><span>({product.seller.review_count})</span></div>
-              <p className="bold">${product.price.toFixed(2)}</p> 
+              <p className="bold">${product.price.toFixed(2)}</p>
               <p>{product.seller.username}</p>
             </Link>
             <button onClick={() => handleAddToCart(product)}>
               + Add to cart
             </button>
           </div>
-          
+
         ))
       ) : (
         <h2>No products to sell. Please check back later.</h2>

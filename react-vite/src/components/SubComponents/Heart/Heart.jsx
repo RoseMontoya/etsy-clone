@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { addFavorite, removeFavorite } from "../../redux/favorite";
+import { addFavorite, removeFavorite } from "../../../redux/favorite";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa"
 import "./Heart.css";
@@ -20,7 +20,7 @@ function Heart({initial, productId}) {
             setFavorited(false)
         })
       };
-    
+
     const handleFavorite = (productId) => {
         dispatch(addFavorite(productId))
         .then(res => {
@@ -35,12 +35,11 @@ function Heart({initial, productId}) {
 
     return (
     <div>
-        {favorited? 
-        <div className="heart remove_from_fav" onClick={() => handleUnfavorite(productId)}><FaHeart /></div>:
+        {favorited?
+        <div className="heart remove_from_fav" onClick={() => handleUnfavorite(productId)}><FaHeart color="#b60130"/></div>:
         <div className="heart add_to_fav" onClick={() => handleFavorite(productId)}><FaRegHeart /></div>}
-        
+
     </div>)
 }
 
 export default Heart;
-
