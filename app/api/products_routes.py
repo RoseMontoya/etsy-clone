@@ -240,7 +240,6 @@ def decrease_inventory_edit():
                 # Update the inventory
                 if product.inventory - item.quantity > 0:
                     product.inventory -= item.quantity
-                    product.inventory -= item.quantity
                     updated_products.append(product.to_dict())
                 else:
                     deleted_products.append(product.to_dict())

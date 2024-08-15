@@ -230,10 +230,13 @@ export const updateInventory = () => async (dispatch) => {
 
   if (response.ok) {
     const data = await response.json();
-    data.forEach((item) => {
+    data.products.forEach((item) => {
       console.log("DATA AFTER THUNK ======================>", item);
       dispatch(updateProduct(item));
     });
+    data.deleted_products.forEach((item) => {
+      dispatch(removeProduct(item.id))
+    })
     return data;
   }
   return response;
