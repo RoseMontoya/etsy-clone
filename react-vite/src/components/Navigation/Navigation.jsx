@@ -1,10 +1,8 @@
-import { useEffect } from "react";
 import { NavLink, Link } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
 import { PiShoppingCartSimpleBold } from "react-icons/pi";
 import "./Navigation.css";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllCartItems } from "../../redux/cart";
 
 function Navigation() {
   const dispatch = useDispatch();
