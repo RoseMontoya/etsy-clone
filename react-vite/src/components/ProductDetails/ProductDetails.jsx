@@ -41,7 +41,7 @@ function ProductDetails() {
       (review) => review.user === user?.username
     );
 
-  const favoritesObj = useSelector((state) => state.favorites?.[user.id]);
+  const favoritesObj = useSelector((state) => state.favorites?.[user?.id]);
   const favProduct = favoritesObj
     ? Object.values(favoritesObj).reduce(
         (fav, current) =>
@@ -61,7 +61,7 @@ function ProductDetails() {
       });
     }
     if (!favoritesObj && user) {
-      dispatch(favoritesByUserId(user.id));
+      dispatch(favoritesByUserId(user?.id));
     }
   }, [dispatch, productId, product, favoritesObj, user]);
 
