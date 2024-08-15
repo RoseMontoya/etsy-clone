@@ -24,6 +24,7 @@ function ProductDetails() {
   const product = useSelector(
     (state) => state.products.productById?.[productId]
   );
+
   const [mainImage, setMainImage] = useState(product?.preview_image);
   const [mainImgId, setMainImgId] = useState(0);
   const images = product?.product_images

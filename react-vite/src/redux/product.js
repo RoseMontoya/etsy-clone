@@ -7,6 +7,7 @@ const DELETE_PRODUCT = "product/removeProduct";
 const CREATE_IMAGE = "image/createImage";
 const UPDATE_IMAGE = "image/updateImage";
 const DELETE_IMAGE = "image/deleteImage";
+const UPDATE_INVENTORY = "product/updateInventory";
 
 const getProducts = (products) => ({
   type: GET_PRODUCTS,
@@ -21,7 +22,7 @@ const getProductById = (product) => ({
 const getProductByCurrentUser = (products, user_id) => ({
   type: PRODUCT_BY_CURRENT_USER,
   payload: products,
-  user_id
+  user_id,
 });
 
 const createProduct = (product) => ({
@@ -43,14 +44,15 @@ const createImage = (product, userId) => {
   return {
     type: CREATE_IMAGE,
     payload: product,
-    userId
+    userId,
   };
 };
 
-const updateImage = (image) => {
+const updateImage = (image, userId) => {
   return {
     type: UPDATE_IMAGE,
     payload: image,
+    userId,
   };
 };
 
@@ -58,6 +60,13 @@ const deleteImage = (image) => {
   return {
     type: DELETE_IMAGE,
     payload: image,
+  }
+}
+
+const inventoryUpdate = (productId, quantity) => {
+  return {
+    type: UPDATE_INVENTORY,
+    payload: {productId, quantity}
   }
 }
 
@@ -74,15 +83,15 @@ export const thunkAllProducts = () => async (dispatch) => {
 };
 
 export const thunkRandomProduct = () => async (dispatch) => {
-  const response = await fetch(`/api/products/random`)
+  const response = await fetch(`/api/products/random`);
 
   if (response.ok) {
-    const data = await response.json()
-    dispatch(getProductById(data))
-    return data
+    const data = await response.json();
+    dispatch(getProductById(data));
+    return data;
   }
-  return response
-}
+  return response;
+};
 
 export const productById = (productId) => async (dispatch) => {
   const response = await fetch(`/api/products/${productId}`);
@@ -181,7 +190,7 @@ export const addProductImage = (image, userId) => async (dispatch) => {
 
 // Update Product Images
 export const updateProductImage = (image, userId) => async (dispatch) => {
-  console.log("image in thunk ------>", image);
+  console.log("image in thunk ------>", userId);
 
   const { id, url } = image;
   const response = await fetch(`/api/products/images/${id}`, {
@@ -200,16 +209,32 @@ export const updateProductImage = (image, userId) => async (dispatch) => {
   }
 };
 
-export const deleteProductImage = (image) => async dispatch => {
-  const response = await fetch(`/api/products/images/${image.id}`, {method: 'DELETE'})
+export const deleteProductImage = (image) => async (dispatch) => {
+  const response = await fetch(`/api/products/images/${image.id}`, {
+    method: "DELETE",
+  });
 
   if (response.ok) {
-    const data = await response.json()
-    dispatch(deleteImage(image))
-    return data
+    const data = await response.json();
+    dispatch(deleteImage(image));
+    return data;
   }
   return response
 }
+
+// Update inventory thunk
+export const updateInventory = () => async dispatch => {
+  const response = await fetch(`/api/products/successful-transaction`, {
+    method: "PUT",
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    // console.log("DATA AFTER THUNK ======================>", data);
+    return data;
+  }
+  return response;
+};
 
 const initialState = { productById: {} };
 
@@ -229,20 +254,45 @@ function productReducer(state = initialState, action) {
     }
     case PRODUCT_BY_CURRENT_USER: {
       let newState = {};
-      action.payload.forEach(prod => {
-        newState[prod.id] = prod
-      })
-      return { ...state, productByUserId: {...action.payload.productByUserId, [action.user_id]: newState} };
+      action.payload.forEach((prod) => {
+        newState[prod.id] = prod;
+      });
+      return {
+        ...state,
+        productsCurrent: newState,
+      };
     }
     case CREATE_PRODUCT: {
-      let newState = {
-        ...state,
-        allProducts: {
+      const prodId = action.payload.id
+      const newState = {}
+      // let newAllProducts;
+      if (state.allProducts) {
+        const newAllProducts = {
           ...state.allProducts,
-          [action.payload.id]: action.payload,
-        },
-      };
-      return newState;
+          [prodId]: action.payload,
+        };
+        newState['allProducts'] = newAllProducts
+      }
+
+      // let newProductById;
+      if (state.productById[prodId]) {
+        const newProductById =  {
+          ...state.productById,
+          [prodId]: action.payload,
+        }
+        newState['productById'] = newProductById
+      }
+
+      // let newProductCurrent;
+      if (state.productsCurrent) {
+        const newProductsCurrent =  {
+          ...state.productsCurrent,
+          [prodId]: action.payload
+        }
+        newState['productsCurrent'] = newProductsCurrent
+      }
+
+      return {...state, ...newState};
     }
     case UPDATE_PRODUCT: {
       let newState = {
@@ -251,65 +301,148 @@ function productReducer(state = initialState, action) {
           ...state.allProducts,
           [action.payload.id]: action.payload,
         },
+        productById: {
+          ...state.productById,
+          [action.payload.id]: action.payload,
+        },
+        productByUserId: {
+          ...state.productByUserId,
+          [action.payload.seller.id]: action.payload,
+        },
       };
       return newState;
     }
     case CREATE_IMAGE: {
-      const prodId = action.payload.product_id
-      const id = action.payload.id
+      const prodId = action.payload.product_id;
+      const id = action.payload.id;
+      const newState = {}
+      console.log('PROUDcID', prodId)
 
-      const newProductById = { ...state.productById, [prodId]: state.productById[prodId] };
-      newProductById[prodId].product_images[id] = action.payload
-      newProductById[prodId].preview_image = action.payload.url
+      // if (state.productById[prodId]) {
+      //   const newProductById = {
+      //     ...state.productById,
+      //     [prodId]: {...state.productById[prodId]},
+      //   };
+      //   if (!newProductById[prodId].product_images) {
+      //     newProductById[prodId].product_images = { [id]: action.payload };
+      //   } else {
+      //     newProductById[prodId].product_images[id] = action.payload;
+      //   }
+      //   newProductById[prodId].preview_image = action.payload.url;
 
-      const newState = {...state.allProducts}
-      const newProductByUserId = {...state.productByUserId, [action.payloaduserId]: state.productByUserId[action.payload.userId]}
-      if (action.payload.preview)
-        newProductByUserId[prodId].preview_image = action.payload.url
-        newState[prodId].preview_image = action.payload.url
+      //   newState['productById'] = newProductById
+      // }
 
-      return {allProducts: newState, ProductById: newProductById, productByUserId: newProductByUserId };
+      if (action.payload.preview) {
+        if (state.allProducts) {
+
+          const newAllProducts = {
+            ...state.allProducts,
+            [prodId]: {...state.allProducts[prodId], preview_image: action.payload.url}
+          }
+
+          newState['allProducts'] = newAllProducts
+        }
+
+        if (state.productsCurrent) {
+          const newProductsCurrent = {
+            ...state.productsCurrent,
+            [prodId]: {...state.productsCurrent[prodId], preview_image: action.payload.url}
+          };
+          newState['productsCurrent'] = newProductsCurrent
+        }
+
+      }
+
+      return {...state, ...newState};
     }
     case UPDATE_IMAGE: {
-      const prodId = action.payload.product_id
-      const id = action.payload.id
+      const prodId = action.payload.product_id;
+      const id = action.payload.id;
 
-      const newProductById = { ...state.productById, [prodId]: state.productById[prodId] };
-      console.log('newProductById Before', newProductById)
-      newProductById[prodId].product_images[id] = action.payload
-      newProductById[prodId].preview_image = action.payload.url
-      console.log('newProductById After', newProductById)
+      const newProductById = {
+        ...state.productById,
+        [prodId]: state.productById[prodId],
+      };
 
+      if (newProductById) {
+        newProductById[prodId].product_images[id] = action.payload;
+        newProductById[prodId].preview_image = action.payload.url;
+      }
 
-      const newState = {...state.allProducts}
-      console.log('newState Before', newState)
-      console.log('state.productByUserId Before', state.productByUserId)
-      const newProductByUserId = {...state.productByUserId, [action.payload.userId]: state.productByUserId[action.payload.userId]}
-      console.log('newProductByUserId Before', newProductByUserId)
+      const newState = { ...state.allProducts };
+      const newProductByUserId = {
+        ...state.productByUserId,
+        [action.userId]: state.productByUserId[action.userId],
+      };
+      // console.log("------>", action.userId);
+      // console.log("newProductByUserId Before", newProductByUserId);
 
+      if (action.payload.preview) {
+        if (newProductByUserId[prodId]) {
+          newProductByUserId[prodId].preview_image = action.payload.url;
+        }
+        if (newState[prodId]) {
+          newState[prodId].preview_image = action.payload.url;
+        }
+      }
 
-      if (action.payload.preview)
-        newProductByUserId[prodId].preview_image = action.payload.url
-        newState[prodId].preview_image = action.payload.url
-        console.log('newState After', newState)
-        console.log('newProductByUserId After', newProductByUserId)
+      console.log("newState After", newState);
+      console.log("newProductByUserId After", newProductByUserId);
 
-
-      return {allProducts: newState, ProductById: newProductById, productByUserId: newProductByUserId };
+      return {
+        allProducts: newState,
+        productById: newProductById,
+        productByUserId: newProductByUserId,
+      };
     }
     case DELETE_IMAGE: {
-      const prodId = action.payload.product_id
-      const id = action.payload.id
+      const prodId = action.payload.product_id;
+      const id = action.payload.id;
 
-      const newProductById = { ...state.productById, [prodId]: state.productById[prodId]};
-      delete newProductById[prodId].product_images[id]
-      return {...state, productById: newProductById}
+      const newProductById = {
+        ...state.productById,
+        [prodId]: state.productById[prodId],
+      };
+      delete newProductById[prodId].product_images[id];
+      return { ...state, productById: newProductById };
     }
     case DELETE_PRODUCT: {
       const newState = { ...state };
       delete newState.productByUserId[action.payload];
       return newState;
     }
+    case UPDATE_INVENTORY: {
+      // const newState = { ...state, allProducts: {...state.allProducts}, productById: {...state.productById}, productByUserId: {...state.productByUserId} };
+      const newState = {...state}
+      console.log("NEW STATE =====================>", newState)
+      const { productId, quantity } = action.payload;
+
+      // Check if the product exists in `allProducts`
+      if (newState.allProducts && newState.allProducts[productId]) {
+        // Update the inventory of the product
+        newState.allProducts[productId].inventory -= quantity;
+      }
+
+      // Check if the product exists in `productById`
+      if (newState.productById && newState.productById[productId]) {
+        // Update the inventory of the product
+        newState.productById[productId].inventory -= quantity;
+      }
+
+      // Check if the product exists in `productByUserId`
+      if (newState.productByUserId) {
+        Object.keys(newState.productByUserId).forEach((userId) => {
+          if (newState.productByUserId[userId][productId]) {
+            newState.productByUserId[userId][productId].inventory -= quantity;
+          }
+        });
+      }
+
+      console.log("AFTER CHANGES =====================>", newState)
+      return newState;
+    }
+
     default:
       return state;
   }

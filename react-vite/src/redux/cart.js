@@ -1,6 +1,6 @@
-const GET_CART = "reviews/get-cart";
-const DELETE_ALLCART = "delete/all-cart";
-const DELETE_CART_ITEM = "delete/cart-item";
+const GET_CART = "cart/get-cart";
+const DELETE_ALLCART = "cart/delete-cart";
+const DELETE_CART_ITEM = "cart/detelet-cart-item";
 const ADD_TO_CART = "cart/add-to-cart";
 const EDIT_QUANTITY_ITEM = "cart/edit-quantity-item";
 //Action to add 1 item in cart

@@ -15,7 +15,7 @@ function ProductManage() {
   const [showDropDownId, setShowDropDownId] = useState(null); // Track the product ID
 
   const user = useSelector((state) => state.session.user);
-  const productsObj = useSelector((state) => state.products.productByUserId?.[user.id]);
+  const productsObj = useSelector((state) => state.products?.productsCurrent);
 
   const products = productsObj? Object.values(productsObj): []
 

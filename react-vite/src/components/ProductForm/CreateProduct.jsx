@@ -36,43 +36,39 @@ function NewProductForm() {
     const result = await dispatch(addProduct(new_product));
 
     const productId = result.id;
-    let imageArray = Array(6).fill(null);
-    console.log("......", imageArray);
-     imageArray = [
-        {
-          product_id: productId,
-          url: previewImageUrl,
-          preview: true,
-        },
-        {
-          product_id: productId,
-          url: image1Url? image1Url: null,
-          preview: false,
-        },
-        {
-          product_id: productId,
-          url: image2Url? image2Url: null,
-          preview: false,
-        },
-        {
-          product_id: productId,
-          url: image3Url? image3Url: null,
-          preview: false,
-        },
-        {
-          product_id: productId,
-          url: image4Url? image4Url: null,
-          preview: false,
-        },
-        {
-          product_id: productId,
-          url: image5Url? image5Url: null,
-          preview: false,
-        },
-      ];
-      await Promise.all(imageArray.map(image => dispatch(addProductImage(image))));
-      dispatch(productByUserId());
-      navigate("/products/current");
+    let imageArray = [{
+      product_id: productId,
+      url: previewImageUrl,
+      preview: true,}];
+    if (image1Url) imageArray.push({
+        product_id: productId,
+        url: image1Url,
+        preview: false,
+    })
+    if (image2Url) imageArray.push({
+      product_id: productId,
+      url: image2Url,
+      preview: false,
+    })
+    if (image3Url) imageArray.push({
+      product_id: productId,
+      url: image3Url,
+      preview: false,
+    })
+    if (image4Url) imageArray.push({
+      product_id: productId,
+      url: image4Url,
+      preview: false,
+    })
+    if (image5Url) imageArray.push({
+      product_id: productId,
+      url: image5Url,
+      preview: false,
+    })
+    
+    await Promise.all(imageArray.map(image => dispatch(addProductImage(image, user.id))));
+    dispatch(productByUserId());
+    navigate(`/products/${productId}`);
   };
   return (
     <form onSubmit={handleSubmit} className="product_form">
