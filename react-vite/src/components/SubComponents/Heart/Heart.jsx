@@ -1,6 +1,8 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { addFavorite, removeFavorite } from "../../../redux/favorite";
+import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem";
+import LoginFormModal from "../../LoginFormModal";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa"
 import "./Heart.css";
@@ -8,6 +10,7 @@ import "./Heart.css";
 function Heart({initial, productId}) {
     const dispatch = useDispatch();
     const [ favorited, setFavorited ] = useState(initial);
+    const user = useSelector(state => state.session.user);
 
     const handleUnfavorite = (productId) => {
         dispatch(removeFavorite(productId))
@@ -36,8 +39,17 @@ function Heart({initial, productId}) {
     return (
     <div>
         {favorited?
-        <div className="heart remove_from_fav" onClick={() => handleUnfavorite(productId)}><FaHeart color="#b60130"/></div>:
-        <div className="heart add_to_fav" onClick={() => handleFavorite(productId)}><FaRegHeart /></div>}
+        <div 
+        className="heart remove_from_fav" 
+        onClick={user?() => handleUnfavorite(productId): null}>
+        <FaHeart color="#b60130"/>
+        </div>:
+        
+        <div 
+        className="heart add_to_fav" 
+        onClick={user? () => handleFavorite(productId): null}>
+            <FaRegHeart />
+            </div>}
 
     </div>)
 }

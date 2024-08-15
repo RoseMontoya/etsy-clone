@@ -164,7 +164,7 @@ function ProductDetails() {
               <FaLessThan />
             </button>
             <img src={mainImage} className="image" />
-            <Heart initial={favProduct.length} productId={productId} />
+          <Heart initial={favProduct.length} productId={productId} />
             <button id="greater" className="circ than" onClick={forwardClick}>
               <FaGreaterThan />
             </button>

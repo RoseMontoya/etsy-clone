@@ -2,7 +2,6 @@ import "./LandingPage.css";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { thunkRandomProduct } from "../../redux/product";
-import { Heart } from "../SubComponents";
 import { Link } from "react-router-dom";
 
 function LandingPage() {
@@ -55,7 +54,7 @@ function LandingPage() {
               <h3>Featured Product:</h3>
               <div>{randomProduct.title}</div>
               <div>{randomProduct.description}</div>
-              <Link to="/products">Discover More</Link>
+              <Link to={`/products/${randomProduct.id}`}>Discover More</Link>
             </div>
           </div>
         </>
@@ -67,11 +66,15 @@ function LandingPage() {
             <div className="product-info_signed_out">
               <h3>Sold by {randomProduct.seller.first_name}</h3>
               <div>{randomProduct.title}</div>
-              <Link to="/products"><button>Discover more</button></Link></div>
-            <img
-              src={randomProduct.preview_image}
-              alt={randomProduct.title}
-            />
+              <Link to={`/products/${randomProduct.id}`}><button>Discover more</button></Link></div>
+              <div style={{position: "relative"}}>
+                <img
+                src={randomProduct.preview_image}
+                alt={randomProduct.title}
+                />
+              </div>
+              
+            
           </div>
 
           {/* <p>
