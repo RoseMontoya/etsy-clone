@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { productById } from "../../redux/product";
 import { favoritesByUserId, addFavorite } from "../../redux/favorite";
@@ -7,27 +7,28 @@ import ProductReviews from "../ProductReviews";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import ReviewFormModal from "../ReviewFormModal";
 import "./ProductDetails.css";
-import {Stars, Heart} from "../SubComponents";
+import { Stars, Heart } from "../SubComponents";
 // import Heart from "../Heart/Heart";
 import { FaGreaterThan } from "react-icons/fa6";
 import { FaLessThan } from "react-icons/fa6";
-
+import { getAllCartItems } from "../../redux/cart";
 import { addToCart } from "../../redux/cart";
-
 
 function ProductDetails() {
   const { productId } = useParams();
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
-
+  const navigate = useNavigate();
   const user = useSelector((state) => state.session.user);
 
   const product = useSelector(
     (state) => state.products.productById?.[productId]
   );
   const [mainImage, setMainImage] = useState(product?.preview_image);
-  const [mainImgId, setMainImgId ] = useState(0)
-  const images = product?.product_images? Object.values(product.product_images): []
+  const [mainImgId, setMainImgId] = useState(0);
+  const images = product?.product_images
+    ? Object.values(product.product_images)
+    : [];
 
   const reviewsObj = useSelector(
     (state) => state.reviews.reviewsByProdId?.[productId]
@@ -39,10 +40,14 @@ function ProductDetails() {
       (review) => review.user === user?.username
     );
 
-  const favoritesObj = useSelector(state => state.favorites?.[user.id])
-  const favProduct = favoritesObj? Object.values(favoritesObj).reduce((fav, current) => current.product_id === +productId? fav = [current]: fav, []): [];
-
-
+  const favoritesObj = useSelector((state) => state.favorites?.[user.id]);
+  const favProduct = favoritesObj
+    ? Object.values(favoritesObj).reduce(
+        (fav, current) =>
+          current.product_id === +productId ? (fav = [current]) : fav,
+        []
+      )
+    : [];
 
   useEffect(() => {
     if (!product) {
@@ -55,7 +60,7 @@ function ProductDetails() {
       });
     }
     if (!favoritesObj && user) {
-      dispatch(favoritesByUserId(user.id))
+      dispatch(favoritesByUserId(user.id));
     }
   }, [dispatch, productId, product, favoritesObj, user]);
 
@@ -70,16 +75,14 @@ function ProductDetails() {
     return <div>Loading...</div>;
   }
 
-
   const handleAddFavorite = (productId) => {
-    dispatch(addFavorite(productId))
-    .then(res => {
+    dispatch(addFavorite(productId)).then((res) => {
       const popUpSaved = document.getElementById("add_fav");
       popUpSaved.style.display = "block";
       setTimeout(() => {
         popUpSaved.style.display = "none";
       }, 2000);
-    })
+    });
   };
 
   const handleAddToCart = () => {
@@ -91,7 +94,11 @@ function ProductDetails() {
       product: product, // The entire product object
     };
 
-    dispatch(addToCart(cartItem));
+    dispatch(addToCart(cartItem)).then(() => {
+      dispatch(getAllCartItems()).then(() => {
+        navigate("/cart"); // Redirect to the cart page after updating the cart
+      });
+    });
   };
 
   const showReview = () => {
@@ -105,38 +112,36 @@ function ProductDetails() {
   };
 
   const imageSelect = (image) => {
-    const oldUrl = image.url
+    const oldUrl = image.url;
     setMainImage(image.url);
     let newid;
     images.forEach((img, i) => {
       if (oldUrl === img.url) {
-        newid =  i
+        newid = i;
       }
-    })
-    setMainImgId(newid)
+    });
+    setMainImgId(newid);
   };
 
   const backClick = () => {
     if (mainImgId == 0) {
-      setMainImage(images[images.length - 1].url)
-      setMainImgId(images.length - 1)
+      setMainImage(images[images.length - 1].url);
+      setMainImgId(images.length - 1);
     } else {
-      setMainImage(images[mainImgId - 1].url)
-      setMainImgId(mainImgId - 1)
+      setMainImage(images[mainImgId - 1].url);
+      setMainImgId(mainImgId - 1);
     }
-
-  }
+  };
 
   const forwardClick = () => {
     if (mainImgId == images.length - 1) {
-      setMainImage(images[0].url)
-      setMainImgId(0)
+      setMainImage(images[0].url);
+      setMainImgId(0);
     } else {
-      setMainImage(images[mainImgId + 1].url)
-      setMainImgId(mainImgId + 1)
+      setMainImage(images[mainImgId + 1].url);
+      setMainImgId(mainImgId + 1);
     }
-
-  }
+  };
 
   return (
     <main>
@@ -154,10 +159,14 @@ function ProductDetails() {
             ))}
           </div>
           <div className="main-image">
-            <button className="circ than" id="less" onClick={() => backClick()}><FaLessThan /></button>
+            <button className="circ than" id="less" onClick={() => backClick()}>
+              <FaLessThan />
+            </button>
             <img src={mainImage} className="image" />
-            <Heart initial={favProduct.length} productId={productId}/>
-            <button id="greater" className="circ than" onClick={forwardClick}><FaGreaterThan /></button>
+            <Heart initial={favProduct.length} productId={productId} />
+            <button id="greater" className="circ than" onClick={forwardClick}>
+              <FaGreaterThan />
+            </button>
           </div>
         </div>
         <div id="details">
@@ -175,8 +184,16 @@ function ProductDetails() {
             </div>
             <div>
               <button>Buy It Now</button>
-              <button className='black-button' onClick={handleAddToCart}>Add to Cart</button>
-              <button className= 'invisible-button' onClick={() => handleAddFavorite(product.id)}>
+              <button
+                className="black-button"
+                onClick={() => handleAddToCart(product)}
+              >
+                Add to Cart
+              </button>
+              <button
+                className="invisible-button"
+                onClick={() => handleAddFavorite(product.id)}
+              >
                 Add to Collection
               </button>
             </div>

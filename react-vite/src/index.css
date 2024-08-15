@@ -74,6 +74,7 @@ ul {
 .icon {
   width: 1.5em;
   height: 1.5em;
+  /* padding: 0.7em; */
 }
 
 .icon * {
