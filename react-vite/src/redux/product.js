@@ -5,7 +5,8 @@ const CREATE_PRODUCT = "product/createProduct";
 const UPDATE_PRODUCT = "product/updateProduct";
 const DELETE_PRODUCT = "product/removeProduct";
 const CREATE_IMAGE = "image/createImage";
-// const UPDATE_IMAGE = "image/updateImage";
+const UPDATE_IMAGE = "image/updateImage";
+const DELETE_IMAGE = "image/deleteImage";
 
 const getProducts = (products) => ({
   type: GET_PRODUCTS,
@@ -44,12 +45,19 @@ const createImage = (product) => {
   };
 };
 
-// const updateImage = (image) => {
-//   return {
-//     type: UPDATE_IMAGE,
-//     payload: image,
-//   };
-// };
+const updateImage = (image) => {
+  return {
+    type: UPDATE_IMAGE,
+    payload: image,
+  };
+};
+
+const deleteImage = (image) => {
+  return {
+    type: DELETE_IMAGE,
+    payload: image
+  }
+}
 
 export const thunkAllProducts = () => async (dispatch) => {
   const response = await fetch("/api/products");
@@ -157,7 +165,7 @@ export const addProductImage = (image) => async (dispatch) => {
   const response = await fetch("/api/products/images/new", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ product_id, url, preview }),
+    body: JSON.stringify(image),
   });
   if (response.ok) {
     const newImage = await response.json();
@@ -170,25 +178,36 @@ export const addProductImage = (image) => async (dispatch) => {
 };
 
 // Update Product Images
-// export const updateProductImage = (image) => async (dispatch) => {
-//   console.log("image in thunk ------>", image);
+export const updateProductImage = (image) => async (dispatch) => {
+  console.log("image in thunk ------>", image);
 
-//   const { id, url } = image;
-//   const response = await fetch(`/api/products/images/${id}`, {
-//     method: "PUT",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify({ url }),
-//   });
+  const { id, url } = image;
+  const response = await fetch(`/api/products/images/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ url }),
+  });
 
-//   if (response.ok) {
-//     const updatedImage = await response.json();
-//     dispatch(updateImage(updatedImage));
-//     return updatedImage;
-//   } else {
-//     const error = await response.json();
-//     return error;
-//   }
-// };
+  if (response.ok) {
+    const updatedImage = await response.json();
+    dispatch(updateImage(updatedImage));
+    return updatedImage;
+  } else {
+    const error = await response.json();
+    return error;
+  }
+};
+
+export const deleteProductImage = (image) => async dispatch => {
+  const response = await fetch(`/api/products/images/${image.id}`, {method: 'DELETE'})
+
+  if (response.ok) {
+    const data = await response.json()
+    dispatch(deleteImage(image))
+    return data
+  }
+  return response
+}
 
 const initialState = { productById: {} };
 
@@ -232,7 +251,9 @@ function productReducer(state = initialState, action) {
       return newState;
     }
     case CREATE_IMAGE: {
-      const newState = { ...state };
+      const newState = {...state.allProducts}
+      const newProductById = { ...state.productById };
+      const newProductByUserId = {...state.productByUserId}
       const productId = action.payload.product_id;
 
       if (newState.productById[productId]) {
@@ -246,24 +267,31 @@ function productReducer(state = initialState, action) {
       }
       return newState;
     }
-    // case UPDATE_IMAGE: {
-    //   const newState = { ...state };
-    //   const productId = action.payload.product_id;
+    case UPDATE_IMAGE: {
+      const newState = { ...state };
+      const productId = action.payload.product_id;
 
-    //   if (newState.productById[productId]) {
-    //     const updatedImages = newState.productById[
-    //       productId
-    //     ].product_images.map((image) =>
-    //       // if there's an image, action.payload, else, new image
-    //       image.id === action.payload.id ? action.payload : image
-    //     );
-    //     newState.productById[productId] = {
-    //       ...newState.productById[productId],
-    //       product_images: updatedImages,
-    //     };
-    //   }
-    //   return newState;
-    // }
+      if (newState.productById[productId]) {
+        const updatedImages = newState.productById[
+          productId
+        ].product_images.map((image) =>
+          // if there's an image, action.payload, else, new image
+          image.id === action.payload.id ? action.payload : image
+        );
+        newState.productById[productId] = {
+          ...newState.productById[productId],
+          product_images: updatedImages,
+        };
+      }
+      return newState;
+    }
+    case DELETE_IMAGE: {
+      const newState = {...state.allProducts}
+      const newProductById = { ...state.productById[action.payload.product_id] };
+
+
+      const newProductByUserId = {...state.productByUserId}
+    }
     case DELETE_PRODUCT: {
       const newState = { ...state };
       delete newState.productByUserId[action.payload];
