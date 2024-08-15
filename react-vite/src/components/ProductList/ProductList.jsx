@@ -51,7 +51,7 @@ function ProductList() {
     <main>
     <div className="product_container">
       {products.length ? (
-        products.map((product) => (
+        products.sort((a, b) => b.id - a.id).map((product) => (
           <div key={product?.id} className="product_small_container">
             <Heart initial={favProducts.includes(product.id)? true: false} productId={product.id}/>
             <Link key={product?.id} to={`/products/${product?.id}`}>

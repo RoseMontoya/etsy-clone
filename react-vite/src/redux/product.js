@@ -334,15 +334,15 @@ function productReducer(state = initialState, action) {
       // }
 
       if (action.payload.preview) {
-        // if (state.allProducts) {
+        if (state.allProducts) {
 
-        //   const newAllProducts = {
-        //     ...state.allProducts,
-        //     [prodId]: {...state.allProducts[prodId], preview_image: action.payload.url}
-        //   }
+          const newAllProducts = {
+            ...state.allProducts,
+            [prodId]: {...state.allProducts[prodId], preview_image: action.payload.url}
+          }
 
-        //   newState['allProducts'] = newAllProducts
-        // }
+          newState['allProducts'] = newAllProducts
+        }
 
         if (state.productsCurrent) {
           const newProductsCurrent = {
