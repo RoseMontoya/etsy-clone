@@ -166,7 +166,7 @@ export const deleteProduct = (productId) => async (dispatch) => {
       console.log({ thunkError: data.errors });
       return;
     }
-    dispatch(removeProduct(data));
+    dispatch(removeProduct(productId));
   }
 };
 
@@ -190,7 +190,7 @@ export const addProductImage = (image, userId) => async (dispatch) => {
 
 // Update Product Images
 export const updateProductImage = (image, userId) => async (dispatch) => {
-  console.log("image in thunk ------>", userId);
+  // console.log("image in thunk ------>", userId);
 
   const { id, url } = image;
   const response = await fetch(`/api/products/images/${id}`, {
@@ -295,43 +295,57 @@ function productReducer(state = initialState, action) {
       return {...state, ...newState};
     }
     case UPDATE_PRODUCT: {
-      let newState = {
-        ...state,
-        allProducts: {
+      const prodId = action.payload.id
+      const newState = {}
+
+      // Update allProducts
+      if (state.allProducts) {
+        const newAllProducts = {
           ...state.allProducts,
-          [action.payload.id]: action.payload,
-        },
-        productById: {
+          [prodId]: {...state.allProducts[prodId], ...action.payload},
+        };
+        newState['allProducts'] = newAllProducts
+      }
+
+      // Updating productById;
+      if (state.productById[prodId]) {
+        const newProductById =  {
           ...state.productById,
-          [action.payload.id]: action.payload,
-        },
-        productByUserId: {
-          ...state.productByUserId,
-          [action.payload.seller.id]: action.payload,
-        },
-      };
-      return newState;
+          [prodId]: {...state.productById[prodId], ...action.payload},
+        }
+        newState['productById'] = newProductById
+      }
+
+      // Update productsCurrent;
+      if (state.productsCurrent) {
+        const newProductsCurrent =  {
+          ...state.productsCurrent,
+          [prodId]: {...state.productsCurrent[prodId], ...action.payload}
+        }
+        newState['productsCurrent'] = newProductsCurrent
+      }
+
+      return {...state, ...newState};
     }
     case CREATE_IMAGE: {
       const prodId = action.payload.product_id;
       const id = action.payload.id;
       const newState = {}
-      console.log('PROUDcID', prodId)
 
-      // if (state.productById[prodId]) {
-      //   const newProductById = {
-      //     ...state.productById,
-      //     [prodId]: {...state.productById[prodId]},
-      //   };
-      //   if (!newProductById[prodId].product_images) {
-      //     newProductById[prodId].product_images = { [id]: action.payload };
-      //   } else {
-      //     newProductById[prodId].product_images[id] = action.payload;
-      //   }
-      //   newProductById[prodId].preview_image = action.payload.url;
+      if (state.productById[prodId]) {
+        const newProductById = {
+          ...state.productById,
+          [prodId]: {...state.productById[prodId]},
+        };
+        if (!newProductById[prodId].product_images) {
+          newProductById[prodId].product_images = { [id]: action.payload };
+        } else {
+          newProductById[prodId].product_images = {...state.productById[prodId].product_images, [id]:action.payload};
+        }
+        // newProductById[prodId].preview_image = action.payload.url;
 
-      //   newState['productById'] = newProductById
-      // }
+        newState['productById'] = newProductById
+      }
 
       if (action.payload.preview) {
         if (state.allProducts) {
@@ -359,58 +373,106 @@ function productReducer(state = initialState, action) {
     case UPDATE_IMAGE: {
       const prodId = action.payload.product_id;
       const id = action.payload.id;
+      const newState = {}
 
-      const newProductById = {
-        ...state.productById,
-        [prodId]: state.productById[prodId],
-      };
+      // Update Images in productById
+      if (state.productById[prodId]) {
+        const newProductById = {
+          ...state.productById,
+          [prodId]: {...state.productById[prodId], product_images: {...state.productById[prodId].product_images}},
+        };
 
-      if (newProductById) {
         newProductById[prodId].product_images[id] = action.payload;
-        newProductById[prodId].preview_image = action.payload.url;
+        if (action.payload.preview) {
+          newProductById[prodId].preview_image = action.payload.url;
+        }
+
+        newState['productById'] = newProductById
       }
 
-      const newState = { ...state.allProducts };
-      const newProductByUserId = {
-        ...state.productByUserId,
-        [action.userId]: state.productByUserId[action.userId],
-      };
-      // console.log("------>", action.userId);
-      // console.log("newProductByUserId Before", newProductByUserId);
-
+      // allProducts and productsCurrent only need to be updated if image is preview image
       if (action.payload.preview) {
-        if (newProductByUserId[prodId]) {
-          newProductByUserId[prodId].preview_image = action.payload.url;
+        // Update Image for allProducts
+        if (state.allProducts) {
+
+          const newAllProducts = {
+            ...state.allProducts,
+            [prodId]: {...state.allProducts[prodId], preview_image: action.payload.url}
+          }
+
+          newState['allProducts'] = newAllProducts
         }
-        if (newState[prodId]) {
-          newState[prodId].preview_image = action.payload.url;
+        console.log('this image is a preview')
+        // Updating Image for productsCurrent
+        if (state.productsCurrent) {
+          console.log('inside productsCurrent', state.productsCurrent[prodId])
+          const newProductsCurrent = {
+            ...state.productsCurrent,
+            [prodId]: {...state.productsCurrent[prodId], preview_image: action.payload.url}
+          };
+          console.log('after', newProductsCurrent)
+          newState['productsCurrent'] = newProductsCurrent
         }
+
       }
 
-      console.log("newState After", newState);
-      console.log("newProductByUserId After", newProductByUserId);
-
-      return {
-        allProducts: newState,
-        productById: newProductById,
-        productByUserId: newProductByUserId,
-      };
+      return {...state, ...newState};
     }
     case DELETE_IMAGE: {
       const prodId = action.payload.product_id;
       const id = action.payload.id;
+      const newState = {}
 
-      const newProductById = {
-        ...state.productById,
-        [prodId]: state.productById[prodId],
-      };
-      delete newProductById[prodId].product_images[id];
-      return { ...state, productById: newProductById };
+      // Update Images in productById
+      if (state.productById[prodId]) {
+        const newProductById = {
+          ...state.productById,
+          [prodId]: {...state.productById[prodId], product_images: {...state.productById[prodId].product_images}},
+        };
+
+        delete newProductById[prodId].product_images[id]
+
+        newState['productById'] = newProductById
+      }
+
+      return {...state, ...newState};
     }
     case DELETE_PRODUCT: {
-      const newState = { ...state };
-      delete newState.productByUserId[action.payload];
-      return newState;
+      const prodId = action.payload
+      const newState = {}
+      console.log("PRODUCT ID", prodId)
+
+      // Update allProducts
+      if (state.allProducts) {
+        const newAllProducts = {
+          ...state.allProducts,
+        };
+        delete newAllProducts[prodId]
+        newState['allProducts'] = newAllProducts
+      }
+
+      // Updating productById;
+      if (state.productById[prodId]) {
+        const newProductById =  {
+          ...state.productById,
+        }
+        delete newProductById[prodId]
+        newState['productById'] = newProductById
+      }
+
+      // Update productsCurrent;
+      if (state.productsCurrent) {
+        const newProductsCurrent =  {
+          ...state.productsCurrent
+        }
+        console.log('productCurrent before', newProductsCurrent)
+        console.log('productCurrent', newProductsCurrent[prodId] )
+        delete newProductsCurrent[prodId]
+
+        newState['productsCurrent'] = newProductsCurrent
+      }
+
+      return {...state, ...newState};
     }
     case UPDATE_INVENTORY: {
       // const newState = { ...state, allProducts: {...state.allProducts}, productById: {...state.productById}, productByUserId: {...state.productByUserId} };

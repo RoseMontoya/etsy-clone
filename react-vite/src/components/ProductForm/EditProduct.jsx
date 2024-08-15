@@ -29,7 +29,7 @@ function EditProductForm() {
   const product = useSelector(
     (state) => state.products.productById?.[productId]
   );
-  const images = product ? Object.values(product.product_images) : [];
+  const images = product?.product_images? Object.values(product.product_images) : []
 
   useEffect(() => {
     if (!product) {
