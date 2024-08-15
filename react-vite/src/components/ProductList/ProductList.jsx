@@ -14,7 +14,7 @@ function ProductList() {
   const productsObj = useSelector((state) => state.products?.allProducts);
   const user = useSelector((state) => state.session.user);
   const products = productsObj ? Object.values(productsObj) : [];
-  const favoritesObj = useSelector(state => state.favorites?.[user.id])
+  const favoritesObj = useSelector(state => state.favorites?.[user?.id])
   const favProducts = favoritesObj? Object.values(favoritesObj).map(fav => fav.product.id): [];
 
 
@@ -24,7 +24,7 @@ function ProductList() {
       dispatch(thunkAllProducts());
     }
     if (!favoritesObj && user) {
-      dispatch(favoritesByUserId(user.id))
+      dispatch(favoritesByUserId(user?.id))
     }
   }, [dispatch, productsObj, favoritesObj, user]);
 
