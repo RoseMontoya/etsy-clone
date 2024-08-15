@@ -23,6 +23,7 @@ class Product(db.Model):
     images = db.relationship("ProductImage", back_populates="product", cascade="all, delete-orphan")
     reviews = db.relationship('Review', back_populates='product', cascade="all, delete-orphan")
     favorites = db.relationship('Favorite', back_populates='product')
+    cart_items = db.relationship('CartItem', cascade='all, delete-orphan')
 
     def to_dict(self):
         preview_image_url = None

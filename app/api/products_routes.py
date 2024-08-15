@@ -238,12 +238,7 @@ def decrease_inventory_edit():
             if product.id == item.product_id:
                 # Update the inventory
                 product.inventory -= item.quantity
-                updated_products.append({
-                    "id": product.id,
-                    "name": product.title,
-                    "price": product.price,
-                    "inventory": product.inventory
-                })
+                updated_products.append(product.to_dict())
                 break
 
     # Save changes to the database
