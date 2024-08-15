@@ -5,7 +5,6 @@
   justify-content: space-between;
   padding: 20px 50px;
   background-color: #f5f5f5;
-  border-bottom: 1px solid #ddd;
 }
 
 .product_manage_header .favorite_profile {
@@ -22,8 +21,7 @@
 }
 
 .product_manage_header p {
-  font-size: 22px;
-  font-weight: bold;
+  font-size: 20px;
   color: #333;
 }
 
@@ -41,30 +39,6 @@
   background-color: #ff7a3a;
 }
 
-/* Grid Layout for Products */
-.grid_container {
-  display: grid;
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(260px, 1fr)
-  ); /* Adjusted for a good fit */
-  gap: 20px;
-  padding: 20px 50px;
-}
-
-.grid-item {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
-  padding: 20px;
-  position: relative;
-}
-
-.grid-item:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
 .grid-item a {
   text-decoration: none;
   color: inherit;
@@ -79,34 +53,18 @@
   overflow: hidden;
 }
 
-.image_container img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Ensures the image covers the container without distortion */
-  border-radius: 8px;
-}
-
-.grid-item p {
-  margin: 10px 0;
-  font-size: 16px;
-  color: #333;
-}
-
 /* Settings Icon and Dropdown */
 .drop_down_setting {
   font-size: 24px;
   color: #666;
   cursor: pointer;
-  padding: 8px;
+  /* padding: 8px; */
   border-radius: 50%;
-  transition: background-color 0.3s ease;
+  /* transition: background-color 0.3s ease; */
   display: inline-block;
   position: absolute;
-  bottom: 20px;
-  left: 20px;
+  bottom: 30px;
+  right: 16px;
 }
 
 .drop_down_container {
