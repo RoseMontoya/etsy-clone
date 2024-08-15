@@ -113,6 +113,10 @@ button {
   border: none;
 }
 
+.invisible-button {
+  border: none;
+}
+
 .hidden {
   display: none;
 }

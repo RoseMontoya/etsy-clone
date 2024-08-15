@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { favoritesByUserId } from "../../redux/favorite";
 import { addToCart, getAllCartItems } from "../../redux/cart";
 import { useNavigate } from "react-router-dom";
-import Heart from "../Heart/Heart";
+import {Heart} from "../SubComponents";
 import { TiStarFullOutline } from "react-icons/ti";
 import "./FavoritesPage.css";
 

@@ -6,7 +6,7 @@ import ReviewFormModal from "../ReviewFormModal";
 import './ProductReview.css'
 import { useModal } from '../../context/Modal';
 import DeleteReview from "../DeleteReviewModal";
-import Stars from '../Star/Stars'
+import Stars from '../SubComponents/Stars'
 
 
 function ProductReviews({ productId }) {
