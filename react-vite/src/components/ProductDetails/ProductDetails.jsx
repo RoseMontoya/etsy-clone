@@ -24,6 +24,7 @@ function ProductDetails() {
   const product = useSelector(
     (state) => state.products.productById?.[productId]
   );
+  
   const [mainImage, setMainImage] = useState(product?.preview_image);
   const [mainImgId, setMainImgId] = useState(0);
   const images = product?.product_images
@@ -50,7 +51,6 @@ function ProductDetails() {
     : [];
 
   useEffect(() => {
-    if (!product) {
       dispatch(productById(productId)).then((res) => {
         if (res.error) {
           setErrors(res);
@@ -58,11 +58,10 @@ function ProductDetails() {
           setMainImage(res.preview_image);
         }
       });
-    }
     if (!favoritesObj && user) {
       dispatch(favoritesByUserId(user.id));
     }
-  }, [dispatch, productId, product, favoritesObj, user]);
+  }, [dispatch, productId, favoritesObj, user]);
 
   // Check if there were errors on the fetch
   if (errors.error) {

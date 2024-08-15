@@ -7,6 +7,7 @@ const DELETE_PRODUCT = "product/removeProduct";
 const CREATE_IMAGE = "image/createImage";
 const UPDATE_IMAGE = "image/updateImage";
 const DELETE_IMAGE = "image/deleteImage";
+const UPDATE_INVENTORY = "product/updateInventory";
 
 const getProducts = (products) => ({
   type: GET_PRODUCTS,
@@ -58,6 +59,13 @@ const deleteImage = (image) => {
   return {
     type: DELETE_IMAGE,
     payload: image,
+  }
+}
+
+const inventoryUpdate = (productId, quantity) => {
+  return {
+    type: UPDATE_INVENTORY,
+    payload: {productId, quantity}
   }
 }
 
@@ -211,6 +219,20 @@ export const deleteProductImage = (image) => async dispatch => {
   return response
 }
 
+// Update inventory thunk
+export const updateInventory = () => async dispatch => {
+  const response = await fetch(`/api/products/successful-transaction`, {
+    method: "PUT",
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    // console.log("DATA AFTER THUNK ======================>", data);
+    return data;
+  }
+  return response;
+};
+
 const initialState = { productById: {} };
 
 function productReducer(state = initialState, action) {
@@ -310,6 +332,37 @@ function productReducer(state = initialState, action) {
       delete newState.productByUserId[action.payload];
       return newState;
     }
+    case UPDATE_INVENTORY: {
+      // const newState = { ...state, allProducts: {...state.allProducts}, productById: {...state.productById}, productByUserId: {...state.productByUserId} };
+      const newState = {...state}
+      console.log("NEW STATE =====================>", newState)
+      const { productId, quantity } = action.payload;
+
+      // Check if the product exists in `allProducts`
+      if (newState.allProducts && newState.allProducts[productId]) {
+        // Update the inventory of the product
+        newState.allProducts[productId].inventory -= quantity;
+      }
+
+      // Check if the product exists in `productById`
+      if (newState.productById && newState.productById[productId]) {
+        // Update the inventory of the product
+        newState.productById[productId].inventory -= quantity;
+      }
+
+      // Check if the product exists in `productByUserId`
+      if (newState.productByUserId) {
+        Object.keys(newState.productByUserId).forEach((userId) => {
+          if (newState.productByUserId[userId][productId]) {
+            newState.productByUserId[userId][productId].inventory -= quantity;
+          }
+        });
+      }
+
+      console.log("AFTER CHANGES =====================>", newState)
+      return newState;
+    }
+
     default:
       return state;
   }

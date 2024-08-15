@@ -1,23 +1,35 @@
-import "./Checkout.css"
+import "./Checkout.css";
 import { useNavigate } from "react-router-dom";
-import { clearCart } from "../../redux/cart";
-import { useDispatch } from "react-redux";
+import { clearCart, getAllCartItems } from "../../redux/cart";
+import { useDispatch, useSelector } from "react-redux";
+import { updateInventory } from "../../redux/product";
+import { useEffect } from "react";
 
-function Checkout(){
+function Checkout() {
     const dispatch = useDispatch();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        // Fetch all cart items when the component mounts
+        dispatch(getAllCartItems());
+    }, [dispatch]);
+
     const handleCompleteTransaction = () => {
-        dispatch(clearCart())
-        .then(() => {
-            navigate("/successful-transaction")
-        })
+        // Call the backend to update the inventory
+        dispatch(updateInventory())
+            .then(() => {
+                // Clear the cart after successful inventory update
+                dispatch(clearCart());
+                // Navigate to the success page
+                navigate("/successful-transaction");
+            });
     };
 
     return (
         <>
             <button onClick={handleCompleteTransaction}>Complete Transaction</button>
         </>
-    )
+    );
 }
 
 export default Checkout;
