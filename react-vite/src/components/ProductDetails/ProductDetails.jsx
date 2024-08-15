@@ -143,7 +143,7 @@ function ProductDetails() {
       <div id="product-details">
         <div id="image-container">
           <div id="image-sidebar">
-            {product.product_images.map((image) => (
+            {images.map((image) => (
               <div
                 className="small-image"
                 key={image.id}

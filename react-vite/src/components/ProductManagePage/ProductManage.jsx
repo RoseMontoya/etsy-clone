@@ -15,7 +15,10 @@ function ProductManage() {
   const [showDropDownId, setShowDropDownId] = useState(null); // Track the product ID
 
   const user = useSelector((state) => state.session.user);
-  const products = useSelector((state) => state.products?.productByUserId);
+  const productsObj = useSelector((state) => state.products.productByUserId?.[user.id]);
+
+  const products = productsObj? Object.values(productsObj): []
+
 
   const toggleMenu = (e, productId) => {
     e.stopPropagation();
@@ -40,10 +43,10 @@ function ProductManage() {
   }, [showDropDownId]);
 
   useEffect(() => {
-    if (!products) {
+    if (!productsObj) {
       dispatch(productByUserId());
     }
-  }, [dispatch, products]);
+  }, [dispatch, productsObj]);
 
   if (products?.length === 0)
     return (
@@ -90,7 +93,7 @@ function ProductManage() {
             <div className="image_container">
               <img src={product.preview_image} alt={product.title} />
             </div>
-              
+
               <p>{product.title}</p>
               <p>{product.inventory} in stock</p>
               <p>${parseInt(product.price).toFixed(2)}</p>

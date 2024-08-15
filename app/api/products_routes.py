@@ -18,7 +18,7 @@ def product_manage():
     # Find Products
     products = Product.query.filter(Product.seller_id == current_user.id).all()
 
-    return [product.to_dict() for product in products]
+    return {"products": [product.to_dict() for product in products], "user_id": current_user.id}
 
 
 # Get a random product
@@ -106,7 +106,7 @@ def product_by_id(productId):
 
     # Find Product Images and add to product
     images = ProductImage.query.filter(ProductImage.product_id == productId).all()
-    product["product_images"] = [image.to_dict() for image in images]
+    product["product_images"] = {image.id: image.to_dict() for image in images}
 
     return product
 
@@ -181,7 +181,6 @@ def update_product_image(imageId):
         image = ProductImage.query.get(imageId)
         if image:
             image.url = form.data["url"]
-            image.preview = form.data["preview"]
 
             db.session.commit()
             return image.to_dict(), 200
@@ -190,6 +189,16 @@ def update_product_image(imageId):
     else:
         print("Form errors:", form.errors)
         return form.errors, 400
+
+@products_routes.route('/images/<int:imageId>', methods=["DELETE"])
+@login_required
+def delete_image(imageId):
+    prevImg = ProductImage.query.get(imageId)
+
+    if prevImg:
+        db.session.delete(prevImg)
+        db.session.commit()
+        return prevImg.to_dict()
 
 # Get all products
 @products_routes.route("/", methods=["GET"])

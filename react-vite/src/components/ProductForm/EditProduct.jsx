@@ -25,6 +25,7 @@ function EditProductForm() {
   const product = useSelector(
     (state) => state.products.productById?.[productId]
   );
+  const images = product? Object.values(product.product_images) : []
 
   useEffect(() => {
     if (!product) {
@@ -35,12 +36,12 @@ function EditProductForm() {
       setInventory(product.inventory || "");
       setPrice(product.price || "");
       setCategoryId(product.category_id || "");
-      setPreviewImage(product.product_images[0] || "");
-      setImage1(product.product_images[1] || "");
-      setImage2(product.product_images[2] || "");
-      setImage3(product.product_images[3] || "");
-      setImage4(product.product_images[4] || "");
-      setImage5(product.product_images[5] || "");
+      setPreviewImage(images[0] || "");
+      setImage1(images[1] || "");
+      setImage2(images[2] || "");
+      setImage3(images[3] || "");
+      setImage4(images[4] || "");
+      setImage5(images[5] || "");
     }
   }, [dispatch, productId, product]);
 
@@ -82,43 +83,43 @@ function EditProductForm() {
     const imagesDelete = [];
     const imagesAdd = [];
 
-    if (image1.url && product.product_images[1]) {
+    if (image1.url && images[1]) {
       imagesUpdate.push(image1);
-    } else if (!image1.url && product.product_images[1]) {
+    } else if (!image1.url && images[1]) {
       imagesDelete.push(image1);
-    } else if (image1.url && !product.product_images[1]) {
+    } else if (image1.url && !images[1]) {
       imagesAdd.push(image1);
     }
 
-    if (image2.url && product.product_images[2]) {
+    if (image2.url && images[2]) {
       imagesUpdate.push(image2);
-    } else if (!image2.url && product.product_images[2]) {
+    } else if (!image2.url && images[2]) {
       imagesDelete.push(image2);
-    } else if (image2.url && !product.product_images[2]) {
+    } else if (image2.url && !images[2]) {
       imagesAdd.push(image2);
     }
 
-    if (image3.url && product.product_images[3]) {
+    if (image3.url && images[3]) {
       imagesUpdate.push(image3);
-    } else if (!image3.url && product.product_images[3]) {
+    } else if (!image3.url && images[3]) {
       imagesDelete.push(image3);
-    } else if (image3.url && !product.product_images[3]) {
+    } else if (image3.url && !images[3]) {
       imagesAdd.push(image3);
     }
 
-    if (image4.url && product.product_images[4]) {
+    if (image4.url && images[4]) {
       imagesUpdate.push(image4);
-    } else if (!image4.url && product.product_images[4]) {
+    } else if (!image4.url && images[4]) {
       imagesDelete.push(image4);
-    } else if (image4.url && !product.product_images[4]) {
+    } else if (image4.url && !images[4]) {
       imagesAdd.push(image4);
     }
 
-    if (image5.url && product.product_images[5]) {
+    if (image5.url && images[5]) {
       imagesUpdate.push(image5);
-    } else if (!image5.url && product.product_images[5]) {
+    } else if (!image5.url && images[5]) {
       imagesDelete.push(image5);
-    } else if (image5.url && !product.product_images[5]) {
+    } else if (image5.url && !images[5]) {
       imagesAdd.push(image5);
     }
 
@@ -126,11 +127,16 @@ function EditProductForm() {
       .then((res) => {
         imagesAdd.map(async (image) => {
           // console.log('new',image)
-          dispatch(addProductImage(image, res.id));
+          const newImage = {
+            product_id: res.id,
+            url: image.url,
+            preview: false
+          }
+          dispatch(addProductImage(newImage, user.id));
         });
         imagesUpdate.map(async (image) => {
           // console.log('update', image)
-          dispatch(updateProductImage(image));
+          dispatch(updateProductImage(image, user.id));
         });
         imagesDelete.map(async (image) => {
           // console.log('delete', image )
@@ -144,11 +150,11 @@ function EditProductForm() {
       .catch(async (err) => {
       });
     // const imageArray = [
-    //   { id: product?product.product_images[0].id: image1Id, product_id: product.id, url: image1Url, preview: false },
-    //   { id: product?product.product_images[1].id: image2Id, product_id: product.id, url: image2Url, preview: false },
-    //   { id: product?product.product_images[2].id: image3Id, product_id: product.id, url: image3Url, preview: false },
-    //   { id: product?product.product_images[3].id: image4Id, product_id: product.id, url: image4Url, preview: false },
-    //   { id: product?product.product_images[4].id: image5Id, product_id: product.id, url: image5Url, preview: false },
+    //   { id: product?images[0].id: image1Id, product_id: product.id, url: image1Url, preview: false },
+    //   { id: product?images[1].id: image2Id, product_id: product.id, url: image2Url, preview: false },
+    //   { id: product?images[2].id: image3Id, product_id: product.id, url: image3Url, preview: false },
+    //   { id: product?images[3].id: image4Id, product_id: product.id, url: image4Url, preview: false },
+    //   { id: product?images[4].id: image5Id, product_id: product.id, url: image5Url, preview: false },
     // ];
 
     // await Promise.all(
