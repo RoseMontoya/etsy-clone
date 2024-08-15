@@ -5,7 +5,8 @@ const CREATE_PRODUCT = "product/createProduct";
 const UPDATE_PRODUCT = "product/updateProduct";
 const DELETE_PRODUCT = "product/removeProduct";
 const CREATE_IMAGE = "image/createImage";
-// const UPDATE_IMAGE = "image/updateImage";
+const UPDATE_IMAGE = "image/updateImage";
+const DELETE_IMAGE = "image/deleteImage";
 
 const getProducts = (products) => ({
   type: GET_PRODUCTS,
@@ -17,9 +18,10 @@ const getProductById = (product) => ({
   payload: product,
 });
 
-const getProductByCurrentUser = (products) => ({
+const getProductByCurrentUser = (products, user_id) => ({
   type: PRODUCT_BY_CURRENT_USER,
   payload: products,
+  user_id
 });
 
 const createProduct = (product) => ({
@@ -37,19 +39,27 @@ const removeProduct = (productId) => ({
   payload: productId,
 });
 
-const createImage = (product) => {
+const createImage = (product, userId) => {
   return {
     type: CREATE_IMAGE,
     payload: product,
+    userId
   };
 };
 
-// const updateImage = (image) => {
-//   return {
-//     type: UPDATE_IMAGE,
-//     payload: image,
-//   };
-// };
+const updateImage = (image) => {
+  return {
+    type: UPDATE_IMAGE,
+    payload: image,
+  };
+};
+
+const deleteImage = (image) => {
+  return {
+    type: DELETE_IMAGE,
+    payload: image,
+  }
+}
 
 export const thunkAllProducts = () => async (dispatch) => {
   const response = await fetch("/api/products");
@@ -93,7 +103,7 @@ export const productByUserId = () => async (dispatch) => {
       console.log({ thunkError: data.errors });
       return;
     }
-    dispatch(getProductByCurrentUser(data));
+    dispatch(getProductByCurrentUser(data.products, data.user_id));
   }
 };
 
@@ -152,16 +162,16 @@ export const deleteProduct = (productId) => async (dispatch) => {
 };
 
 // Add Image Thunk
-export const addProductImage = (image) => async (dispatch) => {
+export const addProductImage = (image, userId) => async (dispatch) => {
   const { product_id, url, preview } = image;
   const response = await fetch("/api/products/images/new", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ product_id, url, preview }),
+    body: JSON.stringify(image),
   });
   if (response.ok) {
     const newImage = await response.json();
-    dispatch(createImage(newImage));
+    dispatch(createImage(newImage, userId));
     return newImage;
   } else {
     const error = await response.json();
@@ -170,25 +180,36 @@ export const addProductImage = (image) => async (dispatch) => {
 };
 
 // Update Product Images
-// export const updateProductImage = (image) => async (dispatch) => {
-//   console.log("image in thunk ------>", image);
+export const updateProductImage = (image, userId) => async (dispatch) => {
+  console.log("image in thunk ------>", image);
 
-//   const { id, url } = image;
-//   const response = await fetch(`/api/products/images/${id}`, {
-//     method: "PUT",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify({ url }),
-//   });
+  const { id, url } = image;
+  const response = await fetch(`/api/products/images/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(image),
+  });
 
-//   if (response.ok) {
-//     const updatedImage = await response.json();
-//     dispatch(updateImage(updatedImage));
-//     return updatedImage;
-//   } else {
-//     const error = await response.json();
-//     return error;
-//   }
-// };
+  if (response.ok) {
+    const updatedImage = await response.json();
+    dispatch(updateImage(updatedImage, userId));
+    return updatedImage;
+  } else {
+    const error = await response.json();
+    return error;
+  }
+};
+
+export const deleteProductImage = (image) => async dispatch => {
+  const response = await fetch(`/api/products/images/${image.id}`, {method: 'DELETE'})
+
+  if (response.ok) {
+    const data = await response.json()
+    dispatch(deleteImage(image))
+    return data
+  }
+  return response
+}
 
 const initialState = { productById: {} };
 
@@ -207,9 +228,11 @@ function productReducer(state = initialState, action) {
       return { ...state, productById: newState };
     }
     case PRODUCT_BY_CURRENT_USER: {
-      let newState = { ...state.productByUserId };
-      newState = action.payload;
-      return { ...state, productByUserId: newState };
+      let newState = {};
+      action.payload.forEach(prod => {
+        newState[prod.id] = prod
+      })
+      return { ...state, productByUserId: {...action.payload.productByUserId, [action.user_id]: newState} };
     }
     case CREATE_PRODUCT: {
       let newState = {
@@ -232,38 +255,56 @@ function productReducer(state = initialState, action) {
       return newState;
     }
     case CREATE_IMAGE: {
-      const newState = { ...state };
-      const productId = action.payload.product_id;
+      const prodId = action.payload.product_id
+      const id = action.payload.id
 
-      if (newState.productById[productId]) {
-        newState.productById[productId] = {
-          ...newState.productById[productId],
-          product_images: [
-            ...newState.productById[productId].product_images,
-            action.payload,
-          ],
-        };
-      }
-      return newState;
+      const newProductById = { ...state.productById, [prodId]: state.productById[prodId] };
+      newProductById[prodId].product_images[id] = action.payload
+      newProductById[prodId].preview_image = action.payload.url
+
+      const newState = {...state.allProducts}
+      const newProductByUserId = {...state.productByUserId, [action.payloaduserId]: state.productByUserId[action.payload.userId]}
+      if (action.payload.preview)
+        newProductByUserId[prodId].preview_image = action.payload.url
+        newState[prodId].preview_image = action.payload.url
+
+      return {allProducts: newState, ProductById: newProductById, productByUserId: newProductByUserId };
     }
-    // case UPDATE_IMAGE: {
-    //   const newState = { ...state };
-    //   const productId = action.payload.product_id;
+    case UPDATE_IMAGE: {
+      const prodId = action.payload.product_id
+      const id = action.payload.id
 
-    //   if (newState.productById[productId]) {
-    //     const updatedImages = newState.productById[
-    //       productId
-    //     ].product_images.map((image) =>
-    //       // if there's an image, action.payload, else, new image
-    //       image.id === action.payload.id ? action.payload : image
-    //     );
-    //     newState.productById[productId] = {
-    //       ...newState.productById[productId],
-    //       product_images: updatedImages,
-    //     };
-    //   }
-    //   return newState;
-    // }
+      const newProductById = { ...state.productById, [prodId]: state.productById[prodId] };
+      console.log('newProductById Before', newProductById)
+      newProductById[prodId].product_images[id] = action.payload
+      newProductById[prodId].preview_image = action.payload.url
+      console.log('newProductById After', newProductById)
+
+
+      const newState = {...state.allProducts}
+      console.log('newState Before', newState)
+      console.log('state.productByUserId Before', state.productByUserId)
+      const newProductByUserId = {...state.productByUserId, [action.payload.userId]: state.productByUserId[action.payload.userId]}
+      console.log('newProductByUserId Before', newProductByUserId)
+
+
+      if (action.payload.preview)
+        newProductByUserId[prodId].preview_image = action.payload.url
+        newState[prodId].preview_image = action.payload.url
+        console.log('newState After', newState)
+        console.log('newProductByUserId After', newProductByUserId)
+
+
+      return {allProducts: newState, ProductById: newProductById, productByUserId: newProductByUserId };
+    }
+    case DELETE_IMAGE: {
+      const prodId = action.payload.product_id
+      const id = action.payload.id
+
+      const newProductById = { ...state.productById, [prodId]: state.productById[prodId]};
+      delete newProductById[prodId].product_images[id]
+      return {...state, productById: newProductById}
+    }
     case DELETE_PRODUCT: {
       const newState = { ...state };
       delete newState.productByUserId[action.payload];
