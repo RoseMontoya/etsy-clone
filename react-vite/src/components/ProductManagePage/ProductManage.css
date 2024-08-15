@@ -1,59 +1,221 @@
+/* Product Management Header */
 .product_manage_header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-right: 100px;
+  padding: 20px 50px;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #ddd;
 }
 
-.drop_down_setting:hover {
-  text-align: right;
-  background-color: lightgray;
-  border-radius: 100%;
-  width: fit-content;
+.product_manage_header .favorite_profile {
+  display: flex;
+  align-items: center;
+}
+
+.product_manage_header .favorite_profile img {
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.product_manage_header p {
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+}
+
+.product_manage_header a {
+  background-color: #ff5a1f;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.product_manage_header a:hover {
+  background-color: #ff7a3a;
+}
+
+/* Grid Layout for Products */
+.grid_container {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(260px, 1fr)
+  ); /* Adjusted for a good fit */
+  gap: 20px;
+  padding: 20px 50px;
+}
+
+.grid-item {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  padding: 20px;
+  position: relative;
+}
+
+.grid-item:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.grid-item a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.image_container {
+  position: relative;
+  width: 100%;
+  padding-top: 75%; /* Aspect ratio of 4:3 (height is 75% of the width) */
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.image_container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the image covers the container without distortion */
+  border-radius: 8px;
+}
+
+.grid-item p {
+  margin: 10px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+/* Settings Icon and Dropdown */
+.drop_down_setting {
+  font-size: 24px;
+  color: #666;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
 }
 
 .drop_down_container {
   display: flex;
   justify-content: space-between;
-  margin: 0;
-  padding: 0;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  bottom: -20px; /* Position at the bottom of the card */
+  left: 0;
+  right: 0;
+  z-index: 1;
 }
 
-.product_container {
-  margin: 20px 30px;
+.drop_down_item {
+  cursor: pointer;
+  padding: 10px;
+  color: #333;
+  flex: 1;
+  text-align: center;
 }
 
+.drop_down_item:hover {
+  background-color: #f5f5f5;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .product_manage_header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .product_manage_header p {
+    margin-bottom: 10px;
+  }
+
+  .grid_container {
+    padding: 20px;
+    grid-template-columns: 1fr;
+  }
+
+  .product_container {
+    margin: 20px;
+  }
+
+  .drop_down_setting {
+    bottom: 15px;
+    left: 15px;
+  }
+}
+
+/* Confirm Deletion Modal Styling */
 .confirm_deletion {
   position: fixed;
   padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  border: none;
-  top: 45%; /* Center the modal vertically */
-  left: 50%; /* Center the modal horizontally */
-  transform: translate(
-    -50%,
-    -50%
-  ); /* Offset the modal by 50% of its own dimensions */
-  width: 30%;
-  max-width: 550px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 500px;
+  z-index: 1000;
+}
+
+.confirm_deletion h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
 }
 
 .confirm_deletion p {
-  margin: 20px auto;
+  margin: 20px 0;
+  font-size: 16px;
+  color: #555;
+  line-height: 1.5;
 }
 
+/* Buttons Styling */
 .delete-yes,
 .delete-no {
   padding: 10px 20px;
   margin: 10px;
+  font-size: 16px;
+  font-weight: bold;
   color: white;
   border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .delete-yes {
   background-color: #b60130;
 }
 
+.delete-yes:hover {
+  background-color: #a1002a;
+}
+
 .delete-no {
   background-color: lightgray;
+  color: black;
+}
+
+.delete-no:hover {
+  background-color: #999;
 }

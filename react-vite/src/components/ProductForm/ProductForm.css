@@ -1,36 +1,93 @@
 .product_form {
   margin: 50px auto;
   width: 55%;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .product_form h3 {
   margin-top: 20px;
+  font-size: 1.5em;
+  color: #333;
 }
 
 .product_form p {
-  margin: 5px 0px;
+  margin: 5px 0;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.product_form textarea,
+.product_form select,
+.product_form input[type="text"],
+.product_form input[type="number"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.75em;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1em;
 }
 
 .product_form textarea {
-  width: 100%;
   height: 200px;
-  box-sizing: border-box;
-  width: 100%;
-  padding: 0.75em;
-  border-radius: 5px;
+  resize: vertical;
 }
 
-.product_form select {
-  width: 100%;
-  box-sizing: border-box;
-  width: 100%;
-  padding: 0.75em;
-  border-radius: 5px;
+.product_form input:focus,
+.product_form textarea:focus,
+.product_form select:focus {
+  border-color: #000;
+  outline: none;
 }
 
 .product_form button {
+  display: block;
   margin: 50px auto;
   width: 60%;
   background-color: black;
   color: white;
+  padding: 1em;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.product_form button:hover {
+  background-color: #333;
+}
+
+.previewImagesize {
+  max-width: 200px;
+  border-radius: 12px;
+  border: 2px solid black;
+  margin-bottom: 20px;
+}
+
+.divider-line {
+  height: 1px;
+  background-color: #ddd;
+  margin: 20px 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .product_form {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .product_form button {
+    width: 80%;
+  }
+
+  .previewImagesize {
+    max-width: 100%;
+    height: auto;
+  }
 }
