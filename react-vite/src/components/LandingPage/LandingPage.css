@@ -2,49 +2,66 @@
 
 .landing-page {
   font-family: Arial, sans-serif;
-  padding: 20px;
-  background-color: #f7f7f7;
+  /* background-color: #f7f7f7; */
 }
 
 .welcome-message {
   font-size: 24px;
   color: #333;
-  margin-bottom: 20px;
+  margin: 20px;
+  text-align: center;
+}
+
+.back-to-school {
+  background-color: rgb(17, 40, 104);
+  color: rgb(245, 255, 185);
+  padding: 50px;
+  font-size: 36px;
+  text-align: center;
+}
+
+.back-to-school button {
+  width: 25%;
+  padding: 16px;
+  margin-top: 20px;
+  background-color: rgb(245, 255, 185);
+  color: rgb(17, 40, 104);
 }
 
 .featured-product {
   display: flex;
   align-items: center;
-  margin-top: 30px;
-  padding: 20px;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: rgb(245, 255, 185);
 }
 
 .featured-product img {
-  width: 150px;
-  height: 150px;
+  width: 250px;
+  height: 250px;
   object-fit: cover;
-  border-radius: 8px;
-  margin-right: 20px;
+  margin-right: 50px;
+  /* border-radius: 8px; */
+  /* margin-right: 20px; */
 }
 
 .product-info {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .product-info h3 {
   font-size: 20px;
-  color: #333;
-  margin-bottom: 10px;
+  color: rgb(17, 40, 104);
+  margin-bottom: 16px;
 }
 
 .product-info div {
   font-size: 16px;
-  color: #666;
-  margin-bottom: 5px;
+  color: rgb(17, 40, 104);
+  margin-bottom: 16px;
 }
 
 .product-info a {
@@ -58,32 +75,64 @@
 }
 
 .no-user-message {
-  text-align: center;
-  margin-top: 50px;
+  /* text-align: center;
+  margin-top: 50px; */
+  background-image: url("/images/LandingPage.webp");
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  background-image: url("/images/LandingPage.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: calc(100vh - 80px);
+  padding: 50px;
+  color: white;
+}
+
+.featured-product_signed_out {
+  display: flex;
+  justify-content: space-between;
+  background-color: #967b69;
+  opacity: 0.9;
+  width: 500px;
+  padding: 20px;
+  border-radius: 20px;
+  margin-top: 25vh;
+}
+
+.featured-product_signed_out img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 20px;
 }
 
 .no-user-message h2 {
-  font-size: 28px;
-  color: #333;
-  margin-bottom: 20px;
+  font-size: 50px;
+  color: white;
+  margin-top: 10px;
 }
 
-.no-user-message p {
-  font-size: 18px;
-  color: #666;
-  margin-bottom: 30px;
+.product-info_signed_out {
+  font-size: 16px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .no-user-message button {
-  background-color: #f16521;
-  color: #fff;
+  background-color: white;
+  color: black;
   padding: 10px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 30px;
   font-size: 16px;
   cursor: pointer;
 }
 
 .no-user-message button:hover {
-  background-color: #e55417;
+  background-color: lightgray;
 }
