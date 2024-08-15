@@ -17,11 +17,11 @@ function Navigation() {
   // const cartItemCount = cartArr.reduce((total, item) => total + item.quantity, 0);
 
   // Fetch cart items when the user logs in
-  useEffect(() => {
-    if (user) {
-      dispatch(getAllCartItems());
-    }
-  }, [dispatch, user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     dispatch(getAllCartItems());
+  //   }
+  // }, [dispatch, user]);
 
   return (
     <nav>
