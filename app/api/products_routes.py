@@ -232,7 +232,7 @@ def decrease_inventory_edit():
                     "inventory": product.inventory
                 })
                 break
-    
+
     # Save changes to the database
     db.session.commit()
 
