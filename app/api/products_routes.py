@@ -221,6 +221,7 @@ def get_all_products():
     # [product.avg_rating() for product in products]
     return [product.to_dict() for product in products]
 
+
 # Updating inventory list after successful transaction
 @products_routes.route("/successful-transaction", methods=["PUT"])
 @login_required
@@ -231,17 +232,25 @@ def decrease_inventory_edit():
     products = Product.query.filter(Product.id.in_(product_ids)).all()
 
     updated_products = []
-
+    deleted_products = []
     for product in products:
         # Find the matching cart item for the product
         for item in cart_items:
             if product.id == item.product_id:
                 # Update the inventory
-                product.inventory -= item.quantity
-                updated_products.append(product.to_dict())
-                break
+                if product.inventory - item.quantity > 0:
+                    product.inventory -= item.quantity
+                    product.inventory -= item.quantity
+                    updated_products.append(product.to_dict())
+                else:
+                    deleted_products.append(product.to_dict())
+                    db.session.delete(product)
 
-    # Save changes to the database
     db.session.commit()
 
-    return jsonify({"products": updated_products}), 200
+
+    # Save changes to the database
+
+    return jsonify(
+        {"products": updated_products, "deleted_products": deleted_products}
+    ), 200

@@ -1,7 +1,7 @@
 import "./Checkout.css";
 import { useNavigate } from "react-router-dom";
 import { clearCart, getAllCartItems } from "../../redux/cart";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { updateInventory } from "../../redux/product";
 import { useEffect } from "react";
 
