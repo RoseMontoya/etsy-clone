@@ -1,14 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 // import { FaUserCircle } from "react-icons/fa";
 import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 // import SignupFormModal from "../SignupFormModal";
+import { getAllCartItems } from "../../redux/cart";
 import "./ProfileButton.css";
 
 function ProfileButton() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const user = useSelector((store) => store.session.user);
   // console.log(user);
@@ -18,7 +21,7 @@ function ProfileButton() {
     e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
     setShowMenu(!showMenu);
   };
-
+  
   useEffect(() => {
     if (!showMenu) return;
 
@@ -33,12 +36,18 @@ function ProfileButton() {
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
+  useEffect(() => {
+    if (user) {
+      dispatch(getAllCartItems());
+    }
+  }, [user, dispatch]);
   const closeMenu = () => setShowMenu(false);
 
   const logout = (e) => {
     e.preventDefault();
     dispatch(thunkLogout());
     closeMenu();
+    navigate("/");
   };
 
   return (
@@ -52,23 +61,28 @@ function ProfileButton() {
           />
         ) : (
           <OpenModalMenuItem
-          itemText="Sign in"
-          onItemClick={closeMenu}
-          modalComponent={<LoginFormModal />}
+            itemText="Sign in"
+            onItemClick={closeMenu}
+            modalComponent={<LoginFormModal />}
           />
-
         )}
       </button>
       {showMenu && (
         <ul className={"profile-dropdown"} ref={ulRef}>
           {user ? (
-            <>
+            <div>
               <li>{user.username}</li>
               <li>{user.email}</li>
               <li>
+                <Link to="/products/current">Manage Products</Link>
+              </li>
+              <li>
+                <Link to="/favorites">Your Favorites</Link>
+              </li>
+              <li>
                 <button onClick={logout}>Log Out</button>
               </li>
-            </>
+            </div>
           ) : (
             <>
               {/* <OpenModalMenuItem

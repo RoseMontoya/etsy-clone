@@ -1,4 +1,5 @@
 # etsy-clone
+testing
 
 ## Database Schema Design
 
@@ -277,6 +278,7 @@ Returns all the products.
         "updated_at": "2021-11-19 20:39:36"
     }
     ```
+
 
 ### Get details of a product from an id
 

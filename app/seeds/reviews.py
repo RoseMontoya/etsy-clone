@@ -82,7 +82,7 @@ def seed_reviews():
     )
     review12 = Review(
         product_id=6,
-        user_id=1,
+        user_id=7,
         review="While the Ceramic Happy Face Bud Vase is cute, I was disappointed with its size. It’s much smaller than I expected, and it doesn't hold as many flowers as I’d like.",
         stars=2,
         recommendation=False,
@@ -103,7 +103,7 @@ def seed_reviews():
     )
     review15 = Review(
         product_id=7,
-        user_id=4,
+        user_id=7,
         review="This vase is adorable! It adds a cheerful touch to my living room, and the quality of the ceramic is excellent.",
         stars=4,
         recommendation=True,

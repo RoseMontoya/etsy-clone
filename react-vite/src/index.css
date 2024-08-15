@@ -10,6 +10,11 @@ body {
   margin: 0;
 }
 
+main {
+  padding: 2em;
+  min-height: 100vh;
+}
+
 h2 {
   font-weight: 400;
 }
@@ -20,6 +25,7 @@ p {
 
 a {
   text-decoration: none;
+  color: black;
 }
 
 input {
@@ -55,6 +61,14 @@ ul {
 
 .orange {
   color: #f1641e;
+}
+
+.red {
+  color: #9a0028;
+}
+
+.bold {
+  font-weight: bold;
 }
 
 .icon {
@@ -97,4 +111,12 @@ button {
   background-color: black;
   color: white;
   border: none;
+}
+
+.invisible-button {
+  border: none;
+}
+
+.hidden {
+  display: none;
 }

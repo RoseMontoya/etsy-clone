@@ -1,0 +1,145 @@
+.cart-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.cart-summary {
+  font-size: 18px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.cart-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.cart-item-content {
+  display: flex;
+  align-items: center;
+  width: 100%; /* Ensure it takes the full width available */
+}
+
+.cart-item-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-right: 20px;
+  cursor: pointer; /* Ensure pointer cursor on image */
+}
+
+.cart-item-details {
+  flex: 1;
+}
+
+.cart-item-title {
+  font-size: 18px;
+  margin: 0;
+  cursor: pointer; /* Ensure pointer cursor on title */
+  color: #0073e6; /* Make the title appear as a link */
+  text-decoration: none;
+}
+
+.cart-item-title:hover {
+  text-decoration: underline; /* Underline on hover for clickable title */
+}
+
+.cart-item-seller {
+  font-size: 14px;
+  color: #777;
+}
+
+.cart-item-price {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.cart-item-quantity {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.cart-item-gift {
+  font-size: 14px;
+  color: #5a9;
+}
+
+.cart-item-actions {
+  margin-left: 20px;
+  text-align: right;
+}
+
+.cart-item-remove {
+  background-color: white;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.cart-item-remove:hover {
+  background-color: rgb(234, 231, 231);
+}
+
+.cart-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.checkout-button {
+  background-color: black;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.checkout-button:hover {
+  background-color: gray;
+}
+
+.continue-shopping {
+  font-size: 14px;
+  color: #0073e6;
+  text-decoration: none;
+}
+
+.continue-shopping:hover {
+  text-decoration: underline;
+}
+
+.empty-cart {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.shop-link {
+  display: inline-block;
+  margin-top: 10px;
+  color: #0073e6;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.shop-link:hover {
+  text-decoration: underline;
+}

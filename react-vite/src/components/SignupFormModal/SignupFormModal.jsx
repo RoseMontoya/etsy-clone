@@ -10,6 +10,8 @@ function SignupFormModal() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [first_name, setFirst_Name] = useState("");
+  const [last_name, setLast_Name] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
@@ -28,6 +30,8 @@ function SignupFormModal() {
         email,
         username,
         password,
+        first_name,
+        last_name,
       })
     );
 
@@ -96,10 +100,30 @@ function SignupFormModal() {
                 required
               />
             </label>
+            <label>
+              First Name
+              <input
+                type="text"
+                value={first_name}
+                onChange={(e) => setFirst_Name(e.target.value)}
+                required
+              />
+            </label>
+            <label>
+              Last Name
+              <input
+                type="text"
+                value={last_name}
+                onChange={(e) => setLast_Name(e.target.value)}
+                required
+              />
+            </label>
           </div>
           {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
           <div></div>
-          <button type="submit">Sign Up</button>
+          <button type="submit" className="cursor">
+            Sign Up
+          </button>
         </form>
       </div>
     </>

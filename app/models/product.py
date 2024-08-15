@@ -15,8 +15,8 @@ class Product(db.Model):
     price = db.Column(db.Integer, nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("categories.id")), nullable=False)
     seller_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
-    # created_at = db.Column(db.DateTime, server_default=func.now())
-    # updated_at = db.Column(db.DateTime, onupdate=func.now())
+    created_at = db.Column(db.DateTime, server_default=func.now())
+    updated_at = db.Column(db.DateTime, onupdate=func.now())
 
     category = db.relationship("Category", back_populates="products")
     seller = db.relationship("User", back_populates="products")
@@ -25,6 +25,13 @@ class Product(db.Model):
     favorites = db.relationship('Favorite', back_populates='product')
 
     def to_dict(self):
+        preview_image_url = None
+        preview_images = []
+
+        preview_image = list(filter(lambda image: image.preview is True, self.images))
+        if preview_image:
+            preview_image_url = preview_image[0].url
+
         return {
             "id": self.id,
             "title": self.title,
@@ -33,7 +40,7 @@ class Product(db.Model):
             "price": self.price,
             "category_id": self.category_id,
             "seller": self.seller.to_dict_seller(),
-            "preview_image": [image.url for image in self.images if image.preview == True][0],
+            "preview_image": preview_image_url,
             # "product_images": [image.to_dict() for image in self.images],
             # "created_at": self.created_at,
             # "updated_at": self.updated_at,

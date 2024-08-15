@@ -4,39 +4,52 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
+
 from .models import db, User
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.reviews_routes import reviews_routes
 from .api.products_routes import products_routes
+from .api.home_routes import home_routes
+from .api.cart_routes import cart_routes
+from .api.favorites_routes import favorites_routes
+
 from .seeds import seed_commands
 from .config import Config
 
-app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
+app = Flask(__name__, static_folder="../react-vite/dist", static_url_path="/")
 
 # Setup login manager
 login = LoginManager(app)
-login.login_view = 'auth.unauthorized'
+login.login_view = "auth.unauthorized"
 
 
 @login.user_loader
 def load_user(id):
-    return User.query.get(int(id))
+    # print(f'LOAD USER with ID: {id}')
+    user = User.query.get(int(id))
+    # print(f'User found: {user}')
+    return user
 
 
 # Tell flask about our seed commands
 app.cli.add_command(seed_commands)
 
 app.config.from_object(Config)
-app.register_blueprint(user_routes, url_prefix='/api/users')
-app.register_blueprint(auth_routes, url_prefix='/api/auth')
-app.register_blueprint(reviews_routes, url_prefix='/api/reviews')
-app.register_blueprint(products_routes, url_prefix='/api/products')
+app.register_blueprint(user_routes, url_prefix="/api/users")
+app.register_blueprint(auth_routes, url_prefix="/api/auth")
+app.register_blueprint(reviews_routes, url_prefix="/api/reviews")
+app.register_blueprint(products_routes, url_prefix="/api/products")
+app.register_blueprint(home_routes, url_prefix="/api/home")
+app.register_blueprint(favorites_routes, url_prefix="/api/favorites")
+
+app.register_blueprint(cart_routes, url_prefix="/api/cart")
+
 db.init_app(app)
 Migrate(app, db)
 
 # Application Security
-CORS(app)
+CORS(app, supports_credentials=True)
 
 
 # Since we are deploying with Docker and Flask,
@@ -46,22 +59,27 @@ CORS(app)
 # Well.........
 @app.before_request
 def https_redirect():
-    if os.environ.get('FLASK_ENV') == 'production':
-        if request.headers.get('X-Forwarded-Proto') == 'http':
-            url = request.url.replace('http://', 'https://', 1)
+    if os.environ.get("FLASK_ENV") == "production":
+        if request.headers.get("X-Forwarded-Proto") == "http":
+            url = request.url.replace("http://", "https://", 1)
             code = 301
             return redirect(url, code=code)
+    # print('Request Headers:', request.headers)
+    # print('Request Cookies:', request.cookies)
 
 
 @app.after_request
 def inject_csrf_token(response):
+    csrf_token = generate_csrf()
+    print(f"INJECT CSRF TOKEN")
     response.set_cookie(
-        'csrf_token',
-        generate_csrf(),
-        secure=True if os.environ.get('FLASK_ENV') == 'production' else False,
-        samesite='Strict' if os.environ.get(
-            'FLASK_ENV') == 'production' else None,
-        httponly=True)
+        "csrf_token",
+        csrf_token,
+        secure=True if os.environ.get("FLASK_ENV") == "production" else False,
+        samesite="Strict" if os.environ.get("FLASK_ENV") == "production" else None,
+        httponly=False,
+    )
+    # print('csrf token after', dir(response))
     return response
 
 
@@ -70,26 +88,36 @@ def api_help():
     """
     Returns all API routes and their doc strings
     """
-    acceptable_methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
-    route_list = { rule.rule: [[ method for method in rule.methods if method in acceptable_methods ],
-                    app.view_functions[rule.endpoint].__doc__ ]
-                    for rule in app.url_map.iter_rules() if rule.endpoint != 'static' }
+    acceptable_methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
+    route_list = {
+        rule.rule: [
+            [method for method in rule.methods if method in acceptable_methods],
+            app.view_functions[rule.endpoint].__doc__,
+        ]
+        for rule in app.url_map.iter_rules()
+        if rule.endpoint != "static"
+    }
     return route_list
 
 
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
+@app.route("/", defaults={"path": ""})
+@app.route("/<path:path>")
 def react_root(path):
     """
     This route will direct to the public directory in our
     react builds in the production environment for favicon
     or index.html requests
     """
-    if path == 'favicon.ico':
-        return app.send_from_directory('public', 'favicon.ico')
-    return app.send_static_file('index.html')
+    if path == "favicon.ico":
+        return app.send_from_directory("public", "favicon.ico")
+    return app.send_static_file("index.html")
 
 
 @app.errorhandler(404)
 def not_found(e):
-    return app.send_static_file('index.html')
+    return app.send_static_file("index.html")
+
+
+@app.route("/api/get-csrf-token")
+def get_csrf_token():
+    return {"csrf_token": generate_csrf()}
