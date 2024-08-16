@@ -72,4 +72,16 @@
 
 #greater {
     right: 0.5em;
-  }
+}
+
+.post-review-click {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.post-review-click:hover {
+  color: #f16521;
+}
