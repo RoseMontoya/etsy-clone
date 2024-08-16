@@ -9,7 +9,8 @@ function Heart({ initial, productId }) {
   const dispatch = useDispatch();
   const [favorited, setFavorited] = useState(initial);
   const user = useSelector((state) => state.session.user);
-  const handleUnfavorite = (productId) => {
+  const handleUnfavorite = (productId, e) => {
+    e.stopPropagation();
     dispatch(removeFavorite(productId)).then(() => {
       const popUpRemoved = document.getElementById("remove_fav");
       popUpRemoved.style.display = "block";
@@ -20,7 +21,8 @@ function Heart({ initial, productId }) {
     });
   };
 
-  const handleFavorite = (productId) => {
+  const handleFavorite = (productId, e) => {
+    e.stopPropagation();
     dispatch(addFavorite(productId)).then(() => {
       const popUpSaved = document.getElementById("add_fav");
       popUpSaved.style.display = "block";
@@ -36,14 +38,14 @@ function Heart({ initial, productId }) {
       {favorited ? (
         <div
           className="heart remove_from_fav"
-          onClick={user ? () => handleUnfavorite(productId) : null}
+          onClick={user ? (e) => handleUnfavorite(productId, e) : null}
         >
           <FaHeart color="#b60130" />
         </div>
       ) : (
         <div
           className="heart add_to_fav"
-          onClick={user ? () => handleFavorite(productId) : null}
+          onClick={user ? (e) => handleFavorite(productId, e) : null}
         >
           <FaRegHeart />
         </div>

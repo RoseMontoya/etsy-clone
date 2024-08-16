@@ -15,7 +15,7 @@
 .back-to-school {
   background-color: rgb(17, 40, 104);
   color: rgb(245, 255, 185);
-  padding: 70px;
+  padding: 100px;
   font-size: 36px;
   text-align: center;
 }
@@ -92,6 +92,7 @@
   height: calc(100vh - 80px);
   padding: 50px;
   color: white;
+  min-height: 90vh;
 }
 
 .featured-product_signed_out {

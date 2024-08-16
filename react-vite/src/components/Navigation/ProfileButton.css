@@ -36,6 +36,7 @@
 .hover-effect:hover {
   background-color: lightgray;
   border-radius: 5px;
+  width: 90%;
 }
 
 /* @keyframes fadeIn {

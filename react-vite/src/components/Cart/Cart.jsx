@@ -23,7 +23,6 @@ function Cart() {
   //   const cartItems = Object.values(cartObj)
   //   cartArr = cartItems.filter(item => allProducts[item.product_id])
   // }
-  console.log("FRONT END ========>", cartArr);
 
   useEffect(() => {
     if (!cartObj) {
