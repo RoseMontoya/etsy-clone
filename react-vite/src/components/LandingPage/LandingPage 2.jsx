@@ -19,9 +19,22 @@ function LandingPage() {
     }
   }, [dispatch, productsObj]);
 
-
   if (!productsObj) {
-    return <p>Loading products...</p>;
+    return (
+      <div className="center-loading">
+        <div className="lds-roller ">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        <p>Loading...</p>
+      </div>
+    );
   }
 
   const getRandomProduct = () => {

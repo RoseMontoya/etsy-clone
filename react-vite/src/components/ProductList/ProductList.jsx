@@ -33,7 +33,22 @@ function ProductList() {
     }
   }, [dispatch, productsObj, favoritesObj, user]);
 
-  if (!productsObj) return <h2>Loading...</h2>;
+  if (!productsObj)
+    return (
+      <div className="center-loading">
+        <div className="lds-roller">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        <p>Loading...</p>
+      </div>
+    );
 
   const handleAddToCart = (product) => {
     if (!user) {
