@@ -54,7 +54,7 @@ function LandingPage() {
               <h3>Featured Product:</h3>
               <div>{randomProduct.title}</div>
               <div>{randomProduct.description}</div>
-              <Link to={`/products/${randomProduct.id}`}>Discover More</Link>
+              <Link to={`/products/${randomProduct.id}`}>See this product</Link>
             </div>
           </div>
         </>
@@ -66,7 +66,7 @@ function LandingPage() {
             <div className="product-info_signed_out">
               <h3>Sold by {randomProduct.seller.first_name}</h3>
               <div>{randomProduct.title}</div>
-              <Link to={`/products/${randomProduct.id}`}><button>Discover more</button></Link></div>
+              <Link to={`/products/${randomProduct.id}`}><button>See this product</button></Link></div>
               <div style={{position: "relative"}}>
                 <img
                 src={randomProduct.preview_image}

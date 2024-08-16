@@ -41,6 +41,17 @@ function EditProductForm() {
       setInventory(product.inventory || "");
       setPrice(product.price || "");
       setCategoryId(product.category_id || "");
+      // setPreviewImage(images[0] || "");
+      // setImage1(images[1] || "");
+      // setImage2(images[2] || "");
+      // setImage3(images[3] || "");
+      // setImage4(images[4] || "");
+      // setImage5(images[5] || "");
+    }
+  }, [dispatch, productId, product]);
+
+  useEffect(() => {
+    if (!previewImage) {
       setPreviewImage(images[0] || "");
       setImage1(images[1] || "");
       setImage2(images[2] || "");
@@ -48,7 +59,7 @@ function EditProductForm() {
       setImage4(images[4] || "");
       setImage5(images[5] || "");
     }
-  }, [dispatch, productId, product, images]);
+  }, [images, previewImage])
 
   const validateForm = () => {
     const errorObj = {};

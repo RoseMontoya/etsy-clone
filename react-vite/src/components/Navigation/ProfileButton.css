@@ -3,11 +3,11 @@
   height: 20px;
   border-radius: 100%;
 }
-.hiddenButton{
-    border:none;
-    background-color: white;
-    /* border-radius: 100%; */
-    /* animation: fadeIn 0.25s ease-in-out forwards; */
+.hiddenButton {
+  border: none;
+  background-color: white;
+  /* border-radius: 100%; */
+  /* animation: fadeIn 0.25s ease-in-out forwards; */
 }
 
 .hiddenButton:hover {
@@ -26,8 +26,17 @@
   z-index: 1000;
   display: flex;
   flex-direction: column;
+  align-items: baseline;
 }
 
+.profile-dropdown-div * {
+  padding: 0.5em;
+}
+
+.hover-effect:hover {
+  background-color: lightgray;
+  border-radius: 5px;
+}
 
 /* @keyframes fadeIn {
   0% {
