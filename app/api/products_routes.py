@@ -6,6 +6,7 @@ from ..models.cart import Cart, CartItem
 from ..models.user import User
 from flask_login import current_user, login_required
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import joinedload, subqueryload
 from ..forms import ReviewForm, ProductForm, ProductImageForm
 import random
 
@@ -217,8 +218,30 @@ def delete_image(imageId):
 # Get all products
 @products_routes.route("/", methods=["GET"])
 def get_all_products():
-    products = Product.query.all()
-    # [product.avg_rating() for product in products]
+
+    # products = db.session.query(Product).options(
+    #     # joinedload(Product.category),
+    #     joinedload(Product.seller),
+    #     joinedload(Product.images),
+    #     joinedload(Product.reviews),
+    #     # joinedload(Product.favorites),
+    #     # joinedload(Product.cart_items)
+    # ).all()
+    # 174.059814453125 ms
+    # 176.099853515625 ms
+    # 550.406005859375 ms
+    # 256.68896484375 ms
+    # 216.72900390625 ms
+
+
+    products = db.session.query(Product).options(
+        # subqueryload(Product.category),
+        subqueryload(Product.seller),
+        subqueryload(Product.images),
+        subqueryload(Product.reviews),
+        # subqueryload(Product.favorites),
+        # subqueryload(Product.cart_items)
+    ).all()
     return [product.to_dict() for product in products]
 
 

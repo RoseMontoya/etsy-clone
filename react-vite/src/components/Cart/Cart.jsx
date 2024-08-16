@@ -8,25 +8,32 @@ import {
   clearCart,
   updateCartItemQuantity,
 } from "../../redux/cart";
+import { thunkAllProducts } from "../../redux/product";
 
 function Cart() {
   const dispatch = useDispatch();
   // const [number, setNumber] = useState(1);
   const cartObj = useSelector((state) => state.cart?.cartItems);
+  const allProducts = useSelector(state => state.products?.allProducts)
 
   const cartArr = cartObj ? Object.values(cartObj) : [];
   console.log("FRONT END ========>", cartArr);
 
   useEffect(() => {
     if (!cartObj) {
+      console.log('effect cart')
       dispatch(getAllCartItems());
     }
-  }, [dispatch, cartObj]);
+    if (!allProducts) {
+      console.log('effect product')
+      dispatch(thunkAllProducts())
+    }
+  }, [dispatch, cartObj, allProducts]);
 
   const handleDelete = async (cartItemId, e) => {
     e.stopPropagation(); // Prevent click from propagating to the Link
     await dispatch(deleteCartItem(cartItemId));
-    dispatch(getAllCartItems());
+    // dispatch(getAllCartItems());
   };
 
   const handleClearCart = async () => {
@@ -38,10 +45,10 @@ function Cart() {
       await dispatch(updateCartItemQuantity(cartItemId, newQuantity));
     } catch (error) {
       console.error("Failed to update quantity:", error);
-    } finally {
-      dispatch(getAllCartItems());
     }
   };
+
+  if (!cartObj || !allProducts) return <h2>Loading...</h2>
 
   if (cartArr.length === 0) {
     return (
@@ -55,10 +62,11 @@ function Cart() {
   const cartTotal = (cartArr) => {
     let total = 0;
     for (let item of cartArr){
-        total += (Number(item.product.price) * Math.min(Number(item.quantity), Number(item.product.inventory)))
+        total += (Number(allProducts[item.product_id].price) * Math.min(Number(item.quantity), Number(allProducts[item.product_id].inventory)))
     }
     return total.toFixed(2)
   }
+
 
   return (
     <div className="cart-container">
@@ -71,7 +79,7 @@ function Cart() {
 
       <ul className="cart-list">
         {cartArr.map((item, index) => {
-          const product = item.product;
+          const product = allProducts[item.product_id];
 
           return (
             <li key={index} className="cart-item">
@@ -115,7 +123,7 @@ function Cart() {
 
               <div>
                 <div>
-                  ${(Number(product.price) * Math.min(Number(item.quantity), Number(item.product.inventory))).toFixed(2)}
+                  ${(Number(product.price) * Math.min(Number(item.quantity), Number(allProducts[item.product_id].inventory))).toFixed(2)}
                 </div>
                 <div className="cart-item-actions">
                   <button

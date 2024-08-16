@@ -23,11 +23,10 @@ class Product(db.Model):
     images = db.relationship("ProductImage", back_populates="product", cascade="all, delete-orphan")
     reviews = db.relationship('Review', back_populates='product', cascade="all, delete-orphan")
     favorites = db.relationship('Favorite', back_populates='product', cascade='all, delete-orphan')
-    cart_items = db.relationship('CartItem', cascade='all, delete-orphan')
+    cart_items = db.relationship('CartItem', cascade='all, delete-orphan', back_populates="product")
 
     def to_dict(self):
         preview_image_url = None
-        preview_images = []
 
         preview_image = list(filter(lambda image: image.preview is True, self.images))
         if preview_image:
@@ -42,9 +41,6 @@ class Product(db.Model):
             "category_id": self.category_id,
             "seller": self.seller.to_dict_seller(),
             "preview_image": preview_image_url,
-            # "product_images": [image.to_dict() for image in self.images],
-            # "created_at": self.created_at,
-            # "updated_at": self.updated_at,
         }
 
     def stars_sum(self):

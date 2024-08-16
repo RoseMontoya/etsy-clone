@@ -18,36 +18,6 @@ class Review(db.Model):
     product = db.relationship('Product', back_populates='reviews')
     user = db.relationship('User', back_populates='users_reviews')
 
-    # @property
-    # def review(self):
-    #     return self._review
-
-    # @review.setter
-    # def review(self, value):
-    #     if not isinstance(value, str):
-    #         raise ValueError("review must be a string")
-    #     self.review = value
-
-    # @property
-    # def stars(self):
-    #     return self.stars
-
-    # @stars.setter
-    # def stars(self, value):
-    #     if not isinstance(value, int) or not (1 <= value <= 5):
-    #         raise ValueError("stars must be an integer between 1 and 5")
-    #     self.stars = value
-
-    # @property
-    # def recommendation(self):
-    #     return self.recommendation
-
-    # @recommendation.setter
-    # def recommendation(self, value):
-    #     if not isinstance(value, bool):
-    #         raise ValueError("recommendation must be a boolean")
-    #     self.recommendation = value
-
     def to_dict(self):
         return {
             "id": self.id,

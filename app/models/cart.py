@@ -54,7 +54,7 @@ class CartItem(db.Model):
 
     cart = db.relationship("Cart", back_populates="cart_items")
 
-    product = db.relationship("Product")
+    product = db.relationship("Product", back_populates="cart_items")
 
     # @property
     # def quantity(self):
@@ -71,5 +71,5 @@ class CartItem(db.Model):
             "product_id": self.product_id,
             "quantity": self.quantity,
             "gift": self.gift,
-            "product": self.product.to_dict() if self.product else None,
+            # "product": self.product.to_dict() if self.product else None,
         }

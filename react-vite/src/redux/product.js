@@ -71,7 +71,10 @@ const inventoryUpdate = (item) => {
 };
 
 export const thunkAllProducts = () => async (dispatch) => {
+  // console.time('allProducts')
   const response = await fetch("/api/products");
+  // console.timeEnd('allProducts')
+
   if (response.ok) {
     const data = await response.json();
     if (data.errors) {

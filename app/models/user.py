@@ -65,6 +65,9 @@ class User(db.Model, UserMixin):
             "review_count": self.review_count(),
         }
 
+    def review_count(self):
+        return sum([product.review_count() for product in self.products])
+
     def to_dict(self):
         return {
             "id": self.id,
@@ -76,6 +79,3 @@ class User(db.Model, UserMixin):
             # "avg_rating": round(sum([product.stars_sum() for product in self.products]) / self.review_count(), 1),
             # "review_count": self.review_count()
         }
-
-    def review_count(self):
-        return sum([product.review_count() for product in self.products])
