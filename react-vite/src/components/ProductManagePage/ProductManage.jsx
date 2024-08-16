@@ -96,7 +96,7 @@ function ProductManage() {
 
               <p>{product.title}</p>
               <p>{product.inventory} in stock</p>
-              <p>${parseInt(product.price).toFixed(2)}</p>
+              <p className="grid_price">${parseInt(product.price).toFixed(2)}</p>
             </Link>
             <div>
               <p

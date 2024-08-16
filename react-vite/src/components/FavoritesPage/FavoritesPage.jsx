@@ -61,6 +61,7 @@ function FavoritesPage() {
                 <div className="image_container">
                   <img
                     src={allProducts[favorite.product_id].preview_image}
+                    style={{ width: '100%' }}
                     alt={allProducts[favorite.product_id].title}
                   />
                 </div>

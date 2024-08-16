@@ -223,7 +223,7 @@ function ProductDetails() {
             <div>
               {user ? (
                 <button
-                  className="black-button"
+                  className="black-button detail-add-cart"
                   onClick={() => handleAddToCart(product)}
                 >
                   Add to Cart
@@ -235,12 +235,12 @@ function ProductDetails() {
                   modalComponent={<LoginFormModal />}
                 />
               )}
-              <button
+              {/* <button
                 className="invisible-button"
                 onClick={() => handleAddFavorite(product.id)}
               >
                 Add to Collection
-              </button>
+              </button> */}
             </div>
             <div>
               <p>Item Details</p>

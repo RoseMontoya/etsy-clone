@@ -44,14 +44,11 @@
   color: inherit;
 }
 
-.image_container {
-  position: relative;
-  width: 100%;
-  padding-top: 75%; /* Aspect ratio of 4:3 (height is 75% of the width) */
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  overflow: hidden;
+.grid_price {
+  font-weight: 600;
 }
+
+
 
 /* Settings Icon and Dropdown */
 .drop_down_setting {
@@ -74,7 +71,7 @@
   border-radius: 6px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: absolute;
-  bottom: -20px; /* Position at the bottom of the card */
+  bottom: -16px; /* Position at the bottom of the card */
   left: 0;
   right: 0;
   z-index: 1;
@@ -82,7 +79,7 @@
 
 .drop_down_item {
   cursor: pointer;
-  padding: 10px;
+  padding: 8px;
   color: #333;
   flex: 1;
   text-align: center;
@@ -123,25 +120,21 @@
   position: fixed;
   padding: 20px;
   background-color: white;
-  border-radius: 8px;
+  border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90%;
-  max-width: 500px;
-  z-index: 1000;
+  width: 300px;
+  height: 450px;
 }
 
 .confirm_deletion h2 {
   font-size: 24px;
-  margin-bottom: 20px;
+  margin: 30px 20px;
   color: #333;
 }
 
 .confirm_deletion p {
-  margin: 20px 0;
+  margin: 20px 16px;
   font-size: 16px;
   color: #555;
   line-height: 1.5;
@@ -152,11 +145,12 @@
 .delete-no {
   padding: 10px 20px;
   margin: 10px;
+  width: 230px;
   font-size: 16px;
   font-weight: bold;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 12px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }

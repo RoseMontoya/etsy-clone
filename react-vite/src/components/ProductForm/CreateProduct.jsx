@@ -20,13 +20,41 @@ function NewProductForm() {
   const [image3Url, setImage3Url] = useState("");
   const [image4Url, setImage4Url] = useState("");
   const [image5Url, setImage5Url] = useState("");
+  const [errors, setErrors] = useState({});
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const user = useSelector((state) => state.session.user);
+
+  const validateForm = () => {
+    const errorObj = {};
+
+    if (!title) errorObj.title = "Title is required."
+    if (!description) errorObj.description = "Description is required."
+    if (description.length < 10) errorObj.description = "Description must be at least 10 characters long. Please provide more details on your product."
+    if (inventory <= 0) errorObj.inventory = "Inventory must be at least 1. Please enter a positive value."
+    if (price <= 0) errorObj.price = "Price cannot be negative."
+    if (!categoryId) errorObj.category = "Category is required."
+
+    const imageUrlValid = /\.(jpeg|jpg|gif|png)$/;
+    if (!previewImageUrl.match(imageUrlValid)) {
+      errorObj.previewImageUrl = "A valid image URL is required for the preview image.";
+    }
+
+    return errorObj;
+  }
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formErrors = validateForm();
+    if (Object.values(formErrors).length > 0) {
+      setErrors(formErrors);
+      return;
+    }
+    
+    setErrors({});
 
     const new_product = {
       title,
@@ -82,7 +110,13 @@ function NewProductForm() {
       imageArray.map((image) => dispatch(addProductImage(image, user.id)))
     );
     dispatch(productByUserId());
-    navigate(`/products/${productId}`);
+
+    if (result.errors) {
+      setErrors(result.errors);
+    } else {
+      navigate(`/products/${productId}`);
+    }
+    
   };
   return (
     <form onSubmit={handleSubmit} className="product_form">
@@ -95,8 +129,9 @@ function NewProductForm() {
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          required
         />
+        {errors.title && <p className="error">{errors.title}</p>}
+
       </div>
       <div>
         <label>
@@ -109,8 +144,8 @@ function NewProductForm() {
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          required
         ></textarea>
+        {errors.description && <p className="error">{errors.description}</p>}
       </div>
       <div>
         <label>
@@ -124,9 +159,8 @@ function NewProductForm() {
           type="number"
           value={inventory}
           onChange={(e) => setInventory(e.target.value)}
-          required
-          min="0"
         />
+        {errors.inventory && <p className="error">{errors.inventory}</p>}
       </div>
       <div>
         <label>
@@ -140,9 +174,8 @@ function NewProductForm() {
           type="number"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
-          required
-          min="0"
         />
+        {errors.price && <p className="error">{errors.price}</p>}
       </div>
       <div>
         <label>
@@ -156,7 +189,6 @@ function NewProductForm() {
           name="category_id"
           value={categoryId}
           onChange={(e) => setCategoryId(e.target.value)}
-          required
         >
           <option value="">Select a category</option>
           <option value="1">Home & Living</option>
@@ -165,6 +197,7 @@ function NewProductForm() {
           <option value="4">Jewelry</option>
           <option value="5">Clothing</option>
         </select>
+        {errors.categoryId && <p className="error">{errors.categoryId}</p>}
       </div>
       <div>
         <label>
@@ -175,7 +208,6 @@ function NewProductForm() {
           type="text"
           value={previewImageUrl}
           onChange={(e) => setPreviewImageUrl(e.target.value)}
-          required
         />
 
         {previewImageUrl ? (
@@ -185,6 +217,7 @@ function NewProductForm() {
             alt="Preview if Image is valid"
           />
         ) : null}
+        {errors.previewImageUrl && <p className="error">{errors.previewImageUrl}</p>}
       </div>
       <div>
         <label>Image URL:</label>

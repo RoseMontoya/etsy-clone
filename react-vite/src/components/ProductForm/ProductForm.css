@@ -16,7 +16,6 @@
 .product_form p {
   margin: 5px 0;
   font-size: 0.9em;
-  color: #666;
 }
 
 .product_form textarea,
@@ -26,7 +25,7 @@
   width: 100%;
   box-sizing: border-box;
   padding: 0.75em;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 1em;
@@ -65,7 +64,7 @@
 .previewImagesize {
   max-width: 200px;
   border-radius: 12px;
-  border: 2px solid black;
+  border: 1px solid darkgrey;
   margin-bottom: 20px;
 }
 
@@ -73,6 +72,12 @@
   height: 1px;
   background-color: #ddd;
   margin: 20px 0;
+}
+
+.error {
+  color: red;
+  text-align: left;
+  font-style: italic;
 }
 
 /* Responsive Design */

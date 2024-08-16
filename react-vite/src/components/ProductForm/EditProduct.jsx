@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { productById, productByUserId, editProduct } from "../../redux/product";
+import { productById, editProduct } from "../../redux/product";
 import {
   addProductImage,
   updateProductImage,
@@ -21,6 +21,7 @@ function EditProductForm() {
   const [image3, setImage3] = useState("");
   const [image4, setImage4] = useState("");
   const [image5, setImage5] = useState("");
+  const [errors, setErrors] = useState({});
 
   const { productId } = useParams();
   const dispatch = useDispatch();
@@ -49,29 +50,28 @@ function EditProductForm() {
     }
   }, [dispatch, productId, product]);
 
-  // useEffect(() => {
-  //   if (product) {
-  //       setTitle(product.title || '');
-  //       setDescription(product.description || '');
-  //       setInventory(product.inventory || '');
-  //       setPrice(product.price || '');
-  //       setCategoryId(String(product.categoryId) || '');
-  // setPreviewImageUrl(product.product_images[0].url || '');
-  // setImage1Url(product.product_images[1]?.url || '');
-  // setImage1Id(product.product_images[1]?.id || null);
-  // setImage2Url(product.product_images[2]?.url || '');
-  // setImage2Id(product.product_images[2]?.id || null);
-  // setImage3Url(product.product_images[3]?.url || '');
-  // setImage3Id(product.product_images[3]?.id || null);
-  // setImage4Url(product.product_images[4]?.url || '');
-  // setImage4Id(product.product_images[4]?.id || null);
-  // setImage5Url(product.product_images[5]?.url || '');
-  // setImage5Id(product.product_images[5]?.id || null);
-  //   }
-  // }, [product])
+  const validateForm = () => {
+    const errorObj = {};
+
+    if (!title) errorObj.title = "Title is required."
+    if (!description) errorObj.description = "Description is required."
+    if (description.length < 10) errorObj.description = "Description must be at least 10 characters long. Please provide more details on your product."
+    if (inventory <= 0) errorObj.inventory = "Inventory must be at least 1. Please enter a positive value."
+    if (price <= 0) errorObj.price = "Price cannot be negative."
+    if (!categoryId) errorObj.category = "Category is required."
+    return errorObj;
+    }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const formErrors = validateForm();
+    if (Object.values(formErrors).length > 0) {
+      setErrors(formErrors);
+      return;
+    }
+    
+    setErrors({});
 
     const updated_product = {
       id: product.id,
@@ -146,32 +146,16 @@ function EditProductForm() {
           // console.log('delete', image )
           dispatch(deleteProductImage(image));
         });
-        return res;
-      })
-      .then((res) => {
-        navigate(`/products/${res.id}`);
-      })
-      .catch(async (err) => {});
-    // const imageArray = [
-    //   { id: product?images[0].id: image1Id, product_id: product.id, url: image1Url, preview: false },
-    //   { id: product?images[1].id: image2Id, product_id: product.id, url: image2Url, preview: false },
-    //   { id: product?images[2].id: image3Id, product_id: product.id, url: image3Url, preview: false },
-    //   { id: product?images[3].id: image4Id, product_id: product.id, url: image4Url, preview: false },
-    //   { id: product?images[4].id: image5Id, product_id: product.id, url: image5Url, preview: false },
-    // ];
 
-    // await Promise.all(
-    //   imageArray.map((image) => {
-    //     if (image.url) {
-    //       return dispatch(updateProductImage(image));
-    //     } else if (!image.url && image.url) {
-    //       return dispatch(addProductImage(image));
-    //     }
-    //     return null;
-    //   })
-    // );
-    // dispatch(productByUserId());
-    // navigate("/products/current");
+        if (res.errors) {
+          setErrors(res.errors)
+        } else {
+          navigate(`/products/${res.id}`);
+        }
+        })
+        .catch((err) => {
+          console.error("Failed to update product:", err);
+        });
   };
   return (
     <form onSubmit={handleSubmit} className="product_form">
@@ -184,8 +168,8 @@ function EditProductForm() {
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          required
         />
+        {errors.title && <p className="error">{errors.title}</p>}
       </div>
       <div>
         <label>
@@ -198,8 +182,8 @@ function EditProductForm() {
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          required
         ></textarea>
+        {errors.description && <p className="error">{errors.description}</p>}
       </div>
       <div>
         <label>
@@ -213,9 +197,8 @@ function EditProductForm() {
           type="number"
           value={inventory}
           onChange={(e) => setInventory(e.target.value)}
-          required
-          min="0"
         />
+        {errors.inventory && <p className="error">{errors.inventory}</p>}
       </div>
       <div>
         <label>
@@ -229,9 +212,8 @@ function EditProductForm() {
           type="number"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
-          required
-          min="0"
         />
+        {errors.price && <p className="error">{errors.price}</p>}
       </div>
       <div>
         <label>
@@ -245,7 +227,6 @@ function EditProductForm() {
           name="category_id"
           value={categoryId}
           onChange={(e) => setCategoryId(e.target.value)}
-          required
         >
           <option value="">Select a category</option>
           <option value="1">Home & Living</option>
@@ -254,6 +235,7 @@ function EditProductForm() {
           <option value="4">Jewelry</option>
           <option value="5">Clothing</option>
         </select>
+        {errors.categoryId && <p className="error">{errors.categoryId}</p>}
       </div>
       <div>
         <label>

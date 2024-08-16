@@ -1,27 +1,27 @@
 .small-image {
-    position: relative;
-    width: 4em;
-    height: 4em;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    border-radius: 5px;
+  position: relative;
+  width: 4em;
+  height: 4em;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  border-radius: 5px;
 }
 
 .image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .main-image {
-    position: relative;
-    /* width: autoem;
+  position: relative;
+  /* width: autoem;
     height: 35em; */
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    border-radius: 5px;;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  border-radius: 5px;
 }
 
 .than {
@@ -38,32 +38,40 @@
 }
 
 .than:hover {
-    background-color: #e9e9e9;
+  background-color: #e9e9e9;
 }
 
 #product-details {
-    display: flex;
-    justify-content: space-between;
-    padding: 1em;
+  display: flex;
+  justify-content: space-between;
+  padding: 1em;
 }
 
 #details {
-    width: 33%;
+  width: 33%;
+}
+
+#details p {
+  margin: 8px;
 }
 
 #image-container {
-    display: flex;
-    align-items: center;
-    width: 66%;
-    gap: 0.5em;
-    /* border: 1px magenta solid; */
+  display: flex;
+  align-items: center;
+  width: 66%;
+  gap: 0.5em;
+  /* border: 1px magenta solid; */
 }
 
 #image-sidebar {
-    display: flex;
-    flex-direction: column;
-    justify-content: baseline;
-    gap: 0.5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: baseline;
+  gap: 0.5em;
+}
+
+.detail-add-cart {
+  border-radius: 50px;
 }
 
 #less {
@@ -71,5 +79,5 @@
 }
 
 #greater {
-    right: 0.5em;
-  }
+  right: 0.5em;
+}

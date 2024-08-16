@@ -48,13 +48,11 @@
 
 .image_container {
   position: relative;
-  width: inherit;
-  height: inherit;
+  width: 100%;
+  padding-top: 75%; /* Aspect ratio of 4:3 (height is 75% of the width) */
+  background-color: #f5f5f5;
+  border-radius: 8px;
   overflow: hidden;
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
-  border-radius: 10px;
 }
 
 .image_container img {
@@ -66,7 +64,6 @@
   object-fit: cover; /* Ensures the image covers the container without distortion */
   border-radius: 8px;
 }
-
 
 .heart {
   position: absolute;
@@ -95,5 +92,3 @@
   height: 100%;
   object-fit: cover;
 }
-
-
