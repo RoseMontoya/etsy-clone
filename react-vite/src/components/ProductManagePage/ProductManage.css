@@ -2,27 +2,8 @@
 .product_manage_header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 20px 50px;
-  background-color: #f5f5f5;
-}
-
-.product_manage_header .favorite_profile {
-  display: flex;
-  align-items: center;
-}
-
-.product_manage_header .favorite_profile img {
-  border-radius: 50%;
-  height: 50px;
-  width: 50px;
-  object-fit: cover;
-  margin-right: 15px;
-}
-
-.product_manage_header p {
-  font-size: 20px;
-  color: #333;
+  justify-content: space-around;
+  padding: 20px 0px;
 }
 
 .product_manage_header a {
@@ -33,6 +14,7 @@
   text-decoration: none;
   font-weight: bold;
   transition: background-color 0.3s ease;
+  margin-right: 50px;
 }
 
 .product_manage_header a:hover {
@@ -47,8 +29,6 @@
 .grid_price {
   font-weight: 600;
 }
-
-
 
 /* Settings Icon and Dropdown */
 .drop_down_setting {
@@ -93,7 +73,7 @@
 @media (max-width: 768px) {
   .product_manage_header {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
   }
 
   .product_manage_header p {

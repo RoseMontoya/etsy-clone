@@ -90,9 +90,10 @@ ul {
 
 .grey-hover:hover {
   background-color: #e9e9e9;
-  padding: 0.75em 1em;
+  /* padding: 0.75em 1em; */
   transition-timing-function: ease-in;
   border-radius: 20px;
+  /* color: #f16521; */
 }
 
 /* * Buttons */

@@ -68,6 +68,7 @@ function ProductList() {
             .map((product) => (
               <div key={product?.id} className="product_small_container">
                 <div>
+                  <Link key={product?.id} to={`/products/${product?.id}`}>
                   {user ? (
                     <Heart
                       initial={favProducts.includes(product.id) ? true : false}
@@ -86,7 +87,6 @@ function ProductList() {
                       modalComponent={<LoginFormModal />}
                     />
                   )}
-                  <Link key={product?.id} to={`/products/${product?.id}`}>
                     <img src={product.preview_image} alt={product.title} />
                     <p>{product.title}</p>
                     <div className="inline">

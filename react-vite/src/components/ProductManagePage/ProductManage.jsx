@@ -81,13 +81,13 @@ function ProductManage() {
       <div className="product_manage_header">
         <div className="favorite_profile">
           <img src={user.profile_url} alt={user.username} />
-          <p>{user.first_name}&apos;s Products</p>
+          <p>{user.first_name}&apos;s Listings</p>
         </div>
         <div>
           <Link to="/products/new">Add new product</Link>
         </div>
       </div>
-      <div className="grid_container product_container">
+      <div className="grid_container">
         {products?.map((product) => (
           <div key={product.id} className="grid-item">
             <Link to={`/products/${product.id}`}>

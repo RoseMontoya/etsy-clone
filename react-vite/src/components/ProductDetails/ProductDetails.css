@@ -16,12 +16,13 @@
 
 .main-image {
   position: relative;
-  /* width: autoem;
-    height: 35em; */
+  width: 60vh;
+  height: 60vh;
   overflow: hidden;
   display: flex;
   justify-content: center;
   border-radius: 5px;
+  margin: 10px;
 }
 
 .than {

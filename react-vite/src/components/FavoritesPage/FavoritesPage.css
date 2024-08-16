@@ -14,18 +14,19 @@
 
 .grid_container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(13em, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(16em, 1fr));
   /* grid-template-rows: auto; */
-  gap: 0.5em;
+  gap: 1em;
   justify-items: center;
-  /* margin: 20px 50px; */
+  margin: 20px 50px;
 }
 
 .grid-item {
   cursor: pointer;
   align-self: center;
   position: relative;
-  min-height: 23em;
+  min-height: 25em;
+  max-width: 25em;
   border: #e9e9e9 solid 2px;
   border-radius: 16px;
   width: 100%;
