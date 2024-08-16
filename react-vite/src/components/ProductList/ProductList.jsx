@@ -9,6 +9,7 @@ import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import { useModal } from "../../context/Modal"; // Import the modal context
 import "./ProductList.css";
+import OwnProductConflictModal from "../SubComponents/OwnProductConflictModal";
 
 function ProductList() {
   const dispatch = useDispatch();
@@ -46,6 +47,11 @@ function ProductList() {
       cart_id: user.cart_id,
       product: product, // The entire product object
     };
+    // console.log("how does the cartItem looks like ", cartItem);
+    if (user.id === cartItem.product.seller.id) {
+      setModalContent(<OwnProductConflictModal />);
+      return;
+    }
     dispatch(addToCart(cartItem)).then(() => {
       dispatch(getAllCartItems()).then(() => {
         navigate("/cart"); // Redirect to the cart page after updating the cart
@@ -66,11 +72,16 @@ function ProductList() {
                     <Heart
                       initial={favProducts.includes(product.id) ? true : false}
                       productId={product.id}
+                      sellerId={product.seller.id}
                     />
                   ) : (
                     <OpenModalMenuItem
                       itemText={
-                        <Heart initial={false} productId={product.id} />
+                        <Heart
+                          initial={false}
+                          productId={product.id}
+                          sellerId={product.seller.id}
+                        />
                       }
                       modalComponent={<LoginFormModal />}
                     />

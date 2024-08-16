@@ -9,7 +9,7 @@ import "./Clothing.css";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import { useModal } from "../../context/Modal"; // Import the modal context
-
+import OwnProductConflictModal from "../SubComponents/OwnProductConflictModal";
 function ProductList() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -47,6 +47,10 @@ function ProductList() {
       cart_id: user.cart_id,
       product: product, // The entire product object
     };
+    if (user.id === cartItem.product.seller.id) {
+      setModalContent(<OwnProductConflictModal />);
+      return;
+    }
     dispatch(addToCart(cartItem)).then(() => {
       dispatch(getAllCartItems()).then(() => {
         navigate("/cart"); // Redirect to the cart page after updating the cart
@@ -64,6 +68,7 @@ function ProductList() {
                 <Heart
                   initial={favProducts.includes(product.id) ? true : false}
                   productId={product.id}
+                  sellerId={product.seller.id}
                 />
               ) : (
                 <OpenModalMenuItem

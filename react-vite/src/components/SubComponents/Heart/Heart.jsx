@@ -4,12 +4,21 @@ import { addFavorite, removeFavorite } from "../../../redux/favorite";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import "./Heart.css";
+import OwnProductConflictModal from "../OwnProductConflictModal";
+import { useModal } from "../../../context/Modal"; // Import the modal context
 
-function Heart({ initial, productId }) {
+function Heart({ initial, productId, sellerId }) {
   const dispatch = useDispatch();
+  const { setModalContent } = useModal(); // Use the modal context to trigger the login modal
   const [favorited, setFavorited] = useState(initial);
   const user = useSelector((state) => state.session.user);
+
   const handleUnfavorite = (productId) => {
+    if (user.id === sellerId) {
+      setModalContent(<OwnProductConflictModal />);
+      return;
+    }
+
     dispatch(removeFavorite(productId)).then(() => {
       const popUpRemoved = document.getElementById("remove_fav");
       popUpRemoved.style.display = "block";
@@ -21,6 +30,10 @@ function Heart({ initial, productId }) {
   };
 
   const handleFavorite = (productId) => {
+    if (user.id === sellerId) {
+      setModalContent(<OwnProductConflictModal />);
+      return;
+    }
     dispatch(addFavorite(productId)).then(() => {
       const popUpSaved = document.getElementById("add_fav");
       popUpSaved.style.display = "block";
