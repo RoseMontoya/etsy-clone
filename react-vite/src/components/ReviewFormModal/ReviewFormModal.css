@@ -37,10 +37,12 @@
 }
 
 .star {
-  font-size: 24px;
+  font-size: 16px;
   color: #f16521;
   cursor: pointer;
-  margin-right: 5px;
+  margin-right: 2px;
+  max-height: 1em;
+
 }
 
 #stars p {

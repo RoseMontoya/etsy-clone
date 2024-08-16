@@ -24,12 +24,12 @@
   align-items: center;
   font-size: 14px;
   margin-left: 10px;
-  color: black; 
+  color: black;
 }
 
 #check-icon {
   margin-right: 5px;
-  color: #28a745; 
+  color: #28a745;
 }
 
 .review-content {
@@ -49,18 +49,18 @@
 .review-user-info {
   display: flex;
   align-items: center;
-  gap: 10px; 
+  gap: 10px;
 }
 
 .review-user {
   font-weight: bold;
-  margin-right: 5px; 
+  margin-right: 5px;
   color: #333;
   text-decoration: underline;
 }
 
 .review-date {
-  color: #757575; 
+  color: #757575;
   font-size: 14px;
 }
 

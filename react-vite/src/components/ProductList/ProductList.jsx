@@ -10,6 +10,7 @@ import LoginFormModal from "../LoginFormModal";
 import { useModal } from "../../context/Modal"; // Import the modal context
 import "./ProductList.css";
 import OwnProductConflictModal from "../SubComponents/OwnProductConflictModal";
+import { TfiPlus } from "react-icons/tfi";
 
 function ProductList() {
   const dispatch = useDispatch();
@@ -60,15 +61,14 @@ function ProductList() {
   };
 
   return (
-    <main>
-      <div className="product_container">
+    <main className="prod-list">
+      <div className="grid_container">
         {products.length ? (
           products
             .sort((a, b) => b.id - a.id)
             .map((product) => (
-              <div key={product?.id} className="product_small_container">
+              <div key={product?.id} className="grid-item">
                 <div>
-                  <Link key={product?.id} to={`/products/${product?.id}`}>
                   {user ? (
                     <Heart
                       initial={favProducts.includes(product.id) ? true : false}
@@ -87,24 +87,29 @@ function ProductList() {
                       modalComponent={<LoginFormModal />}
                     />
                   )}
+                  <Link key={product?.id} to={`/products/${product?.id}`}>
+                    <div className="image_container">
                     <img src={product.preview_image} alt={product.title} />
-                    <p>{product.title}</p>
-                    <div className="inline">
-                      {product.seller.review_count > 0 ? (
-                        <Stars rating={product.seller.seller_rating} />
-                      ) : (
-                        <p className="bold">New</p>
-                      )}
-                      <span>({product.seller.review_count})</span>
                     </div>
-                    <p className="bold">${product.price.toFixed(2)}</p>
-                    <p>{product.seller.username}</p>
+                    <div className="product-details">
+                      <p className="title">{product.title}</p>
+                      <div className="rating">
+                        {product.seller.review_count > 0 ? (
+                          <Stars rating={product.seller.seller_rating} />
+                        ) : (
+                          <p className="bold">New</p>
+                        )}
+                        <span className="count">({product.seller.review_count})</span>
+                      </div>
+                      <p style={{fontSize: '14px'}}>{product.seller.username}</p>
+                      <p className="bold">${product.price.toFixed(2)}</p>
+                    </div>
                   </Link>
                 </div>
                 <div>
                   {user ? (
-                    <button onClick={() => handleAddToCart(product)}>
-                      + Add to cart
+                    <button className="add-to-cart" onClick={() => handleAddToCart(product)}>
+                      <TfiPlus /> Add to cart
                     </button>
                   ) : (
                     <OpenModalMenuItem
@@ -117,7 +122,7 @@ function ProductList() {
               </div>
             ))
         ) : (
-          <h2>No products to sell. Please check back later.</h2>
+          <h2>No products for sell. Please check back later.</h2>
         )}
       </div>
       {/* <div id="add_fav" style={{display: 'none'}} ><p>Saved to Favorites</p></div>
