@@ -19,7 +19,10 @@ def product_manage():
     # Find Products
     products = Product.query.filter(Product.seller_id == current_user.id).all()
 
-    return {"products": [product.to_dict() for product in products], "user_id": current_user.id}
+    return {
+        "products": [product.to_dict() for product in products],
+        "user_id": current_user.id,
+    }
 
 
 # Get a random product
@@ -48,12 +51,18 @@ def product_reviews(productId):
 def create_review(productId):
     form = ReviewForm()
 
-    form['csrf_token'].data = request.cookies['csrf_token']
-    print('current user', current_user.id)
-    prevRev = Review.query.filter(Review.user_id == current_user.id).filter(Review.product_id == productId).first()
+    form["csrf_token"].data = request.cookies["csrf_token"]
+    print("current user", current_user.id)
+    prevRev = (
+        Review.query.filter(Review.user_id == current_user.id)
+        .filter(Review.product_id == productId)
+        .first()
+    )
 
     if prevRev:
-        return { "errors": {"message": "User already has a review for this product."}}, 500
+        return {
+            "errors": {"message": "User already has a review for this product."}
+        }, 500
 
     if form.validate_on_submit():
         new_review = Review(
@@ -70,6 +79,7 @@ def create_review(productId):
         return new_review.to_dict()
     return form.errors, 400
 
+
 # Edit product
 @products_routes.route("/<int:productId>/edit", methods=["PUT"])
 @login_required
@@ -80,11 +90,11 @@ def edit_product(productId):
     if form.validate_on_submit():
         product = Product.query.get(productId)
         if product:
-            product.title=form.data["title"]
-            product.description=form.data["description"]
-            product.inventory=form.data["inventory"]
-            product.price=form.data["price"]
-            product.category_id=form.data["category_id"]
+            product.title = form.data["title"]
+            product.description = form.data["description"]
+            product.inventory = form.data["inventory"]
+            product.price = form.data["price"]
+            product.category_id = form.data["category_id"]
 
         db.session.commit()
         return product.to_dict(), 200
@@ -171,6 +181,7 @@ def create_images():
         print("Form errors:", form.errors)
         return form.errors, 400
 
+
 # Update an existing product image
 @products_routes.route("/images/<int:imageId>", methods=["PUT"])
 @login_required
@@ -191,7 +202,8 @@ def update_product_image(imageId):
         print("Form errors:", form.errors)
         return form.errors, 400
 
-@products_routes.route('/images/<int:imageId>', methods=["DELETE"])
+
+@products_routes.route("/images/<int:imageId>", methods=["DELETE"])
 @login_required
 def delete_image(imageId):
     prevImg = ProductImage.query.get(imageId)
@@ -201,12 +213,14 @@ def delete_image(imageId):
         db.session.commit()
         return prevImg.to_dict()
 
+
 # Get all products
 @products_routes.route("/", methods=["GET"])
 def get_all_products():
     products = Product.query.all()
     # [product.avg_rating() for product in products]
     return [product.to_dict() for product in products]
+
 
 # Updating inventory list after successful transaction
 @products_routes.route("/successful-transaction", methods=["PUT"])
@@ -218,22 +232,24 @@ def decrease_inventory_edit():
     products = Product.query.filter(Product.id.in_(product_ids)).all()
 
     updated_products = []
-
+    deleted_products = []
     for product in products:
         # Find the matching cart item for the product
         for item in cart_items:
             if product.id == item.product_id:
                 # Update the inventory
-                product.inventory -= item.quantity
-                updated_products.append({
-                    "id": product.id,
-                    "name": product.title,
-                    "price": product.price,
-                    "inventory": product.inventory
-                })
-                break
-    
-    # Save changes to the database
+                if product.inventory - item.quantity > 0:
+                    product.inventory -= item.quantity
+                    updated_products.append(product.to_dict())
+                else:
+                    deleted_products.append(product.to_dict())
+                    db.session.delete(product)
+
     db.session.commit()
 
-    return jsonify({"products": updated_products}), 200
+
+    # Save changes to the database
+
+    return jsonify(
+        {"products": updated_products, "deleted_products": deleted_products}
+    ), 200

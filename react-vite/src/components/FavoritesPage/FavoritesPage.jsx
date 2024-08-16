@@ -60,8 +60,8 @@ function FavoritesPage() {
                     alt={favorite.product.title}
                   />
                 </div>
-                <p>{favorite.product.title}</p>
-                <p>${favorite.product.price.toFixed(2)}</p>
+                <p className="product_title">{favorite.product.title}</p>
+                <p className="product_price">${favorite.product.price.toFixed(2)}</p>
                 <p>
                   {favorite.product.seller.seller_rating}
                   <TiStarFullOutline />({favorite.product.seller.review_count})

@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { productById, productByUserId, editProduct } from "../../redux/product";
-import { addProductImage, updateProductImage, deleteProductImage } from "../../redux/product";
+import {
+  addProductImage,
+  updateProductImage,
+  deleteProductImage,
+} from "../../redux/product";
 import "./ProductForm.css";
 
 function EditProductForm() {
@@ -25,7 +29,7 @@ function EditProductForm() {
   const product = useSelector(
     (state) => state.products.productById?.[productId]
   );
-  const images = product? Object.values(product.product_images) : []
+  const images = product?.product_images? Object.values(product.product_images) : []
 
   useEffect(() => {
     if (!product) {
@@ -130,8 +134,8 @@ function EditProductForm() {
           const newImage = {
             product_id: res.id,
             url: image.url,
-            preview: false
-          }
+            preview: false,
+          };
           dispatch(addProductImage(newImage, user.id));
         });
         imagesUpdate.map(async (image) => {
@@ -147,8 +151,7 @@ function EditProductForm() {
       .then((res) => {
         navigate(`/products/${res.id}`);
       })
-      .catch(async (err) => {
-      });
+      .catch(async (err) => {});
     // const imageArray = [
     //   { id: product?images[0].id: image1Id, product_id: product.id, url: image1Url, preview: false },
     //   { id: product?images[1].id: image2Id, product_id: product.id, url: image2Url, preview: false },
@@ -265,6 +268,13 @@ function EditProductForm() {
           }
           required
         />
+        {previewImage.url ? (
+          <img
+            className="previewImagesize"
+            src={previewImage.url}
+            alt="Preview if Image is valid"
+          />
+        ) : null}
       </div>
       <div>
         <label>Image URL:</label>
@@ -273,6 +283,13 @@ function EditProductForm() {
           value={image1.url}
           onChange={(e) => setImage1({ ...image1, url: e.target.value })}
         />
+        {image1.url ? (
+          <img
+            className="previewImagesize"
+            src={image1.url}
+            alt="Preview if Image is valid"
+          />
+        ) : null}
       </div>
       <div>
         <label>Image URL:</label>
@@ -281,6 +298,13 @@ function EditProductForm() {
           value={image2.url}
           onChange={(e) => setImage2({ ...image2, url: e.target.value })}
         />
+        {image2.url ? (
+          <img
+            className="previewImagesize"
+            src={image2.url}
+            alt="Preview if Image is valid"
+          />
+        ) : null}
       </div>
       <div>
         <label>Image URL:</label>
@@ -289,6 +313,13 @@ function EditProductForm() {
           value={image3.url}
           onChange={(e) => setImage3({ ...image3, url: e.target.value })}
         />
+        {image3.url ? (
+          <img
+            className="previewImagesize"
+            src={image3.url}
+            alt="Preview if Image is valid"
+          />
+        ) : null}
       </div>
       <div>
         <label>Image URL:</label>
@@ -297,6 +328,13 @@ function EditProductForm() {
           value={image4.url}
           onChange={(e) => setImage4({ ...image4, url: e.target.value })}
         />
+        {image4.url ? (
+          <img
+            className="previewImagesize"
+            src={image4.url}
+            alt="Preview if Image is valid"
+          />
+        ) : null}
       </div>
       <div>
         <label>Image URL:</label>
@@ -305,6 +343,13 @@ function EditProductForm() {
           value={image5.url}
           onChange={(e) => setImage5({ ...image5, url: e.target.value })}
         />
+        {image5.url ? (
+          <img
+            className="previewImagesize"
+            src={image5.url}
+            alt="Preview if Image is valid"
+          />
+        ) : null}
       </div>
       <button type="submit">Update Your Product</button>
     </form>

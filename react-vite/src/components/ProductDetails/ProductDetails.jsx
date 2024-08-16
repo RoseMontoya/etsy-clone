@@ -25,11 +25,20 @@ function ProductDetails() {
     (state) => state.products.productById?.[productId]
   );
 
+  const images = []
+  if (product?.product_images) {
+    const imgA = Object.values(product.product_images)
+    imgA.forEach(img => {
+      if (img.preview) {
+        images.unshift(img)
+      } else {
+        images.push(img)
+      }
+    })
+  }
+
   const [mainImage, setMainImage] = useState(product?.preview_image);
   const [mainImgId, setMainImgId] = useState(0);
-  const images = product?.product_images
-    ? Object.values(product.product_images)
-    : [];
 
   const reviewsObj = useSelector(
     (state) => state.reviews.reviewsByProdId?.[productId]
@@ -41,7 +50,7 @@ function ProductDetails() {
       (review) => review.user === user?.username
     );
 
-  const favoritesObj = useSelector((state) => state.favorites?.[user.id]);
+  const favoritesObj = useSelector((state) => state.favorites?.[user?.id]);
   const favProduct = favoritesObj
     ? Object.values(favoritesObj).reduce(
         (fav, current) =>
@@ -61,7 +70,11 @@ function ProductDetails() {
       });
     }
     if (!favoritesObj && user) {
-      dispatch(favoritesByUserId(user.id));
+      dispatch(favoritesByUserId(user?.id));
+    }
+    if (product) {
+      setMainImage(product.preview_image)
+      setMainImgId(0)
     }
   }, [dispatch, productId, product, favoritesObj, user]);
 
@@ -164,7 +177,7 @@ function ProductDetails() {
               <FaLessThan />
             </button>
             <img src={mainImage} className="image" />
-            <Heart initial={favProduct.length} productId={productId} />
+          <Heart initial={favProduct.length} productId={productId} />
             <button id="greater" className="circ than" onClick={forwardClick}>
               <FaGreaterThan />
             </button>

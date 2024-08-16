@@ -5,7 +5,7 @@ import { thunkAllProducts } from "../../redux/product";
 import { addToCart, getAllCartItems } from "../../redux/cart";
 import { favoritesByUserId } from "../../redux/favorite";
 import {Heart, Stars} from "../SubComponents"
-import "./ProductList.css";
+import "./HomeLiving.css";
 
 
 function ProductList() {
@@ -13,7 +13,9 @@ function ProductList() {
   const navigate = useNavigate();
   const productsObj = useSelector((state) => state.products?.allProducts);
   const user = useSelector((state) => state.session.user);
-  const products = productsObj ? Object.values(productsObj) : [];
+  const rawProducts = productsObj ? Object.values(productsObj) : [];
+  const products= rawProducts.filter((product) => product.category_id === 1);
+  console.log("Checking PRODUCTS",products)
   const favoritesObj = useSelector(state => state.favorites?.[user?.id])
   const favProducts = favoritesObj? Object.values(favoritesObj).map(fav => fav.product.id): [];
 
@@ -51,30 +53,20 @@ function ProductList() {
     <main>
     <div className="product_container">
       {products.length ? (
-        products.sort((a, b) => b.id - a.id).map((product) => (
+        products.map((product) => (
           <div key={product?.id} className="product_small_container">
-            <div>
             <Heart initial={favProducts.includes(product.id)? true: false} productId={product.id}/>
             <Link key={product?.id} to={`/products/${product?.id}`}>
               <img src={product.preview_image} alt={product.title} />
               <p>{product.title}</p>
               <div className="inline">
-              {product.seller.review_count > 0 ? (
-                <Stars rating={product.seller.seller_rating} />
-              ) : (
-                <p className="bold">New</p>
-              )}
-              <span>({product.seller.review_count})</span></div>
+              <Stars rating={product.seller.seller_rating}/><span>({product.seller.review_count})</span></div>
               <p className="bold">${product.price.toFixed(2)}</p>
               <p>{product.seller.username}</p>
             </Link>
-            </div>
-            <div>
             <button onClick={() => handleAddToCart(product)}>
               + Add to cart
             </button>
-
-            </div>
           </div>
 
         ))
