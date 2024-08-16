@@ -81,7 +81,7 @@ function EditProductForm() {
       setErrors(formErrors);
       return;
     }
-    
+
     setErrors({});
 
     const updated_product = {
@@ -141,7 +141,6 @@ function EditProductForm() {
     dispatch(editProduct(updated_product))
       .then((res) => {
         imagesAdd.map(async (image) => {
-          // console.log('new',image)
           const newImage = {
             product_id: res.id,
             url: image.url,
@@ -150,11 +149,9 @@ function EditProductForm() {
           dispatch(addProductImage(newImage, user.id));
         });
         imagesUpdate.map(async (image) => {
-          // console.log('update', image)
           dispatch(updateProductImage(image, user.id));
         });
         imagesDelete.map(async (image) => {
-          // console.log('delete', image )
           dispatch(deleteProductImage(image));
         });
 

@@ -8,13 +8,10 @@ function LandingPage() {
   const dispatch = useDispatch();
 
   let user = useSelector((state) => state.session.user);
-  // console.log("User from session", user);
 
   let productsObj = useSelector((state) => {
     return state.products?.allProducts;
   });
-
-  // const products = productsObj? Object.values(productsObj): [];
 
   useEffect(() => {
     if (!productsObj) {
@@ -26,12 +23,11 @@ function LandingPage() {
   if (!productsObj) {
     return <p>Loading products...</p>;
   }
-  // console.log("Product from HomePage", products);
+
   const getRandomProduct = () => {
     const productKeys = Object.keys(productsObj);
     const randomKey =
       productKeys[Math.floor(Math.random() * productKeys.length)];
-    // console.log( "Random length",productKeys.length);
     return productsObj[randomKey];
   };
 
@@ -59,7 +55,7 @@ function LandingPage() {
       ) : (
         <>
           <h2>There&apos;s a Person Behind Every Piece</h2>
-          
+
           <p>
             Fall in love with original finds from standout small shops around
             the world.

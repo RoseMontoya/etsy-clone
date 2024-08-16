@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify
-from flask_login import login_required
-from app.models import User
+from flask_login import login_required, current_user
+from app.models import User, Product
 
 user_routes = Blueprint('users', __name__)
 
@@ -13,6 +13,14 @@ def users():
     """
     users = User.query.all()
     return {'users': [user.to_dict() for user in users]}
+
+@user_routes.route('/<int:id>/products')
+@login_required
+def get_user_products(id):
+    products = Product.query.filter(Product.seller_id == id).all()
+    print('PRODUCTS', products)
+    return [product.to_dict() for product in products]
+
 
 
 @user_routes.route('/<int:id>')

@@ -1,3 +1,5 @@
+import { reviewChange } from "./product"
+
 const GET_REVIEWS = 'reviews/get-reviews'
 const CREATE_REVIEW = 'reviews/create-review'
 const UPDATE_REVIEW = 'reviews/update-review'
@@ -37,7 +39,7 @@ export const getAllReviews = (productId) => async dispatch => {
     return errors
 }
 
-export const createReview = (review) => async dispatch => {
+export const createReview = (review, sellerId) => async dispatch => {
     const response = await fetch(`/api/products/${review.productId}/reviews`, {
         method: 'POST',
         headers: {
@@ -48,14 +50,15 @@ export const createReview = (review) => async dispatch => {
 
     if (response.ok){
         const data = await response.json()
-        dispatch(addReview(data))
+        await dispatch(addReview(data))
+        await dispatch(reviewChange(sellerId))
         return data
     }
 
     return response
 }
 
-export const editReview = (review) => async dispatch => {
+export const editReview = (review, sellerId) => async dispatch => {
     const response = await fetch(`/api/reviews/${review.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json'},
@@ -64,18 +67,20 @@ export const editReview = (review) => async dispatch => {
 
     if (response.ok) {
         const data = await response.json()
-        dispatch(updateReview(data))
+        await dispatch(updateReview(data))
+        await dispatch(reviewChange(sellerId))
         return data
     }
 
     return response
 }
 
-export const deleteReview = (reviewId, productId) => async dispatch => {
+export const deleteReview = (reviewId, productId, sellerId) => async dispatch => {
     const response = await fetch(`/api/reviews/${reviewId}`, { method: 'DELETE'})
 
     if (response.ok) {
-        dispatch(removeReview(reviewId, productId))
+        await dispatch(removeReview(reviewId, productId))
+        await dispatch(reviewChange(sellerId))
         return await response.json()
     }
     return response

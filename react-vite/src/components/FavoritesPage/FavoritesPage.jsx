@@ -16,7 +16,6 @@ function FavoritesPage() {
   const favorites = useSelector((state) => state.favorites?.[user?.id]);
   const allProducts = useSelector((state) => state.products.allProducts)
   const favoritesArray = favorites? Object.values(favorites): [];
-  console.log("favsssss",favoritesArray)
 
   useEffect(() => {
     if (!favorites) {
@@ -44,8 +43,6 @@ function FavoritesPage() {
     });
   };
 
-  console.log('Check',  allProducts)
-
 
   return (
     <main>
@@ -56,7 +53,6 @@ function FavoritesPage() {
       <div className="grid_container">
         {favoritesArray.length && allProducts? (
           favoritesArray.map((favorite) => {
-            console.log(allProducts[favorite.product_id])
             return allProducts[favorite.product_id]?
             (
             <div key={favorite.id} className="grid-item">

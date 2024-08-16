@@ -36,4 +36,4 @@ def delete_review(review_id):
 
     db.session.delete(review)
     db.session.commit()
-    return {"message": "Successfully deleted"}, 200
+    return {"message": "Successfully deleted", 'review': review.to_dict()}, 200

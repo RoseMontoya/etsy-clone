@@ -56,10 +56,9 @@ export const updateCartItemQuantity =
       },
       body: JSON.stringify({ quantity }),
     });
-    console.log("Thunk Edit we are here", response);
+
     if (response.ok) {
       const updatedItem = await response.json();
-      console.log("Thunk Edit", updatedItem);
       dispatch(editItemQuantity(cartItemId, quantity));
     } else {
       const errors = await response.json();
@@ -83,10 +82,9 @@ export const addToCart =
         cart_id: cartId,
       }),
     });
-    console.log(response, "This is addtoCart response");
+
     if (response.ok) {
       const data = await response.json();
-      console.log(data, "do we get here");
       dispatch(addToCartAction(data)); // Dispatch the new cart item to update the state
       return data;
     } else {
@@ -112,11 +110,8 @@ export const clearCart = () => async (dispatch) => {
 export const getAllCartItems = () => async (dispatch) => {
   const response = await fetch(`/api/cart/`);
 
-  //   console.log("RESPONSE ============>", response);
-
   if (response.ok) {
     const data = await response.json();
-    // console.log("IN THUNK =================>", data);
     dispatch(getCart(data));
     return data;
   }
@@ -140,13 +135,11 @@ const cartReducer = (state = initialState, action) => {
     }
     case DELETE_CART_ITEM: {
       const newState = { ...state.cartItems };
-      // console.log("delete cart item",newState); // Remove the specific cart item
       delete newState[action.payload]
       return {...state, cartItems: newState};
     }
     case DELETE_ALLCART: {
       const newState = { ...state };
-      console.log("in DeleteAllCart Reducer", newState);
       return {
         ...newState,
         cartItems: {}, // Clear all cart items
