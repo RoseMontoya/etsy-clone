@@ -5,11 +5,6 @@
   font-family: Arial, sans-serif;
 }
 
-h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
 .cart-summary {
   font-size: 18px;
   margin-bottom: 20px;
@@ -142,4 +137,14 @@ h1 {
 
 .shop-link:hover {
   text-decoration: underline;
+}
+
+.payment-container {
+  margin: 50px auto;
+  width: 60%;
+  font-size: small;
+}
+
+.cart-footer button:hover {
+  color: #0073e6;
 }

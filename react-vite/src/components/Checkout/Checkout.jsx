@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateInventory } from "../../redux/product";
 import { useEffect, useState } from "react";
 import { thunkAllProducts } from "../../redux/product";
+
 function Checkout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -17,6 +18,8 @@ function Checkout() {
   const [cardExpiration, setCardExpiration] = useState("");
   const [cardCvv, setCardCvv] = useState("");
   const [billingAddress, setBillingAddress] = useState("");
+  const [errors, setErrors] = useState({});
+
 
   useEffect(() => {
     if (!cartObj) {
@@ -29,25 +32,36 @@ function Checkout() {
     }
   }, [dispatch, cartObj, allProducts]);
 
-  const handleCompleteTransaction = () => {
-    // Ensure all fields are filled before processing the transaction
-    if (
-      !cardName ||
-      !cardNumber ||
-      !cardExpiration ||
-      !cardCvv ||
-      !billingAddress
-    ) {
-      alert("Please fill out all payment and billing information.");
+  const validateForm = () => {
+    const errorObj = {};
+
+    if (!cardName) errorObj.cardName = "Name is required."
+    if (!cardNumber) errorObj.cardNumber = "Card number is required."
+    if (!cardExpiration) errorObj.cardExpiration = "Card expiration date is required."
+    if (!cardCvv) errorObj.cardCvv = "CVV is required."
+    if (!billingAddress) errorObj.billingAddress = "Billing address is required."
+    return errorObj;
+  }
+
+  const handleCompleteTransaction = (e) => {
+    e.preventDefault();
+    const formErrors = validateForm();
+    if (Object.values(formErrors).length > 0) {
+      setErrors(formErrors);
       return;
     }
-    // Call the backend to update the inventory
-    dispatch(updateInventory()).then(() => {
-      // Clear the cart after successful inventory update
+    
+    const result = dispatch(updateInventory());
+    if (result.errors) {
+      setErrors(result.errors);
+    } else {
       dispatch(clearCart());
-      // Navigate to the success page
       navigate("/successful-transaction");
-    });
+    }
+
+    // dispatch(updateInventory()).then(() => {
+    //   dispatch(clearCart());
+    //   navigate("/successful-transaction");
   };
 
   if (!cartObj || !allProducts) return <h2>Loading...</h2>;
@@ -129,6 +143,7 @@ function Checkout() {
         <span>Total: ${cartTotal(cartArr)}</span>
       </div>
       {/* Payment Form */}
+      <div className="payment-container">
       <h2>Payment Information</h2>
       <div className="payment-form">
         <div className="form-group">
@@ -138,8 +153,8 @@ function Checkout() {
             id="cardName"
             value={cardName}
             onChange={(e) => setCardName(e.target.value)}
-            required
           />
+          {errors.cardName && <p className="error">{errors.cardName}</p>}
         </div>
 
         <div className="form-group">
@@ -149,8 +164,9 @@ function Checkout() {
             id="cardNumber"
             value={cardNumber}
             onChange={(e) => setCardNumber(e.target.value)}
-            required
           />
+          {errors.cardNumber && <p className="error">{errors.cardNumber}</p>}
+
         </div>
 
         <div className="form-group">
@@ -160,8 +176,8 @@ function Checkout() {
             id="cardExpiration"
             value={cardExpiration}
             onChange={(e) => setCardExpiration(e.target.value)}
-            required
           />
+          {errors.cardExpiration && <p className="error">{errors.cardExpiration}</p>}
         </div>
 
         <div className="form-group">
@@ -171,8 +187,8 @@ function Checkout() {
             id="cardCvv"
             value={cardCvv}
             onChange={(e) => setCardCvv(e.target.value)}
-            required
           />
+          {errors.cardCvv && <p className="error">{errors.cardCvv}</p>}
         </div>
 
         <div className="form-group">
@@ -182,9 +198,12 @@ function Checkout() {
             id="billingAddress"
             value={billingAddress}
             onChange={(e) => setBillingAddress(e.target.value)}
-            required
           />
+          {errors.billingAddress && <p className="error">{errors.billingAddress}</p>}
         </div>
+
+        <div><p>This is a learning purpose project, please do not fill out your real credit card info.</p></div>
+
       </div>
 
       <div className="cart-footer">
@@ -200,6 +219,9 @@ function Checkout() {
           Continue Shopping
         </Link>
       </div>
+
+      </div>
+      
     </div>
   );
 }

@@ -14,7 +14,7 @@ const OwnProductConflictModal = () => {
   };
 
   const handleRedirect = () => {
-    console.log("Redirect button clicked");
+    console.log("Redirect to product page");
     setIsLoading(true);
     // Simulate an async operation, like an API call, before navigating
     setTimeout(() => {
@@ -26,17 +26,17 @@ const OwnProductConflictModal = () => {
 
   return (
     <div className="modal-backdrop">
-      <div className="modal-content">
-        <h2>Conflict: Cannot Add Your Own Product</h2>
+      <div className="confirm_deletion">
+        <h2>Action Restricted</h2>
         <p>
-          It looks like you&apos;re trying to add a product you own to your
-          cart. Unfortunately, you cannot add your own products to your cart.
+        Unfortunately, you cannot add your own product.
         </p>
         <div className="modal-actions">
-          <button onClick={handleClose} disabled={isLoading}>
-            {isLoading ? "Processing..." : "Close"}
+          <button onClick={handleClose} disabled={isLoading} className="delete-yes">
+            {/* {isLoading ? "Processing..." : "Close"} */}
+            Close
           </button>
-          <button onClick={handleRedirect} disabled={isLoading}>
+          <button onClick={handleRedirect} disabled={isLoading} className="delete-no">
             {isLoading ? "Redirecting..." : "Go to Products"}
           </button>
         </div>

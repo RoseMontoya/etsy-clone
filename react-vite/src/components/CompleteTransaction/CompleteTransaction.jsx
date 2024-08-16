@@ -1,5 +1,6 @@
 import "./CompleteTransaction.css"
 import { Link } from "react-router-dom";
+import "./CompleteTransaction.css"
 
 function CompleteTransaction(){
     const now = new Date();
@@ -19,14 +20,11 @@ function CompleteTransaction(){
     // Combine them to create an order number
     const orderNumber = `${year}${month}${day}${hour}${minute}${second}${millisecond}${randomPart}`;
 
-
-
-    
     return (
-        <>
+        <div className="transaction-complete">
             <div>Success! Here is your order number: {orderNumber}</div>
             <Link to="/"><button>Return to Homepage</button></Link>
-        </>
+        </div>
     )
 }
 

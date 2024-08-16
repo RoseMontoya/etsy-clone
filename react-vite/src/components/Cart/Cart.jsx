@@ -50,8 +50,8 @@ function Cart() {
 
   if (cartArr.length === 0) {
     return (
-      <div>
-        <p>Your cart is empty</p>
+      <div className="empty-cart">
+        <h2>Your cart is empty</h2>
         <Link to="/products">Discover something unique to fill it up</Link>
       </div>
     );

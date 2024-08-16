@@ -1,0 +1,18 @@
+.transaction-complete {
+  text-align: center;
+  margin: 28% auto;
+}
+
+.transaction-complete button {
+  margin-top: 50px;
+  background-color: #f60;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.transaction-complete button:hover {
+  background-color: #e55;
+}

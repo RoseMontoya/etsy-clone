@@ -129,7 +129,19 @@ h1 {
 
 .empty-cart {
   text-align: center;
-  margin-top: 50px;
+  margin: 25% auto;
+}
+
+.empty-cart * {
+  padding: 50px;
+}
+
+.empty-cart a {
+  color: #0073e6;
+}
+
+.empty-cart a:hover {
+  text-decoration: underline;
 }
 
 .shop-link {
