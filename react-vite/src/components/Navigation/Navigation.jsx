@@ -2,7 +2,7 @@ import { NavLink, Link } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
 import { PiShoppingCartSimpleBold } from "react-icons/pi";
 import "./Navigation.css";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 function Navigation() {
   const user = useSelector((state) => state.session.user);
@@ -13,12 +13,11 @@ function Navigation() {
   // Total quantity of items in the cart (optional)
   // const cartItemCount = cartArr.reduce((total, item) => total + item.quantity, 0);
 
-
   return (
     <nav>
       <div className="nav_container">
         <NavLink to="/">
-          <img src="./images/etsy.png" alt="ETSYICON" className="nav_icon" />
+          <img src="./images/etsy 2.png" alt="ETSYICON" className="nav_icon" />
         </NavLink>
         <div className="inline grey-hover" style={{ gap: "1em" }}>
           <Link to="/products">All Product</Link>

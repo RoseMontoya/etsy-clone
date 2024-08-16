@@ -13,6 +13,8 @@ import { FaGreaterThan } from "react-icons/fa6";
 import { FaLessThan } from "react-icons/fa6";
 import { getAllCartItems } from "../../redux/cart";
 import { addToCart } from "../../redux/cart";
+import { useModal } from "../../context/Modal"; // Import the modal context
+import LoginFormModal from "../LoginFormModal";
 
 function ProductDetails() {
   const { productId } = useParams();
@@ -20,21 +22,21 @@ function ProductDetails() {
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const user = useSelector((state) => state.session.user);
-
+  const { setModalContent } = useModal(); // Use the modal context to trigger the login modal
   const product = useSelector(
     (state) => state.products.productById?.[productId]
   );
 
-  const images = []
+  const images = [];
   if (product?.product_images) {
-    const imgA = Object.values(product.product_images)
-    imgA.forEach(img => {
+    const imgA = Object.values(product.product_images);
+    imgA.forEach((img) => {
       if (img.preview) {
-        images.unshift(img)
+        images.unshift(img);
       } else {
-        images.push(img)
+        images.push(img);
       }
-    })
+    });
   }
 
   const [mainImage, setMainImage] = useState(product?.preview_image);
@@ -73,8 +75,8 @@ function ProductDetails() {
       dispatch(favoritesByUserId(user?.id));
     }
     if (product) {
-      setMainImage(product.preview_image)
-      setMainImgId(0)
+      setMainImage(product.preview_image);
+      setMainImgId(0);
     }
   }, [dispatch, productId, product, favoritesObj, user]);
 
@@ -90,6 +92,11 @@ function ProductDetails() {
   }
 
   const handleAddFavorite = (productId) => {
+    if (!user) {
+      // If the user is not logged in, open the login modal
+      setModalContent(<LoginFormModal />);
+      return;
+    }
     dispatch(addFavorite(productId)).then((res) => {
       const popUpSaved = document.getElementById("add_fav");
       popUpSaved.style.display = "block";
@@ -100,6 +107,11 @@ function ProductDetails() {
   };
 
   const handleAddToCart = () => {
+    if (!user) {
+      // If the user is not logged in, open the login modal
+      setModalContent(<LoginFormModal />);
+      return;
+    }
     const cartItem = {
       product_id: product.id,
       quantity: 1, // Or whatever quantity you need
@@ -177,7 +189,14 @@ function ProductDetails() {
               <FaLessThan />
             </button>
             <img src={mainImage} className="image" />
-          <Heart initial={favProduct.length} productId={productId} />
+            {user ? (
+              <Heart initial={favProduct.length} productId={productId} />
+            ) : (
+              <OpenModalMenuItem
+                itemText={<Heart initial={false} productId={product.id} />}
+                modalComponent={<LoginFormModal />}
+              />
+            )}
             <button id="greater" className="circ than" onClick={forwardClick}>
               <FaGreaterThan />
             </button>
@@ -202,13 +221,20 @@ function ProductDetails() {
               )}
             </div>
             <div>
-              <button>Buy It Now</button>
-              <button
-                className="black-button"
-                onClick={() => handleAddToCart(product)}
-              >
-                Add to Cart
-              </button>
+              {user ? (
+                <button
+                  className="black-button"
+                  onClick={() => handleAddToCart(product)}
+                >
+                  Add to Cart
+                </button>
+              ) : (
+                <OpenModalMenuItem
+                  className="signed_off_button"
+                  itemText="+ Add to cart"
+                  modalComponent={<LoginFormModal />}
+                />
+              )}
               <button
                 className="invisible-button"
                 onClick={() => handleAddFavorite(product.id)}

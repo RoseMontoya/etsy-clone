@@ -33,6 +33,7 @@ h1 {
   display: flex;
   align-items: center;
   justify-self: auto;
+  margin-left: 20px;
 }
 
 .nav_container {

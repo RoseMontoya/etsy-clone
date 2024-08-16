@@ -7,6 +7,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 3;
 }
 
 #modal-background {
@@ -20,8 +21,9 @@
 
 #modal-content {
   position: absolute;
-  background-color:white;
+  background-color: white;
   border-radius: 12px;
   min-width: 20em;
   min-height: 30em;
+  /* z-index: 3; */
 }
