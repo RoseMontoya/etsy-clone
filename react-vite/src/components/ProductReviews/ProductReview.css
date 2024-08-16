@@ -4,8 +4,6 @@
     align-items: center;
 }
 
-/* ProductReview.css */
-
 .review-container {
   display: flex;
   flex-direction: column;
@@ -24,14 +22,14 @@
 .review-header .recommendation {
   display: flex;
   align-items: center;
-  color: #28a745;
   font-size: 14px;
   margin-left: 10px;
+  color: black; 
 }
 
 #check-icon {
   margin-right: 5px;
-  color: #28a745;
+  color: #28a745; 
 }
 
 .review-content {
@@ -50,18 +48,20 @@
 
 .review-user-info {
   display: flex;
-  gap: 10px;
-  font-size: 14px;
+  align-items: center;
+  gap: 10px; 
 }
 
 .review-user {
   font-weight: bold;
+  margin-right: 5px; 
   color: #333;
+  text-decoration: underline;
 }
 
 .review-date {
-  font-size: 12px;
-  color: #888;
+  color: #757575; 
+  font-size: 14px;
 }
 
 .review-actions {

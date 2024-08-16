@@ -250,7 +250,7 @@ function ProductDetails() {
         </div>
       </div>
       <OpenModalMenuItem
-        className={`${showReview() ? "" : "hidden"}`}
+        className={`${showReview() ? "post-review-click" : "hidden"}`}
         itemText={`${
           reviews.length
             ? "Post Your Review!"

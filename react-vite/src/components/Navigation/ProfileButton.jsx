@@ -73,7 +73,7 @@ function ProfileButton() {
       {showMenu && (
         <ul className={"profile-dropdown"} ref={ulRef}>
           {user ? (
-            <div>
+            <div className="profile-dropdown-div">
               <li>{user.username}</li>
               <li>{user.email}</li>
               <li>

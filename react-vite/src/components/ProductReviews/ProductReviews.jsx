@@ -51,7 +51,7 @@ function ProductReviews({ productId }) {
             <Stars rating={review.stars} />
             {review.recommendation && (
               <p className="recommendation">
-                <FaCheck id="check-icon" /> Recommends this item
+                <FaCheck id="check-icon" /> <p className="rec-text">Recommends this item</p>
               </p>
             )}
           </div>
