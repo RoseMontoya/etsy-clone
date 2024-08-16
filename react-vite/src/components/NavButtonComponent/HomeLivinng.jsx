@@ -17,7 +17,7 @@ function ProductList() {
   const products= rawProducts.filter((product) => product.category_id === 1);
   console.log("Checking PRODUCTS",products)
   const favoritesObj = useSelector(state => state.favorites?.[user?.id])
-  const favProducts = favoritesObj? Object.values(favoritesObj).map(fav => fav.product.id): [];
+  const favProducts = favoritesObj? Object.values(favoritesObj).map(fav => fav.product_id): [];
 
 
 

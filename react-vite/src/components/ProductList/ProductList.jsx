@@ -15,7 +15,7 @@ function ProductList() {
   const user = useSelector((state) => state.session.user);
   const products = productsObj ? Object.values(productsObj) : [];
   const favoritesObj = useSelector(state => state.favorites?.[user?.id])
-  const favProducts = favoritesObj? Object.values(favoritesObj).map(fav => fav.product.id): [];
+  const favProducts = favoritesObj? Object.values(favoritesObj).map(fav => fav.product_id): [];
 
 
 

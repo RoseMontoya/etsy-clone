@@ -16,7 +16,7 @@ function ProductList() {
   const products = rawProducts.filter((product) => product.category_id === 2);
   const favoritesObj = useSelector((state) => state.favorites?.[user?.id]);
   const favProducts = favoritesObj
-    ? Object.values(favoritesObj).map((fav) => fav.product.id)
+    ? Object.values(favoritesObj).map((fav) => fav.product_id)
     : [];
 
   useEffect(() => {

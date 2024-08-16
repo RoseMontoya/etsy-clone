@@ -7,21 +7,24 @@ import { useNavigate } from "react-router-dom";
 import {Heart} from "../SubComponents";
 import { TiStarFullOutline } from "react-icons/ti";
 import "./FavoritesPage.css";
+import { thunkAllProducts } from "../../redux/product";
 
 function FavoritesPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.session.user);
-  const favorites = useSelector((state) => state.favorites?.[user.id]);
-
-  const favoritesArray = favorites ? Object.values(favorites) : [];
-  console.log("...", favoritesArray);
+  const favorites = useSelector((state) => state.favorites?.[user?.id]);
+  const allProducts = useSelector((state) => state.products.allProducts)
+  const favoritesArray = favorites? Object.values(favorites): [];
 
   useEffect(() => {
     if (!favorites) {
       dispatch(favoritesByUserId(user.id));
     }
-  }, [dispatch, favorites, user.id]);
+    if (!allProducts) {
+      dispatch(thunkAllProducts())
+    }
+  }, [dispatch, favorites, allProducts,user.id]);
 
   if (!favorites) return <p>Loading...</p>;
 
@@ -40,6 +43,7 @@ function FavoritesPage() {
     });
   };
 
+  console.log('Check',  allProducts)
 
 
   return (
@@ -49,25 +53,25 @@ function FavoritesPage() {
         <p>{user.first_name}&apos;s Favorites</p>
       </div>
       <div className="grid_container">
-        {favoritesArray.length ? (
+        {favoritesArray.length && allProducts? (
           favoritesArray.map((favorite) => (
             <div key={favorite.id} className="grid-item">
-            <Heart initial={true} productId={favorite.product.id}/>
-              <Link key={favorite.id} to={`/products/${favorite.product.id}`}>
+            <Heart initial={true} productId={favorite.product_id}/>
+              <Link key={favorite.id} to={`/products/${favorite.product_id}`}>
                 <div className="image_container">
                   <img
-                    src={favorite.product.preview_image}
-                    alt={favorite.product.title}
+                    src={allProducts[favorite.product_id].preview_image}
+                    alt={allProducts[favorite.product_id].title}
                   />
                 </div>
-                <p>{favorite.product.title}</p>
-                <p>${favorite.product.price.toFixed(2)}</p>
+                <p>{allProducts[favorite.product_id].title}</p>
+                <p>${allProducts[favorite.product_id].price.toFixed(2)}</p>
                 <p>
-                  {favorite.product.seller.seller_rating}
-                  <TiStarFullOutline />({favorite.product.seller.review_count})
+                  {allProducts[favorite.product_id].seller.seller_rating}
+                  <TiStarFullOutline />({allProducts[favorite.product_id].seller.review_count})
                 </p>
               </Link>
-              <button onClick={() => handleAddToCart(favorite.product)}>
+              <button onClick={() => handleAddToCart(allProducts[favorite.product_id])}>
               + Add to cart
             </button>
             </div>
