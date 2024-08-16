@@ -14,6 +14,7 @@ import { getAllCartItems } from "../../redux/cart";
 import { addToCart } from "../../redux/cart";
 import { useModal } from "../../context/Modal"; // Import the modal context
 import LoginFormModal from "../LoginFormModal";
+import OwnProductConflictModal from "../SubComponents/OwnProductConflictModal";
 
 function ProductDetails() {
   const { productId } = useParams();
@@ -90,7 +91,6 @@ function ProductDetails() {
     return <div>Loading...</div>;
   }
 
-
   const handleAddToCart = () => {
     if (!user) {
       // If the user is not logged in, open the login modal
@@ -104,6 +104,11 @@ function ProductDetails() {
       cart_id: user.cart_id, // If you have an existing cart ID
       product: product, // The entire product object
     };
+
+    if (user.id === cartItem.product.seller.id) {
+      setModalContent(<OwnProductConflictModal />);
+      return;
+    }
 
     dispatch(addToCart(cartItem)).then(() => {
       dispatch(getAllCartItems()).then(() => {
@@ -175,7 +180,11 @@ function ProductDetails() {
             </button>
             <img src={mainImage} className="image" />
             {user ? (
-              <Heart initial={favProduct.length} productId={productId} />
+              <Heart
+                initial={favProduct.length}
+                productId={productId}
+                sellerId={product.seller.id}
+              />
             ) : (
               <OpenModalMenuItem
                 itemText={<Heart initial={false} productId={product.id} />}
