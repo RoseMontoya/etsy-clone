@@ -48,6 +48,8 @@ function ProductManage() {
     }
   }, [dispatch, productsObj]);
 
+  if (!productsObj) return <h2>Loading...</h2>
+
   if (products?.length === 0)
     return (
       <>
@@ -70,8 +72,7 @@ function ProductManage() {
   };
 
   const handleDeleteConfirm = async (productId) => {
-    await dispatch(deleteProduct(productId));
-    await dispatch(productByUserId());
+    await dispatch(deleteProduct(productId, user.id));
     closeModal();
   };
 

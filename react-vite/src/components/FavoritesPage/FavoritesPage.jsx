@@ -16,6 +16,7 @@ function FavoritesPage() {
   const favorites = useSelector((state) => state.favorites?.[user?.id]);
   const allProducts = useSelector((state) => state.products.allProducts)
   const favoritesArray = favorites? Object.values(favorites): [];
+  console.log("favsssss",favoritesArray)
 
   useEffect(() => {
     if (!favorites) {
@@ -54,7 +55,10 @@ function FavoritesPage() {
       </div>
       <div className="grid_container">
         {favoritesArray.length && allProducts? (
-          favoritesArray.map((favorite) => (
+          favoritesArray.map((favorite) => {
+            console.log(allProducts[favorite.product_id])
+            return allProducts[favorite.product_id]?
+            (
             <div key={favorite.id} className="grid-item">
             <Heart initial={true} productId={favorite.product_id}/>
               <Link key={favorite.id} to={`/products/${favorite.product_id}`}>
@@ -76,7 +80,7 @@ function FavoritesPage() {
               + Add to cart
             </button>
             </div>
-          ))
+          ): null})
         ) : (
           <p>
             Start favoriting items to compare, shop, and keep track of things

@@ -1,8 +1,10 @@
+
 const GET_CART = "cart/get-cart";
 const DELETE_ALLCART = "cart/delete-cart";
 const DELETE_CART_ITEM = "cart/detelet-cart-item";
 const ADD_TO_CART = "cart/add-to-cart";
 const EDIT_QUANTITY_ITEM = "cart/edit-quantity-item";
+const PRODUCT_DELETED = "cart/product-deleted"
 //Action to add 1 item in cart
 const addToCartAction = (cartItem) => ({
   type: ADD_TO_CART,
@@ -26,11 +28,11 @@ const deleteAllCartItemsAction = () => ({
   type: DELETE_ALLCART,
 });
 
-//Action for editing quantity for single item
-const editItemQuantity = (cartItemId, quantity) => ({
-  type: EDIT_QUANTITY_ITEM,
-  payload: { cartItemId, quantity },
-});
+
+export const productDeletedCart = (productId) => ({
+  type: PRODUCT_DELETED,
+  productId
+})
 
 export const deleteCartItem = (cartItemId) => async (dispatch) => {
   const response = await fetch(`/api/cart/item/${cartItemId}`, {
@@ -137,9 +139,10 @@ const cartReducer = (state = initialState, action) => {
       };
     }
     case DELETE_CART_ITEM: {
-      const newState = { ...state };
-      delete newState.cartItems[action.payload]; // Remove the specific cart item
-      return newState;
+      const newState = { ...state.cartItems };
+      // console.log("delete cart item",newState); // Remove the specific cart item
+      delete newState[action.payload]
+      return {...state, cartItems: newState};
     }
     case DELETE_ALLCART: {
       const newState = { ...state };
@@ -191,6 +194,20 @@ const cartReducer = (state = initialState, action) => {
         ...newState,
         cartItems: { ...newState.cartItems },
       };
+    }
+    case PRODUCT_DELETED: {
+      const newState = {...state.cartItems}
+      const newStateArray = newState? Object.values(newState) : []
+      if (newState) {
+        newStateArray.forEach(item => {
+          if (item.product_id === action.productId) {
+            delete newState[item.id]
+
+          }
+        })
+      }
+
+      return {...state, cartItems: newState}
     }
 
     default:

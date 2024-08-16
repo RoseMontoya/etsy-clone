@@ -17,6 +17,12 @@ function Cart() {
   const allProducts = useSelector(state => state.products?.allProducts)
 
   const cartArr = cartObj ? Object.values(cartObj) : [];
+
+  // let cartArr = [];
+  // if (cartObj) {
+  //   const cartItems = Object.values(cartObj)
+  //   cartArr = cartItems.filter(item => allProducts[item.product_id])
+  // }
   console.log("FRONT END ========>", cartArr);
 
   useEffect(() => {
@@ -62,7 +68,9 @@ function Cart() {
   const cartTotal = (cartArr) => {
     let total = 0;
     for (let item of cartArr){
-        total += (Number(allProducts[item.product_id].price) * Math.min(Number(item.quantity), Number(allProducts[item.product_id].inventory)))
+        if (allProducts[item.product_id]) {
+          total += (Number(allProducts[item.product_id].price) * Math.min(Number(item.quantity), Number(allProducts[item.product_id].inventory)))
+        }
     }
     return total.toFixed(2)
   }

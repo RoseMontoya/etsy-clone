@@ -1,6 +1,7 @@
 const GET_FAV = "favorites/getFav";
 const ADD_FAV = "favorites/addFav";
 const REMOVE_FAV = "favorites/removeFav";
+const PRODUCT_DELETED = 'favorites/productDeleted'
 
 const getFav = (userId, favorites) => ({
   type: GET_FAV,
@@ -17,6 +18,12 @@ const removeFav = (favorite) => ({
   type: REMOVE_FAV,
   payload: favorite,
 });
+
+export const productDeletedFav = (productId, userId) => ({
+  type: PRODUCT_DELETED,
+  productId,
+  userId
+})
 
 export const favoritesByUserId = (userId) => async (dispatch) => {
   const response = await fetch("/api/favorites/current");
@@ -78,6 +85,18 @@ function favoriteReducer(state = initialState, action) {
       const newState = { ...state[action.payload.user_id] };
       delete newState[action.payload.id];
       return { ...state, [action.payload.user_id]: newState };
+    }
+    case PRODUCT_DELETED: {
+      const newState = {...state[action.userId]}
+      const newStateArray = newState? Object.values(newState) : []
+      if (newState) {
+        newStateArray.forEach(fav => {
+          if (fav.product_id === action.productId) {
+            delete newState[fav.id]
+          }
+        })
+      }
+      return {...state, [action.userId] : newState}
     }
     default:
       return state;

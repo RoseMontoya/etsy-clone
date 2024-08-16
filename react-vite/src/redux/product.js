@@ -1,3 +1,6 @@
+import { productDeletedCart } from "./cart";
+import { productDeletedFav } from "./favorite";
+
 const GET_PRODUCTS = "product/getProducts";
 const PRODUCT_BY_ID = "product/getProductById";
 const PRODUCT_BY_CURRENT_USER = "product/getProductByCurrentUser";
@@ -60,13 +63,6 @@ const deleteImage = (image) => {
   return {
     type: DELETE_IMAGE,
     payload: image,
-  };
-};
-
-const inventoryUpdate = (item) => {
-  return {
-    type: UPDATE_INVENTORY,
-    payload: item,
   };
 };
 
@@ -158,7 +154,7 @@ export const editProduct = (product) => async (dispatch) => {
 };
 
 // Delete product by ID
-export const deleteProduct = (productId) => async (dispatch) => {
+export const deleteProduct = (productId, userId) => async (dispatch) => {
   const response = await fetch(`/api/products/${productId}`, {
     method: "DELETE",
   });
@@ -170,6 +166,8 @@ export const deleteProduct = (productId) => async (dispatch) => {
       return;
     }
     dispatch(removeProduct(productId));
+    await dispatch(productDeletedFav(productId, userId));
+    await dispatch(productDeletedCart(productId))
   }
 };
 
