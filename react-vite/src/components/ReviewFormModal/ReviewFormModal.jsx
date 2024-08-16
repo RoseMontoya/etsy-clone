@@ -8,7 +8,7 @@ import Stars from '../SubComponents/Stars';
 import "./ReviewFormModal.css";
 
 
-function ReviewFormModal({productId, formType, reviewId}) {
+function ReviewFormModal({productId, formType, reviewId, sellerId}) {
     const dispatch = useDispatch()
     const [review, setReview] = useState('')
     const [rating, setRating] = useState(0)
@@ -27,7 +27,7 @@ function ReviewFormModal({productId, formType, reviewId}) {
 
         const thunkAction = formType === 'create'? createReview : editReview
 
-        dispatch(thunkAction(payload))
+        dispatch(thunkAction(payload, sellerId))
         .then(async(res) => {
             if(res.status) {
                 const errors = await res.json()
@@ -79,7 +79,7 @@ function ReviewFormModal({productId, formType, reviewId}) {
                                 {
                                     // e.target.value === "false" ? setRecommendation(false) : setRecommendation(true)
                                     setRecommendation(e.target.checked)
-                                    // console.log("this is e =======>", e.target.checked)
+
                                 }
                             }
                             />

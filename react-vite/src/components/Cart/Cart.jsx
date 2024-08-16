@@ -18,21 +18,13 @@ function Cart() {
 
   const cartArr = cartObj ? Object.values(cartObj) : [];
 
-  // let cartArr = [];
-  // if (cartObj) {
-  //   const cartItems = Object.values(cartObj)
-  //   cartArr = cartItems.filter(item => allProducts[item.product_id])
-  // }
-  console.log("FRONT END ========>", cartArr);
 
   useEffect(() => {
     if (!cartObj) {
-      console.log("effect cart");
       dispatch(getAllCartItems());
     }
     if (!allProducts) {
-      console.log("effect product");
-      dispatch(thunkAllProducts());
+      dispatch(thunkAllProducts())
     }
   }, [dispatch, cartObj, allProducts]);
 

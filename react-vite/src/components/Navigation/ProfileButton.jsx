@@ -14,14 +14,14 @@ function ProfileButton() {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const user = useSelector((store) => store.session.user);
-  // console.log(user);
+
   const ulRef = useRef();
 
   const toggleMenu = (e) => {
     e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
     setShowMenu(!showMenu);
   };
-  
+
   useEffect(() => {
     if (!showMenu) return;
 

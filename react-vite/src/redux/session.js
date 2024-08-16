@@ -51,7 +51,6 @@ export const thunkSignup = (user) => async (dispatch) => {
 
   if (response.ok) {
     const data = await response.json();
-    // console.log("Thunk===>", data);
     dispatch(setUser(data));
   } else if (response.status < 500) {
     const errorMessages = await response.json();
@@ -71,7 +70,6 @@ const initialState = { user: null };
 function sessionReducer(state = initialState, action) {
   switch (action.type) {
     case SET_USER:
-      // console.log("====>", action.payload);
       return { ...state, user: action.payload };
     case REMOVE_USER:
       return { ...state, user: null };

@@ -15,7 +15,7 @@ function formatDate(dateString) {
   return date.toLocaleDateString('en-US', options);
 }
 
-function ProductReviews({ productId }) {
+function ProductReviews({ productId, sellerId }) {
   const dispatch = useDispatch();
   const { closeModal, setModalContent } = useModal()
 
@@ -39,7 +39,7 @@ function ProductReviews({ productId }) {
   }
 
   const deleteConfirm = async (reviewId, productId) => {
-    await dispatch(deleteReview(reviewId, productId))
+    await dispatch(deleteReview(reviewId, productId, sellerId))
     closeModal()
   }
 
@@ -75,11 +75,12 @@ function ProductReviews({ productId }) {
                     productId={productId}
                     formType={"edit"}
                     reviewId={review.id}
+                    sellerId={sellerId}
                   />
                 }
               />
-              <button 
-                className={`${review.user !== user ? "hidden" : ""}`} 
+              <button
+                className={`${review.user !== user ? "hidden" : ""}`}
                 onClick={() => handleDelete(review.id)}>
                 Delete Review
               </button>

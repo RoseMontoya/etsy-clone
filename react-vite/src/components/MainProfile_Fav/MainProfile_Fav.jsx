@@ -7,10 +7,8 @@ import "./MainProfile.css";
 function HomePage() {
   const dispatch = useDispatch();
   let product = useSelector((state) => {
-    console.log(state);
     return state.product.allProducts;
   });
-  console.log("Product from MainProfile", product);
   useEffect(() => {
     dispatch(thunkAllProducts());
   }, [dispatch]);

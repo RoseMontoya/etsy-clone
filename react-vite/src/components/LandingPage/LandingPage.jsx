@@ -26,16 +26,7 @@ function LandingPage() {
   if (!randomProduct) {
     return <p>Loading products...</p>;
   }
-  // console.log("Product from HomePage", products);
-  // const getRandomProduct = () => {
-  //   const productKeys = Object.keys(productsObj);
-  //   const randomKey =
-  //     productKeys[Math.floor(Math.random() * productKeys.length)];
-  //   // console.log( "Random length",productKeys.length);
-  //   return productsObj[randomKey];
-  // };
 
-  // const randomProduct = getRandomProduct();
   return (
     <div className="landing-page">
       {user?.email ? (
@@ -73,15 +64,15 @@ function LandingPage() {
                 alt={randomProduct.title}
                 />
               </div>
-              
-            
+
+
           </div>
 
           {/* <p>
             Fall in love with original finds from standout small shops around
             the world.
           </p> */}
-          
+
         </div>
       )}
     </div>

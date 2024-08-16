@@ -251,10 +251,10 @@ function ProductDetails() {
             : "Be the first to leave a review!"
         }`}
         modalComponent={
-          <ReviewFormModal productId={product.id} formType={"create"} />
+          <ReviewFormModal productId={product.id} formType={"create"} sellerId={product.seller.id}/>
         }
       />
-      <ProductReviews productId={productId} />
+      <ProductReviews productId={productId} sellerId={product.seller.id} />
     </main>
   );
 }
