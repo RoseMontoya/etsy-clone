@@ -1,5 +1,10 @@
+import { deleteAllCartItemsAction} from "./cart";
+import { clearCurrent } from "./product";
+import { clearFavs } from "./favorite";
+
 const SET_USER = "session/setUser";
 const REMOVE_USER = "session/removeUser";
+
 
 const setUser = (user) => ({
   type: SET_USER,
@@ -63,6 +68,9 @@ export const thunkSignup = (user) => async (dispatch) => {
 export const thunkLogout = () => async (dispatch) => {
   await fetch("/api/auth/logout");
   dispatch(removeUser());
+  dispatch(clearFavs());
+  dispatch(deleteAllCartItemsAction());
+  dispatch(clearCurrent())
 };
 
 const initialState = { user: null };

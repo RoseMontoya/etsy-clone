@@ -10,7 +10,7 @@ const DELETE_PRODUCT = "product/removeProduct";
 const CREATE_IMAGE = "image/createImage";
 const UPDATE_IMAGE = "image/updateImage";
 const DELETE_IMAGE = "image/deleteImage";
-const REVIEW_CHANGE = 'product/reviewChange'
+const CLEAR_CURRENT = "products/clearCurrent"
 
 const getProducts = (products) => ({
   type: GET_PRODUCTS,
@@ -65,6 +65,12 @@ const deleteImage = (image) => {
     payload: image,
   };
 };
+
+export const clearCurrent = () => {
+  return {
+    type: CLEAR_CURRENT,
+  }
+}
 
 export const reviewChange = (userId) => async dispatch => {
   const response = await fetch(`/api/users/${userId}/products`)
@@ -497,14 +503,9 @@ function productReducer(state = initialState, action) {
 
       return { ...state, ...newState };
     }
-    // case REVIEW_CHANGE: {
-    //   const allProducts = {...state.allProducts}
-    //   const usersProducts = allProducts? Object.values(allProducts).filter((product) => {
-    //     if (product.id === action.payload.product_id) {
-    //       accum.push(current)
-    //     }
-    //     return accum
-    //   }, []) : []
+    case CLEAR_CURRENT: {
+      return {...state, productsCurrent: {}}
+    }
     // }
     default:
       return state;

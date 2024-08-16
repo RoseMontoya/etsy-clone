@@ -2,6 +2,7 @@ const GET_FAV = "favorites/getFav";
 const ADD_FAV = "favorites/addFav";
 const REMOVE_FAV = "favorites/removeFav";
 const PRODUCT_DELETED = 'favorites/productDeleted'
+const CLEAR_FAVS = 'favorites/clearFavs'
 
 const getFav = (userId, favorites) => ({
   type: GET_FAV,
@@ -18,6 +19,10 @@ const removeFav = (favorite) => ({
   type: REMOVE_FAV,
   payload: favorite,
 });
+
+export const clearFavs = () => ({
+  type: CLEAR_FAVS
+})
 
 export const productDeletedFav = (productId, userId) => ({
   type: PRODUCT_DELETED,
@@ -96,6 +101,9 @@ function favoriteReducer(state = initialState, action) {
         })
       }
       return {...state, [action.userId] : newState}
+    }
+    case CLEAR_FAVS: {
+      return {}
     }
     default:
       return state;

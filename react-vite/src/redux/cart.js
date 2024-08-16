@@ -24,7 +24,7 @@ const deleteCartItemAction = (cartItemId) => ({
 });
 
 // Action for deleting all cart items
-const deleteAllCartItemsAction = () => ({
+export const deleteAllCartItemsAction = () => ({
   type: DELETE_ALLCART,
 });
 
