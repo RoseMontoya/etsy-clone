@@ -57,7 +57,7 @@ function EditProductForm() {
     if (!description) errorObj.description = "Description is required."
     if (description.length < 10) errorObj.description = "Description must be at least 10 characters long. Please provide more details on your product."
     if (inventory <= 0) errorObj.inventory = "Inventory must be at least 1. Please enter a positive value."
-    if (price <= 0) errorObj.price = "Price cannot be negative."
+    if (price <= 0) errorObj.price = "Price must be greater than zero."
     if (!categoryId) errorObj.category = "Category is required."
     return errorObj;
     }

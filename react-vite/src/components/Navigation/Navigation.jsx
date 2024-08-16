@@ -17,7 +17,7 @@ function Navigation() {
     <nav>
       <div className="nav_container">
         <NavLink to="/">
-          <img src="./images/etsy 2.png" alt="ETSYICON" className="nav_icon" />
+          <img src="/images/logo.png" alt="ArtisanAlley" className="nav_icon" />
         </NavLink>
         <div className="inline grey-hover" style={{ gap: "1em" }}>
           <Link to="/products">All Product</Link>

@@ -28,6 +28,7 @@
   min-height: 23em;
   border: #e9e9e9 solid 2px;
   border-radius: 16px;
+  width: 100%;
 }
 
 .grid-item:hover {

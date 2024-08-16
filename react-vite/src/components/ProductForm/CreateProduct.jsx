@@ -13,7 +13,7 @@ function NewProductForm() {
   const [description, setDescription] = useState("");
   const [inventory, setInventory] = useState(0);
   const [price, setPrice] = useState(0);
-  const [categoryId, setCategoryId] = useState(1);
+  const [categoryId, setCategoryId] = useState(0);
   const [previewImageUrl, setPreviewImageUrl] = useState("");
   const [image1Url, setImage1Url] = useState("");
   const [image2Url, setImage2Url] = useState("");
@@ -34,7 +34,7 @@ function NewProductForm() {
     if (!description) errorObj.description = "Description is required."
     if (description.length < 10) errorObj.description = "Description must be at least 10 characters long. Please provide more details on your product."
     if (inventory <= 0) errorObj.inventory = "Inventory must be at least 1. Please enter a positive value."
-    if (price <= 0) errorObj.price = "Price cannot be negative."
+    if (price <= 0) errorObj.price = "Price must be greater than zero."
     if (!categoryId) errorObj.category = "Category is required."
 
     const imageUrlValid = /\.(jpeg|jpg|gif|png)$/;
@@ -190,7 +190,7 @@ function NewProductForm() {
           value={categoryId}
           onChange={(e) => setCategoryId(e.target.value)}
         >
-          <option value="">Select a category</option>
+          <option value="0">Select a category</option>
           <option value="1">Home & Living</option>
           <option value="2">Accessories</option>
           <option value="3">Crafting</option>
