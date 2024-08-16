@@ -1,0 +1,108 @@
+/* ReviewFormModal.css */
+
+.review-modal-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px; /* Adjusted to make sure the modal is compact */
+    margin: 0 auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    position: relative; /* To ensure it stays within the parent container */
+    overflow: hidden; /* To prevent overflow of content */
+}
+
+.review-modal-container h2 {
+    font-size: 25px;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.review-modal-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.error {
+    color: red;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+#stars {
+    display: flex;
+    align-items: center; /* Aligns the stars and text vertically */
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.star {
+    font-size: 24px;
+    color: #f16521;
+    cursor: pointer;
+    margin-right: 5px; /* Space out the stars slightly */
+}
+
+#stars p {
+    margin: 0;
+    font-weight: 700;
+    padding-left: 10px; /* Adjusts spacing between stars and "Stars" text */
+    font-size: 16px; /* Adjust font size if needed */
+}
+
+.review-text {
+    width: 100%; /* Ensure the textarea fits within the modal */
+    height: 80px; /* Adjust the height to be more compact */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 14px;
+    margin-bottom: 20px;
+    resize: none;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box; /* Ensure padding is included in width/height */
+}
+
+.review-text::placeholder {
+    color: #aaa;
+}
+
+.recommendation-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.recommendation-container label {
+    font-size: 16px;
+    color: #333;
+    margin-right: 10px;
+}
+
+.recommendation-container input {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.submit-button {
+    background-color: #f16521;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+.submit-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.submit-button:hover:not(:disabled) {
+    background-color: #e55417;
+}

@@ -1,17 +1,85 @@
 .form-modal {
-  margin: 2em;
+  margin: 3em;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  width: 400px
 }
 
-form {
+.form-modal form {
   display: flex;
   flex-direction: column;
-  align-items: space-between;
-  gap: 0.5em;
 }
+
+.form-modal input {
+  text-align: left; /* Ensures text starts from the left */
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.form-modal input.error {
+  border-color: red;
+  background-color: #ffe6e6;
+  text-align: left; /* Keep text left-aligned even when there's an error */
+  color: red;
+}
+
+.form-modal h2 {
+  font-size: 24px;
+  font-weight: 800; /* Make "Create your account" text bolder */
+  color: #222222;
+}
+
+.form-modal h3 {
+  font-size: 16px;
+  font-weight: 600; /* Make "Registration is easy." slightly less bold */
+  color: #222222;
+}
+
 .cursor {
   cursor: pointer;
+}
+
+.required {
+  color: red;
+}
+
+h2 {
+  font-weight: bold;
+}
+
+.black-button {
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 100%;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.black-button:hover {
+  background-color: #555;
+}
+
+.disabled-button {
+  background-color: #ccc;
+  color: #666;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: not-allowed;
+  margin-top: 10px;
+  width: 100%;
+  text-align: center;
 }

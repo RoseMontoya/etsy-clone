@@ -58,7 +58,12 @@ function ProductList() {
               <img src={product.preview_image} alt={product.title} />
               <p>{product.title}</p>
               <div className="inline">
-              <Stars rating={product.seller.seller_rating}/><span>({product.seller.review_count})</span></div>
+              {product.seller.review_count > 0 ? (
+                <Stars rating={product.seller.seller_rating} />
+              ) : (
+                <p className="bold">New</p>
+              )}
+              <span>({product.seller.review_count})</span></div>
               <p className="bold">${product.price.toFixed(2)}</p>
               <p>{product.seller.username}</p>
             </Link>

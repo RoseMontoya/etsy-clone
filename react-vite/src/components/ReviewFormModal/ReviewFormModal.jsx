@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 // import { TiStarOutline } from "react-icons/ti";
 // import { TiStarFullOutline } from "react-icons/ti";
 import { createReview, editReview } from '../../redux/review';
-import Stars from '../SubComponents/Stars'
+import Stars from '../SubComponents/Stars';
+import "./ReviewFormModal.css";
 
 
 function ReviewFormModal({productId, formType, reviewId}) {
@@ -50,42 +51,12 @@ function ReviewFormModal({productId, formType, reviewId}) {
 
     return (
         <>
-            <div>
+            <div className="review-modal-container">
                 {formType === 'create' ? <h2>Leave a review:</h2> : <h2>Edit your review:</h2>}
                 <form onSubmit={handleSubmit}>
                     {errors?.message && <p className='error' style={{margin: 0 }}>{errors.message}</p>}
                     <div>
                         <div id='stars'>
-                        {/* <div
-                            onClick={() => setRating(1)}
-                            className='star'
-                        >
-                            {rating >= 1? <TiStarFullOutline/> : <TiStarOutline/>}
-                        </div>
-                        <div
-                            onClick={() => setRating(2)}
-                            className='star'
-                        >
-                            {rating >= 2? <TiStarFullOutline/> : <TiStarOutline/>}
-                        </div>
-                        <div
-                            onClick={() => setRating(3)}
-                            className='star'
-                        >
-                            {rating >= 3? <TiStarFullOutline/> : <TiStarOutline/>}
-                        </div>
-                        <div
-                            onClick={() => setRating(4)}
-                            className='star'
-                        >
-                            {rating >= 4? <TiStarFullOutline/> : <TiStarOutline/>}
-                        </div>
-                        <div
-                            onClick={() => setRating(5)}
-                            className='star'
-                        >
-                            {rating >= 5? <TiStarFullOutline/> : <TiStarOutline/>}
-                        </div> */}
                         <Stars rating={rating} onClick={setRating}/>
                             <p style={{fontWeight: '700', padding: '.25em', paddingTop: 0}}>Stars</p>
                         </div>
@@ -99,7 +70,7 @@ function ReviewFormModal({productId, formType, reviewId}) {
                         />
 
                         {/* recommendation */}
-                        <div>
+                        <div className="recommendation-container">
                             <label>Would you recommend this product?</label>
                             <input type='checkbox'
                             checked={recommendation}
