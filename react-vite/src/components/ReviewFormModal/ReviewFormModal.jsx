@@ -48,7 +48,6 @@ function ReviewFormModal({productId, formType, reviewId}) {
         }
     }, [formType, prevRev])
 
-
     return (
         <>
             <div className="review-modal-container">
@@ -61,6 +60,12 @@ function ReviewFormModal({productId, formType, reviewId}) {
                             <p style={{fontWeight: '700', padding: '.25em', paddingTop: 0}}>Stars</p>
                         </div>
 
+                        {rating < 1 && (
+                            <p className="star-count">
+                                Please input a star rating.
+                            </p>
+                        )}
+
                         {/* review */}
                         <textarea
                             placeholder="Leave your review here..."
@@ -68,6 +73,11 @@ function ReviewFormModal({productId, formType, reviewId}) {
                             value={review}
                             onChange={(e) => setReview(e.target.value)}
                         />
+                        {review.length < 10 && (
+                            <p className="char-count">
+                                Review text needs to be a minimum of 10 characters.
+                            </p>
+                        )}
 
                         {/* recommendation */}
                         <div className="recommendation-container">

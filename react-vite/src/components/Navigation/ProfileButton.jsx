@@ -77,10 +77,10 @@ function ProfileButton() {
               <li>{user.username}</li>
               <li>{user.email}</li>
               <li className="hover-effect">
-                <Link to="/products/current">Manage Products</Link>
+                <Link to="/products/current" onClick={closeMenu}>Manage Products</Link>
               </li>
               <li className="hover-effect">
-                <Link to="/favorites">Your Favorites</Link>
+                <Link to="/favorites" onClick={closeMenu}>Your Favorites</Link>
               </li>
               <li>
                 <button onClick={logout}>Log Out</button>

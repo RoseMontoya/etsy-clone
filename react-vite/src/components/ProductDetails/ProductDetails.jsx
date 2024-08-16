@@ -220,12 +220,6 @@ function ProductDetails() {
                   modalComponent={<LoginFormModal />}
                 />
               )}
-              {/* <button
-                className="invisible-button"
-                onClick={() => handleAddFavorite(product.id)}
-              >
-                Add to Collection
-              </button> */}
             </div>
             <div>
               <p>Item Details</p>

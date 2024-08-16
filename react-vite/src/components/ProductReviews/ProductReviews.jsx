@@ -68,7 +68,7 @@ function ProductReviews({ productId }) {
 
             <div className="review-actions">
               <OpenModalMenuItem
-                className={`${review.user !== user ? "hidden" : ""}`}
+                className={`${review.user !== user ? "hidden" : "edit-review"}`}
                 itemText="Edit Review"
                 modalComponent={
                   <ReviewFormModal
@@ -79,7 +79,7 @@ function ProductReviews({ productId }) {
                 }
               />
               <button 
-                className={`${review.user !== user ? "hidden" : ""}`} 
+                className={`${review.user !== user ? "hidden" : "delete-review"}`} 
                 onClick={() => handleDelete(review.id)}>
                 Delete Review
               </button>
