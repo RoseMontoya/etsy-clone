@@ -10,7 +10,7 @@ function Heart({ initial, productId }) {
   const [favorited, setFavorited] = useState(initial);
   const user = useSelector((state) => state.session.user);
   const handleUnfavorite = (productId) => {
-    dispatch(removeFavorite(productId)).then((res) => {
+    dispatch(removeFavorite(productId)).then(() => {
       const popUpRemoved = document.getElementById("remove_fav");
       popUpRemoved.style.display = "block";
       setTimeout(() => {
@@ -21,7 +21,7 @@ function Heart({ initial, productId }) {
   };
 
   const handleFavorite = (productId) => {
-    dispatch(addFavorite(productId)).then((res) => {
+    dispatch(addFavorite(productId)).then(() => {
       const popUpSaved = document.getElementById("add_fav");
       popUpSaved.style.display = "block";
       setTimeout(() => {

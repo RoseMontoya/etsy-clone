@@ -48,7 +48,7 @@ function EditProductForm() {
       setImage4(images[4] || "");
       setImage5(images[5] || "");
     }
-  }, [dispatch, productId, product]);
+  }, [dispatch, productId, product, images]);
 
   const validateForm = () => {
     const errorObj = {};
