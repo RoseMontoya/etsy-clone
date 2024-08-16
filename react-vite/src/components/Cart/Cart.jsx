@@ -14,7 +14,7 @@ function Cart() {
   const dispatch = useDispatch();
   // const [number, setNumber] = useState(1);
   const cartObj = useSelector((state) => state.cart?.cartItems);
-  const allProducts = useSelector(state => state.products?.allProducts)
+  const allProducts = useSelector((state) => state.products?.allProducts);
 
   const cartArr = cartObj ? Object.values(cartObj) : [];
 
@@ -46,7 +46,7 @@ function Cart() {
     }
   };
 
-  if (!cartObj || !allProducts) return <h2>Loading...</h2>
+  if (!cartObj || !allProducts) return <h2>Loading...</h2>;
 
   if (cartArr.length === 0) {
     return (
@@ -59,14 +59,18 @@ function Cart() {
 
   const cartTotal = (cartArr) => {
     let total = 0;
-    for (let item of cartArr){
-        if (allProducts[item.product_id]) {
-          total += (Number(allProducts[item.product_id].price) * Math.min(Number(item.quantity), Number(allProducts[item.product_id].inventory)))
-        }
+    for (let item of cartArr) {
+      if (allProducts[item.product_id]) {
+        total +=
+          Number(allProducts[item.product_id].price) *
+          Math.min(
+            Number(item.quantity),
+            Number(allProducts[item.product_id].inventory)
+          );
+      }
     }
-    return total.toFixed(2)
-  }
-
+    return total.toFixed(2);
+  };
 
   return (
     <div className="cart-container">
@@ -123,7 +127,14 @@ function Cart() {
 
               <div>
                 <div>
-                  ${(Number(product.price) * Math.min(Number(item.quantity), Number(allProducts[item.product_id].inventory))).toFixed(2)}
+                  $
+                  {(
+                    Number(product.price) *
+                    Math.min(
+                      Number(item.quantity),
+                      Number(allProducts[item.product_id].inventory)
+                    )
+                  ).toFixed(2)}
                 </div>
                 <div className="cart-item-actions">
                   <button
@@ -132,7 +143,6 @@ function Cart() {
                   >
                     Remove
                   </button>
-
                 </div>
               </div>
             </li>
@@ -141,13 +151,15 @@ function Cart() {
       </ul>
       <div>
         <button onClick={handleClearCart} className="clear-cart-button">
-            Clear Cart
+          Clear Cart
         </button>
 
         <span>Total: ${cartTotal(cartArr)}</span>
       </div>
       <div className="cart-footer">
-        <Link to="/checkout"><button className="checkout-button">Proceed to Checkout</button></Link>
+        <Link to="/checkout">
+          <button className="checkout-button">Proceed to Checkout</button>
+        </Link>
         <Link to="/products" className="continue-shopping">
           Continue Shopping
         </Link>
