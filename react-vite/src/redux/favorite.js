@@ -22,6 +22,7 @@ export const favoritesByUserId = (userId) => async (dispatch) => {
   const response = await fetch("/api/favorites/current");
   const data = await response.json();
   if (response.ok) {
+    console.log('GET FAV', data)
     dispatch(getFav(userId, data));
     return data;
   }
