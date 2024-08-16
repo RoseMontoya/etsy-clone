@@ -52,13 +52,16 @@ function ProfileButton() {
 
   return (
     <>
-      <button onClick={toggleMenu} className="hiddenButton grey-hover">
+      <button onClick={toggleMenu} className="hiddenButton grey-hover profile-container">
         {user ? (
-          <img
-            src={user.profile_url}
-            alt="Profile_URL"
-            className="profileIcon"
-          />
+          <>
+            <img
+              src={user.profile_url}
+              alt="Profile_URL"
+              className="profileIcon"
+            />
+            {/* <div className="tooltip">Your account</div> */}
+          </>
         ) : (
           <OpenModalMenuItem
             itemText="Sign in"

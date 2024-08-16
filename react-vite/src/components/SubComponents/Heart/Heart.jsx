@@ -43,3 +43,4 @@ function Heart({initial, productId}) {
 }
 
 export default Heart;
+

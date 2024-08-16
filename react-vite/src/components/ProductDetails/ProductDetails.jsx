@@ -177,7 +177,7 @@ function ProductDetails() {
               <FaLessThan />
             </button>
             <img src={mainImage} className="image" />
-            <Heart initial={favProduct.length} productId={productId} />
+          <Heart initial={favProduct.length} productId={productId} />
             <button id="greater" className="circ than" onClick={forwardClick}>
               <FaGreaterThan />
             </button>
@@ -194,7 +194,12 @@ function ProductDetails() {
             <p>{product?.title}</p>
             <div>
               <p className="bold inline">{product.seller.username} </p>
-              <Stars rating={product.seller.seller_rating} />
+              {/* <Stars rating={product.seller.seller_rating} /> */}
+              {product.seller.review_count > 0 ? (
+                <Stars rating={product.seller.seller_rating} />
+              ) : (
+                <p className="bold">New</p>
+              )}
             </div>
             <div>
               <button>Buy It Now</button>

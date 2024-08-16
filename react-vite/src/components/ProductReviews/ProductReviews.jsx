@@ -7,7 +7,13 @@ import './ProductReview.css'
 import { useModal } from '../../context/Modal';
 import DeleteReview from "../DeleteReviewModal";
 import Stars from '../SubComponents/Stars'
+import { FaCheck } from "react-icons/fa";
 
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const options = { year: 'numeric', month: 'short', day: 'numeric' };
+  return date.toLocaleDateString('en-US', options);
+}
 
 function ProductReviews({ productId }) {
   const dispatch = useDispatch();
@@ -40,43 +46,47 @@ function ProductReviews({ productId }) {
   return (
     <div>
       {reviews.map((review) => (
-            <div key={review?.id}>
-              <div>
-                <Stars rating={review.stars} />
-                <p>{review.review}</p>
-                <div>
-                  <p>{review.user}</p>
-                  <p>{review.updated_at}</p>
-                </div>
-              </div>
-              <p>{review.recommendation ? "Recommends this item" : ""}</p>
-              <div>
-                <OpenModalMenuItem
-                  className={`${review.user !== user? "hidden" : ""}`}
-                  itemText="Edit Review"
-                  modalComponent={
-                    <ReviewFormModal
-                      productId={productId}
-                      formType={"edit"}
-                      reviewId={review.id}
-                    />
-                  }
-                />
-                {/* <OpenModalMenuItem
-                  className={`${review.user !== user? "hidden" : ""}`}
-                  itemText="Delete Review"
-                  modalComponent={
-                    <DeleteReview
-                      productId={productId}
-                      reviewId={review.id}
-                    />
-                  }
-                /> */}
-                <button className={`${review.user !== user? "hidden" : ""}`} onClick={() => handleDelete(review.id)}>Delete Review</button>
-              </div>
+        <div key={review?.id} className="review-container">
+          <div className="review-header">
+            <Stars rating={review.stars} />
+            {review.recommendation && (
+              <p className="recommendation">
+                <FaCheck id="check-icon" /> Recommends this item
+              </p>
+            )}
+          </div>
+
+          <div className="review-content">
+            <p>{review.review}</p>
+          </div>
+
+          <div className="review-footer">
+            <div className="review-user-info">
+              <p className="review-user">{review.user}</p>
+              <p className="review-date">{formatDate(review.updated_at)}</p>
             </div>
-          ))
-        }
+
+            <div className="review-actions">
+              <OpenModalMenuItem
+                className={`${review.user !== user ? "hidden" : ""}`}
+                itemText="Edit Review"
+                modalComponent={
+                  <ReviewFormModal
+                    productId={productId}
+                    formType={"edit"}
+                    reviewId={review.id}
+                  />
+                }
+              />
+              <button 
+                className={`${review.user !== user ? "hidden" : ""}`} 
+                onClick={() => handleDelete(review.id)}>
+                Delete Review
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

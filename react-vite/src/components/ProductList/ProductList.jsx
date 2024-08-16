@@ -53,18 +53,28 @@ function ProductList() {
       {products.length ? (
         products.sort((a, b) => b.id - a.id).map((product) => (
           <div key={product?.id} className="product_small_container">
+            <div>
             <Heart initial={favProducts.includes(product.id)? true: false} productId={product.id}/>
             <Link key={product?.id} to={`/products/${product?.id}`}>
               <img src={product.preview_image} alt={product.title} />
               <p>{product.title}</p>
               <div className="inline">
-              <Stars rating={product.seller.seller_rating}/><span>({product.seller.review_count})</span></div>
+              {product.seller.review_count > 0 ? (
+                <Stars rating={product.seller.seller_rating} />
+              ) : (
+                <p className="bold">New</p>
+              )}
+              <span>({product.seller.review_count})</span></div>
               <p className="bold">${product.price.toFixed(2)}</p>
               <p>{product.seller.username}</p>
             </Link>
+            </div>
+            <div>
             <button onClick={() => handleAddToCart(product)}>
               + Add to cart
             </button>
+
+            </div>
           </div>
 
         ))

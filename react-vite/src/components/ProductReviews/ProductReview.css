@@ -3,3 +3,88 @@
     justify-content: baseline;
     align-items: center;
 }
+
+/* ProductReview.css */
+
+.review-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.review-header .recommendation {
+  display: flex;
+  align-items: center;
+  color: #28a745;
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+#check-icon {
+  margin-right: 5px;
+  color: #28a745;
+}
+
+.review-content {
+  font-size: 16px;
+  color: #333;
+  margin: 15px 0;
+}
+
+.review-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #666;
+}
+
+.review-user-info {
+  display: flex;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.review-user {
+  font-weight: bold;
+  color: #333;
+}
+
+.review-date {
+  font-size: 12px;
+  color: #888;
+}
+
+.review-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.review-actions button,
+.review-actions a {
+  background: none;
+  border: none;
+  color: #0073e6;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+}
+
+.review-actions button:hover,
+.review-actions a:hover {
+  text-decoration: underline;
+}
+
+.hidden {
+  display: none;
+}

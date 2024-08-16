@@ -28,3 +28,36 @@ form {
 .cursor {
   cursor: pointer;
 }
+
+ul {
+  list-style-type: none;
+  padding-left: 0; /* Remove default padding */
+}
+
+li {
+  list-style-type: none;
+}
+
+/* Error Messages */
+.form-modal p.error {
+  color: red; /* Makes the error message text red */
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.form-modal input {
+  text-align: left; /* Ensures text starts from the left */
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.form-modal input.error {
+  border-color: red;
+  background-color: #ffe6e6;
+  text-align: left; /* Keep text left-aligned even when there's an error */
+  color: red;
+}
