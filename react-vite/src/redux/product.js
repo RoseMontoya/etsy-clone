@@ -10,7 +10,6 @@ const DELETE_PRODUCT = "product/removeProduct";
 const CREATE_IMAGE = "image/createImage";
 const UPDATE_IMAGE = "image/updateImage";
 const DELETE_IMAGE = "image/deleteImage";
-const UPDATE_INVENTORY = "product/updateInventory";
 
 const getProducts = (products) => ({
   type: GET_PRODUCTS,
@@ -173,7 +172,6 @@ export const deleteProduct = (productId, userId) => async (dispatch) => {
 
 // Add Image Thunk
 export const addProductImage = (image, userId) => async (dispatch) => {
-  const { product_id, url, preview } = image;
   const response = await fetch("/api/products/images/new", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -193,8 +191,7 @@ export const addProductImage = (image, userId) => async (dispatch) => {
 export const updateProductImage = (image, userId) => async (dispatch) => {
   // console.log("image in thunk ------>", userId);
 
-  const { id, url } = image;
-  const response = await fetch(`/api/products/images/${id}`, {
+  const response = await fetch(`/api/products/images/${image.id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(image),
@@ -236,8 +233,8 @@ export const updateInventory = () => async (dispatch) => {
       dispatch(updateProduct(item));
     });
     data.deleted_products.forEach((item) => {
-      dispatch(removeProduct(item.id))
-    })
+      dispatch(removeProduct(item.id));
+    });
     return data;
   }
   return response;
@@ -352,7 +349,6 @@ function productReducer(state = initialState, action) {
             [id]: action.payload,
           };
         }
-        // newProductById[prodId].preview_image = action.payload.url;
 
         newState["productById"] = newProductById;
       }
@@ -493,36 +489,6 @@ function productReducer(state = initialState, action) {
         console.log("productCurrent", newProductsCurrent[prodId]);
         delete newProductsCurrent[prodId];
 
-        newState["productsCurrent"] = newProductsCurrent;
-      }
-
-      return { ...state, ...newState };
-    }
-    case UPDATE_INVENTORY: {
-      // Update allProducts
-      if (state.allProducts) {
-        const newAllProducts = {
-          ...state.allProducts,
-          [prodId]: { ...state.allProducts[prodId], ...action.payload },
-        };
-        newState["allProducts"] = newAllProducts;
-      }
-
-      // Updating productById;
-      if (state.productById[prodId]) {
-        const newProductById = {
-          ...state.productById,
-          [prodId]: { ...state.productById[prodId], ...action.payload },
-        };
-        newState["productById"] = newProductById;
-      }
-
-      // Update productsCurrent;
-      if (state.productsCurrent) {
-        const newProductsCurrent = {
-          ...state.productsCurrent,
-          [prodId]: { ...state.productsCurrent[prodId], ...action.payload },
-        };
         newState["productsCurrent"] = newProductsCurrent;
       }
 

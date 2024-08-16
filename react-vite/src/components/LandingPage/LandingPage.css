@@ -28,6 +28,10 @@
   color: rgb(17, 40, 104);
 }
 
+.back-to-school button:hover {
+  color: #f16521;
+}
+
 .featured-product {
   display: flex;
   align-items: center;

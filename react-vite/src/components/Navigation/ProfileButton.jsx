@@ -76,10 +76,10 @@ function ProfileButton() {
             <div className="profile-dropdown-div">
               <li>{user.username}</li>
               <li>{user.email}</li>
-              <li>
+              <li className="hover-effect">
                 <Link to="/products/current">Manage Products</Link>
               </li>
-              <li>
+              <li className="hover-effect">
                 <Link to="/favorites">Your Favorites</Link>
               </li>
               <li>

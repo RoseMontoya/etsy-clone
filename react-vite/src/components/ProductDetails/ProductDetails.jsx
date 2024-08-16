@@ -2,13 +2,12 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { productById } from "../../redux/product";
-import { favoritesByUserId, addFavorite } from "../../redux/favorite";
+import { favoritesByUserId } from "../../redux/favorite";
 import ProductReviews from "../ProductReviews";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import ReviewFormModal from "../ReviewFormModal";
 import "./ProductDetails.css";
 import { Stars, Heart } from "../SubComponents";
-// import Heart from "../Heart/Heart";
 import { FaGreaterThan } from "react-icons/fa6";
 import { FaLessThan } from "react-icons/fa6";
 import { getAllCartItems } from "../../redux/cart";
@@ -91,20 +90,6 @@ function ProductDetails() {
     return <div>Loading...</div>;
   }
 
-  const handleAddFavorite = (productId) => {
-    if (!user) {
-      // If the user is not logged in, open the login modal
-      setModalContent(<LoginFormModal />);
-      return;
-    }
-    dispatch(addFavorite(productId)).then((res) => {
-      const popUpSaved = document.getElementById("add_fav");
-      popUpSaved.style.display = "block";
-      setTimeout(() => {
-        popUpSaved.style.display = "none";
-      }, 2000);
-    });
-  };
 
   const handleAddToCart = () => {
     if (!user) {
