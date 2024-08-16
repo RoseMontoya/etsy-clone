@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { clearCart, getAllCartItems } from "../../redux/cart";
 import { useDispatch, useSelector } from "react-redux";
 import { updateInventory } from "../../redux/product";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { thunkAllProducts } from "../../redux/product";
 function Checkout() {
   const dispatch = useDispatch();
@@ -11,6 +11,12 @@ function Checkout() {
   const cartObj = useSelector((state) => state.cart?.cartItems);
   const allProducts = useSelector((state) => state.products?.allProducts);
   const cartArr = cartObj ? Object.values(cartObj) : [];
+
+  const [cardName, setCardName] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [cardExpiration, setCardExpiration] = useState("");
+  const [cardCvv, setCardCvv] = useState("");
+  const [billingAddress, setBillingAddress] = useState("");
 
   useEffect(() => {
     if (!cartObj) {
@@ -24,6 +30,17 @@ function Checkout() {
   }, [dispatch, cartObj, allProducts]);
 
   const handleCompleteTransaction = () => {
+    // Ensure all fields are filled before processing the transaction
+    if (
+      !cardName ||
+      !cardNumber ||
+      !cardExpiration ||
+      !cardCvv ||
+      !billingAddress
+    ) {
+      alert("Please fill out all payment and billing information.");
+      return;
+    }
     // Call the backend to update the inventory
     dispatch(updateInventory()).then(() => {
       // Clear the cart after successful inventory update
@@ -111,6 +128,65 @@ function Checkout() {
       <div>
         <span>Total: ${cartTotal(cartArr)}</span>
       </div>
+      {/* Payment Form */}
+      <h2>Payment Information</h2>
+      <div className="payment-form">
+        <div className="form-group">
+          <label htmlFor="cardName">Name on Card</label>
+          <input
+            type="text"
+            id="cardName"
+            value={cardName}
+            onChange={(e) => setCardName(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="cardNumber">Card Number</label>
+          <input
+            type="text"
+            id="cardNumber"
+            value={cardNumber}
+            onChange={(e) => setCardNumber(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="cardExpiration">Expiration Date (MM/YY)</label>
+          <input
+            type="text"
+            id="cardExpiration"
+            value={cardExpiration}
+            onChange={(e) => setCardExpiration(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="cardCvv">CVV</label>
+          <input
+            type="text"
+            id="cardCvv"
+            value={cardCvv}
+            onChange={(e) => setCardCvv(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="billingAddress">Billing Address</label>
+          <input
+            type="text"
+            id="billingAddress"
+            value={billingAddress}
+            onChange={(e) => setBillingAddress(e.target.value)}
+            required
+          />
+        </div>
+      </div>
+
       <div className="cart-footer">
         <>
           {cartArr.length > 0 ? (
