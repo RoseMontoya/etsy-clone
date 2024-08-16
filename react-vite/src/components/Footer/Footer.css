@@ -1,0 +1,27 @@
+footer {
+  height: 12vh;
+  background-color: rgb(247, 245, 245);
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.team {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  margin: 0px 60px;
+}
+
+.team-link {
+  display: flex;
+  justify-content: space-around;
+  padding: 5px;
+}
+
+.inspiration {
+  font-size: 12px;
+  text-align: center;
+}
