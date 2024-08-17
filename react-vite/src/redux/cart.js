@@ -1,10 +1,9 @@
-
 const GET_CART = "cart/get-cart";
 const DELETE_ALLCART = "cart/delete-cart";
 const DELETE_CART_ITEM = "cart/detelet-cart-item";
 const ADD_TO_CART = "cart/add-to-cart";
 const EDIT_QUANTITY_ITEM = "cart/edit-quantity-item";
-const PRODUCT_DELETED = "cart/product-deleted"
+const PRODUCT_DELETED = "cart/product-deleted";
 //Action to add 1 item in cart
 const addToCartAction = (cartItem) => ({
   type: ADD_TO_CART,
@@ -15,6 +14,12 @@ const addToCartAction = (cartItem) => ({
 const getCart = (cart) => ({
   type: GET_CART,
   payload: cart,
+});
+
+//Action for edit item quantity
+const editItemQuantity = (cartItemId, quantity) => ({
+  type: EDIT_QUANTITY_ITEM,
+  payload: { cartItemId, quantity },
 });
 
 // Action for deleting a single cart item
@@ -28,11 +33,10 @@ export const deleteAllCartItemsAction = () => ({
   type: DELETE_ALLCART,
 });
 
-
 export const productDeletedCart = (productId) => ({
   type: PRODUCT_DELETED,
-  productId
-})
+  productId,
+});
 
 export const deleteCartItem = (cartItemId) => async (dispatch) => {
   const response = await fetch(`/api/cart/item/${cartItemId}`, {
@@ -135,8 +139,8 @@ const cartReducer = (state = initialState, action) => {
     }
     case DELETE_CART_ITEM: {
       const newState = { ...state.cartItems };
-      delete newState[action.payload]
-      return {...state, cartItems: newState};
+      delete newState[action.payload];
+      return { ...state, cartItems: newState };
     }
     case DELETE_ALLCART: {
       const newState = { ...state };
@@ -189,18 +193,17 @@ const cartReducer = (state = initialState, action) => {
       };
     }
     case PRODUCT_DELETED: {
-      const newState = {...state.cartItems}
-      const newStateArray = newState? Object.values(newState) : []
+      const newState = { ...state.cartItems };
+      const newStateArray = newState ? Object.values(newState) : [];
       if (newState) {
-        newStateArray.forEach(item => {
+        newStateArray.forEach((item) => {
           if (item.product_id === action.productId) {
-            delete newState[item.id]
-
+            delete newState[item.id];
           }
-        })
+        });
       }
 
-      return {...state, cartItems: newState}
+      return { ...state, cartItems: newState };
     }
 
     default:
