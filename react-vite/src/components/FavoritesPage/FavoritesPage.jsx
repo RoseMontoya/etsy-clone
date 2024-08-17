@@ -65,12 +65,16 @@ function FavoritesPage() {
                     alt={allProducts[favorite.product_id].title}
                   />
                 </div>
+                <div className="grid-item-detail">
                 <p>{allProducts[favorite.product_id].title}</p>
                 <p>${allProducts[favorite.product_id].price.toFixed(2)}</p>
                 <p>
                   {allProducts[favorite.product_id].seller.seller_rating}
                   <TiStarFullOutline />({allProducts[favorite.product_id].seller.review_count})
                 </p>
+
+                </div>
+                
               </Link>
               <button onClick={() => handleAddToCart(allProducts[favorite.product_id])}>
               + Add to cart

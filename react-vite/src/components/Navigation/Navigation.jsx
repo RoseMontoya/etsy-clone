@@ -19,26 +19,26 @@ function Navigation() {
         <NavLink to="/">
           <img src="/images/logo.png" alt="ArtisanAlley" className="nav_icon" />
         </NavLink>
-        <div className="inline grey-hover" style={{ gap: "1em" }}>
-          <Link to="/products">All Product</Link>
+        <div className="grey-hover">
+          <Link to="/products">All Products</Link>
         </div>
-        <div className="inline grey-hover" style={{ gap: "1em" }}>
+        <div className="grey-hover">
           <Link to="/products/homeliving">Home & Living</Link>
         </div>
-        <div className="inline grey-hover" style={{ gap: "1em" }}>
+        <div className="grey-hover">
           <Link to="/products/accessories">Accessories</Link>
         </div>
-        <div className="inline grey-hover" style={{ gap: "1em" }}>
+        <div className="grey-hover">
           <Link to="/products/crafting">Crafting</Link>
         </div>
-        <div className="inline grey-hover" style={{ gap: "1em" }}>
+        <div className="grey-hover">
           <Link to="/products/jewelry">Jewelry</Link>
         </div>
-        <div className="inline grey-hover" style={{ gap: "1em" }}>
+        <div className="grey-hover">
           <Link to="/products/clothing">Clothing</Link>
         </div>
         <ul>
-          <li className="inline" style={{ gap: "1em" }}>
+          <li className="inline">
             <ProfileButton />
             <span className="icon-shopping">
               {user && (

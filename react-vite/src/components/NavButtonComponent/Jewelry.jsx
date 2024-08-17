@@ -5,11 +5,13 @@ import { thunkAllProducts } from "../../redux/product";
 import { addToCart, getAllCartItems } from "../../redux/cart";
 import { favoritesByUserId } from "../../redux/favorite";
 import { Heart, Stars } from "../SubComponents";
-import "./Jewelry.css";
+import "./Category.css";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import { useModal } from "../../context/Modal"; // Import the modal context
 import OwnProductConflictModal from "../SubComponents/OwnProductConflictModal";
+import { FaPlus } from "react-icons/fa6";
+
 function ProductList() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -74,53 +76,68 @@ function ProductList() {
   };
 
   return (
-    <main>
-      <div className="product_container">
+    <main className="prod-list">
+      <div className="grid_container">
         {products.length ? (
-          products.map((product) => (
-            <div key={product?.id} className="product_small_container">
-              {user ? (
-                <Heart
-                  initial={favProducts.includes(product.id) ? true : false}
-                  productId={product.id}
-                />
-              ) : (
-                <OpenModalMenuItem
-                  itemText={
+          products
+            .sort((a, b) => b.id - a.id)
+            .map((product) => (
+              <div key={product?.id} className="grid-item">
+                <div>
+                  {user ? (
                     <Heart
-                      initial={false}
+                      initial={favProducts.includes(product.id) ? true : false}
                       productId={product.id}
                       sellerId={product.seller.id}
                     />
-                  }
-                  modalComponent={<LoginFormModal />}
-                />
-              )}
-              <Link key={product?.id} to={`/products/${product?.id}`}>
-                <img src={product.preview_image} alt={product.title} />
-                <p>{product.title}</p>
-                <div className="inline">
-                  <Stars rating={product.seller.seller_rating} />
-                  <span>({product.seller.review_count})</span>
+                  ) : (
+                    <OpenModalMenuItem
+                      itemText={
+                        <Heart
+                          initial={false}
+                          productId={product.id}
+                          sellerId={product.seller.id}
+                        />
+                      }
+                      modalComponent={<LoginFormModal />}
+                    />
+                  )}
+                  <Link key={product?.id} to={`/products/${product?.id}`}>
+                    <div className="image_container">
+                    <img src={product.preview_image} alt={product.title} />
+                    </div>
+                    <div className="product-details">
+                      <p className="title">{product.title}</p>
+                      <div className="rating">
+                        {product.seller.review_count > 0 ? (
+                          <Stars rating={product.seller.seller_rating} />
+                        ) : (
+                          <p className="bold">New </p>
+                        )}
+                        <span className="count">({product.seller.review_count})</span>
+                      </div>
+                      <p style={{fontSize: '14px'}}>{product.seller.username}</p>
+                      <p className="bold">${product.price.toFixed(2)}</p>
+                    </div>
+                  </Link>
                 </div>
-                <p className="bold">${product.price.toFixed(2)}</p>
-                <p>{product.seller.username}</p>
-              </Link>
-              {user ? (
-                <button onClick={() => handleAddToCart(product)}>
-                  + Add to cart
-                </button>
-              ) : (
-                <OpenModalMenuItem
-                  className="signed_off_button"
-                  itemText="+ Add to cart"
-                  modalComponent={<LoginFormModal />}
-                />
-              )}
-            </div>
-          ))
+                <div>
+                  {user ? (
+                    <button className="add-to-cart" onClick={() => handleAddToCart(product)}>
+                      <FaPlus /> Add to cart
+                    </button>
+                  ) : (
+                    <OpenModalMenuItem
+                      className="signed_off_button"
+                      itemText="+ Add to cart"
+                      modalComponent={<LoginFormModal />}
+                    />
+                  )}
+                </div>
+              </div>
+            ))
         ) : (
-          <h2>No products to sell. Please check back later.</h2>
+          <h2>No products for sell. Please check back later.</h2>
         )}
       </div>
       {/* <div id="add_fav" style={{display: 'none'}} ><p>Saved to Favorites</p></div>

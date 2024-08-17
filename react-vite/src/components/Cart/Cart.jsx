@@ -45,7 +45,21 @@ function Cart() {
     }
   };
 
-  if (!cartObj || !allProducts) return <h2>Loading...</h2>;
+  if (!cartObj || !allProducts) return (
+    <div className="center-loading">
+      <div className="lds-roller ">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <p>Loading...</p>
+    </div>
+  ) ;
 
   if (cartArr.length === 0) {
     return (
@@ -72,6 +86,7 @@ function Cart() {
   };
 
   return (
+    <main>
     <div className="cart-container">
       <h1>Your Cart</h1>
       <div className="cart-summary">
@@ -163,6 +178,7 @@ function Cart() {
         </Link>
       </div>
     </div>
+    </main>
   );
 }
 
