@@ -31,3 +31,11 @@ footer {
   font-size: 12px;
   text-align: center;
 }
+
+.team-member a {
+  font-size: large;
+}
+
+.team-member a:hover {
+  color: #e00;
+}
