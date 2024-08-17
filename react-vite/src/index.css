@@ -87,6 +87,10 @@ ul {
   padding: 0.7em;
   border-radius: 100px;
 }
+.grey-hover {
+  padding: .5em 1em;
+
+}
 
 .grey-hover:hover {
   background-color: #e9e9e9;
@@ -94,6 +98,11 @@ ul {
   transition-timing-function: ease-in;
   border-radius: 20px;
   /* color: #f16521; */
+  padding: .5em 1em;
+}
+
+.light-hover:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* * Buttons */

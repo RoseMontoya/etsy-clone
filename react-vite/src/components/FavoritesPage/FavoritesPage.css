@@ -82,7 +82,11 @@
   display: flex;
   height: 0.75em;
   width: 0.75em;
-  /* color: #b60130; */
+}
+
+.heart:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.248);
+
 }
 
 .image_container img {

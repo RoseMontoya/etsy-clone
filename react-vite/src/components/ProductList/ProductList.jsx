@@ -10,7 +10,7 @@ import LoginFormModal from "../LoginFormModal";
 import { useModal } from "../../context/Modal"; // Import the modal context
 import "./ProductList.css";
 import OwnProductConflictModal from "../SubComponents/OwnProductConflictModal";
-import { TfiPlus } from "react-icons/tfi";
+import { FaPlus } from "react-icons/fa6";
 
 function ProductList() {
   const dispatch = useDispatch();
@@ -112,7 +112,7 @@ function ProductList() {
                         {product.seller.review_count > 0 ? (
                           <Stars rating={product.seller.seller_rating} />
                         ) : (
-                          <p className="bold">New</p>
+                          <p className="bold">New </p>
                         )}
                         <span className="count">({product.seller.review_count})</span>
                       </div>
@@ -124,7 +124,7 @@ function ProductList() {
                 <div>
                   {user ? (
                     <button className="add-to-cart" onClick={() => handleAddToCart(product)}>
-                      <TfiPlus /> Add to cart
+                      <FaPlus /> Add to cart
                     </button>
                   ) : (
                     <OpenModalMenuItem

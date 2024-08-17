@@ -55,7 +55,7 @@ function Heart({ initial, productId, sellerId }) {
         </div>
       ) : (
         <div
-          className="heart add_to_fav"
+          className="heart-invisible add_to_fav"
           onClick={user ? () => handleFavorite(productId) : null}
         >
           <FaRegHeart />

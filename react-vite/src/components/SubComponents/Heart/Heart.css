@@ -24,3 +24,29 @@
     padding: 15px;
   }
 
+.heart-invisible {
+  display: none;
+}
+
+.grid-item:hover .heart-invisible {
+  display: block;
+  position: absolute;
+  top: 0.5em;
+  right: 0.5em;
+  z-index: 1;
+  width: fit-content;
+  border-radius: 100%;
+  background-color: white;
+  padding: 0.5em;
+}
+
+
+.grid-item:hover .heart-invisible * {
+  display: flex;
+  height: 0.75em;
+  width: 0.75em;
+}
+
+.heart-invisible:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}

@@ -166,7 +166,7 @@ function ProductDetails() {
           <div id="image-sidebar">
             {images.map((image) => (
               <div
-                className="small-image"
+                className="small-image light-hover"
                 key={image.id}
                 onClick={() => imageSelect(image)}
               >
@@ -178,7 +178,7 @@ function ProductDetails() {
             <button className="circ than" id="less" onClick={() => backClick()}>
               <FaLessThan />
             </button>
-            <img src={mainImage} className="image" />
+            <div id="mainImg-container"><img src={mainImage} className="image" /></div>
             {user ? (
               <Heart
                 initial={favProduct.length}

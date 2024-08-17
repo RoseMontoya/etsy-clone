@@ -76,6 +76,10 @@
   gap: .5em;
 }
 
+.add-to-cart:hover {
+  box-shadow: 0 0px 12px rgba(0, 0, 0, 0.15);
+}
+
 .product-details {
   display: flex;
   flex-direction: column;
@@ -103,4 +107,8 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.prod-list .grid-item:hover {
+  box-shadow: none;
 }
