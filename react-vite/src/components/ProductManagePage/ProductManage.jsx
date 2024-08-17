@@ -77,6 +77,7 @@ function ProductManage() {
   };
 
   return (
+    <main>
     <div>
       <div className="product_manage_header">
         <div className="favorite_profile">
@@ -94,10 +95,13 @@ function ProductManage() {
             <div className="image_container">
               <img src={product.preview_image} alt={product.title} />
             </div>
-
+            <div className="grid-item-detail">
               <p>{product.title}</p>
               <p>{product.inventory} in stock</p>
               <p className="grid_price">${parseInt(product.price).toFixed(2)}</p>
+            </div>
+
+              
             </Link>
             <div>
               <p
@@ -125,6 +129,7 @@ function ProductManage() {
         ))}
       </div>
     </div>
+    </main>
   );
 }
 

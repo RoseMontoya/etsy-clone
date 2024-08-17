@@ -1,24 +1,21 @@
 .profile-dropdown {
-  position: absolute; /* Position relative to the nearest positioned ancestor */
-  /* This is positioning the drop down */
+  position: absolute; 
   top: 10%;
   left: 85%;
-
   display: flex;
   flex-direction: column;
-  z-index: 10; /* Ensure it's above other content */
-  min-width: 150px; /* Minimum width for the dropdown */
+  z-index: 10;
+  min-width: 150px;
 }
 
-nav ul {
+/* nav ul {
   height: 4em;
   padding: 0.5em 2em;
   margin: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* border-bottom: solid lightgrey 2px; */
-}
+} */
 
 h1 {
   font-size: 35px;
@@ -33,10 +30,10 @@ h1 {
   display: flex;
   align-items: center;
   justify-self: auto;
-  margin-left: 20px;
 }
 
 .nav_container {
+  padding: 0px 20px;
   display: flex;
   justify-content: space-between; /* Distributes space between items */
   align-items: center; /* Centers items vertically */
@@ -46,8 +43,9 @@ h1 {
 
 .icon-shopping {
   position: relative;
-  padding: none;
+  padding: 0.5em;
 }
+
 .icon-shopping:hover {
   background-color: #cbebff;
   padding: 0.5em;

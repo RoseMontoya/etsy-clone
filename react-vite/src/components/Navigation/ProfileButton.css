@@ -14,6 +14,10 @@
   cursor: pointer;
 }
 
+.profile-container {
+  position: relative;
+}
+
 .profile-dropdown-div {
   background-color: white;
   border: 1px solid #ccc;
@@ -21,16 +25,21 @@
   padding: 15px;
   border-radius: 8px;
   position: absolute;
-  top: -20px;
-  right: 0;
+  top: -9px;
+  right: 12px;
   z-index: 1000;
   display: flex;
   flex-direction: column;
   align-items: baseline;
 }
 
-.profile-dropdown-div * {
+.profile-dropdown-div li {
   padding: 0.5em;
+}
+
+.unclikable {
+  color: grey;
+  font-style: italic;
 }
 
 .hover-effect:hover {

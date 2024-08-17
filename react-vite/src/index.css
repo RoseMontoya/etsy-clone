@@ -12,7 +12,7 @@ body {
 
 main {
   padding: 1em;
-  min-height: 100vh;
+  min-height: 75vh;
 }
 
 h2 {
@@ -88,8 +88,7 @@ ul {
   border-radius: 100px;
 }
 .grey-hover {
-  padding: .5em 1em;
-
+  padding: 0.5em 1em;
 }
 
 .grey-hover:hover {
@@ -98,7 +97,7 @@ ul {
   transition-timing-function: ease-in;
   border-radius: 20px;
   /* color: #f16521; */
-  padding: .5em 1em;
+  padding: 0.5em 1em;
 }
 
 .light-hover:hover {

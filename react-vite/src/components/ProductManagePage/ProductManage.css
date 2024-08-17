@@ -30,28 +30,29 @@
   font-weight: 600;
 }
 
+.grid-item-detail {
+  margin: 12px;
+}
+
 /* Settings Icon and Dropdown */
 .drop_down_setting {
   font-size: 24px;
   color: #666;
   cursor: pointer;
-  /* padding: 8px; */
   border-radius: 50%;
-  /* transition: background-color 0.3s ease; */
   display: inline-block;
   position: absolute;
-  bottom: 30px;
-  right: 16px;
+  bottom: 48px;
+  right: 18px;
 }
 
 .drop_down_container {
   display: flex;
   justify-content: space-between;
-  background-color: #fff;
-  border-radius: 6px;
+  border-radius: 16px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: absolute;
-  bottom: -16px; /* Position at the bottom of the card */
+  bottom: -2px;
   left: 0;
   right: 0;
   z-index: 1;

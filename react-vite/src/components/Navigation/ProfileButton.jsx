@@ -71,11 +71,11 @@ function ProfileButton() {
         )}
       </button>
       {showMenu && (
-        <ul className={"profile-dropdown"} ref={ulRef}>
+        <ul className="profile-dropdown" ref={ulRef}>
           {user ? (
             <div className="profile-dropdown-div">
-              <li>{user.username}</li>
-              <li>{user.email}</li>
+              <li className="unclikable">{user.username}</li>
+              <li className="unclikable">{user.email}</li>
               <li className="hover-effect">
                 <Link to="/products/current" onClick={closeMenu}>Manage Products</Link>
               </li>
