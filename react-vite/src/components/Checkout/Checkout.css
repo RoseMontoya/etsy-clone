@@ -110,16 +110,18 @@
 
 .checkout-button:hover {
   background-color: #e55;
+  text-decoration: none;
 }
 
 .continue-shopping {
-  font-size: 14px;
-  color: #0073e6;
+  font-size: 16px;
+  color: white;
   text-decoration: none;
 }
 
 .continue-shopping:hover {
   text-decoration: underline;
+  text-decoration: none;
 }
 
 .empty-cart {
