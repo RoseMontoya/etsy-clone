@@ -12,7 +12,6 @@ import { thunkAllProducts } from "../../redux/product";
 
 function Cart() {
   const dispatch = useDispatch();
-  // const [number, setNumber] = useState(1);
   const cartObj = useSelector((state) => state.cart?.cartItems);
   const allProducts = useSelector((state) => state.products?.allProducts);
 
@@ -125,8 +124,8 @@ function Cart() {
                 </div>
               </div>
 
-              <div>
-                <div>
+              <div className="cart-item-price-remove">
+                <div className="cart-item-price">
                   $
                   {(
                     Number(product.price) *
@@ -149,18 +148,17 @@ function Cart() {
           );
         })}
       </ul>
-      <div>
+      <div className="cart-footer clear-cart-container">
         <button onClick={handleClearCart} className="clear-cart-button">
           Clear Cart
         </button>
-
-        <span>Total: ${cartTotal(cartArr)}</span>
+        <span className="cart-total">Total: ${cartTotal(cartArr)}</span>
       </div>
       <div className="cart-footer">
         <Link to="/checkout">
           <button className="checkout-button">Proceed to Checkout</button>
         </Link>
-        <Link to="/products" className="continue-shopping">
+        <Link to="/products" className="continue-shopping no-underline">
           Continue Shopping
         </Link>
       </div>

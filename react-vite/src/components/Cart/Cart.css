@@ -23,7 +23,8 @@ h1 {
 
 .cart-item {
   display: flex;
-  align-items: center;
+  justify-content: space-between; /* Align items to the left and right */
+  align-items: center; /* Vertically center the content */
   padding: 20px 0;
   border-bottom: 1px solid #eaeaea;
 }
@@ -31,7 +32,6 @@ h1 {
 .cart-item-content {
   display: flex;
   align-items: center;
-  width: 100%; /* Ensure it takes the full width available */
 }
 
 .cart-item-image {
@@ -39,7 +39,7 @@ h1 {
   height: 100px;
   object-fit: cover;
   margin-right: 20px;
-  cursor: pointer; /* Ensure pointer cursor on image */
+  cursor: pointer;
 }
 
 .cart-item-details {
@@ -49,13 +49,13 @@ h1 {
 .cart-item-title {
   font-size: 18px;
   margin: 0;
-  cursor: pointer; /* Ensure pointer cursor on title */
-  color: #0073e6; /* Make the title appear as a link */
+  cursor: pointer;
+  color: white;
   text-decoration: none;
 }
 
 .cart-item-title:hover {
-  text-decoration: underline; /* Underline on hover for clickable title */
+  text-decoration: underline;
 }
 
 .cart-item-seller {
@@ -63,16 +63,23 @@ h1 {
   color: #777;
 }
 
+.cart-item-price-remove {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px; /* Adjust the spacing between price and remove button */
+}
+
 .cart-item-price {
   font-size: 16px;
   font-weight: bold;
-  margin: 10px 0;
 }
 
 .cart-item-quantity {
   display: flex;
   align-items: center;
   font-size: 14px;
+  margin-top: 10px; /* Adjust if needed to align better with the remove button */
 }
 
 .cart-item-gift {
@@ -81,7 +88,6 @@ h1 {
 }
 
 .cart-item-actions {
-  margin-left: 20px;
   text-align: right;
 }
 
@@ -91,6 +97,7 @@ h1 {
   border: none;
   padding: 5px 10px;
   cursor: pointer;
+  border-radius: 5px;
 }
 
 .cart-item-remove:hover {
@@ -102,6 +109,35 @@ h1 {
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
+  width: 100%; /* Ensure it takes up the full width */
+}
+
+.clear-cart-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%; /* Ensure it takes up the full width */
+}
+
+.clear-cart-button {
+  background-color: white;
+  color: #333;
+  border: 2px solid #333;
+  border-radius: 20px;
+  padding: 5px 15px;
+  cursor: pointer;
+  margin-right: auto;
+}
+
+.clear-cart-button:hover {
+  background-color: #f0f0f0;
+}
+
+.cart-total {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: right;
+  margin-left: auto;
 }
 
 .checkout-button {
@@ -111,6 +147,7 @@ h1 {
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
+  border-radius: 20px;
 }
 
 .checkout-button:hover {
@@ -118,13 +155,24 @@ h1 {
 }
 
 .continue-shopping {
-  font-size: 14px;
-  color: #0073e6;
-  text-decoration: none;
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #ff6600;
+  color: white;
+  text-decoration: none; /* This removes the underline */
+  border: 2px solid #ff6600;
+  border-radius: 40px;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .continue-shopping:hover {
-  text-decoration: underline;
+  background-color: #e55;
+  color: white;
+  text-decoration: none; /* This ensures no underline appears on hover */
 }
 
 .empty-cart {
@@ -135,11 +183,19 @@ h1 {
 .shop-link {
   display: inline-block;
   margin-top: 10px;
-  color: #0073e6;
+  color: white;
   text-decoration: none;
   font-size: 16px;
 }
 
 .shop-link:hover {
   text-decoration: underline;
+}
+
+.no-underline {
+  text-decoration: none;
+}
+
+.no-underline:hover {
+  text-decoration: none;
 }
