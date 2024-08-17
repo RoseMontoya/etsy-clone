@@ -15,6 +15,8 @@ function ReviewFormModal({ productId, formType, reviewId, sellerId }) {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
+  // if (rating < 3) setRecommendation(false)
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -41,12 +43,13 @@ function ReviewFormModal({ productId, formType, reviewId, sellerId }) {
   );
 
   useEffect(() => {
-    if (formType === "edit") {
+    if (formType === "edit" && !review) {
       setRating(prevRev.stars);
       setReview(prevRev.review);
       setRecommendation(prevRev.recommendation);
     }
-  }, [formType, prevRev]);
+    if (rating < 3) setRecommendation(false)
+  }, [formType, prevRev, rating]);
 
   return (
     <>

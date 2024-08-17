@@ -504,7 +504,9 @@ function productReducer(state = initialState, action) {
       return { ...state, ...newState };
     }
     case CLEAR_CURRENT: {
-      return {...state, productsCurrent: {}}
+      const newState =  {...state}
+      delete newState.productsCurrent
+      return newState
     }
     // }
     default:
