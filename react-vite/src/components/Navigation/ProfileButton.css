@@ -1,8 +1,9 @@
 .profileIcon {
-  width: 20px;
-  height: 20px;
+  width: 1.75em;
+  height: 1.75em;
   border-radius: 100%;
 }
+
 .hiddenButton {
   border: none;
   background-color: white;
@@ -16,6 +17,18 @@
 
 .profile-container {
   position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* .profile-container * {
+  width: 1.5em;
+  height: 1.5em; */
+
+/* } */
+
+nav li {
+  display: flex;
 }
 
 .profile-dropdown-div {

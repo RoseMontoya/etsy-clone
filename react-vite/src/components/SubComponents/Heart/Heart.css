@@ -26,6 +26,7 @@
 
 .heart-invisible {
   display: none;
+  cursor: pointer;
 }
 
 .grid-item:hover .heart-invisible {

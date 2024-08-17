@@ -41,6 +41,10 @@ function ReviewFormModal({ productId, formType, reviewId, sellerId }) {
   const prevRev = useSelector(
     (state) => state.reviews.reviewsByProdId?.[productId]?.[reviewId]
   );
+  console.log('review', review)
+  console.log('prevRev', prevRev)
+  console.log('formType', formType)
+  console.log('rating', rating)
 
   useEffect(() => {
     if (formType === "edit" && !review) {
@@ -48,8 +52,8 @@ function ReviewFormModal({ productId, formType, reviewId, sellerId }) {
       setReview(prevRev.review);
       setRecommendation(prevRev.recommendation);
     }
-    if (rating < 3) setRecommendation(false)
-  }, [formType, prevRev, rating]);
+    if (rating < 3 && recommendation) setRecommendation(false)
+  }, [formType, review, prevRev, rating, recommendation]);
 
   return (
     <>
@@ -105,9 +109,7 @@ function ReviewFormModal({ productId, formType, reviewId, sellerId }) {
                   }}
                 />
               </div>
-            ) : (
-              setRecommendation(false) && null
-            )}
+            ) : null}
           </div>
 
           {/* submit button */}

@@ -45,7 +45,7 @@ function Heart({ initial, productId, sellerId }) {
   };
 
   return (
-    <div>
+    <>
       {favorited ? (
         <div
           className="heart remove_from_fav"
@@ -61,7 +61,7 @@ function Heart({ initial, productId, sellerId }) {
           <FaRegHeart />
         </div>
       )}
-    </div>
+    </>
   );
 }
 

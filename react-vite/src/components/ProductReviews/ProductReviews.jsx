@@ -50,9 +50,9 @@ function ProductReviews({ productId, sellerId }) {
           <div className="review-header">
             <Stars rating={review.stars} />
             {review.recommendation && (
-              <p className="recommendation">
+              <div className="recommendation">
                 <FaCheck id="check-icon" /> <p className="rec-text">Recommends this item</p>
-              </p>
+              </div>
             )}
           </div>
 
@@ -79,8 +79,8 @@ function ProductReviews({ productId, sellerId }) {
                   />
                 }
               />
-              <button 
-                className={`${review.user !== user ? "hidden" : "delete-review"}`} 
+              <button
+                className={`${review.user !== user ? "hidden" : "delete-review"}`}
                 onClick={() => handleDelete(review.id)}>
                 Delete Review
               </button>

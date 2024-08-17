@@ -54,9 +54,10 @@
 
 .review-user {
   font-weight: bold;
-  margin-right: 5px;
+  /* margin-right: 5px; */
   color: #333;
-  text-decoration: underline;
+
+  /* text-decoration: underline; */
 }
 
 .review-date {

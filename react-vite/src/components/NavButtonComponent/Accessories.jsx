@@ -4,12 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { thunkAllProducts } from "../../redux/product";
 import { addToCart, getAllCartItems } from "../../redux/cart";
 import { favoritesByUserId } from "../../redux/favorite";
-import { Heart, Stars } from "../SubComponents";
+import { Heart, Stars, OwnProductConflictModal } from "../SubComponents";
 import "./Category.css";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import { useModal } from "../../context/Modal"; // Import the modal context
-import OwnProductConflictModal from "../SubComponents/OwnProductConflictModal";
 import { FaPlus } from "react-icons/fa6";
 
 

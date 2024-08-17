@@ -1,20 +1,24 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+
+// Redux imports
 import { productById } from "../../redux/product";
 import { favoritesByUserId } from "../../redux/favorite";
+import { getAllCartItems, addToCart } from "../../redux/cart";
+
+// component imports
 import ProductReviews from "../ProductReviews";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import ReviewFormModal from "../ReviewFormModal";
-import "./ProductDetails.css";
-import { Stars, Heart } from "../SubComponents";
-import { FaGreaterThan } from "react-icons/fa6";
-import { FaLessThan } from "react-icons/fa6";
-import { getAllCartItems } from "../../redux/cart";
-import { addToCart } from "../../redux/cart";
 import { useModal } from "../../context/Modal"; // Import the modal context
 import LoginFormModal from "../LoginFormModal";
-import OwnProductConflictModal from "../SubComponents/OwnProductConflictModal";
+import { Stars, Heart, OwnProductConflictModal } from "../SubComponents";
+
+// Design imports
+import "./ProductDetails.css";
+import { FaGreaterThan } from "react-icons/fa6";
+import { FaLessThan } from "react-icons/fa6";
 
 function ProductDetails() {
   const { productId } = useParams();
@@ -27,6 +31,7 @@ function ProductDetails() {
     (state) => state.products.productById?.[productId]
   );
 
+  // Orders images so preview is at top of list
   const images = [];
   if (product?.product_images) {
     const imgA = Object.values(product.product_images);
@@ -39,9 +44,11 @@ function ProductDetails() {
     });
   }
 
+  // state for main image
   const [mainImage, setMainImage] = useState(product?.preview_image);
   const [mainImgId, setMainImgId] = useState(0);
 
+  // Get reviews
   const reviewsObj = useSelector(
     (state) => state.reviews.reviewsByProdId?.[productId]
   );
@@ -52,6 +59,7 @@ function ProductDetails() {
       (review) => review.user === user?.username
     );
 
+  // Get Favorites
   const favoritesObj = useSelector((state) => state.favorites?.[user?.id]);
   const favProduct = favoritesObj
     ? Object.values(favoritesObj).reduce(
@@ -62,6 +70,7 @@ function ProductDetails() {
     : [];
 
   useEffect(() => {
+    // if product hasn't been loaded, dispatch thunk to load data.
     if (!product) {
       dispatch(productById(productId)).then((res) => {
         if (res.error) {
@@ -71,9 +80,12 @@ function ProductDetails() {
         }
       });
     }
+
     if (!favoritesObj && user) {
       dispatch(favoritesByUserId(user?.id));
     }
+
+    // When product is loaded, set main image initial to preveiw image
     if (product) {
       setMainImage(product.preview_image);
       setMainImgId(0);
@@ -88,7 +100,19 @@ function ProductDetails() {
 
   // Check if product is loaded
   if (!product) {
-    return <div>Loading...</div>;
+    return <div className="center-loading">
+    <div className="lds-roller">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <p>Loading...</p>
+  </div>;
   }
 
   const handleAddToCart = () => {
@@ -117,16 +141,15 @@ function ProductDetails() {
     });
   };
 
+  // See if user can submit review for product
   const showReview = () => {
-    // Check if user is logged in
-    // Check if user already has review
-    // Check if product belongs to user
     if (user && product.seller.id !== user.id && !userReview?.length) {
       return true;
     }
     return false;
   };
 
+  // image select function for image carousel
   const imageSelect = (image) => {
     const oldUrl = image.url;
     setMainImage(image.url);
@@ -162,11 +185,13 @@ function ProductDetails() {
   return (
     <main>
       <div id="product-details">
+
         <div id="image-container">
+
           <div id="image-sidebar">
             {images.map((image) => (
               <div
-                className="small-image light-hover"
+                className={`small-image light-hover ${image.url === mainImage? "selected" : "not-selected"}`}
                 key={image.id}
                 onClick={() => imageSelect(image)}
               >
@@ -174,11 +199,15 @@ function ProductDetails() {
               </div>
             ))}
           </div>
+
           <div className="main-image">
             <button className="circ than" id="less" onClick={() => backClick()}>
               <FaLessThan />
             </button>
-            <div id="mainImg-container"><img src={mainImage} className="image" /></div>
+            <div id="mainImg-container">
+              <img src={mainImage} className="image" />
+            </div>
+
             {user ? (
               <Heart
                 initial={favProduct.length}
@@ -191,11 +220,13 @@ function ProductDetails() {
                 modalComponent={<LoginFormModal />}
               />
             )}
+
             <button id="greater" className="circ than" onClick={forwardClick}>
               <FaGreaterThan />
             </button>
           </div>
         </div>
+
         <div id="details">
           <div>
             <p
@@ -204,14 +235,13 @@ function ProductDetails() {
             <p className="bold" style={{ fontSize: "24px" }}>
               ${product.price.toFixed(2)}
             </p>
-            <p>{product?.title}</p>
-            <div>
-              <p className="bold inline">{product.seller.username} </p>
-              {/* <Stars rating={product.seller.seller_rating} /> */}
+            <p >{product?.title}</p>
+            <div className="rating">
+              <p style={{fontSize: '14px'}}>{product.seller.username} </p>
               {product.seller.review_count > 0 ? (
                 <Stars rating={product.seller.seller_rating} />
               ) : (
-                <p className="bold">New</p>
+                <p className="bold">New! </p>
               )}
             </div>
             <div>
@@ -230,25 +260,32 @@ function ProductDetails() {
                 />
               )}
             </div>
-            <div>
-              <p>Item Details</p>
+            <div id="item-details">
+              <h3 style={{margin: '8px', fontSize: '1em'}}>Item Details</h3>
               <p>{product?.description}</p>
             </div>
           </div>
         </div>
       </div>
-      <OpenModalMenuItem
-        className={`${showReview() ? "post-review-click" : "hidden"}`}
-        itemText={`${
-          reviews.length
-            ? "Post Your Review!"
-            : "Be the first to leave a review!"
-        }`}
-        modalComponent={
-          <ReviewFormModal productId={product.id} formType={"create"} sellerId={product.seller.id}/>
-        }
-      />
-      <ProductReviews productId={productId} sellerId={product.seller.id} />
+
+      <div id="review-container">
+        <OpenModalMenuItem
+          className={`${showReview() ? "post-review-click" : "hidden"}`}
+          itemText={`${
+            reviews.length
+              ? "Post Your Review!"
+              : "Be the first to leave a review!"
+          }`}
+          modalComponent={
+            <ReviewFormModal
+              productId={product.id}
+              formType={"create"}
+              sellerId={product.seller.id}
+            />
+          }
+        />
+        <ProductReviews productId={productId} sellerId={product.seller.id} />
+      </div>
     </main>
   );
 }

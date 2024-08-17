@@ -106,7 +106,7 @@ ul {
 
 /* * Buttons */
 button {
-  padding: 1em;
+  padding: .5em 1em;
   border-radius: 25px;
   background-color: white;
   font-weight: bold;
