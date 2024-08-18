@@ -103,8 +103,7 @@ function ProductDetails() {
   }
 
   // Check if product is loaded
-  if (!product) {
-    return (<main>
+  if (!product) { return (<main>
       <div className="center-loading">
             <div className="lds-roller">
               <div></div>
@@ -120,6 +119,7 @@ function ProductDetails() {
             </div>
         </main>)
   }
+
 
   const handleAddToCart = () => {
     if (!user) {

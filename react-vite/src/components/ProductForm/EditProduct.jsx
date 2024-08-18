@@ -230,6 +230,7 @@ function EditProductForm() {
             step="1"
             value={inventory}
             onChange={(e) => setInventory(e.target.value)}
+            onBlur={(e) => {const formated = parseInt(e.target.value); setInventory(formated)}}
           />
           {errors.inventory && <p className="error">{errors.inventory}</p>}
         </div>
@@ -246,7 +247,7 @@ function EditProductForm() {
             value={price}
             onChange={(e) => setPrice(e.target.value)}
             step="0.01"
-            onBlur={(e) => formatDecimal(e.target)}
+            onBlur={(e) => {const formated = formatDecimal(e.target); setPrice(formated)}}
           />
           {errors.price && <p className="error">{errors.price}</p>}
         </div>
