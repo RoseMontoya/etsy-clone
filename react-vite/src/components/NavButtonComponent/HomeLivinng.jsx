@@ -34,6 +34,8 @@ function ProductList() {
     }
   }, [dispatch, productsObj, favoritesObj, user]);
 
+
+
   if (!productsObj) return (<main>
       <div className="center-loading">
             <div className="lds-roller">

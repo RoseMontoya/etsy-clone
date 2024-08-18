@@ -64,6 +64,8 @@ def get_review_summary():
         func.count(Review.id).label('review_count')
     ).group_by(Review.product_id).all()
 
+    print("IN ROTUE FOR REVIEW STATS")
+
     return  [
     {
         "product_id": review.product_id,

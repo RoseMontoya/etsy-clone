@@ -33,23 +33,26 @@ function ProductList() {
     }
   }, [dispatch, productsObj, favoritesObj, user]);
 
-  if (!productsObj) return (<main>
-      <div className="center-loading">
-            <div className="lds-roller">
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
-            <p>Loading...</p>
-            </div>
-        </main>)
+  if (!productsObj)
+    return (
+      <main>
+        <div className="center-loading">
+          <div className="lds-roller">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <p>Loading...</p>
+        </div>
+      </main>
+    );
 
-if (products.length === 0) return (<main><div className="center-in-page"><h2>No products for sell. Please check back later.</h2></div></main>)
+  if (products.length === 0) return (<main><div className="center-in-page"><h2>No products for sell. Please check back later.</h2></div></main>)
 
   const handleAddToCart = (product) => {
     if (!user) {
@@ -105,7 +108,7 @@ if (products.length === 0) return (<main><div className="center-in-page"><h2>No 
                   )}
                   <Link key={product?.id} to={`/products/${product?.id}`}>
                     <div className="image_container">
-                    <img src={product.preview_image} alt={product.title} />
+                      <img src={product.preview_image} alt={product.title} />
                     </div>
                     <div className="product-details">
                       <p className="title">{product.title}</p>
@@ -115,16 +118,23 @@ if (products.length === 0) return (<main><div className="center-in-page"><h2>No 
                         ) : (
                           <p className="bold">New </p>
                         )}
-                        <span className="count">({product.seller.review_count})</span>
+                        <span className="count">
+                          ({product.seller.review_count})
+                        </span>
                       </div>
-                      <p style={{fontSize: '14px'}}>{product.seller.username}</p>
+                      <p style={{ fontSize: "14px" }}>
+                        {product.seller.username}
+                      </p>
                       <p className="bold">${product.price.toFixed(2)}</p>
                     </div>
                   </Link>
                 </div>
                 <div>
                   {user ? (
-                    <button className="add-to-cart" onClick={() => handleAddToCart(product)}>
+                    <button
+                      className="add-to-cart"
+                      onClick={() => handleAddToCart(product)}
+                    >
                       <FaPlus /> Add to cart
                     </button>
                   ) : (

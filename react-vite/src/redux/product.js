@@ -104,7 +104,7 @@ export const thunkAllProducts = () => async (dispatch) => {
   //   const data = await Promise.all(responses.map(res => res.json()));
   //   console.log('data', data)
   //   dispatch(getProducts(data));
-  console.time("allProducts");
+  // console.time("allProducts");
   const fetches = [
     fetch("/api/products/"),
     fetch("/api/users/"),
@@ -117,6 +117,7 @@ export const thunkAllProducts = () => async (dispatch) => {
 
   // Check for any non-ok responses before proceeding
   for (const response of responses) {
+    console.log('Response',response)
     if (!response.ok) {
       // Handle the error appropriately here
       console.error("Fetch failed:", response);
@@ -180,7 +181,7 @@ export const thunkAllProducts = () => async (dispatch) => {
   }
 
   // console.log(data[0])
-  console.timeEnd("allProducts");
+  // console.timeEnd("allProducts");
   dispatch(getProducts(data[0]));
   return data[0]
 };

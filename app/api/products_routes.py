@@ -44,6 +44,8 @@ def get_random_product():
 def get_preview_images():
     previewImgs = ProductImage.query.filter(ProductImage.preview == True).all()
 
+    print('IN PREVIEW IMAGE ROUTE')
+
     return [image.to_dict() for image in previewImgs]
 
 
@@ -263,7 +265,7 @@ def get_all_products():
     #     func.count(Review.id).label('review_count')
     # ).group_by(Review.product_id).all
     # previewImgs = ProductImage.query.filter(ProductImage.preview == True).all
-
+    print('IN ALL PRODUCTS ROUTE')
 
     return [product.to_dict_x_seller() for product in products]
 

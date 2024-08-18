@@ -34,7 +34,6 @@ function ProductList() {
     }
   }, [dispatch, productsObj, favoritesObj, user]);
 
-  if (products.length === 0) return (<main><div className="center-in-page"><h2>No products for sell. Please check back later.</h2></div></main>) 
 
   if (!productsObj)
     return (<main>
@@ -52,6 +51,8 @@ function ProductList() {
             <p>Loading...</p>
             </div>
         </main>)
+
+  if (products.length === 0) return (<main><div className="center-in-page"><h2>No products for sell. Please check back later.</h2></div></main>)
 
   const handleAddToCart = (product) => {
     if (!user) {
