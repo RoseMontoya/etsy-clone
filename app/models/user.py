@@ -55,6 +55,23 @@ class User(db.Model, UserMixin):
             "first_name": self.first_name,
             "last_name": self.last_name,
             "profile_url": self.profile_url,
+            # "seller_rating": round(
+            #     sum([product.stars_sum() for product in self.products])
+            #     / self.review_count(),
+            #     1,
+            # )
+            # if self.review_count() > 0
+            # else "No Reviews",
+            # "review_count": self.review_count(),
+        }
+
+    def to_dict_with_stats(self):
+                return {
+            "id": self.id,
+            "username": self.username,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "profile_url": self.profile_url,
             "seller_rating": round(
                 sum([product.stars_sum() for product in self.products])
                 / self.review_count(),
@@ -64,6 +81,7 @@ class User(db.Model, UserMixin):
             else "No Reviews",
             "review_count": self.review_count(),
         }
+
 
     def review_count(self):
         return sum([product.review_count() for product in self.products])

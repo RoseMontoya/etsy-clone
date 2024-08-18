@@ -26,6 +26,27 @@ class Product(db.Model):
     cart_items = db.relationship('CartItem', cascade='all, delete-orphan', back_populates="product")
 
     def to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "description": self.description,
+            "inventory": self.inventory,
+            "price": self.price,
+            "category_id": self.category_id,
+            "seller_id": self.seller_id
+        }
+
+    def to_dict_combined(self):
+       return {"id": self.id,
+        "title": self.title,
+        "description": self.description,
+        "inventory": self.inventory,
+        "price": self.price,
+        "category_id": self.category_id,
+        "seller": self.seller.to_dict()}
+
+
+    def to_dict_with_seller(self):
         preview_image_url = None
 
         preview_image = list(filter(lambda image: image.preview is True, self.images))

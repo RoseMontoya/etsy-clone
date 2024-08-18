@@ -10,7 +10,7 @@ const DELETE_PRODUCT = "product/removeProduct";
 const CREATE_IMAGE = "image/createImage";
 const UPDATE_IMAGE = "image/updateImage";
 const DELETE_IMAGE = "image/deleteImage";
-const CLEAR_CURRENT = "products/clearCurrent"
+const CLEAR_CURRENT = "products/clearCurrent";
 
 const getProducts = (products) => ({
   type: GET_PRODUCTS,
@@ -69,33 +69,120 @@ const deleteImage = (image) => {
 export const clearCurrent = () => {
   return {
     type: CLEAR_CURRENT,
-  }
-}
+  };
+};
 
-export const reviewChange = (userId) => async dispatch => {
-  const response = await fetch(`/api/users/${userId}/products`)
+export const reviewChange = (userId) => async (dispatch) => {
+  const response = await fetch(`/api/users/${userId}/products`);
 
   if (response.ok) {
-    const products = await response.json()
-    products.forEach(async product => {
-      await dispatch(updateProduct(product))
-    })
+    const products = await response.json();
+    products.forEach(async (product) => {
+      await dispatch(updateProduct(product));
+    });
   }
-}
+};
 
 export const thunkAllProducts = () => async (dispatch) => {
   // console.time('allProducts')
-  const response = await fetch("/api/products");
-  // console.timeEnd('allProducts')
+  // const fetches = [fetch("/api/products/"), fetch("/api/users/"), fetch('/api/reviews'), fetch('/api/products/preview-images')];
+  // const responses = await Promise.all(fetches)
+  // // const response = await fetch('/api/reviews')
 
-  if (response.ok) {
-    const data = await response.json();
-    if (data.errors) {
-      console.log({ thunkError: data.errors });
-      return;
+  // // console.log('response', response)
+  // for (const response of responses) {
+  //   console.log(response.json())
+  //   if (!response.ok) {
+  //     console.error("Fetch failed:", response);
+  //     return response
+  //   }
+  // }
+
+  //   // const json = responses.map(res => res.json())
+
+  //   // const data = await Promise.all(responses.map(res => res.json()))
+  //   const data = await Promise.all(responses.map(res => res.json()));
+  //   console.log('data', data)
+  //   dispatch(getProducts(data));
+  console.time("allProducts");
+  const fetches = [
+    fetch("/api/products/"),
+    fetch("/api/users/"),
+    fetch("/api/reviews"),
+    fetch("/api/products/preview-images"),
+  ];
+
+  // Wait for all fetches to complete
+  const responses = await Promise.all(fetches);
+
+  // Check for any non-ok responses before proceeding
+  for (const response of responses) {
+    if (!response.ok) {
+      // Handle the error appropriately here
+      console.error("Fetch failed:", response);
+      return response; // or handle the error in another way
     }
-    dispatch(getProducts(data));
   }
+
+  // Convert all responses to JSON
+  const data = await Promise.all(responses.map((res) => res.json()));
+  // console.log("thedata", data);
+
+  // Set up Seller details
+  const sellers = {};
+  data[1].forEach((seller) => (sellers[seller.id] = seller));
+
+  const review_stats = {};
+  data[2].forEach((stat) => (review_stats[stat.product_id] = stat));
+  const stat_totals = {};
+
+  for (const product of data[0]) {
+    for (const image of data[3]) {
+      if (image.product_id === product.id) {
+        product.preview_image = image.url;
+        break;
+      }
+    }
+
+    if (review_stats[product.id]) {
+      // console.log("stat", review_stats[product.id].stars_total);
+      if (stat_totals[product.seller_id]) {
+        stat_totals[product.seller_id].stars_total +=
+          review_stats[product.id].stars_total;
+        stat_totals[product.seller_id].review_count +=
+          review_stats[product.id].review_count;
+      } else {
+        stat_totals[product.seller_id] = {
+          stars_total: review_stats[product.id].stars_total,
+          review_count: review_stats[product.id].review_count,
+        };
+      }
+    }
+  }
+
+  for (const [id, seller] of Object.entries(sellers)) {
+    // console.log('seller', seller)
+    if (stat_totals[id]) {
+      seller["seller_rating"] = +(
+        stat_totals[id].stars_total / stat_totals[id].review_count
+      ).toFixed(1);
+      seller["review_count"] = stat_totals[id].review_count;
+    } else {
+      seller["avg_rating"] = "No Reviews";
+      seller["review_count"] = 0;
+    }
+  }
+
+  for (const product of data[0]) {
+    if (sellers[product.seller_id]) {
+      product["seller"] = sellers[product.seller_id];
+    }
+  }
+
+  // console.log(data[0])
+  console.timeEnd("allProducts");
+  dispatch(getProducts(data[0]));
+  return data[0]
 };
 
 export const thunkRandomProduct = () => async (dispatch) => {
@@ -110,13 +197,58 @@ export const thunkRandomProduct = () => async (dispatch) => {
 };
 
 export const productById = (productId) => async (dispatch) => {
-  const response = await fetch(`/api/products/${productId}`);
-  const data = await response.json();
-  if (response.ok) {
-    dispatch(getProductById(data));
-    return data;
+  // const response = await fetch(`/api/products/${productId}`);
+  // const data = await response.json();
+  // if (response.ok) {
+  //   dispatch(getProductById(data));
+  //   return data;
+  // }
+  // return data;
+
+  console.time("allProducts");
+  const fetches = [
+    fetch(`/api/products/${productId}`),
+    fetch(`/api/reviews/review-stats/${productId}`),
+    fetch(`/api/products/${productId}/images`),
+  ];
+
+  // Wait for all fetches to complete
+  const responses = await Promise.all(fetches);
+  console.log(responses);
+
+  // Check for any non-ok responses before proceeding
+  for (const response of responses) {
+    if (!response.ok) {
+      // Handle the error appropriately here
+      console.error("Fetch failed:", response);
+      return await response.json(); // or handle the error in another way
+    }
   }
-  return data;
+
+  // Convert all responses to JSON
+  const data = await Promise.all(responses.map((res) => res.json()));
+  // console.log("thedata", data);
+  const product = data[0];
+
+  product.product_images = {};
+  for (const image in data[2]) {
+    if (data[2][image].preview) {
+      product.preview_image = data[2][image].url;
+    }
+  }
+
+  product.seller = {
+    ...product.seller,
+    seller_rating: data[1].stars_total
+      ? +(data[1].stars_total / data[1].review_count).toFixed(1)
+      : "No Reviews",
+    review_count: data[1].review_count ? data[1].review_count : 0,
+  };
+
+  console.log(data[0]);
+  console.timeEnd("allProducts");
+  dispatch(getProductById(data[0]));
+  return data[0]
 };
 
 // Get products owned by current user
@@ -183,7 +315,7 @@ export const deleteProduct = (productId, userId) => async (dispatch) => {
     }
     dispatch(removeProduct(productId));
     await dispatch(productDeletedFav(productId, userId));
-    await dispatch(productDeletedCart(productId))
+    await dispatch(productDeletedCart(productId));
   }
 };
 
@@ -244,7 +376,6 @@ export const updateInventory = () => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     data.products.forEach((item) => {
-
       dispatch(updateProduct(item));
     });
     data.deleted_products.forEach((item) => {
@@ -321,7 +452,14 @@ function productReducer(state = initialState, action) {
       if (state.allProducts) {
         const newAllProducts = {
           ...state.allProducts,
-          [prodId]: { ...state.allProducts[prodId], ...action.payload, seller: {...state.allProducts[prodId].seller, ...action.payload.seller}},
+          [prodId]: {
+            ...state.allProducts[prodId],
+            ...action.payload,
+            seller: {
+              ...state.allProducts[prodId].seller,
+              ...action.payload.seller,
+            },
+          },
         };
         newState["allProducts"] = newAllProducts;
       }
@@ -330,7 +468,14 @@ function productReducer(state = initialState, action) {
         const newProductById = {
           ...state.productById,
 
-          [prodId]: { ...state.productById[prodId], ...action.payload, seller: {...state.productById[prodId].seller, ...action.payload.seller} },
+          [prodId]: {
+            ...state.productById[prodId],
+            ...action.payload,
+            seller: {
+              ...state.productById[prodId].seller,
+              ...action.payload.seller,
+            },
+          },
         };
         newState["productById"] = newProductById;
       }
@@ -339,7 +484,14 @@ function productReducer(state = initialState, action) {
       if (state.productsCurrent) {
         const newProductsCurrent = {
           ...state.productsCurrent,
-          [prodId]: { ...state.productsCurrent[prodId], ...action.payload, seller: {...state.productsCurrent[prodId].seller, ...action.payload.seller} },
+          [prodId]: {
+            ...state.productsCurrent[prodId],
+            ...action.payload,
+            seller: {
+              ...state.productsCurrent[prodId].seller,
+              ...action.payload.seller,
+            },
+          },
         };
         newState["productsCurrent"] = newProductsCurrent;
       }
@@ -504,9 +656,9 @@ function productReducer(state = initialState, action) {
       return { ...state, ...newState };
     }
     case CLEAR_CURRENT: {
-      const newState =  {...state}
-      delete newState.productsCurrent
-      return newState
+      const newState = { ...state };
+      delete newState.productsCurrent;
+      return newState;
     }
     // }
     default:

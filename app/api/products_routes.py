@@ -5,10 +5,12 @@ from ..models.review import Review
 from ..models.cart import Cart, CartItem
 from ..models.user import User
 from flask_login import current_user, login_required
+from sqlalchemy import func
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import joinedload, subqueryload
 from ..forms import ReviewForm, ProductForm, ProductImageForm
 import random
+
 
 products_routes = Blueprint("products", __name__)
 
@@ -21,7 +23,7 @@ def product_manage():
     products = Product.query.filter(Product.seller_id == current_user.id).all()
 
     return {
-        "products": [product.to_dict() for product in products],
+        "products": [product.to_dict_with_seller() for product in products],
         "user_id": current_user.id,
     }
 
@@ -35,7 +37,20 @@ def get_random_product():
         count = Product.query.count()
     randomKey = random.randint(1, count)
     product = Product.query.filter(Product.id == randomKey).first()
-    return product.to_dict()
+    return product.to_dict_with_seller()
+
+
+@products_routes.route('/preview-images')
+def get_preview_images():
+    previewImgs = ProductImage.query.filter(ProductImage.preview == True).all()
+
+    return [image.to_dict() for image in previewImgs]
+
+
+@products_routes.route('/<int:product_id>/images')
+def get_product_images(product_id):
+    images = ProductImage.query.filter(ProductImage.product_id == product_id).all()
+    return jsonify({image.id: image.to_dict() for image in images})
 
 
 # Get all reviews for a product
@@ -110,15 +125,15 @@ def product_by_id(productId):
     # Find Product
     try:
         productQ = Product.query.filter(Product.id == productId).one()
-        product = productQ.to_dict()
+        product = productQ.to_dict_combined()
     except SQLAlchemyError as e:
         return {
             "error": {"message": "Product could not be found.", "error": str(e)}
         }, 404
 
     # Find Product Images and add to product
-    images = ProductImage.query.filter(ProductImage.product_id == productId).all()
-    product["product_images"] = {image.id: image.to_dict() for image in images}
+    # images = ProductImage.query.filter(ProductImage.product_id == productId).all()
+    # product["product_images"] = {image.id: image.to_dict() for image in images}
 
     return product
 
@@ -220,12 +235,9 @@ def delete_image(imageId):
 def get_all_products():
 
     # products = db.session.query(Product).options(
-    #     # joinedload(Product.category),
     #     joinedload(Product.seller),
     #     joinedload(Product.images),
     #     joinedload(Product.reviews),
-    #     # joinedload(Product.favorites),
-    #     # joinedload(Product.cart_items)
     # ).all()
     # 174.059814453125 ms
     # 176.099853515625 ms
@@ -234,14 +246,25 @@ def get_all_products():
     # 216.72900390625 ms
 
 
-    products = db.session.query(Product).options(
-        # subqueryload(Product.category),
-        subqueryload(Product.seller),
-        subqueryload(Product.images),
-        subqueryload(Product.reviews),
-        # subqueryload(Product.favorites),
-        # subqueryload(Product.cart_items)
-    ).all()
+    # products = db.session.query(Product).options(
+    #     subqueryload(Product.seller),
+    #     subqueryload(Product.images),
+    #     subqueryload(Product.reviews),
+    # ).all()
+    # allProducts: 175.169921875 ms
+    # allProducts: 140.258056640625 ms
+    # allProducts: 419.89697265625 ms
+    # allProducts: 136.43701171875 ms
+    # llProducts: 235.68701171875 ms
+    products = Product.query.all()
+    # users = User.query.all
+    # reviews = db.session.query(
+    #     func.sum(Review.stars).label("stars_total"),
+    #     func.count(Review.id).label('review_count')
+    # ).group_by(Review.product_id).all
+    # previewImgs = ProductImage.query.filter(ProductImage.preview == True).all
+
+
     return [product.to_dict() for product in products]
 
 
