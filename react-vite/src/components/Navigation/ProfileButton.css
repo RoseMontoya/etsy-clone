@@ -38,12 +38,13 @@ nav li {
   padding: 15px;
   border-radius: 8px;
   position: absolute;
-  top: -9px;
+  top: -5px;
   right: 12px;
   z-index: 1000;
   display: flex;
   flex-direction: column;
   align-items: baseline;
+  min-width: 10em;
 }
 
 .profile-dropdown-div li {

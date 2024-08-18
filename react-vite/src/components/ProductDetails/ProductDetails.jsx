@@ -52,7 +52,10 @@ function ProductDetails() {
   const reviewsObj = useSelector(
     (state) => state.reviews.reviewsByProdId?.[productId]
   );
-  const reviews = reviewsObj ? Object.values(reviewsObj) : [];
+  const reviews = reviewsObj ? Object.values(reviewsObj) : []
+
+  console.log('reviews length', reviews)
+
   let userReview;
   if (reviewsObj)
     userReview = Object.values(reviewsObj).filter(
@@ -189,9 +192,9 @@ function ProductDetails() {
         <div id="image-container">
 
           <div id="image-sidebar">
-            {images.map((image) => (
+            {images.map((image, index) => (
               <div
-                className={`small-image light-hover ${image.url === mainImage? "selected" : "not-selected"}`}
+                className={`small-image light-hover ${index === mainImgId? "selected" : "not-selected"}`}
                 key={image.id}
                 onClick={() => imageSelect(image)}
               >
@@ -201,7 +204,7 @@ function ProductDetails() {
           </div>
 
           <div className="main-image">
-            <button className="circ than" id="less" onClick={() => backClick()}>
+            <button className={`circ than ${images.length === 1? "hidden" : ""}`} id="less" onClick={() => backClick()}>
               <FaLessThan />
             </button>
             <div id="mainImg-container">
@@ -221,7 +224,7 @@ function ProductDetails() {
               />
             )}
 
-            <button id="greater" className="circ than" onClick={forwardClick}>
+            <button id="greater" className={`circ than ${images.length === 1? "hidden" : ""}`} onClick={forwardClick}>
               <FaGreaterThan />
             </button>
           </div>

@@ -63,14 +63,14 @@
   border-style: outset;
   border-color: buttonborder;
   border-image: initial;
-  padding: 1em;
+  padding: 10px 20px;
   border-radius: 25px;
   background-color: white;
   font-weight: bold;
 }
 
 .add-to-cart {
-  padding: .5em 1em;
+  padding: 10px 20px;
   font-weight: normal;
   display: flex;
   gap: .5em;

@@ -104,6 +104,7 @@
   color: #fff;
   border: none;
   padding: 10px 20px;
+
   font-size: 16px;
   cursor: pointer;
 }
@@ -145,8 +146,16 @@
   margin: 50px auto;
   width: 60%;
   font-size: small;
+  padding: 2em;
+  border: 2px solid #eaeaea;
+  border-radius: 25px;
 }
 
 .cart-footer button:hover {
   color: #0073e6;
+}
+
+#cart-total {
+  margin: 1em 0em;
+  font-size: 16px;
 }

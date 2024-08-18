@@ -1,6 +1,6 @@
 #modal {
   position: fixed;
-  top: 0;
+  top: 0px;
   right: 0;
   left: 0;
   bottom: 0;
@@ -24,6 +24,6 @@
   background-color: white;
   border-radius: 12px;
   min-width: 20em;
-  min-height: 30em;
+  min-height: fit-content;
   z-index: 3;
 }

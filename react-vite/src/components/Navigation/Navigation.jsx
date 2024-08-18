@@ -40,16 +40,16 @@ function Navigation() {
         <ul>
           <li className="inline">
             <ProfileButton />
-            <span className="icon-shopping">
-              {user && (
+            {user && (
+              <span className="icon-shopping">
                 <Link to="/cart">
                   <PiShoppingCartSimpleBold />
                   {cartArr.length > 0 && (
                     <span className="cart-count-badge">{cartArr.length}</span>
                   )}
                 </Link>
-              )}
-            </span>
+              </span>
+            )}
           </li>
         </ul>
       </div>

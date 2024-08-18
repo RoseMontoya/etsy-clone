@@ -33,22 +33,35 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 10px;
+  padding-bottom: .5em;
+}
+
+#stars .star {
+  cursor: pointer;
+
 }
 
 .star {
   font-size: 16px;
   color: #f16521;
-  cursor: pointer;
+  /* cursor: pointer; */
   margin-right: 2px;
   max-height: 1em;
 
 }
 
+/* #form-stars {
+  justify-content: center;
+}
+
+#form-stars .star {
+  cursor: pointer;
+} */
+
 #stars p {
   margin: 0;
   font-weight: 700;
-  padding-left: 10px;
+  padding-left: 5px;
   font-size: 16px;
 }
 

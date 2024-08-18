@@ -44,7 +44,8 @@ function ProductReviews({ productId, sellerId }) {
   }
 
   return (
-    <div>
+    <div style={{ display: "flex",
+      flexDirection: "column-reverse"}}>
       {reviews.map((review) => (
         <div key={review?.id} className="review-container">
           <div className="review-header">

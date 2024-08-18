@@ -50,7 +50,7 @@ function Checkout() {
       setErrors(formErrors);
       return;
     }
-    
+
     const result = dispatch(updateInventory());
     if (result.errors) {
       setErrors(result.errors);
@@ -140,7 +140,7 @@ function Checkout() {
         })}
       </ul>
       <div>
-        <span>Total: ${cartTotal(cartArr)}</span>
+        <h3 id="cart-total">Total: ${cartTotal(cartArr)}</h3>
       </div>
       {/* Payment Form */}
       <div className="payment-container">
@@ -221,7 +221,7 @@ function Checkout() {
       </div>
 
       </div>
-      
+
     </div>
   );
 }

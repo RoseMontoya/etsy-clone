@@ -52,14 +52,13 @@ function ProductManage() {
 
   if (products?.length === 0)
     return (
-      <>
+      <main>
         <p>No product yet... Please create one</p>
         <span>
           <Link to="/products/new">Add new product</Link>
         </span>
         <div></div>
-        <a href="/">Home</a>
-      </>
+      </main>
     );
 
   const handleDeleteClick = (productId) => {
@@ -101,7 +100,7 @@ function ProductManage() {
               <p className="grid_price">${parseInt(product.price).toFixed(2)}</p>
             </div>
 
-              
+
             </Link>
             <div>
               <p

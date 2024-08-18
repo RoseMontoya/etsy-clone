@@ -55,7 +55,7 @@ function FavoritesPage() {
           favoritesArray.map((favorite) => {
             return allProducts[favorite.product_id]?
             (
-            <div key={favorite.id} className="grid-item">
+            <div key={favorite.id} className="grid-item" id="fav-grid-item">
             <Heart initial={true} productId={favorite.product_id}/>
               <Link key={favorite.id} to={`/products/${favorite.product_id}`}>
                 <div className="image_container">
@@ -74,7 +74,7 @@ function FavoritesPage() {
                 </p>
 
                 </div>
-                
+
               </Link>
               <button onClick={() => handleAddToCart(allProducts[favorite.product_id])}>
               + Add to cart
