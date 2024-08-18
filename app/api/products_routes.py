@@ -23,7 +23,7 @@ def product_manage():
     products = Product.query.filter(Product.seller_id == current_user.id).all()
 
     return {
-        "products": [product.to_dict_with_seller() for product in products],
+        "products": [product.to_dict() for product in products],
         "user_id": current_user.id,
     }
 
@@ -37,7 +37,7 @@ def get_random_product():
         count = Product.query.count()
     randomKey = random.randint(1, count)
     product = Product.query.filter(Product.id == randomKey).first()
-    return product.to_dict_with_seller()
+    return product.to_dict()
 
 
 @products_routes.route('/preview-images')
@@ -265,7 +265,7 @@ def get_all_products():
     # previewImgs = ProductImage.query.filter(ProductImage.preview == True).all
 
 
-    return [product.to_dict() for product in products]
+    return [product.to_dict_x_seller() for product in products]
 
 
 # Updating inventory list after successful transaction

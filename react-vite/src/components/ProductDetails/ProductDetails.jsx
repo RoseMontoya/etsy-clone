@@ -48,13 +48,14 @@ function ProductDetails() {
   const [mainImage, setMainImage] = useState(product?.preview_image);
   const [mainImgId, setMainImgId] = useState(0);
 
+  console.log('images', images, mainImgId)
+
   // Get reviews
   const reviewsObj = useSelector(
     (state) => state.reviews.reviewsByProdId?.[productId]
   );
   const reviews = reviewsObj ? Object.values(reviewsObj) : []
 
-  console.log('reviews length', reviews)
 
   let userReview;
   if (reviewsObj)
@@ -160,7 +161,7 @@ function ProductDetails() {
     setMainImage(image.url);
     let newid;
     images.forEach((img, i) => {
-      if (oldUrl === img.url) {
+      if (image.id === img.id) {
         newid = i;
       }
     });

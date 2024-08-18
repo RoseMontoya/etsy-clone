@@ -25,7 +25,7 @@ class Product(db.Model):
     favorites = db.relationship('Favorite', back_populates='product', cascade='all, delete-orphan')
     cart_items = db.relationship('CartItem', cascade='all, delete-orphan', back_populates="product")
 
-    def to_dict(self):
+    def to_dict_x_seller(self):
         return {
             "id": self.id,
             "title": self.title,
@@ -46,7 +46,7 @@ class Product(db.Model):
         "seller": self.seller.to_dict()}
 
 
-    def to_dict_with_seller(self):
+    def to_dict(self):
         preview_image_url = None
 
         preview_image = list(filter(lambda image: image.preview is True, self.images))

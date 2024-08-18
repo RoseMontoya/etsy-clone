@@ -230,7 +230,7 @@ export const productById = (productId) => async (dispatch) => {
   // console.log("thedata", data);
   const product = data[0];
 
-  product.product_images = {};
+  product.product_images = data[2];
   for (const image in data[2]) {
     if (data[2][image].preview) {
       product.preview_image = data[2][image].url;

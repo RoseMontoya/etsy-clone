@@ -30,7 +30,21 @@ function EditProductForm() {
   const product = useSelector(
     (state) => state.products.productById?.[productId]
   );
-  const images = product?.product_images? Object.values(product.product_images) : []
+
+  // Orders images so preview is at top of list
+  const images = [];
+  if (product?.product_images) {
+    const imgA = Object.values(product.product_images);
+    imgA.forEach((img) => {
+      if (img.preview) {
+        images.unshift(img);
+      } else {
+        images.push(img);
+      }
+    });
+
+  }
+  console.log(editProduct)
 
   useEffect(() => {
     if (!product) {
@@ -53,19 +67,23 @@ function EditProductForm() {
       setImage4(images[4] || "");
       setImage5(images[5] || "");
     }
-  }, [images, previewImage])
+  }, [images, previewImage]);
 
   const validateForm = () => {
     const errorObj = {};
 
-    if (!title) errorObj.title = "Title is required."
-    if (!description) errorObj.description = "Description is required."
-    if (description.length < 10) errorObj.description = "Description must be at least 10 characters long. Please provide more details on your product."
-    if (inventory <= 0) errorObj.inventory = "Inventory must be at least 1. Please enter a positive value."
-    if (price <= 0) errorObj.price = "Price must be greater than zero."
-    if (!categoryId) errorObj.category = "Category is required."
+    if (!title) errorObj.title = "Title is required.";
+    if (!description) errorObj.description = "Description is required.";
+    if (description.length < 10)
+      errorObj.description =
+        "Description must be at least 10 characters long. Please provide more details on your product.";
+    if (inventory <= 0)
+      errorObj.inventory =
+        "Inventory must be at least 1. Please enter a positive value.";
+    if (price <= 0) errorObj.price = "Price must be greater than zero.";
+    if (!categoryId) errorObj.category = "Category is required.";
     return errorObj;
-    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -150,14 +168,14 @@ function EditProductForm() {
         });
 
         if (res.errors) {
-          setErrors(res.errors)
+          setErrors(res.errors);
         } else {
           navigate(`/products/${res.id}`);
         }
-        })
-        .catch((err) => {
-          console.error("Failed to update product:", err);
-        });
+      })
+      .catch((err) => {
+        console.error("Failed to update product:", err);
+      });
   };
 
   const formatDecimal = (input) => {
@@ -165,194 +183,195 @@ function EditProductForm() {
     if (!isNaN(value)) {
       input.value = value.toFixed(2);
     }
-    return input.value
-  }
+    return input.value;
+  };
 
   return (
     <main>
-    <form onSubmit={handleSubmit} className="product_form">
-      <div>
-        <label>
-          <h3>Title</h3>
-        </label>
-        <p>Include keywords that buyers would use to search for this item.</p>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        {errors.title && <p className="error">{errors.title}</p>}
-      </div>
-      <div>
-        <label>
-          <h3>Description</h3>
-        </label>
-        <p>
-          Tell the world all about your item and why they’ll love it. Buyers
-          will only see the first few lines unless they expand the description.
-        </p>
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        ></textarea>
-        {errors.description && <p className="error">{errors.description}</p>}
-      </div>
-      <div>
-        <label>
-          <h3>Inventory</h3>
-        </label>
-        <p>
-          Keep your product availability up-to-date to ensure customers know
-          when your item is in stock.
-        </p>
-        <input
-          type="number"
-          min="1"
-          step="1"
-          value={inventory}
-          onChange={(e) => setInventory(e.target.value)}
-        />
-        {errors.inventory && <p className="error">{errors.inventory}</p>}
-      </div>
-      <div>
-        <label>
-          <h3>Price</h3>
-        </label>
-        <p>
-          Competitive pricing can help your listing stand out and rank higher in
-          search results.
-        </p>
-        <input
-          type="number"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          step="0.01"
-          onBlur={(e) => formatDecimal(e.target)}
-        />
-        {errors.price && <p className="error">{errors.price}</p>}
-      </div>
-      <div>
-        <label>
-          <h3>Category</h3>
-        </label>
-        <p>
-          Categorize your product accurately to help customers find it more
-          easily.
-        </p>
-        <div className="select-container">
-          <select
-            name="category_id"
-            value={categoryId}
-            onChange={(e) => setCategoryId(e.target.value)}
-          >
-            <option value="">Select a category</option>
-            <option value="1">Home & Living</option>
-            <option value="2">Accessories</option>
-            <option value="3">Crafting</option>
-            <option value="4">Jewelry</option>
-            <option value="5">Clothing</option>
-          </select>
+      <form onSubmit={handleSubmit} className="product_form">
+        <div>
+          <label>
+            <h3>Title</h3>
+          </label>
+          <p>Include keywords that buyers would use to search for this item.</p>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          {errors.title && <p className="error">{errors.title}</p>}
         </div>
-        {errors.categoryId && <p className="error">{errors.categoryId}</p>}
-      </div>
-      <div>
-        <label>
-          <h3>Preview Image URL</h3>
-        </label>
-        <p>Submit at least one photo to publish your product.</p>
-        <input
-          type="text"
-          value={previewImage.url}
-          onChange={(e) =>
-            setPreviewImage({ ...previewImage, url: e.target.value })
-          }
-          required
-        />
-        {previewImage.url ? (
-          <img
-            className="previewImagesize"
-            src={previewImage.url}
-            alt="Preview if Image is valid"
+        <div>
+          <label>
+            <h3>Description</h3>
+          </label>
+          <p>
+            Tell the world all about your item and why they’ll love it. Buyers
+            will only see the first few lines unless they expand the
+            description.
+          </p>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          ></textarea>
+          {errors.description && <p className="error">{errors.description}</p>}
+        </div>
+        <div>
+          <label>
+            <h3>Inventory</h3>
+          </label>
+          <p>
+            Keep your product availability up-to-date to ensure customers know
+            when your item is in stock.
+          </p>
+          <input
+            type="number"
+            min="1"
+            step="1"
+            value={inventory}
+            onChange={(e) => setInventory(e.target.value)}
           />
-        ) : null}
-      </div>
-      <div>
-        <label>Image URL:</label>
-        <input
-          type="text"
-          value={image1.url}
-          onChange={(e) => setImage1({ ...image1, url: e.target.value })}
-        />
-        {image1.url ? (
-          <img
-            className="previewImagesize"
-            src={image1.url}
-            alt="Preview if Image is valid"
+          {errors.inventory && <p className="error">{errors.inventory}</p>}
+        </div>
+        <div>
+          <label>
+            <h3>Price</h3>
+          </label>
+          <p>
+            Competitive pricing can help your listing stand out and rank higher
+            in search results.
+          </p>
+          <input
+            type="number"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            step="0.01"
+            onBlur={(e) => formatDecimal(e.target)}
           />
-        ) : null}
-      </div>
-      <div>
-        <label>Image URL:</label>
-        <input
-          type="text"
-          value={image2.url}
-          onChange={(e) => setImage2({ ...image2, url: e.target.value })}
-        />
-        {image2.url ? (
-          <img
-            className="previewImagesize"
-            src={image2.url}
-            alt="Preview if Image is valid"
+          {errors.price && <p className="error">{errors.price}</p>}
+        </div>
+        <div>
+          <label>
+            <h3>Category</h3>
+          </label>
+          <p>
+            Categorize your product accurately to help customers find it more
+            easily.
+          </p>
+          <div className="select-container">
+            <select
+              name="category_id"
+              value={categoryId}
+              onChange={(e) => setCategoryId(e.target.value)}
+            >
+              <option value="">Select a category</option>
+              <option value="1">Home & Living</option>
+              <option value="2">Accessories</option>
+              <option value="3">Crafting</option>
+              <option value="4">Jewelry</option>
+              <option value="5">Clothing</option>
+            </select>
+          </div>
+          {errors.categoryId && <p className="error">{errors.categoryId}</p>}
+        </div>
+        <div>
+          <label>
+            <h3>Preview Image URL</h3>
+          </label>
+          <p>Submit at least one photo to publish your product.</p>
+          <input
+            type="text"
+            value={previewImage.url}
+            onChange={(e) =>
+              setPreviewImage({ ...previewImage, url: e.target.value })
+            }
+            required
           />
-        ) : null}
-      </div>
-      <div>
-        <label>Image URL:</label>
-        <input
-          type="text"
-          value={image3.url}
-          onChange={(e) => setImage3({ ...image3, url: e.target.value })}
-        />
-        {image3.url ? (
-          <img
-            className="previewImagesize"
-            src={image3.url}
-            alt="Preview if Image is valid"
+          {previewImage.url ? (
+            <img
+              className="previewImagesize"
+              src={previewImage.url}
+              alt="Preview if Image is valid"
+            />
+          ) : null}
+        </div>
+        <div>
+          <label>Image URL:</label>
+          <input
+            type="text"
+            value={image1.url}
+            onChange={(e) => setImage1({ ...image1, url: e.target.value })}
           />
-        ) : null}
-      </div>
-      <div>
-        <label>Image URL:</label>
-        <input
-          type="text"
-          value={image4.url}
-          onChange={(e) => setImage4({ ...image4, url: e.target.value })}
-        />
-        {image4.url ? (
-          <img
-            className="previewImagesize"
-            src={image4.url}
-            alt="Preview if Image is valid"
+          {image1.url ? (
+            <img
+              className="previewImagesize"
+              src={image1.url}
+              alt="Preview if Image is valid"
+            />
+          ) : null}
+        </div>
+        <div>
+          <label>Image URL:</label>
+          <input
+            type="text"
+            value={image2.url}
+            onChange={(e) => setImage2({ ...image2, url: e.target.value })}
           />
-        ) : null}
-      </div>
-      <div>
-        <label>Image URL:</label>
-        <input
-          type="text"
-          value={image5.url}
-          onChange={(e) => setImage5({ ...image5, url: e.target.value })}
-        />
-        {image5.url ? (
-          <img
-            className="previewImagesize"
-            src={image5.url}
-            alt="Preview if Image is valid"
+          {image2.url ? (
+            <img
+              className="previewImagesize"
+              src={image2.url}
+              alt="Preview if Image is valid"
+            />
+          ) : null}
+        </div>
+        <div>
+          <label>Image URL:</label>
+          <input
+            type="text"
+            value={image3.url}
+            onChange={(e) => setImage3({ ...image3, url: e.target.value })}
           />
-        ) : null}
-      </div>
-      <button type="submit">Update Your Product</button>
-    </form>
+          {image3.url ? (
+            <img
+              className="previewImagesize"
+              src={image3.url}
+              alt="Preview if Image is valid"
+            />
+          ) : null}
+        </div>
+        <div>
+          <label>Image URL:</label>
+          <input
+            type="text"
+            value={image4.url}
+            onChange={(e) => setImage4({ ...image4, url: e.target.value })}
+          />
+          {image4.url ? (
+            <img
+              className="previewImagesize"
+              src={image4.url}
+              alt="Preview if Image is valid"
+            />
+          ) : null}
+        </div>
+        <div>
+          <label>Image URL:</label>
+          <input
+            type="text"
+            value={image5.url}
+            onChange={(e) => setImage5({ ...image5, url: e.target.value })}
+          />
+          {image5.url ? (
+            <img
+              className="previewImagesize"
+              src={image5.url}
+              alt="Preview if Image is valid"
+            />
+          ) : null}
+        </div>
+        <button type="submit">Update Your Product</button>
+      </form>
     </main>
   );
 }
