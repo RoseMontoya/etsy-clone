@@ -26,7 +26,21 @@ function FavoritesPage() {
     }
   }, [dispatch, favorites, allProducts, user.id]);
 
-  if (!favorites) return <p>Loading...</p>;
+  if (!favorites) return (<main>
+  <div className="center-loading">
+        <div className="lds-roller">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        <p>Loading...</p>
+        </div>
+    </main>);
 
   const handleAddToCart = (product) => {
     const cartItem = {
@@ -48,7 +62,7 @@ function FavoritesPage() {
     <div className="product_manage_header">
       <div className="favorite_profile">
         <img src={user.profile_url} alt={user.username} />
-        <h2>{user.first_name}&apos;s Favorites</h2>
+        <h2>Your Favorites</h2>
       </div>
       </div>
       <div className="grid_container">

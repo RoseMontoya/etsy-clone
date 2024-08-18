@@ -103,19 +103,21 @@ function ProductDetails() {
 
   // Check if product is loaded
   if (!product) {
-    return <div className="center-loading">
-    <div className="lds-roller">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-    <p>Loading...</p>
-  </div>;
+    return (<main>
+      <div className="center-loading">
+            <div className="lds-roller">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <p>Loading...</p>
+            </div>
+        </main>)
   }
 
   const handleAddToCart = () => {

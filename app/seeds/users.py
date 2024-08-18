@@ -5,7 +5,7 @@ from sqlalchemy.sql import text
 # Adds a demo user, you can add other users here if you want
 def seed_users():
     user1 = User(
-        username="JohnDoe",
+        username="JohnD",
         first_name='John',
         last_name='Doe',
         email="john.doe@example.com",
@@ -13,7 +13,7 @@ def seed_users():
         profile_url="/images/profile1.jpg",
     )
     user2 = User(
-        username="JaneSmith",
+        username="JaneS",
         first_name='Jane',
         last_name='Smith',
         email="jane.smith@example.com",
@@ -21,7 +21,7 @@ def seed_users():
         profile_url="/images/profile2.jpg",
     )
     user3 = User(
-        username="AliceJohnson",
+        username="AliceJ",
         first_name='Alice',
         last_name='Johnson',
         email="alice.johnson@example.com",
@@ -29,7 +29,7 @@ def seed_users():
         profile_url="/images/profile3.jpg",
     )
     user4 = User(
-        username="EmilyDavis",
+        username="EmilyD",
         first_name='Emily',
         last_name='Davis',
         email="emily.davis@example.com",
@@ -37,7 +37,7 @@ def seed_users():
         profile_url="/images/profile4.jpg",
     )
     user5 = User(
-        username="SarahWilson",
+        username="SarahW",
         first_name='Sarah',
         last_name='Wilson',
         email="sarah.wilson@example.com",
@@ -45,7 +45,7 @@ def seed_users():
         profile_url="/images/profile5.jpg",
     )
     user6 = User(
-        username="RobertBrown",
+        username="RobertB",
         first_name='Robert',
         last_name='Brown',
         email="robert.brown@example.com",
@@ -53,7 +53,7 @@ def seed_users():
         profile_url="/images/profile6.jpg",
     )
     user7 = User(
-        username="MichaelMiller",
+        username="MichaelM",
         first_name='Michael',
         last_name='Miller',
         email="michael.miller@example.com",
@@ -61,7 +61,7 @@ def seed_users():
         profile_url="/images/profile7.jpg",
     )
     user8 = User(
-        username="LauraAnderson",
+        username="LauraA",
         first_name='Laura',
         last_name='Anderson',
         email="laura.anderson@example.com",

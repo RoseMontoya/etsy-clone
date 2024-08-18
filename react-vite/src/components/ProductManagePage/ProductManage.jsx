@@ -48,16 +48,32 @@ function ProductManage() {
     }
   }, [dispatch, productsObj]);
 
-  if (!productsObj) return <h2>Loading...</h2>
+  if (!productsObj) return (<main>
+    <div className="center-loading">
+          <div className="lds-roller">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <p>Loading...</p>
+          </div>
+      </main>);
 
   if (products?.length === 0)
     return (
       <main>
-        <p>No product yet... Please create one</p>
-        <span>
-          <Link to="/products/new">Add new product</Link>
+        <div className="product-manage-empty">
+        <h2>No product yet... Please create one</h2>
+        <span className="empty-add">
+          <Link to="/products/new"><button>Add new product</button></Link>
+          
         </span>
-        <div></div>
+        </div>
       </main>
     );
 
@@ -81,7 +97,7 @@ function ProductManage() {
       <div className="product_manage_header">
         <div className="favorite_profile">
           <img src={user.profile_url} alt={user.username} />
-          <h2>{user.first_name}&apos;s Listings</h2>
+          <h2>Your Listings</h2>
         </div>
         <div>
           <Link to="/products/new">Add new product</Link>

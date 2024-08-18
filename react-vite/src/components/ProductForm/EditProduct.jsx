@@ -169,6 +169,7 @@ function EditProductForm() {
   }
 
   return (
+    <main>
     <form onSubmit={handleSubmit} className="product_form">
       <div>
         <label>
@@ -352,6 +353,7 @@ function EditProductForm() {
       </div>
       <button type="submit">Update Your Product</button>
     </form>
+    </main>
   );
 }
 

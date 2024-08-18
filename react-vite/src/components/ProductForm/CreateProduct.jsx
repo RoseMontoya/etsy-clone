@@ -127,7 +127,7 @@ function NewProductForm() {
     return input.value
   }
 
-  return (
+  return (<main>
     <form onSubmit={handleSubmit} className="product_form">
       <div>
         <label>
@@ -317,6 +317,7 @@ function NewProductForm() {
       </div>
       <button type="submit">Publish Your Product</button>
     </form>
+    </main>
   );
 }
 

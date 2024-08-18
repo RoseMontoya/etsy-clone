@@ -34,22 +34,24 @@ function ProductList() {
     }
   }, [dispatch, productsObj, favoritesObj, user]);
 
+  if (products.length === 0) return (<main><div className="center-in-page"><h2>No products for sell. Please check back later.</h2></div></main>) 
+
   if (!productsObj)
-    return (
+    return (<main>
       <div className="center-loading">
-        <div className="lds-roller">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-        <p>Loading...</p>
-      </div>
-    );
+            <div className="lds-roller">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <p>Loading...</p>
+            </div>
+        </main>)
 
   const handleAddToCart = (product) => {
     if (!user) {
@@ -78,8 +80,7 @@ function ProductList() {
   return (
     <main className="prod-list">
       <div className="grid_container">
-        {products.length ? (
-          products
+        {products
             .sort((a, b) => b.id - a.id)
             .map((product) => (
               <div key={product?.id} className="grid-item">
@@ -136,9 +137,7 @@ function ProductList() {
                 </div>
               </div>
             ))
-        ) : (
-          <h2>No products for sell. Please check back later.</h2>
-        )}
+        }
       </div>
       {/* <div id="add_fav" style={{display: 'none'}} ><p>Saved to Favorites</p></div>
         <div id="remove_fav" style={{display: 'none'}} ><p>Removed from Favorites</p></div> */}

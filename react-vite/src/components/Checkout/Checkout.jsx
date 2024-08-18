@@ -64,7 +64,22 @@ function Checkout() {
     //   navigate("/successful-transaction");
   };
 
-  if (!cartObj || !allProducts) return <h2>Loading...</h2>;
+  if (!cartObj || !allProducts) return (<main>
+<div className="center-loading">
+      <div className="lds-roller">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <p>Loading...</p>
+      </div>
+  </main>
+  );
 
   const cartTotal = (cartArr) => {
     let total = 0;
@@ -82,8 +97,8 @@ function Checkout() {
   };
 
   return (
+    <main>
     <div className="cart-container">
-      <h1>Your Cart</h1>
       <div className="cart-summary">
         {cartArr.length === 1
           ? `${cartArr.length} item in your cart`
@@ -144,7 +159,6 @@ function Checkout() {
       </div>
       {/* Payment Form */}
       <div className="payment-container">
-      <h2>Payment Information</h2>
       <div className="payment-form">
         <div className="form-group">
           <label htmlFor="cardName">Name on Card</label>
@@ -160,7 +174,7 @@ function Checkout() {
         <div className="form-group">
           <label htmlFor="cardNumber">Card Number</label>
           <input
-            type="text"
+            type="number"
             id="cardNumber"
             value={cardNumber}
             onChange={(e) => setCardNumber(e.target.value)}
@@ -183,7 +197,7 @@ function Checkout() {
         <div className="form-group">
           <label htmlFor="cardCvv">CVV</label>
           <input
-            type="text"
+            type="number"
             id="cardCvv"
             value={cardCvv}
             onChange={(e) => setCardCvv(e.target.value)}
@@ -215,14 +229,12 @@ function Checkout() {
           ) : null}
         </>
 
-        <Link to="/products" className="continue-shopping">
-          Continue Shopping
-        </Link>
       </div>
 
       </div>
 
     </div>
+  </main>
   );
 }
 
