@@ -64,7 +64,22 @@ function Checkout() {
     //   navigate("/successful-transaction");
   };
 
-  if (!cartObj || !allProducts) return <h2>Loading...</h2>;
+  if (!cartObj || !allProducts) return (<main>
+<div className="center-loading">
+      <div className="lds-roller">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <p>Loading...</p>
+      </div>
+  </main>
+  );
 
   const cartTotal = (cartArr) => {
     let total = 0;
@@ -158,7 +173,7 @@ function Checkout() {
         <div className="form-group">
           <label htmlFor="cardNumber">Card Number</label>
           <input
-            type="text"
+            type="number"
             id="cardNumber"
             value={cardNumber}
             onChange={(e) => setCardNumber(e.target.value)}
@@ -181,7 +196,7 @@ function Checkout() {
         <div className="form-group">
           <label htmlFor="cardCvv">CVV</label>
           <input
-            type="text"
+            type="number"
             id="cardCvv"
             value={cardCvv}
             onChange={(e) => setCardCvv(e.target.value)}

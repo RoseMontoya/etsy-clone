@@ -62,7 +62,7 @@ export const updateCartItemQuantity =
     });
 
     if (response.ok) {
-      const updatedItem = await response.json();
+      // const updatedItem = await response.json();
       dispatch(editItemQuantity(cartItemId, quantity));
     } else {
       const errors = await response.json();

@@ -25,8 +25,6 @@ function ProductList() {
     ? Object.values(favoritesObj).map((fav) => fav.product_id)
     : [];
 
-  if (products.length === 0) return (<main><div className="center-in-page"><h2>No products for sell. Please check back later.</h2></div></main>) 
-
   useEffect(() => {
     if (!productsObj) {
       dispatch(thunkAllProducts());
@@ -35,6 +33,8 @@ function ProductList() {
       dispatch(favoritesByUserId(user?.id));
     }
   }, [dispatch, productsObj, favoritesObj, user]);
+
+  if (products.length === 0) return (<main><div className="center-in-page"><h2>No products for sell. Please check back later.</h2></div></main>) 
 
   if (!productsObj)
     return (
