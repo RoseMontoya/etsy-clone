@@ -157,7 +157,6 @@ function ProductDetails() {
 
   // image select function for image carousel
   const imageSelect = (image) => {
-    const oldUrl = image.url;
     setMainImage(image.url);
     let newid;
     images.forEach((img, i) => {
