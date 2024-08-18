@@ -206,7 +206,6 @@ export const productById = (productId) => async (dispatch) => {
   // }
   // return data;
 
-  console.time("allProducts");
   const fetches = [
     fetch(`/api/products/${productId}`),
     fetch(`/api/reviews/review-stats/${productId}`),
@@ -221,8 +220,9 @@ export const productById = (productId) => async (dispatch) => {
   for (const response of responses) {
     if (!response.ok) {
       // Handle the error appropriately here
-      console.error("Fetch failed:", response);
-      return await response.json(); // or handle the error in another way
+      const data = await response.json()
+      console.error("Fetch failed:", data);
+      return data; // or handle the error in another way
     }
   }
 
@@ -247,7 +247,6 @@ export const productById = (productId) => async (dispatch) => {
   };
 
   console.log(data[0]);
-  console.timeEnd("allProducts");
   dispatch(getProductById(data[0]));
   return data[0]
 };
