@@ -48,7 +48,21 @@ function ProductManage() {
     }
   }, [dispatch, productsObj]);
 
-  if (!productsObj) return <h2>Loading...</h2>
+  if (!productsObj) return (<main>
+    <div className="center-loading">
+          <div className="lds-roller">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <p>Loading...</p>
+          </div>
+      </main>);
 
   if (products?.length === 0)
     return (

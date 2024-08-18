@@ -97,6 +97,7 @@ function Checkout() {
   };
 
   return (
+    <main>
     <div className="cart-container">
       <div className="cart-summary">
         {cartArr.length === 1
@@ -233,6 +234,7 @@ function Checkout() {
       </div>
 
     </div>
+  </main>
   );
 }
 

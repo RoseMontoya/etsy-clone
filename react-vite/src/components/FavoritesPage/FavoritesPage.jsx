@@ -26,7 +26,21 @@ function FavoritesPage() {
     }
   }, [dispatch, favorites, allProducts, user.id]);
 
-  if (!favorites) return <p>Loading...</p>;
+  if (!favorites) return (<main>
+  <div className="center-loading">
+        <div className="lds-roller">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        <p>Loading...</p>
+        </div>
+    </main>);
 
   const handleAddToCart = (product) => {
     const cartItem = {

@@ -34,21 +34,21 @@ function ProductList() {
   }, [dispatch, productsObj, favoritesObj, user]);
 
   if (!productsObj)
-    return (
+    return (<main>
       <div className="center-loading">
-        <div className="lds-roller">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-        <p>Loading...</p>
-      </div>
-    );
+            <div className="lds-roller">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <p>Loading...</p>
+            </div>
+        </main>)
 
   const handleAddToCart = (product) => {
     if (!user) {
