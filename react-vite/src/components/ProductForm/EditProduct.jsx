@@ -39,14 +39,8 @@ function EditProductForm() {
       setTitle(product.title || "");
       setDescription(product.description || "");
       setInventory(product.inventory || "");
-      setPrice(product.price || "");
+      setPrice(product.price.toFixed(2) || "");
       setCategoryId(product.category_id || "");
-      // setPreviewImage(images[0] || "");
-      // setImage1(images[1] || "");
-      // setImage2(images[2] || "");
-      // setImage3(images[3] || "");
-      // setImage4(images[4] || "");
-      // setImage5(images[5] || "");
     }
   }, [dispatch, productId, product]);
 
@@ -165,6 +159,15 @@ function EditProductForm() {
           console.error("Failed to update product:", err);
         });
   };
+
+  const formatDecimal = (input) => {
+    let value = parseFloat(input.value);
+    if (!isNaN(value)) {
+      input.value = value.toFixed(2);
+    }
+    return input.value
+  }
+
   return (
     <form onSubmit={handleSubmit} className="product_form">
       <div>
@@ -203,6 +206,8 @@ function EditProductForm() {
         </p>
         <input
           type="number"
+          min="1"
+          step="1"
           value={inventory}
           onChange={(e) => setInventory(e.target.value)}
         />
@@ -220,6 +225,8 @@ function EditProductForm() {
           type="number"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
+          step="0.01"
+          onBlur={(e) => formatDecimal(e.target)}
         />
         {errors.price && <p className="error">{errors.price}</p>}
       </div>
@@ -231,18 +238,20 @@ function EditProductForm() {
           Categorize your product accurately to help customers find it more
           easily.
         </p>
-        <select
-          name="category_id"
-          value={categoryId}
-          onChange={(e) => setCategoryId(e.target.value)}
-        >
-          <option value="">Select a category</option>
-          <option value="1">Home & Living</option>
-          <option value="2">Accessories</option>
-          <option value="3">Crafting</option>
-          <option value="4">Jewelry</option>
-          <option value="5">Clothing</option>
-        </select>
+        <div className="select-container">
+          <select
+            name="category_id"
+            value={categoryId}
+            onChange={(e) => setCategoryId(e.target.value)}
+          >
+            <option value="">Select a category</option>
+            <option value="1">Home & Living</option>
+            <option value="2">Accessories</option>
+            <option value="3">Crafting</option>
+            <option value="4">Jewelry</option>
+            <option value="5">Clothing</option>
+          </select>
+        </div>
         {errors.categoryId && <p className="error">{errors.categoryId}</p>}
       </div>
       <div>

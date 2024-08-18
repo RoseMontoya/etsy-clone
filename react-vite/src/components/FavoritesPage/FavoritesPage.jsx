@@ -66,7 +66,7 @@ function FavoritesPage() {
                   />
                 </div>
                 <div className="grid-item-detail">
-                <p>{allProducts[favorite.product_id].title}</p>
+                <p className="title">{allProducts[favorite.product_id].title}</p>
                 <p>${allProducts[favorite.product_id].price.toFixed(2)}</p>
                 <p>
                   {allProducts[favorite.product_id].seller.seller_rating}

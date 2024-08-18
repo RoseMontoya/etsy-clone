@@ -53,7 +53,7 @@ function NewProductForm() {
       setErrors(formErrors);
       return;
     }
-    
+
     setErrors({});
 
     const new_product = {
@@ -116,8 +116,17 @@ function NewProductForm() {
     } else {
       navigate(`/products/${productId}`);
     }
-    
+
   };
+
+  const formatDecimal = (input) => {
+    let value = parseFloat(input.value);
+    if (!isNaN(value)) {
+      input.value = value.toFixed(2);
+    }
+    return input.value
+  }
+
   return (
     <form onSubmit={handleSubmit} className="product_form">
       <div>
@@ -157,6 +166,8 @@ function NewProductForm() {
         </p>
         <input
           type="number"
+          min="1"
+          step="1"
           value={inventory}
           onChange={(e) => setInventory(e.target.value)}
         />
@@ -173,7 +184,9 @@ function NewProductForm() {
         <input
           type="number"
           value={price}
-          onChange={(e) => setPrice(e.target.value)}
+          onChange={(e) => {setPrice(e.target.value)}}
+          step="0.01"
+          onBlur={(e) => formatDecimal(e.target)}
         />
         {errors.price && <p className="error">{errors.price}</p>}
       </div>
@@ -185,18 +198,21 @@ function NewProductForm() {
           Categorize your product accurately to help customers find it more
           easily.
         </p>
-        <select
-          name="category_id"
-          value={categoryId}
-          onChange={(e) => setCategoryId(e.target.value)}
-        >
-          <option value="0">Select a category</option>
-          <option value="1">Home & Living</option>
-          <option value="2">Accessories</option>
-          <option value="3">Crafting</option>
-          <option value="4">Jewelry</option>
-          <option value="5">Clothing</option>
-        </select>
+        <div className="select-container">
+
+          <select
+            name="category_id"
+            value={categoryId}
+            onChange={(e) => setCategoryId(e.target.value)}
+          >
+            <option value="0">Select a category</option>
+            <option value="1">Home & Living</option>
+            <option value="2">Accessories</option>
+            <option value="3">Crafting</option>
+            <option value="4">Jewelry</option>
+            <option value="5">Clothing</option>
+          </select>
+        </div>
         {errors.categoryId && <p className="error">{errors.categoryId}</p>}
       </div>
       <div>

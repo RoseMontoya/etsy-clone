@@ -2,8 +2,11 @@
 .product_manage_header {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  padding: 20px 0px;
+  justify-content: space-between;
+  margin: 20px 50px;
+  padding-bottom: 1em;
+  border-bottom: 1px solid #e8e2e2;
+
 }
 
 .product_manage_header a {
@@ -14,7 +17,7 @@
   text-decoration: none;
   font-weight: bold;
   transition: background-color 0.3s ease;
-  margin-right: 50px;
+  /* margin-right: 50px; */
 }
 
 .product_manage_header a:hover {
@@ -32,30 +35,49 @@
 
 .grid-item-detail {
   margin: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: .25em;
 }
 
 /* Settings Icon and Dropdown */
+#man-prod-grid-item {
+  min-height: 23em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.man-prod-options {
+  /* padding: 10px 20px; */
+  border-top: 1px solid #e8e2e2;
+  display: flex;
+  justify-content: end;
+}
+
 .drop_down_setting {
-  font-size: 24px;
-  color: #666;
   cursor: pointer;
-  border-radius: 50%;
-  display: inline-block;
-  position: absolute;
-  bottom: 48px;
-  right: 18px;
+  padding: .5em;
+  display: flex;
+  align-items: center;
+}
+
+.drop_down_setting * {
+  width: 1.25em;
+  height: 1.25em;
+}
+
+.drop_down_setting:hover  {
+  background-color: #f5f5f5;
+  border-bottom-right-radius: 16px;
 }
 
 .drop_down_container {
   display: flex;
   justify-content: space-between;
-  border-radius: 16px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  right: 0;
-  z-index: 1;
+  border-bottom-left-radius: 16px;
+  width: 100%;
 }
 
 .drop_down_item {
@@ -69,6 +91,7 @@
 .drop_down_item:hover {
   background-color: #f5f5f5;
 }
+
 
 /* Responsive Design */
 @media (max-width: 768px) {

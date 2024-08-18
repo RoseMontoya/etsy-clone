@@ -81,7 +81,7 @@ function ProductManage() {
       <div className="product_manage_header">
         <div className="favorite_profile">
           <img src={user.profile_url} alt={user.username} />
-          <p>{user.first_name}&apos;s Listings</p>
+          <h2>{user.first_name}&apos;s Listings</h2>
         </div>
         <div>
           <Link to="/products/new">Add new product</Link>
@@ -89,27 +89,19 @@ function ProductManage() {
       </div>
       <div className="grid_container">
         {products?.map((product) => (
-          <div key={product.id} className="grid-item">
+          <div key={product.id} className="grid-item" id="man-prod-grid-item">
             <Link to={`/products/${product.id}`}>
             <div className="image_container">
               <img src={product.preview_image} alt={product.title} />
             </div>
             <div className="grid-item-detail">
-              <p>{product.title}</p>
+              <p className="title">{product.title}</p>
               <p>{product.inventory} in stock</p>
-              <p className="grid_price">${parseInt(product.price).toFixed(2)}</p>
+              <p className="grid_price price">${parseInt(product.price).toFixed(2)}</p>
             </div>
-
-
             </Link>
-            <div>
-              <p
-                className="drop_down_setting"
-                ref={buttonRef}
-                onClick={(e) => toggleMenu(e, product.id)}
-              >
-                <IoSettingsOutline />
-              </p>
+
+            <div className="man-prod-options">
               {showDropDownId === product.id && (
                 <div className="drop_down_container">
                   <p className="drop_down_item">
@@ -123,6 +115,13 @@ function ProductManage() {
                   </p>
                 </div>
               )}
+              <p
+                className="drop_down_setting"
+                ref={buttonRef}
+                onClick={(e) => toggleMenu(e, product.id)}
+              >
+                <IoSettingsOutline />
+              </p>
             </div>
           </div>
         ))}

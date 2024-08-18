@@ -31,6 +31,28 @@
   font-size: 1em;
 }
 
+.product_form select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.select-container {
+  position: relative;
+  width: 100%;
+}
+
+/* Custom arrow */
+.select-container::after {
+  content: '▾';
+  /* font-size: 16px; Adjust font size as needed */
+  position: absolute;
+  right: 1em;
+  top: 40%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
 .product_form textarea {
   height: 200px;
   resize: vertical;
@@ -78,6 +100,14 @@
   color: red;
   text-align: left;
   font-style: italic;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
 }
 
 /* Responsive Design */
