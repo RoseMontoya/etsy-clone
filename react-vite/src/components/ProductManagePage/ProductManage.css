@@ -92,6 +92,25 @@
   background-color: #f5f5f5;
 }
 
+.product-manage-empty {
+  text-align: center;
+  margin-top: 200px;
+}
+
+.product-manage-empty *{
+  padding: 20px;
+}
+
+.empty-add button{
+  background-color: black;
+  color: white;
+  border: none;
+}
+
+.empty-add button:hover{
+  background-color: grey;
+}
+
 
 /* Responsive Design */
 @media (max-width: 768px) {

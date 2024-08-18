@@ -83,7 +83,6 @@ function Checkout() {
 
   return (
     <div className="cart-container">
-      <h1>Your Cart</h1>
       <div className="cart-summary">
         {cartArr.length === 1
           ? `${cartArr.length} item in your cart`
@@ -144,7 +143,6 @@ function Checkout() {
       </div>
       {/* Payment Form */}
       <div className="payment-container">
-      <h2>Payment Information</h2>
       <div className="payment-form">
         <div className="form-group">
           <label htmlFor="cardName">Name on Card</label>
@@ -215,9 +213,6 @@ function Checkout() {
           ) : null}
         </>
 
-        <Link to="/products" className="continue-shopping">
-          Continue Shopping
-        </Link>
       </div>
 
       </div>

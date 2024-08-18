@@ -63,10 +63,14 @@ function Cart() {
 
   if (cartArr.length === 0) {
     return (
-      <div className="empty-cart">
+      <main>
+        <div className="empty-cart">
         <h2>Your cart is empty</h2>
         <Link to="/products">Discover something unique to fill it up</Link>
       </div>
+
+      </main>
+      
     );
   }
 
@@ -88,11 +92,13 @@ function Cart() {
   return (
     <main>
     <div className="cart-container">
-      <h1>Your Cart</h1>
+      {/* <h1>Your Cart</h1> */}
       <div className="cart-summary">
-        {cartArr.length === 1
+        <p>
+          {cartArr.length === 1
           ? `${cartArr.length} item in your cart`
           : `${cartArr.length} items in your cart`}
+        </p> 
       </div>
 
       <ul className="cart-list">
@@ -119,7 +125,7 @@ function Cart() {
                   </p>
                   <p className="cart-item-price">${product.price.toFixed(2)}</p>
                   <div className="cart-item-quantity">
-                    <span>Quantity:</span>
+                    <span>Quantity</span>
                     <select
                       value={item.quantity}
                       onChange={(e) =>
@@ -151,31 +157,38 @@ function Cart() {
                   ).toFixed(2)}
                 </div>
                 <div className="cart-item-actions">
-                  <button
+                  <p
                     onClick={(e) => handleDelete(item.id, e)}
                     className="cart-item-remove"
                   >
                     Remove
-                  </button>
+                  </p>
                 </div>
               </div>
             </li>
           );
         })}
       </ul>
-      <div className="cart-footer clear-cart-container">
-        <button onClick={handleClearCart} className="clear-cart-button">
+      <div className="cart-footer">
+        <button onClick={handleClearCart}>
           Clear Cart
         </button>
         <span className="cart-total">Total: ${cartTotal(cartArr)}</span>
       </div>
       <div className="cart-footer">
-        <Link to="/checkout">
-          <button className="checkout-button">Proceed to Checkout</button>
+        <div>
+          <Link to="/products">
+          <button>Continue Shopping</button>
         </Link>
-        <Link to="/products" className="continue-shopping no-underline">
-          Continue Shopping
+        </div>
+        <div className="check-out-button">
+          <Link to="/checkout">
+          <button>Proceed to Checkout</button>
         </Link>
+        </div>
+        
+        
+        
       </div>
     </div>
     </main>

@@ -1,32 +1,35 @@
 .cart-container {
-  max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
+  padding: 40px;
 }
 
-h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-.cart-summary {
-  font-size: 18px;
-  margin-bottom: 20px;
-  text-align: center;
+.cart-summary p {
+  text-align: left;
 }
 
 .cart-list {
   list-style-type: none;
-  padding: 0;
 }
 
 .cart-item {
   display: flex;
-  justify-content: space-between; /* Align items to the left and right */
-  align-items: center; /* Vertically center the content */
+  color: black;
+  justify-content: space-between;
+  align-items: center;
   padding: 20px 0;
   border-bottom: 1px solid #eaeaea;
+}
+
+.cart-item-details * {
+  margin-bottom: 5px;
+}
+
+.cart-item-title {
+  font-size: 17px;
+  margin-bottom: 10px;
+  cursor: pointer; /* Ensure pointer cursor on title */
+  color: black; /* Make the title appear as a link */
+  text-decoration: none;
 }
 
 .cart-item-content {
@@ -35,8 +38,9 @@ h1 {
 }
 
 .cart-item-image {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 120px;
+  border-radius: 10px;
   object-fit: cover;
   margin-right: 20px;
   cursor: pointer;
@@ -46,44 +50,44 @@ h1 {
   flex: 1;
 }
 
-.cart-item-title {
-  font-size: 18px;
-  margin: 0;
-  cursor: pointer;
-  color: white;
-  text-decoration: none;
-}
-
 .cart-item-title:hover {
   text-decoration: underline;
 }
 
 .cart-item-seller {
-  font-size: 14px;
+  font-size: 13px;
   color: #777;
+}
+
+.cart-item-price {
+  font-size: 15px;
+  font-weight: bold;
 }
 
 .cart-item-price-remove {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 20px; /* Adjust the spacing between price and remove button */
+  gap: 13px;
 }
 
 .cart-item-price {
-  font-size: 16px;
+  font-size: 13px;
   font-weight: bold;
 }
 
 .cart-item-quantity {
   display: flex;
   align-items: center;
-  font-size: 14px;
-  margin-top: 10px; /* Adjust if needed to align better with the remove button */
+  font-size: 13px;
+}
+
+.cart-item-quantity span {
+  margin-right: 5px;
 }
 
 .cart-item-gift {
-  font-size: 14px;
+  font-size: 12px;
   color: #5a9;
 }
 
@@ -92,16 +96,14 @@ h1 {
 }
 
 .cart-item-remove {
-  background-color: #e00;
-  color: #fff;
-  border: none;
+  color: black;
+  font-size: 14px;
   padding: 5px 10px;
-  cursor: pointer;
-  border-radius: 5px;
 }
 
 .cart-item-remove:hover {
-  background-color: #c00;
+  background-color: lightgray;
+  border-radius: 20px;
 }
 
 .cart-footer {
@@ -109,28 +111,7 @@ h1 {
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
-  width: 100%; /* Ensure it takes up the full width */
-}
-
-.clear-cart-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%; /* Ensure it takes up the full width */
-}
-
-.clear-cart-button {
-  background-color: white;
-  color: #333;
-  border: 2px solid #333;
-  border-radius: 20px;
-  padding: 10px 20px;
-  cursor: pointer;
-  margin-right: auto;
-}
-
-.clear-cart-button:hover {
-  background-color: #f0f0f0;
+  width: 100%;
 }
 
 .cart-total {
@@ -140,74 +121,30 @@ h1 {
   margin-left: auto;
 }
 
-.checkout-button {
-  background-color: #f60;
-  color: #fff;
+.cart-footer button {
+  background-color: black;
   border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 20px;
-}
-
-.checkout-button:hover {
-  background-color: #e55;
-}
-
-.continue-shopping {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #ff6600;
   color: white;
-  text-decoration: none; /* This removes the underline */
-  border: 2px solid #ff6600;
-  border-radius: 40px;
-  font-size: 30px;
-  font-weight: bold;
-  text-align: center;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  width: 200px;
 }
 
-.continue-shopping:hover {
-  background-color: #e55;
-  color: white;
-  text-decoration: none; /* This ensures no underline appears on hover */
+.cart-footer button:hover {
+  background-color: grey;
 }
 
 .empty-cart {
   text-align: center;
-  margin: 25% auto;
+  margin: 200px auto;
 }
 
 .empty-cart * {
-  padding: 50px;
-}
-
-.empty-cart a {
-  color: #0073e6;
+  margin: 20px;
 }
 
 .empty-cart a:hover {
-  text-decoration: underline;
+  color: grey;
 }
 
-.shop-link {
-  display: inline-block;
-  margin-top: 10px;
-  color: white;
-  text-decoration: none;
-  font-size: 16px;
-}
-
-.shop-link:hover {
-  text-decoration: underline;
-}
-
-.no-underline {
-  text-decoration: none;
-}
-
-.no-underline:hover {
-  text-decoration: none;
+.check-out-button button{
+  background-color: orange;
 }

@@ -112,3 +112,8 @@
 .prod-list .grid-item:hover {
   box-shadow: none;
 }
+
+.center-in-page {
+  margin: 250px auto;
+  text-align: center;
+}

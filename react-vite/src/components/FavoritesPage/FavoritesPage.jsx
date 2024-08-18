@@ -48,7 +48,7 @@ function FavoritesPage() {
     <div className="product_manage_header">
       <div className="favorite_profile">
         <img src={user.profile_url} alt={user.username} />
-        <h2>{user.first_name}&apos;s Favorites</h2>
+        <h2>Your Favorites</h2>
       </div>
       </div>
       <div className="grid_container">
