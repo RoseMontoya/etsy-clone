@@ -16,7 +16,6 @@ def users():
     return [user.to_dict_seller() for user in users]
 
 @user_routes.route('/<int:id>/products')
-@login_required
 def get_user_products(id):
     products = Product.query.filter(Product.seller_id == id).all()
     print('PRODUCTS', products)

@@ -4,6 +4,7 @@ from ..models import db
 from ..forms import ReviewForm
 from flask_login import current_user, login_required
 from sqlalchemy import func
+# from sqlalchemy.exc import SQLAlchemyError
 
 
 reviews_routes = Blueprint("reviews", __name__)
@@ -15,13 +16,15 @@ def get_review(product_id):
         Review.product_id,
         func.sum(Review.stars).label("stars_total"),
         func.count(Review.id).label('review_count')
-    ).filter(Review.product_id == product_id).one()
+    ).filter(Review.product_id == product_id).group_by(Review.product_id).one()
 
-    return {
+    result = {
         "product_id": review.product_id,
         "stars_total": review.stars_total,
         "review_count": review.review_count
     }
+
+    return jsonify(result)
 
 
 @reviews_routes.route('/<int:review_id>', methods=['PUT'])
