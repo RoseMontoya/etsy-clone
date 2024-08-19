@@ -6,7 +6,7 @@ import SignupFormModal from "../SignupFormModal/SignupFormModal";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import "./LoginForm.css";
 
-function LoginFormModal() {
+function LoginFormModal({text}) {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -48,7 +48,9 @@ function LoginFormModal() {
   return (
     <>
       <div className="form-modal" >
+        {text && <p id="log-in-required">{text}</p>}
         <span className="inline" style={{ width: "100%" }}>
+
           <h2>Sign In</h2>
           <button className="cursor">
             <OpenModalMenuItem
