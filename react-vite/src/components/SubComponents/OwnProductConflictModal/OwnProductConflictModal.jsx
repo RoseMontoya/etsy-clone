@@ -1,29 +1,29 @@
+
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useModal } from "../../../context/Modal";
 import "./OwnProductConflictModal.css"; // Assuming you have modal CSS
 import { IoMdClose } from "react-icons/io";
 
 const OwnProductConflictModal = () => {
   const { closeModal } = useModal(); // Use context to handle modal closing
-  const [isLoading, setIsLoading] = useState(false); // Example for async handling
-  const navigate = useNavigate();
+  const [isLoading] = useState(false); // Example for async handling
+  // const navigate = useNavigate();
 
   const handleClose = () => {
     console.log("Close button clicked");
     closeModal(); // Close modal using context
   };
 
-  const handleRedirect = () => {
-    console.log("Redirect to product page");
-    setIsLoading(true);
-    // Simulate an async operation, like an API call, before navigating
-    setTimeout(() => {
-      setIsLoading(false);
-      navigate("/products"); // Redirect to products page
-      closeModal(); // Close the modal after redirecting
-    }, 500); // Simulate a short delay
-  };
+  // const handleRedirect = () => {
+  //   console.log("Redirect to product page");
+  //   setIsLoading(true);
+  //   // Simulate an async operation, like an API call, before navigating
+  //   setTimeout(() => {
+  //     setIsLoading(false);
+  //     navigate("/products"); // Redirect to products page
+  //     closeModal(); // Close the modal after redirecting
+  //   }, 500); // Simulate a short delay
+  // };
 
   return (
     <div className="modal-backdrop">

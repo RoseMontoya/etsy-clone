@@ -1,5 +1,4 @@
 import { IoMdClose } from "react-icons/io";
-import { useModal } from "../../context/Modal";
 
 const ConfirmDeleteModal = ({ onDelete, onClose }) => (
     <div className="confirm_deletion">

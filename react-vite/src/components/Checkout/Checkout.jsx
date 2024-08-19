@@ -183,7 +183,8 @@ function Checkout() {
             type="tel"
             inputMode="numeric"
             pattern="[0-9\s]{13,19}"
-            autoComplete="cc-number" maxlength="19"
+            autoComplete="cc-number"
+            maxLength="19"
             placeholder="xxxx xxxx xxxx xxxx"
             value={cardNumber}
             onChange={(e) => setCardNumber(e.target.value)}
@@ -211,7 +212,7 @@ function Checkout() {
             type="number"
             id="cardCvv"
             placeholder="xxx"
-            maxLength={4}
+            maxLength='4'
             value={cardCvv}
             onChange={(e) => setCardCvv(e.target.value)}
           />
