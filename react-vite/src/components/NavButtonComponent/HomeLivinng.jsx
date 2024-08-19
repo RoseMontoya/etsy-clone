@@ -102,7 +102,7 @@ if (products.length === 0) return (<main><div className="center-in-page"><h2>No 
                           sellerId={product.seller.id}
                         />
                       }
-                      modalComponent={<LoginFormModal />}
+                      modalComponent={<LoginFormModal text={'Before you do that...'} />}
                     />
                   )}
                   <Link key={product?.id} to={`/products/${product?.id}`}>
@@ -133,7 +133,7 @@ if (products.length === 0) return (<main><div className="center-in-page"><h2>No 
                     <OpenModalMenuItem
                       className="signed_off_button"
                       itemText="+ Add to cart"
-                      modalComponent={<LoginFormModal />}
+                      modalComponent={<LoginFormModal text={'Before you do that...'}/>}
                     />
                   )}
                 </div>

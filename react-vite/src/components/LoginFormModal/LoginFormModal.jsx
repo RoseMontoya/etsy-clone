@@ -4,9 +4,10 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import SignupFormModal from "../SignupFormModal/SignupFormModal";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
+import { IoMdClose } from "react-icons/io";
 import "./LoginForm.css";
 
-function LoginFormModal() {
+function LoginFormModal({text}) {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -48,7 +49,9 @@ function LoginFormModal() {
   return (
     <>
       <div className="form-modal" >
+        {text && <p id="log-in-required">{text}</p>}
         <span className="inline" style={{ width: "100%" }}>
+
           <h2>Sign In</h2>
           <button className="cursor">
             <OpenModalMenuItem
@@ -58,6 +61,10 @@ function LoginFormModal() {
             />
           </button>
         </span>
+        <button
+        className="close-modal-button"
+        onClick={() => closeModal()}
+        ><IoMdClose /></button>
         <form onSubmit={handleSubmit}>
           <div>
             <label>Email</label>

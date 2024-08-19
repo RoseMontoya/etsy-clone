@@ -1,7 +1,7 @@
 import "./Cart.css";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   getAllCartItems,
   deleteCartItem,
@@ -12,6 +12,7 @@ import { thunkAllProducts } from "../../redux/product";
 
 function Cart() {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const cartObj = useSelector((state) => state.cart?.cartItems);
   const allProducts = useSelector((state) => state.products?.allProducts);
 
@@ -71,7 +72,7 @@ function Cart() {
       </div>
 
       </main>
-      
+
     );
   }
 
@@ -99,7 +100,7 @@ function Cart() {
           {cartArr.length === 1
           ? `${cartArr.length} item in your cart`
           : `${cartArr.length} items in your cart`}
-        </p> 
+        </p>
       </div>
 
       <ul className="cart-list">
@@ -178,18 +179,16 @@ function Cart() {
       </div>
       <div className="cart-footer">
         <div>
-          <Link to="/products">
-          <button>Continue Shopping</button>
-        </Link>
+          <button onClick={() => navigate(-1)}>Continue Shopping</button>
         </div>
         <div className="check-out-button">
           <Link to="/checkout">
           <button>Proceed to Checkout</button>
         </Link>
         </div>
-        
-        
-        
+
+
+
       </div>
     </div>
     </main>

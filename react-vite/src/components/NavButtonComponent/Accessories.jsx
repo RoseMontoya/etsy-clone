@@ -103,7 +103,7 @@ function ProductList() {
                           sellerId={product.seller.id}
                         />
                       }
-                      modalComponent={<LoginFormModal />}
+                      modalComponent={<LoginFormModal text={'Before you do that...'}/>}
                     />
                   )}
                   <Link key={product?.id} to={`/products/${product?.id}`}>
@@ -134,7 +134,7 @@ function ProductList() {
                     <OpenModalMenuItem
                       className="signed_off_button"
                       itemText="+ Add to cart"
-                      modalComponent={<LoginFormModal />}
+                      modalComponent={<LoginFormModal text={'Before you do that...'}/>}
                     />
                   )}
                 </div>

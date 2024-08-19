@@ -5,6 +5,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 1.5em;
+  position: relative;
 }
 
 /* .register {
@@ -60,4 +61,34 @@ li {
   background-color: #ffe6e6;
   text-align: left; /* Keep text left-aligned even when there's an error */
   color: red;
+}
+
+#log-in-required {
+  font-size: 24px;
+  display: flex;
+  align-items: baseline;
+}
+
+.close-modal-button {
+  padding: 1em;
+  border-radius: 100%;
+  position: absolute;
+  right: -6.5em;
+  top: -3em;
+  background-color: transparent;
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+}
+
+.close-modal-button * {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.close-modal-button:hover {
+  background-color: #cccccc45;
+  padding: 1em;
+  border-radius: 100%;
 }

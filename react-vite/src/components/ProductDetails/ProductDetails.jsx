@@ -223,7 +223,7 @@ function ProductDetails() {
               ) : (
                 <OpenModalMenuItem
                   itemText={<Heart initial={false} productId={product.id} />}
-                  modalComponent={<LoginFormModal />}
+                  modalComponent={<LoginFormModal text={'Before you do that...'} />}
                 />
               )}
 
@@ -280,14 +280,14 @@ function ProductDetails() {
                 </button>
               ) : (
                 <OpenModalMenuItem
-                  className="signed_off_button"
-                  itemText="+ Add to cart"
-                  modalComponent={<LoginFormModal />}
+                  className=" black-button detail-add-cart bold"
+                  itemText="Add to cart"
+                  modalComponent={<LoginFormModal text={'Before you do that...'} />}
                 />
               )}
             </div>
             <div id="item-details">
-              <h3 style={{margin: '8px', fontSize: '1em'}}>Item Details</h3>
+              <h3 style={{ fontSize: '1em'}}>Item Details</h3>
               <p>{product?.description}</p>
             </div>
           </div>

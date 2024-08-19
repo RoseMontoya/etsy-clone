@@ -96,6 +96,11 @@ function Checkout() {
     return total.toFixed(2);
   };
 
+
+  const expDateFormatter = (expdate) =>expdate.replace(/\//g, "").substring(0, 2) +
+  (expdate.length > 2 ? '/' : '') +
+  expdate.replace(/\//g, "").substring(2, 4);
+
   return (
     <main>
     <div className="cart-container">
@@ -165,6 +170,7 @@ function Checkout() {
           <input
             type="text"
             id="cardName"
+            placeholder="Enter name on card"
             value={cardName}
             onChange={(e) => setCardName(e.target.value)}
           />
@@ -174,8 +180,12 @@ function Checkout() {
         <div className="form-group">
           <label htmlFor="cardNumber">Card Number</label>
           <input
-            type="number"
-            id="cardNumber"
+            type="tel"
+            inputMode="numeric"
+            pattern="[0-9\s]{13,19}"
+            autoComplete="cc-number"
+            maxLength="19"
+            placeholder="xxxx xxxx xxxx xxxx"
             value={cardNumber}
             onChange={(e) => setCardNumber(e.target.value)}
           />
@@ -184,12 +194,14 @@ function Checkout() {
         </div>
 
         <div className="form-group">
-          <label htmlFor="cardExpiration">Expiration Date (MM/YY)</label>
+          <label htmlFor="cardExpiration">Expiration Date</label>
           <input
             type="text"
             id="cardExpiration"
+            placeholder="MM/YY"
             value={cardExpiration}
             onChange={(e) => setCardExpiration(e.target.value)}
+            onBlur={(e) => {const formated = expDateFormatter(e.target.value); setCardExpiration(formated)}}
           />
           {errors.cardExpiration && <p className="error">{errors.cardExpiration}</p>}
         </div>
@@ -199,6 +211,8 @@ function Checkout() {
           <input
             type="number"
             id="cardCvv"
+            placeholder="xxx"
+            maxLength='4'
             value={cardCvv}
             onChange={(e) => setCardCvv(e.target.value)}
           />
