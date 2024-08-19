@@ -262,7 +262,7 @@ function ProductDetails() {
               ${product.price.toFixed(2)}
             </p>
             <p >{product?.title}</p>
-            <div className="rating">
+            <div>
               <p style={{fontSize: '14px'}}>{product.seller.username} </p>
               {product.seller.review_count > 0 ? (
                 <Stars rating={product.seller.seller_rating} />
