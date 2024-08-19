@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import SignupFormModal from "../SignupFormModal/SignupFormModal";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
+import { IoMdClose } from "react-icons/io";
 import "./LoginForm.css";
 
 function LoginFormModal({text}) {
@@ -60,6 +61,10 @@ function LoginFormModal({text}) {
             />
           </button>
         </span>
+        <button
+        className="close-modal-button"
+        onClick={() => closeModal()}
+        ><IoMdClose /></button>
         <form onSubmit={handleSubmit}>
           <div>
             <label>Email</label>

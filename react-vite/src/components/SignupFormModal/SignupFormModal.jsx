@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { thunkSignup } from "../../redux/session";
 import "./SignupForm.css";
+import { IoMdClose } from "react-icons/io";
 
 function SignupFormModal() {
   const dispatch = useDispatch();
@@ -34,31 +35,31 @@ function SignupFormModal() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const newErrors = {};
-  
+
     // Frontend validation
     if (username.length < 4) {
       newErrors.username = "Username must be at least 4 characters.";
     }
-  
+
     if (password.length < 6) {
       newErrors.password = "Password must be at least 6 characters.";
     }
-  
+
     if (password !== confirmPassword) {
       newErrors.confirmPassword =
         "Confirm Password field must be the same as the Password field.";
     }
-  
+
     if (!/\S+@\S+\.\S+/.test(email)) {
       newErrors.email = "Please enter a valid email address.";
     }
-  
+
     if (Object.keys(newErrors).length > 0) {
       return setErrors(newErrors);
     }
-  
+
     // Backend validation
     const serverResponse = await dispatch(
       thunkSignup({
@@ -69,20 +70,24 @@ function SignupFormModal() {
         last_name,
       })
     );
-  
+
     if (serverResponse) {
       setErrors(serverResponse);
     } else {
       closeModal();
     }
   };
-  
+
   return (
     <>
       <div className="form-modal">
         <span className="inline" style={{ width: "100%" }}>
           <h2>Create your account</h2>
         </span>
+        <button
+        className="close-modal-button"
+        onClick={() => closeModal()}
+        ><IoMdClose /></button>
         <span className="inline" style={{ width: "100%" }}>
           <h3>Registration is easy.</h3>
         </span>

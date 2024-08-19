@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useModal } from "../../../context/Modal";
 import "./OwnProductConflictModal.css"; // Assuming you have modal CSS
+import { IoMdClose } from "react-icons/io";
 
 const OwnProductConflictModal = () => {
   const { closeModal } = useModal(); // Use context to handle modal closing
@@ -27,6 +28,11 @@ const OwnProductConflictModal = () => {
   return (
     <div className="modal-backdrop">
       <div className="confirm_deletion">
+      <button
+        className="close-modal-button"
+        style={{top: '-1em', right: '-4em'}}
+        onClick={() => closeModal()}
+        ><IoMdClose /></button>
         <h2>Action Restricted</h2>
         <p>
         Unfortunately, you cannot add your own product.
@@ -36,9 +42,9 @@ const OwnProductConflictModal = () => {
             {/* {isLoading ? "Processing..." : "Close"} */}
             Close
           </button>
-          <button onClick={handleRedirect} disabled={isLoading} className="delete-no">
+          {/* <button onClick={handleRedirect} disabled={isLoading} className="delete-no">
             {isLoading ? "Redirecting..." : "Go to Products"}
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { createReview, editReview } from "../../redux/review";
 import Stars from "../SubComponents/Stars";
 import "./ReviewFormModal.css";
+import { IoMdClose } from "react-icons/io";
 
 function ReviewFormModal({ productId, formType, reviewId, sellerId }) {
   const dispatch = useDispatch();
@@ -54,6 +55,11 @@ function ReviewFormModal({ productId, formType, reviewId, sellerId }) {
   return (
     <>
       <div className="review-modal-container">
+        <button
+        className="close-modal-button"
+        style={{top: '0em', right: '0em', color: 'black'}}
+        onClick={() => closeModal()}
+        ><IoMdClose /></button>
         {formType === "create" ? (
           <h2>Leave a review:</h2>
         ) : (
