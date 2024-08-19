@@ -78,13 +78,12 @@
 #image-container {
   display: flex;
   /* align-items: center; */
-  width: 66%;
   gap: 0.5em;
   max-height: 30em;
   justify-content: space-between;
   position: relative;
-  /* align-items: center; */
-  /* border: 1px magenta solid; */
+  padding-bottom: 1em;
+  border-bottom: 1px solid #ddd
 }
 
 #image-sidebar {
@@ -152,6 +151,10 @@
   width: 0.75em;
 }
 
+#right-side-details {
+  width: 100%;
+}
+
 .post-review-click {
   display: inline-block;
   padding: 5px 10px;
@@ -204,7 +207,6 @@
 }
 
 #review-container {
-  width: 66%;
   padding: 1em;
   /* display: flex;
   flex-direction: column-reverse; */

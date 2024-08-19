@@ -31,13 +31,16 @@ def product_manage():
 # Get a random product
 @products_routes.route("/random")
 def get_random_product():
-    if not current_user.is_anonymous:
-        count = Product.query.filter(Product.seller_id != current_user.id).count()
-    else:
-        count = Product.query.count()
+    # if not current_user.is_anonymous:
+    #     count = Product.query.filter(Product.seller_id != current_user.id).count()
+    # else:
+    count = Product.query.count()
     randomKey = random.randint(1, count)
     product = Product.query.filter(Product.id == randomKey).first()
-    return product.to_dict()
+    return product.to_dict_combined()
+    # images = ProductImage.query.filter(ProductImage.product_id == product.id).all()
+    # productD["product_images"] = {image.id: image.to_dict() for image in images}
+    # return productD
 
 
 @products_routes.route('/preview-images')

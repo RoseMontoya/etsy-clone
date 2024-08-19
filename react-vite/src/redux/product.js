@@ -119,15 +119,14 @@ export const thunkAllProducts = () => async (dispatch) => {
   for (const response of responses) {
     console.log('Response',response)
     if (!response.ok) {
-      // Handle the error appropriately here
       console.error("Fetch failed:", response);
-      return response; // or handle the error in another way
+      return response;
     }
   }
 
   // Convert all responses to JSON
   const data = await Promise.all(responses.map((res) => res.json()));
-  // console.log("thedata", data);
+
 
   // Set up Seller details
   const sellers = {};
@@ -146,7 +145,6 @@ export const thunkAllProducts = () => async (dispatch) => {
     }
 
     if (review_stats[product.id]) {
-      // console.log("stat", review_stats[product.id].stars_total);
       if (stat_totals[product.seller_id]) {
         stat_totals[product.seller_id].stars_total +=
           review_stats[product.id].stars_total;
@@ -162,7 +160,7 @@ export const thunkAllProducts = () => async (dispatch) => {
   }
 
   for (const [id, seller] of Object.entries(sellers)) {
-    // console.log('seller', seller)
+
     if (stat_totals[id]) {
       seller["seller_rating"] = +(
         stat_totals[id].stars_total / stat_totals[id].review_count
@@ -180,21 +178,64 @@ export const thunkAllProducts = () => async (dispatch) => {
     }
   }
 
-  // console.log(data[0])
-  // console.timeEnd("allProducts");
   dispatch(getProducts(data[0]));
   return data[0]
 };
 
 export const thunkRandomProduct = () => async (dispatch) => {
-  const response = await fetch(`/api/products/random`);
+  // const response = await fetch(`/api/products/random`);
 
-  if (response.ok) {
-    const data = await response.json();
-    dispatch(getProductById(data));
-    return data;
+  // if (response.ok) {
+  //   const data = await response.json();
+  //   dispatch(getProductById(data));
+  //   return data;
+  // }
+  // return response;
+  const res = await fetch(`/api/products/random`);
+
+
+  const product = await res.json()
+  if (!res.ok) return product
+
+  const fetches = [
+    fetch(`/api/reviews/review-stats/${product.id}`),
+    fetch(`/api/products/${product.id}/images`),
+  ];
+
+  // Wait for all fetches to complete
+  const responses = await Promise.all(fetches);
+  console.log(responses);
+
+  // Check for any non-ok responses before proceeding
+  for (const response of responses) {
+    if (!response.ok) {
+      const data = await response.json()
+      console.error("Fetch failed:", data);
+      return data;
+    }
   }
-  return response;
+
+  // Convert all responses to JSON
+  const data = await Promise.all(responses.map((res) => res.json()));
+
+
+  product.product_images = data[1];
+  for (const image in data[1]) {
+    if (data[1][image].preview) {
+      product.preview_image = data[1][image].url;
+    }
+  }
+
+  product.seller = {
+    ...product.seller,
+    seller_rating: data[0].stars_total
+      ? +(data[0].stars_total / data[0].review_count).toFixed(0)
+      : "No Reviews",
+    review_count: data[0].review_count ? data[0].review_count : 0,
+  };
+
+  dispatch(getProductById(product));
+  return product
 };
 
 export const productById = (productId) => async (dispatch) => {
@@ -219,10 +260,9 @@ export const productById = (productId) => async (dispatch) => {
   // Check for any non-ok responses before proceeding
   for (const response of responses) {
     if (!response.ok) {
-      // Handle the error appropriately here
       const data = await response.json()
       console.error("Fetch failed:", data);
-      return data; // or handle the error in another way
+      return data;
     }
   }
 
@@ -246,9 +286,8 @@ export const productById = (productId) => async (dispatch) => {
     review_count: data[1].review_count ? data[1].review_count : 0,
   };
 
-  console.log(data[0]);
-  dispatch(getProductById(data[0]));
-  return data[0]
+  dispatch(getProductById(product));
+  return product
 };
 
 // Get products owned by current user

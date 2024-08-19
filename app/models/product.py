@@ -60,7 +60,7 @@ class Product(db.Model):
             "inventory": self.inventory,
             "price": self.price,
             "category_id": self.category_id,
-            "seller": self.seller.to_dict_seller(),
+            "seller": self.seller.to_dict_with_stats(),
             "preview_image": preview_image_url,
         }
 

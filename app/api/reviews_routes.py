@@ -16,7 +16,12 @@ def get_review(product_id):
         Review.product_id,
         func.sum(Review.stars).label("stars_total"),
         func.count(Review.id).label('review_count')
-    ).filter(Review.product_id == product_id).group_by(Review.product_id).one()
+    ).filter(Review.product_id == product_id).group_by(Review.product_id).first()
+
+    if not review:
+        return {"stars_total": 0,
+        "review_count": 0}
+
 
     result = {
         "product_id": review.product_id,

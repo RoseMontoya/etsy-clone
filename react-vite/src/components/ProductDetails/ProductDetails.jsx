@@ -190,47 +190,68 @@ function ProductDetails() {
   return (
     <main>
       <div id="product-details">
+<div id='right-side-details'>
 
-        <div id="image-container">
+          <div id="image-container">
 
-          <div id="image-sidebar">
-            {images.map((image, index) => (
-              <div
-                className={`small-image light-hover ${index === mainImgId? "selected" : "not-selected"}`}
-                key={image.id}
-                onClick={() => imageSelect(image)}
-              >
-                <img className="image" src={image.url} alt={image.id} />
-              </div>
-            ))}
-          </div>
-
-          <div className="main-image">
-            <button className={`circ than ${images.length === 1? "hidden" : ""}`} id="less" onClick={() => backClick()}>
-              <FaLessThan />
-            </button>
-            <div id="mainImg-container">
-              <img src={mainImage} className="image" />
+            <div id="image-sidebar">
+              {images.map((image, index) => (
+                <div
+                  className={`small-image light-hover ${index === mainImgId? "selected" : "not-selected"}`}
+                  key={image.id}
+                  onClick={() => imageSelect(image)}
+                >
+                  <img className="image" src={image.url} alt={image.id} />
+                </div>
+              ))}
             </div>
 
-            {user ? (
-              <Heart
-                initial={favProduct.length}
-                productId={productId}
+            <div className="main-image">
+              <button className={`circ than ${images.length === 1? "hidden" : ""}`} id="less" onClick={() => backClick()}>
+                <FaLessThan />
+              </button>
+              <div id="mainImg-container">
+                <img src={mainImage} className="image" />
+              </div>
+
+              {user ? (
+                <Heart
+                  initial={favProduct.length}
+                  productId={productId}
+                  sellerId={product.seller.id}
+                />
+              ) : (
+                <OpenModalMenuItem
+                  itemText={<Heart initial={false} productId={product.id} />}
+                  modalComponent={<LoginFormModal />}
+                />
+              )}
+
+              <button id="greater" className={`circ than ${images.length === 1? "hidden" : ""}`} onClick={forwardClick}>
+                <FaGreaterThan />
+              </button>
+            </div>
+          </div>
+
+          <div id="review-container">
+          <OpenModalMenuItem
+            className={`${showReview() ? "post-review-click" : "hidden"}`}
+            itemText={`${
+              reviews.length
+                ? "Post Your Review!"
+                : "Be the first to leave a review!"
+            }`}
+            modalComponent={
+              <ReviewFormModal
+                productId={product.id}
+                formType={"create"}
                 sellerId={product.seller.id}
               />
-            ) : (
-              <OpenModalMenuItem
-                itemText={<Heart initial={false} productId={product.id} />}
-                modalComponent={<LoginFormModal />}
-              />
-            )}
-
-            <button id="greater" className={`circ than ${images.length === 1? "hidden" : ""}`} onClick={forwardClick}>
-              <FaGreaterThan />
-            </button>
-          </div>
+            }
+          />
+          <ProductReviews productId={productId} sellerId={product.seller.id} />
         </div>
+</div>
 
         <div id="details">
           <div>
@@ -273,24 +294,6 @@ function ProductDetails() {
         </div>
       </div>
 
-      <div id="review-container">
-        <OpenModalMenuItem
-          className={`${showReview() ? "post-review-click" : "hidden"}`}
-          itemText={`${
-            reviews.length
-              ? "Post Your Review!"
-              : "Be the first to leave a review!"
-          }`}
-          modalComponent={
-            <ReviewFormModal
-              productId={product.id}
-              formType={"create"}
-              sellerId={product.seller.id}
-            />
-          }
-        />
-        <ProductReviews productId={productId} sellerId={product.seller.id} />
-      </div>
     </main>
   );
 }
