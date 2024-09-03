@@ -10,9 +10,6 @@ function Navigation() {
   const cartObj = useSelector((state) => state.cart?.cartItems);
   const cartArr = cartObj ? Object.values(cartObj) : [];
 
-  // Total quantity of items in the cart (optional)
-  // const cartItemCount = cartArr.reduce((total, item) => total + item.quantity, 0);
-
   return (
     <nav>
       <div className="nav_container">

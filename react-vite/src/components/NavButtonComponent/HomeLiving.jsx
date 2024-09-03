@@ -143,8 +143,6 @@ if (products.length === 0) return (<main><div className="center-in-page"><h2>No 
           <h2>No products for sell. Please check back later.</h2>
         )}
       </div>
-      {/* <div id="add_fav" style={{display: 'none'}} ><p>Saved to Favorites</p></div>
-        <div id="remove_fav" style={{display: 'none'}} ><p>Removed from Favorites</p></div> */}
     </main>
   );
 }

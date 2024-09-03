@@ -84,18 +84,19 @@ function SignupFormModal() {
         <span className="inline" style={{ width: "100%" }}>
           <h2>Create your account</h2>
         </span>
-        <button
-        className="close-modal-button"
-        onClick={() => closeModal()}
-        ><IoMdClose /></button>
+        <button className="close-modal-button" onClick={() => closeModal()}>
+          <IoMdClose />
+        </button>
         <span className="inline" style={{ width: "100%" }}>
           <h3>Registration is easy.</h3>
         </span>
         {errors.server && <p>{errors.server}</p>}
         <form onSubmit={handleSubmit}>
           <div>
-          <label>
-              <div><span>First Name</span> <span className="required">*</span></div>
+            <label>
+              <div>
+                <span>First Name</span> <span className="required">*</span>
+              </div>
               <input
                 type="text"
                 value={first_name}
@@ -106,7 +107,9 @@ function SignupFormModal() {
             </label>
             {errors.firstName && <p className="error">{errors.firstName}</p>}
             <label>
-            <div><span>Last Name</span> <span className="required">*</span></div>
+              <div>
+                <span>Last Name</span> <span className="required">*</span>
+              </div>
               <input
                 type="text"
                 value={last_name}
@@ -117,7 +120,9 @@ function SignupFormModal() {
             </label>
             {errors.lastName && <p className="error">{errors.lastName}</p>}
             <label>
-            <div><span>Email</span> <span className="required">*</span></div>
+              <div>
+                <span>Email</span> <span className="required">*</span>
+              </div>
               <input
                 type="text"
                 value={email}
@@ -131,7 +136,9 @@ function SignupFormModal() {
           {errors.email && <p className="error">{errors.email}</p>}
           <div>
             <label>
-            <div><span>Username</span> <span className="required">*</span></div>
+              <div>
+                <span>Username</span> <span className="required">*</span>
+              </div>
               <input
                 type="text"
                 value={username}
@@ -145,7 +152,9 @@ function SignupFormModal() {
           {errors.username && <p className="error">{errors.username}</p>}
           <div>
             <label>
-            <div><span>Password</span> <span className="required">*</span></div>
+              <div>
+                <span>Password</span> <span className="required">*</span>
+              </div>
               <input
                 type="password"
                 value={password}
@@ -159,7 +168,10 @@ function SignupFormModal() {
           <div></div>
           <div>
             <label>
-            <div><span>Confirm Password</span> <span className="required">*</span></div>
+              <div>
+                <span>Confirm Password</span>{" "}
+                <span className="required">*</span>
+              </div>
               <input
                 type="password"
                 value={confirmPassword}
@@ -169,13 +181,18 @@ function SignupFormModal() {
               />
             </label>
           </div>
-          {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
+          {errors.confirmPassword && (
+            <p className="error">{errors.confirmPassword}</p>
+          )}
           <div></div>
           <button
             type="submit"
-            className={`cursor ${allFieldsFilled ? "black-button" : "disabled-button"}`}
+            className={`cursor ${
+              allFieldsFilled ? "black-button" : "disabled-button"
+            }`}
             disabled={!allFieldsFilled}
-          >Register
+          >
+            Register
           </button>
         </form>
       </div>

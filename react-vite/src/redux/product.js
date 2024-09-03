@@ -84,27 +84,6 @@ export const reviewChange = (userId) => async (dispatch) => {
 };
 
 export const thunkAllProducts = () => async (dispatch) => {
-  // console.time('allProducts')
-  // const fetches = [fetch("/api/products/"), fetch("/api/users/"), fetch('/api/reviews'), fetch('/api/products/preview-images')];
-  // const responses = await Promise.all(fetches)
-  // // const response = await fetch('/api/reviews')
-
-  // // console.log('response', response)
-  // for (const response of responses) {
-  //   console.log(response.json())
-  //   if (!response.ok) {
-  //     console.error("Fetch failed:", response);
-  //     return response
-  //   }
-  // }
-
-  //   // const json = responses.map(res => res.json())
-
-  //   // const data = await Promise.all(responses.map(res => res.json()))
-  //   const data = await Promise.all(responses.map(res => res.json()));
-  //   console.log('data', data)
-  //   dispatch(getProducts(data));
-  // console.time("allProducts");
   const fetches = [
     fetch("/api/products/"),
     fetch("/api/users/"),
@@ -117,7 +96,6 @@ export const thunkAllProducts = () => async (dispatch) => {
 
   // Check for any non-ok responses before proceeding
   for (const response of responses) {
-    console.log('Response',response)
     if (!response.ok) {
       console.error("Fetch failed:", response);
       return response;
@@ -126,7 +104,6 @@ export const thunkAllProducts = () => async (dispatch) => {
 
   // Convert all responses to JSON
   const data = await Promise.all(responses.map((res) => res.json()));
-
 
   // Set up Seller details
   const sellers = {};
@@ -160,7 +137,6 @@ export const thunkAllProducts = () => async (dispatch) => {
   }
 
   for (const [id, seller] of Object.entries(sellers)) {
-
     if (stat_totals[id]) {
       seller["seller_rating"] = +(
         stat_totals[id].stars_total / stat_totals[id].review_count
@@ -179,23 +155,14 @@ export const thunkAllProducts = () => async (dispatch) => {
   }
 
   dispatch(getProducts(data[0]));
-  return data[0]
+  return data[0];
 };
 
 export const thunkRandomProduct = () => async (dispatch) => {
-  // const response = await fetch(`/api/products/random`);
-
-  // if (response.ok) {
-  //   const data = await response.json();
-  //   dispatch(getProductById(data));
-  //   return data;
-  // }
-  // return response;
   const res = await fetch(`/api/products/random`);
 
-
-  const product = await res.json()
-  if (!res.ok) return product
+  const product = await res.json();
+  if (!res.ok) return product;
 
   const fetches = [
     fetch(`/api/reviews/review-stats/${product.id}`),
@@ -204,12 +171,12 @@ export const thunkRandomProduct = () => async (dispatch) => {
 
   // Wait for all fetches to complete
   const responses = await Promise.all(fetches);
-  console.log(responses);
+
 
   // Check for any non-ok responses before proceeding
   for (const response of responses) {
     if (!response.ok) {
-      const data = await response.json()
+      const data = await response.json();
       console.error("Fetch failed:", data);
       return data;
     }
@@ -217,7 +184,6 @@ export const thunkRandomProduct = () => async (dispatch) => {
 
   // Convert all responses to JSON
   const data = await Promise.all(responses.map((res) => res.json()));
-
 
   product.product_images = data[1];
   for (const image in data[1]) {
@@ -235,18 +201,10 @@ export const thunkRandomProduct = () => async (dispatch) => {
   };
 
   dispatch(getProductById(product));
-  return product
+  return product;
 };
 
 export const productById = (productId) => async (dispatch) => {
-  // const response = await fetch(`/api/products/${productId}`);
-  // const data = await response.json();
-  // if (response.ok) {
-  //   dispatch(getProductById(data));
-  //   return data;
-  // }
-  // return data;
-
   const fetches = [
     fetch(`/api/products/${productId}`),
     fetch(`/api/reviews/review-stats/${productId}`),
@@ -255,12 +213,11 @@ export const productById = (productId) => async (dispatch) => {
 
   // Wait for all fetches to complete
   const responses = await Promise.all(fetches);
-  console.log(responses);
 
   // Check for any non-ok responses before proceeding
   for (const response of responses) {
     if (!response.ok) {
-      const data = await response.json()
+      const data = await response.json();
       console.error("Fetch failed:", data);
       return data;
     }
@@ -268,7 +225,6 @@ export const productById = (productId) => async (dispatch) => {
 
   // Convert all responses to JSON
   const data = await Promise.all(responses.map((res) => res.json()));
-  // console.log("thedata", data);
   const product = data[0];
 
   product.product_images = data[2];
@@ -287,7 +243,7 @@ export const productById = (productId) => async (dispatch) => {
   };
 
   dispatch(getProductById(product));
-  return product
+  return product;
 };
 
 // Get products owned by current user
@@ -408,7 +364,6 @@ export const deleteProductImage = (image) => async (dispatch) => {
 
 // Update inventory thunk
 export const updateInventory = () => async (dispatch) => {
-  console.log('inside thunk for update inv')
   const response = await fetch(`/api/products/successful-transaction`, {
     method: "PUT",
   });
@@ -416,16 +371,13 @@ export const updateInventory = () => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     data.products.forEach((item) => {
-      console.log('before updateProduct', item)
       dispatch(updateProduct(item));
     });
     data.deleted_products.forEach((item) => {
-      console.log('before removeProduct', item)
       dispatch(removeProduct(item.id));
     });
     return data;
   }
-  console.log("response is thunk",response)
   return response;
 };
 
@@ -458,7 +410,6 @@ function productReducer(state = initialState, action) {
     case CREATE_PRODUCT: {
       const prodId = action.payload.id;
       const newState = {};
-      // let newAllProducts;
       if (state.allProducts) {
         const newAllProducts = {
           ...state.allProducts,
@@ -467,7 +418,6 @@ function productReducer(state = initialState, action) {
         newState["allProducts"] = newAllProducts;
       }
 
-      // let newProductById;
       if (state.productById[prodId]) {
         const newProductById = {
           ...state.productById,
@@ -476,7 +426,6 @@ function productReducer(state = initialState, action) {
         newState["productById"] = newProductById;
       }
 
-      // let newProductCurrent;
       if (state.productsCurrent) {
         const newProductsCurrent = {
           ...state.productsCurrent,
@@ -493,8 +442,6 @@ function productReducer(state = initialState, action) {
 
       // Update allProducts
       if (state.allProducts) {
-        console.log("allproducts",state.allProducts)
-        console.log('prodId',state.allProducts[prodId])
         const newAllProducts = {
           ...state.allProducts,
           [prodId]: {
@@ -508,7 +455,7 @@ function productReducer(state = initialState, action) {
         };
         newState["allProducts"] = newAllProducts;
       }
-      // Updating productById;
+      // Update productById
       if (state.productById[prodId]) {
         const newProductById = {
           ...state.productById,
@@ -525,10 +472,8 @@ function productReducer(state = initialState, action) {
         newState["productById"] = newProductById;
       }
 
-      // Update productsCurrent;
+      // Update productsCurrent
       if (state.productsCurrent[prodId]) {
-        console.log("productsCurrent",state.productsCurrent)
-        console.log('prodId',state.productsCurrent[prodId])
         const newProductsCurrent = {
           ...state.productsCurrent,
           [prodId]: {
@@ -705,10 +650,8 @@ function productReducer(state = initialState, action) {
     case CLEAR_CURRENT: {
       const newState = { ...state };
       delete newState.productsCurrent;
-      console.log('current', newState)
       return newState;
     }
-    // }
     default:
       return state;
   }

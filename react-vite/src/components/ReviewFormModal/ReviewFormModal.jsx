@@ -1,8 +1,6 @@
 import { useModal } from "../../context/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-// import { TiStarOutline } from "react-icons/ti";
-// import { TiStarFullOutline } from "react-icons/ti";
 import { createReview, editReview } from "../../redux/review";
 import Stars from "../SubComponents/Stars";
 import "./ReviewFormModal.css";
@@ -15,8 +13,6 @@ function ReviewFormModal({ productId, formType, reviewId, sellerId }) {
   const [recommendation, setRecommendation] = useState(false);
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
-
-  // if (rating < 3) setRecommendation(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,17 +45,19 @@ function ReviewFormModal({ productId, formType, reviewId, sellerId }) {
       setReview(prevRev.review);
       setRecommendation(prevRev.recommendation);
     }
-    if (rating < 3 && recommendation) setRecommendation(false)
+    if (rating < 3 && recommendation) setRecommendation(false);
   }, [formType, prevRev, rating, recommendation]);
 
   return (
     <>
       <div className="review-modal-container">
         <button
-        className="close-modal-button"
-        style={{top: '0em', right: '0em', color: 'black'}}
-        onClick={() => closeModal()}
-        ><IoMdClose /></button>
+          className="close-modal-button"
+          style={{ top: "0em", right: "0em", color: "black" }}
+          onClick={() => closeModal()}
+        >
+          <IoMdClose />
+        </button>
         {formType === "create" ? (
           <h2>Leave a review:</h2>
         ) : (
@@ -74,9 +72,7 @@ function ReviewFormModal({ productId, formType, reviewId, sellerId }) {
           <div>
             <div id="stars">
               <Stars rating={rating} onClick={setRating} />
-              <p style={{ fontWeight: "700"}}>
-                Stars
-              </p>
+              <p style={{ fontWeight: "700" }}>Stars</p>
             </div>
 
             {rating < 1 && (
@@ -104,9 +100,7 @@ function ReviewFormModal({ productId, formType, reviewId, sellerId }) {
                 <input
                   type="checkbox"
                   checked={recommendation}
-                  // value={recommendation}
                   onChange={(e) => {
-                    // e.target.value === "false" ? setRecommendation(false) : setRecommendation(true)
                     setRecommendation(e.target.checked);
                   }}
                 />

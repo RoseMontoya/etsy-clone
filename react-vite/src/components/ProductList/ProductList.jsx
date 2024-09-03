@@ -52,7 +52,14 @@ function ProductList() {
       </main>
     );
 
-  if (products.length === 0) return (<main><div className="center-in-page"><h2>No products for sell. Please check back later.</h2></div></main>)
+  if (products.length === 0)
+    return (
+      <main>
+        <div className="center-in-page">
+          <h2>No products for sell. Please check back later.</h2>
+        </div>
+      </main>
+    );
 
   const handleAddToCart = (product) => {
     if (!user) {
@@ -67,7 +74,7 @@ function ProductList() {
       cart_id: user.cart_id,
       product: product, // The entire product object
     };
-    // console.log("how does the cartItem looks like ", cartItem);
+
     if (user.id === cartItem.product.seller.id) {
       setModalContent(<OwnProductConflictModal />);
       return;
@@ -103,7 +110,9 @@ function ProductList() {
                           sellerId={product.seller.id}
                         />
                       }
-                      modalComponent={<LoginFormModal text={'Before you do that...'}/>}
+                      modalComponent={
+                        <LoginFormModal text={"Before you do that..."} />
+                      }
                     />
                   )}
                   <Link key={product?.id} to={`/products/${product?.id}`}>
@@ -141,7 +150,9 @@ function ProductList() {
                     <OpenModalMenuItem
                       className="signed_off_button"
                       itemText="+ Add to cart"
-                      modalComponent={<LoginFormModal text={'Before you do that...'} />}
+                      modalComponent={
+                        <LoginFormModal text={"Before you do that..."} />
+                      }
                     />
                   )}
                 </div>
@@ -151,8 +162,6 @@ function ProductList() {
           <h2>No products for sell. Please check back later.</h2>
         )}
       </div>
-      {/* <div id="add_fav" style={{display: 'none'}} ><p>Saved to Favorites</p></div>
-        <div id="remove_fav" style={{display: 'none'}} ><p>Removed from Favorites</p></div> */}
     </main>
   );
 }

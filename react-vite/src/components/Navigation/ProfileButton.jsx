@@ -1,11 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-// import { FaUserCircle } from "react-icons/fa";
 import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
-// import SignupFormModal from "../SignupFormModal";
 import { getAllCartItems } from "../../redux/cart";
 import "./ProfileButton.css";
 
@@ -52,7 +50,10 @@ function ProfileButton() {
 
   return (
     <>
-      <button onClick={toggleMenu} className="hiddenButton grey-hover profile-container">
+      <button
+        onClick={toggleMenu}
+        className="hiddenButton grey-hover profile-container"
+      >
         {user ? (
           <>
             <img
@@ -60,7 +61,6 @@ function ProfileButton() {
               alt="Profile_URL"
               className="profileIcon"
             />
-            {/* <div className="tooltip">Your account</div> */}
           </>
         ) : (
           <OpenModalMenuItem
@@ -77,29 +77,20 @@ function ProfileButton() {
               <li className="unclikable">{user.username}</li>
               <li className="unclikable">{user.email}</li>
               <li className="hover-effect">
-                <Link to="/products/current" onClick={closeMenu}>Manage Products</Link>
+                <Link to="/products/current" onClick={closeMenu}>
+                  Manage Products
+                </Link>
               </li>
               <li className="hover-effect">
-                <Link to="/favorites" onClick={closeMenu}>Your Favorites</Link>
+                <Link to="/favorites" onClick={closeMenu}>
+                  Your Favorites
+                </Link>
               </li>
               <li>
                 <button onClick={logout}>Log Out</button>
               </li>
             </div>
-          ) : (
-            <>
-              {/* <OpenModalMenuItem
-                itemText="Sign in"
-                onItemClick={closeMenu}
-                modalComponent={<LoginFormModal />}
-              /> */}
-              {/* <OpenModalMenuItem
-                itemText="Sign Up"
-                onItemClick={closeMenu}
-                modalComponent={<SignupFormModal />} */}
-              {/* /> */}
-            </>
-          )}
+          ) : null}
         </ul>
       )}
     </>

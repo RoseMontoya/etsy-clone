@@ -22,21 +22,23 @@ function LandingPage() {
   }, [dispatch, randomProduct]);
 
   if (!randomProduct) {
-    return (<main>
-      <div className="center-loading">
-            <div className="lds-roller">
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
-            <p>Loading...</p>
-            </div>
-        </main>)
+    return (
+      <main>
+        <div className="center-loading">
+          <div className="lds-roller">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <p>Loading...</p>
+        </div>
+      </main>
+    );
   }
 
   return (
@@ -81,11 +83,6 @@ function LandingPage() {
               />
             </div>
           </div>
-
-          {/* <p>
-            Fall in love with original finds from standout small shops around
-            the world.
-          </p> */}
         </div>
       )}
     </div>

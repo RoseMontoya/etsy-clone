@@ -28,21 +28,24 @@ function FavoritesPage() {
 
   if (!user) return <Navigate to="/" replace={true} />;
 
-  if (!favorites) return (<main>
-  <div className="center-loading">
-        <div className="lds-roller">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+  if (!favorites)
+    return (
+      <main>
+        <div className="center-loading">
+          <div className="lds-roller">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <p>Loading...</p>
         </div>
-        <p>Loading...</p>
-        </div>
-    </main>);
+      </main>
+    );
 
   const handleAddToCart = (product) => {
     const cartItem = {
@@ -61,11 +64,11 @@ function FavoritesPage() {
 
   return (
     <main>
-    <div className="product_manage_header">
-      <div className="favorite_profile">
-        <img src={user.profile_url} alt={user.username} />
-        <h2>Your Favorites</h2>
-      </div>
+      <div className="product_manage_header">
+        <div className="favorite_profile">
+          <img src={user.profile_url} alt={user.username} />
+          <h2>Your Favorites</h2>
+        </div>
       </div>
       <div className="grid_container">
         {favoritesArray.length && allProducts ? (
@@ -82,19 +85,28 @@ function FavoritesPage() {
                     />
                   </div>
                   <div className="grid-item-detail">
-                    <div className='upper-fav-details'>
+                    <div className="upper-fav-details">
                       <p className="title">
                         {allProducts[favorite.product_id].title}
                       </p>
                       <div className="rating">
-                        <p className="bold" style={{fontSize: '14px'}}>{allProducts[favorite.product_id].seller.seller_rating}</p>
+                        <p className="bold" style={{ fontSize: "14px" }}>
+                          {
+                            allProducts[favorite.product_id].seller
+                              .seller_rating
+                          }
+                        </p>
                         <TiStarFullOutline />
                         <span className="count">
-                          ({allProducts[favorite.product_id].seller.review_count})
+                          (
+                          {allProducts[favorite.product_id].seller.review_count}
+                          )
                         </span>
                       </div>
                     </div>
-                    <p className="bold" style={{fontSize: '20px'}}>${allProducts[favorite.product_id].price.toFixed(2)}</p>
+                    <p className="bold" style={{ fontSize: "20px" }}>
+                      ${allProducts[favorite.product_id].price.toFixed(2)}
+                    </p>
                   </div>
                 </Link>
                 <button

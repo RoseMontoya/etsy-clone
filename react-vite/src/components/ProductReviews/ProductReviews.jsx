@@ -3,26 +3,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteReview, getAllReviews } from "../../redux/review";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import ReviewFormModal from "../ReviewFormModal";
-import './ProductReview.css'
-import { useModal } from '../../context/Modal';
+import "./ProductReview.css";
+import { useModal } from "../../context/Modal";
 import DeleteReview from "../DeleteReviewModal";
-import Stars from '../SubComponents/Stars'
+import Stars from "../SubComponents/Stars";
 import { FaCheck } from "react-icons/fa";
 
 function formatDate(dateString) {
   const date = new Date(dateString);
-  const options = { year: 'numeric', month: 'short', day: 'numeric' };
-  return date.toLocaleDateString('en-US', options);
+  const options = { year: "numeric", month: "short", day: "numeric" };
+  return date.toLocaleDateString("en-US", options);
 }
 
 function ProductReviews({ productId, sellerId }) {
   const dispatch = useDispatch();
-  const { closeModal, setModalContent } = useModal()
+  const { closeModal, setModalContent } = useModal();
 
   const reviewsObj = useSelector(
     (state) => state.reviews.reviewsByProdId?.[productId]
   );
-  const user = useSelector(state => state.session.user?.username)
+  const user = useSelector((state) => state.session.user?.username);
 
   const reviews = reviewsObj ? Object.values(reviewsObj) : [];
 
@@ -35,24 +35,29 @@ function ProductReviews({ productId, sellerId }) {
   if (!reviewsObj) return <h2>Loading...</h2>;
 
   const handleDelete = (reviewId) => {
-     setModalContent(<DeleteReview onDelete={() => deleteConfirm(reviewId, productId)} onClose={() => closeModal()}/>)
-  }
+    setModalContent(
+      <DeleteReview
+        onDelete={() => deleteConfirm(reviewId, productId)}
+        onClose={() => closeModal()}
+      />
+    );
+  };
 
   const deleteConfirm = async (reviewId, productId) => {
-    await dispatch(deleteReview(reviewId, productId, sellerId))
-    closeModal()
-  }
+    await dispatch(deleteReview(reviewId, productId, sellerId));
+    closeModal();
+  };
 
   return (
-    <div style={{ display: "flex",
-      flexDirection: "column-reverse"}}>
+    <div style={{ display: "flex", flexDirection: "column-reverse" }}>
       {reviews.map((review) => (
         <div key={review?.id} className="review-container">
           <div className="review-header">
             <Stars rating={review.stars} />
             {review.recommendation && (
               <div className="recommendation">
-                <FaCheck id="check-icon" /> <p className="rec-text">Recommends this item</p>
+                <FaCheck id="check-icon" />{" "}
+                <p className="rec-text">Recommends this item</p>
               </div>
             )}
           </div>
@@ -81,8 +86,11 @@ function ProductReviews({ productId, sellerId }) {
                 }
               />
               <button
-                className={`${review.user !== user ? "hidden" : "delete-review"}`}
-                onClick={() => handleDelete(review.id)}>
+                className={`${
+                  review.user !== user ? "hidden" : "delete-review"
+                }`}
+                onClick={() => handleDelete(review.id)}
+              >
                 Delete Review
               </button>
             </div>

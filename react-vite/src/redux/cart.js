@@ -4,6 +4,7 @@ const DELETE_CART_ITEM = "cart/detelet-cart-item";
 const ADD_TO_CART = "cart/add-to-cart";
 const EDIT_QUANTITY_ITEM = "cart/edit-quantity-item";
 const PRODUCT_DELETED = "cart/product-deleted";
+
 //Action to add 1 item in cart
 const addToCartAction = (cartItem) => ({
   type: ADD_TO_CART,
@@ -62,7 +63,6 @@ export const updateCartItemQuantity =
     });
 
     if (response.ok) {
-      // const updatedItem = await response.json();
       dispatch(editItemQuantity(cartItemId, quantity));
     } else {
       const errors = await response.json();
@@ -152,14 +152,6 @@ const cartReducer = (state = initialState, action) => {
     case ADD_TO_CART: {
       const newState = { ...state };
       const cartItem = action.payload;
-
-      // if (!cartItem || !cartItem.product_id) {
-      //   console.error("Invalid cart item or missing product_id:", cartItem);
-
-      //   //This is a note that we need to change the code later, no idea why we cannot access product_id
-      //   //Technically if we remove the console.error, it works fine. returning state before it hit another error
-      //   return state; // Early return to avoid further errors
-      // }
 
       // Check if the product is already in the cart
       const existingItem = Object.values(newState.cartItems).find(

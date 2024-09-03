@@ -1,7 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
 import LandingPage from "../components/LandingPage";
-import LoginFormPage from "../components/LoginFormPage";
-import SignupFormPage from "../components/SignupFormPage";
 import ProductList from "../components/ProductList";
 import Layout from "./Layout";
 import ProductDetails from "../components/ProductDetails";
@@ -12,7 +10,7 @@ import EditProductForm from "../components/ProductForm/EditProduct";
 import Cart from "../components/Cart/Cart";
 import Checkout from "../components/Checkout/Checkout";
 import CompleteTransaction from "../components/CompleteTransaction/CompleteTransaction";
-import Homeliving from "../components/NavButtonComponent/HomeLivinng";
+import Homeliving from "../components/NavButtonComponent/HomeLiving";
 import Accessories from "../components/NavButtonComponent/Accessories";
 import Crafting from "../components/NavButtonComponent/Crafting";
 import Clothing from "../components/NavButtonComponent/Clothing";
@@ -25,14 +23,6 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <LandingPage />,
-      },
-      {
-        path: "login",
-        element: <LoginFormPage />,
-      },
-      {
-        path: "signup",
-        element: <SignupFormPage />,
       },
       {
         path: "products/current",

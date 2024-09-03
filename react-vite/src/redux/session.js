@@ -1,10 +1,9 @@
-import { deleteAllCartItemsAction} from "./cart";
+import { deleteAllCartItemsAction } from "./cart";
 import { clearCurrent } from "./product";
 import { clearFavs } from "./favorite";
 
 const SET_USER = "session/setUser";
 const REMOVE_USER = "session/removeUser";
-
 
 const setUser = (user) => ({
   type: SET_USER,
@@ -25,8 +24,6 @@ export const thunkAuthenticate = () => async (dispatch) => {
 
     dispatch(setUser(data));
   }
-  // const errors = await response.json()
-  // return errors
 };
 
 export const thunkLogin = (credentials) => async (dispatch) => {
@@ -70,7 +67,7 @@ export const thunkLogout = () => async (dispatch) => {
   dispatch(removeUser());
   dispatch(clearFavs());
   dispatch(deleteAllCartItemsAction());
-  dispatch(clearCurrent())
+  dispatch(clearCurrent());
 };
 
 const initialState = { user: null };

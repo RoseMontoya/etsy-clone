@@ -48,14 +48,11 @@ function ProductDetails() {
   const [mainImage, setMainImage] = useState(product?.preview_image);
   const [mainImgId, setMainImgId] = useState(0);
 
-  console.log('images', images, mainImgId)
-
   // Get reviews
   const reviewsObj = useSelector(
     (state) => state.reviews.reviewsByProdId?.[productId]
   );
-  const reviews = reviewsObj ? Object.values(reviewsObj) : []
-
+  const reviews = reviewsObj ? Object.values(reviewsObj) : [];
 
   let userReview;
   if (reviewsObj)
@@ -103,23 +100,25 @@ function ProductDetails() {
   }
 
   // Check if product is loaded
-  if (!product) { return (<main>
-      <div className="center-loading">
-            <div className="lds-roller">
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
-            <p>Loading...</p>
-            </div>
-        </main>)
+  if (!product) {
+    return (
+      <main>
+        <div className="center-loading">
+          <div className="lds-roller">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <p>Loading...</p>
+        </div>
+      </main>
+    );
   }
-
 
   const handleAddToCart = () => {
     if (!user) {
@@ -190,14 +189,14 @@ function ProductDetails() {
   return (
     <main>
       <div id="product-details">
-<div id='right-side-details'>
-
+        <div id="right-side-details">
           <div id="image-container">
-
             <div id="image-sidebar">
               {images.map((image, index) => (
                 <div
-                  className={`small-image light-hover ${index === mainImgId? "selected" : "not-selected"}`}
+                  className={`small-image light-hover ${
+                    index === mainImgId ? "selected" : "not-selected"
+                  }`}
                   key={image.id}
                   onClick={() => imageSelect(image)}
                 >
@@ -207,7 +206,11 @@ function ProductDetails() {
             </div>
 
             <div className="main-image">
-              <button className={`circ than ${images.length === 1? "hidden" : ""}`} id="less" onClick={() => backClick()}>
+              <button
+                className={`circ than ${images.length === 1 ? "hidden" : ""}`}
+                id="less"
+                onClick={() => backClick()}
+              >
                 <FaLessThan />
               </button>
               <div id="mainImg-container">
@@ -223,35 +226,44 @@ function ProductDetails() {
               ) : (
                 <OpenModalMenuItem
                   itemText={<Heart initial={false} productId={product.id} />}
-                  modalComponent={<LoginFormModal text={'Before you do that...'} />}
+                  modalComponent={
+                    <LoginFormModal text={"Before you do that..."} />
+                  }
                 />
               )}
 
-              <button id="greater" className={`circ than ${images.length === 1? "hidden" : ""}`} onClick={forwardClick}>
+              <button
+                id="greater"
+                className={`circ than ${images.length === 1 ? "hidden" : ""}`}
+                onClick={forwardClick}
+              >
                 <FaGreaterThan />
               </button>
             </div>
           </div>
 
           <div id="review-container">
-          <OpenModalMenuItem
-            className={`${showReview() ? "post-review-click" : "hidden"}`}
-            itemText={`${
-              reviews.length
-                ? "Post Your Review!"
-                : "Be the first to leave a review!"
-            }`}
-            modalComponent={
-              <ReviewFormModal
-                productId={product.id}
-                formType={"create"}
-                sellerId={product.seller.id}
-              />
-            }
-          />
-          <ProductReviews productId={productId} sellerId={product.seller.id} />
+            <OpenModalMenuItem
+              className={`${showReview() ? "post-review-click" : "hidden"}`}
+              itemText={`${
+                reviews.length
+                  ? "Post Your Review!"
+                  : "Be the first to leave a review!"
+              }`}
+              modalComponent={
+                <ReviewFormModal
+                  productId={product.id}
+                  formType={"create"}
+                  sellerId={product.seller.id}
+                />
+              }
+            />
+            <ProductReviews
+              productId={productId}
+              sellerId={product.seller.id}
+            />
+          </div>
         </div>
-</div>
 
         <div id="details">
           <div>
@@ -261,9 +273,9 @@ function ProductDetails() {
             <p className="bold" style={{ fontSize: "24px" }}>
               ${product.price.toFixed(2)}
             </p>
-            <p >{product?.title}</p>
+            <p>{product?.title}</p>
             <div>
-              <p style={{fontSize: '14px'}}>{product.seller.username} </p>
+              <p style={{ fontSize: "14px" }}>{product.seller.username} </p>
               {product.seller.review_count > 0 ? (
                 <Stars rating={product.seller.seller_rating} />
               ) : (
@@ -282,18 +294,19 @@ function ProductDetails() {
                 <OpenModalMenuItem
                   className=" black-button detail-add-cart bold"
                   itemText="Add to cart"
-                  modalComponent={<LoginFormModal text={'Before you do that...'} />}
+                  modalComponent={
+                    <LoginFormModal text={"Before you do that..."} />
+                  }
                 />
               )}
             </div>
             <div id="item-details">
-              <h3 style={{ fontSize: '1em'}}>Item Details</h3>
+              <h3 style={{ fontSize: "1em" }}>Item Details</h3>
               <p>{product?.description}</p>
             </div>
           </div>
         </div>
       </div>
-
     </main>
   );
 }
