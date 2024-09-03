@@ -1,13 +1,10 @@
-from flask import Blueprint, request, session, jsonify
+from flask import Blueprint, request, jsonify
 from ..models import db
 from ..models.product import Product, ProductImage
 from ..models.review import Review
 from ..models.cart import Cart, CartItem
-from ..models.user import User
 from flask_login import current_user, login_required
-from sqlalchemy import func
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy.orm import joinedload, subqueryload
 from ..forms import ReviewForm, ProductForm, ProductImageForm
 import random
 
@@ -31,28 +28,20 @@ def product_manage():
 # Get a random product
 @products_routes.route("/random")
 def get_random_product():
-    # if not current_user.is_anonymous:
-    #     count = Product.query.filter(Product.seller_id != current_user.id).count()
-    # else:
     count = Product.query.count()
     randomKey = random.randint(1, count)
     product = Product.query.filter(Product.id == randomKey).first()
     return product.to_dict_combined()
-    # images = ProductImage.query.filter(ProductImage.product_id == product.id).all()
-    # productD["product_images"] = {image.id: image.to_dict() for image in images}
-    # return productD
 
 
-@products_routes.route('/preview-images')
+@products_routes.route("/preview-images")
 def get_preview_images():
     previewImgs = ProductImage.query.filter(ProductImage.preview == True).all()
-
-    print('IN PREVIEW IMAGE ROUTE')
 
     return [image.to_dict() for image in previewImgs]
 
 
-@products_routes.route('/<int:product_id>/images')
+@products_routes.route("/<int:product_id>/images")
 def get_product_images(product_id):
     images = ProductImage.query.filter(ProductImage.product_id == product_id).all()
     return jsonify({image.id: image.to_dict() for image in images})
@@ -73,7 +62,7 @@ def create_review(productId):
     form = ReviewForm()
 
     form["csrf_token"].data = request.cookies["csrf_token"]
-    print("current user", current_user.id)
+
     prevRev = (
         Review.query.filter(Review.user_id == current_user.id)
         .filter(Review.product_id == productId)
@@ -135,10 +124,6 @@ def product_by_id(productId):
         return {
             "error": {"message": "Product could not be found.", "error": str(e)}
         }, 404
-
-    # Find Product Images and add to product
-    # images = ProductImage.query.filter(ProductImage.product_id == productId).all()
-    # product["product_images"] = {image.id: image.to_dict() for image in images}
 
     return product
 
@@ -240,7 +225,6 @@ def delete_image(imageId):
 def get_all_products():
     products = Product.query.all()
 
-
     return [product.to_dict_x_seller() for product in products]
 
 
@@ -269,9 +253,9 @@ def decrease_inventory_edit():
 
     db.session.commit()
 
-
     # Save changes to the database
 
-    return jsonify(
-        {"products": updated_products, "deleted_products": deleted_products}
-    ), 200
+    return (
+        jsonify({"products": updated_products, "deleted_products": deleted_products}),
+        200,
+    )

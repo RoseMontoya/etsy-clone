@@ -61,15 +61,8 @@ def sign_up():
             last_name=form.data["last_name"],
         )
 
-        # db.session.add(user)
-        # db.session.commit()
+        cart = Cart(user=new_user)
 
-        cart = Cart(
-            # user_id = User.query.filter(User.id == form.data["username"]).all()
-            user = new_user
-        )
-
-        print(cart)
         db.session.add(cart)
         db.session.commit()
 

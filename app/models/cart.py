@@ -1,10 +1,6 @@
 from .db import db, SCHEMA, environment, add_prefix_for_prod
 
-# from sqlalchemy.schema import ForeignKey #type: ignore
-from sqlalchemy.orm import relationship  # type: ignore
 from sqlalchemy.sql import func
-
-print("Database in CART", db)
 
 
 class Cart(db.Model):
@@ -55,14 +51,6 @@ class CartItem(db.Model):
     cart = db.relationship("Cart", back_populates="cart_items")
 
     product = db.relationship("Product", back_populates="cart_items")
-
-    # @property
-    # def quantity(self):
-    #     return self.quantity
-
-    # @quantity.setter
-    # def quantity(self, quantity):
-    #     self.quantity = quantity
 
     def to_dict(self):
         return {

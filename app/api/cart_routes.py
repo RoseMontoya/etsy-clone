@@ -3,6 +3,7 @@ from ..models.product import Product
 from flask_login import current_user, login_required
 from ..models.cart import Cart, CartItem
 from ..models import db
+
 # from app.models import User
 
 cart_routes = Blueprint("cart", __name__)
@@ -37,7 +38,6 @@ def edit_cart_item_quantity(cart_item_id):
 @login_required
 def get_cart():
     cart = Cart.query.filter(Cart.user_id == current_user.id).first()
-    print("BACKEND ==========>", cart)
     return cart.to_dict()
 
 
@@ -45,7 +45,6 @@ def get_cart():
 @login_required
 def add_to_cart():
     data = request.get_json()
-    print("Received data:", data)
 
     # Extract the necessary information
     product_info = data.get(
@@ -78,7 +77,7 @@ def add_to_cart():
     if cart_item:
         if cart_item.quantity < product.inventory:
             cart_item.quantity += 1  # Update the quantity if item already in cart
-        else: 
+        else:
             return {"message": "Cannot add more items than product inventory"}, 401
     else:
         cart_item = CartItem(cart_id=cart.id, product_id=product_id, quantity=1)
@@ -114,11 +113,6 @@ def delete_cart_item(cart_item_id):
 
     if not cart_item:
         return jsonify({"error": "Cart item not found"}), 404
-
-    # ensure the cart item belongs to the current user's cart, maybe not needed
-    # cart = Cart.query.filter(Cart.user_id == current_user.id).first()
-    # if cart_item.cart_id != cart.id:
-    #     return jsonify({"error": "Unauthorized action"}), 403
 
     db.session.delete(cart_item)
     db.session.commit()

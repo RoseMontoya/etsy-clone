@@ -4,39 +4,42 @@ from ..models import db
 from ..forms import ReviewForm
 from flask_login import current_user, login_required
 from sqlalchemy import func
-# from sqlalchemy.exc import SQLAlchemyError
 
 
 reviews_routes = Blueprint("reviews", __name__)
 
+
 # get review stats for a product
-@reviews_routes.route('/review-stats/<int:product_id>')
+@reviews_routes.route("/review-stats/<int:product_id>")
 def get_review(product_id):
-    review = db.session.query(
-        Review.product_id,
-        func.sum(Review.stars).label("stars_total"),
-        func.count(Review.id).label('review_count')
-    ).filter(Review.product_id == product_id).group_by(Review.product_id).first()
+    review = (
+        db.session.query(
+            Review.product_id,
+            func.sum(Review.stars).label("stars_total"),
+            func.count(Review.id).label("review_count"),
+        )
+        .filter(Review.product_id == product_id)
+        .group_by(Review.product_id)
+        .first()
+    )
 
     if not review:
-        return {"stars_total": 0,
-        "review_count": 0}
-
+        return {"stars_total": 0, "review_count": 0}
 
     result = {
         "product_id": review.product_id,
         "stars_total": review.stars_total,
-        "review_count": review.review_count
+        "review_count": review.review_count,
     }
 
     return jsonify(result)
 
 
-@reviews_routes.route('/<int:review_id>', methods=['PUT'])
+@reviews_routes.route("/<int:review_id>", methods=["PUT"])
 @login_required
 def edit_review(review_id):
     updated_form = ReviewForm()
-    updated_form['csrf_token'].data = request.cookies['csrf_token']
+    updated_form["csrf_token"].data = request.cookies["csrf_token"]
 
     if updated_form.validate_on_submit():
         review = Review.query.filter(Review.id == review_id).first()
@@ -52,7 +55,8 @@ def edit_review(review_id):
 
     return updated_form.errors, 400
 
-@reviews_routes.route('/<int:review_id>', methods=['DELETE'])
+
+@reviews_routes.route("/<int:review_id>", methods=["DELETE"])
 @login_required
 def delete_review(review_id):
     review = Review.query.filter(Review.id == review_id).one()
@@ -62,22 +66,26 @@ def delete_review(review_id):
 
     db.session.delete(review)
     db.session.commit()
-    return {"message": "Successfully deleted", 'review': review.to_dict()}, 200
+    return {"message": "Successfully deleted", "review": review.to_dict()}, 200
 
-@reviews_routes.route('')
+
+@reviews_routes.route("")
 def get_review_summary():
-    reviews = db.session.query(
-        Review.product_id,
-        func.sum(Review.stars).label("stars_total"),
-        func.count(Review.id).label('review_count')
-    ).group_by(Review.product_id).all()
+    reviews = (
+        db.session.query(
+            Review.product_id,
+            func.sum(Review.stars).label("stars_total"),
+            func.count(Review.id).label("review_count"),
+        )
+        .group_by(Review.product_id)
+        .all()
+    )
 
-    print("IN ROTUE FOR REVIEW STATS")
-
-    return  [
-    {
-        "product_id": review.product_id,
-        "stars_total": review.stars_total,
-        "review_count": review.review_count
-    }
-    for review in reviews ]
+    return [
+        {
+            "product_id": review.product_id,
+            "stars_total": review.stars_total,
+            "review_count": review.review_count,
+        }
+        for review in reviews
+    ]

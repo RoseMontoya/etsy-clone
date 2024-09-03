@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import TextAreaField, IntegerField, BooleanField, SubmitField
-from wtforms.validators import DataRequired, ValidationError
+from wtforms.validators import DataRequired
 
 class ReviewForm(FlaskForm):
     productId = IntegerField("Product Id", validators=[DataRequired()])
