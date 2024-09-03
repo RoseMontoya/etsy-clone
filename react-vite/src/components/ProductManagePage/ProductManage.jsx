@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import "./ProductManage.css";
 import { productByUserId, deleteProduct } from "../../redux/product";
 import { IoSettingsOutline } from "react-icons/io5";
@@ -48,6 +48,8 @@ function ProductManage() {
     }
   }, [dispatch, productsObj]);
 
+  if (!user) return <Navigate to="/" replace={true} />;
+
   if (!productsObj) return (<main>
     <div className="center-loading">
           <div className="lds-roller">
@@ -71,7 +73,7 @@ function ProductManage() {
         <h2>No product yet... Please create one</h2>
         <span className="empty-add">
           <Link to="/products/new"><button>Add new product</button></Link>
-          
+
         </span>
         </div>
       </main>

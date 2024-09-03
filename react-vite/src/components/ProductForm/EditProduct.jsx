@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { productById, editProduct } from "../../redux/product";
 import {
   addProductImage,
@@ -68,6 +68,8 @@ function EditProductForm() {
       setImage5(images[5] || "");
     }
   }, [images, previewImage]);
+
+  if (!user) return <Navigate to="/" replace={true} />;
 
   const validateForm = () => {
     const errorObj = {};

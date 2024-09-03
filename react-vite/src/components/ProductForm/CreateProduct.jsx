@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import {
   addProduct,
   addProductImage,
@@ -26,6 +26,7 @@ function NewProductForm() {
   const navigate = useNavigate();
 
   const user = useSelector((state) => state.session.user);
+  if (!user) return <Navigate to="/" replace={true} />;
 
   const validateForm = () => {
     const errorObj = {};

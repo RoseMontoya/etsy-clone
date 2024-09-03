@@ -1,5 +1,5 @@
 import "./Checkout.css";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, Navigate } from "react-router-dom";
 import { clearCart, getAllCartItems } from "../../redux/cart";
 import { useDispatch, useSelector } from "react-redux";
 import { updateInventory } from "../../redux/product";
@@ -9,6 +9,8 @@ import { thunkAllProducts } from "../../redux/product";
 function Checkout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const user = useSelector((state) => state.session.user);
   const cartObj = useSelector((state) => state.cart?.cartItems);
   const allProducts = useSelector((state) => state.products?.allProducts);
   const cartArr = cartObj ? Object.values(cartObj) : [];
@@ -43,26 +45,26 @@ function Checkout() {
     return errorObj;
   }
 
-  const handleCompleteTransaction = (e) => {
+  const handleCompleteTransaction = async(e) => {
     e.preventDefault();
     const formErrors = validateForm();
     if (Object.values(formErrors).length > 0) {
       setErrors(formErrors);
       return;
     }
-
-    const result = dispatch(updateInventory());
-    if (result.errors) {
-      setErrors(result.errors);
-    } else {
-      dispatch(clearCart());
-      navigate("/successful-transaction");
-    }
-
-    // dispatch(updateInventory()).then(() => {
-    //   dispatch(clearCart());
-    //   navigate("/successful-transaction");
+    console.log('before dispatch')
+    dispatch(updateInventory())
+      .then(() => {
+        dispatch(clearCart());
+        navigate("/successful-transaction");
+      })
+      .catch(async(res) => {
+        const errs = await res.json()
+        setErrors(errs.errors);
+      })
   };
+
+  if (!user) return <Navigate to="/" replace={true} />;
 
   if (!cartObj || !allProducts) return (<main>
 <div className="center-loading">

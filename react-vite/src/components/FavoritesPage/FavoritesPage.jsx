@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { favoritesByUserId } from "../../redux/favorite";
 import { addToCart, getAllCartItems } from "../../redux/cart";
 import { useNavigate } from "react-router-dom";
@@ -25,6 +25,8 @@ function FavoritesPage() {
       dispatch(thunkAllProducts());
     }
   }, [dispatch, favorites, allProducts, user.id]);
+
+  if (!user) return <Navigate to="/" replace={true} />;
 
   if (!favorites) return (<main>
   <div className="center-loading">

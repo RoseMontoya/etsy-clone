@@ -22,7 +22,8 @@ footer {
 
 .team-link {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  gap: 1em;
   padding: 5px;
 }
 
