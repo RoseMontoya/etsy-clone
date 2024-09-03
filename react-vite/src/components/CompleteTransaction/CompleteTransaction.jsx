@@ -1,6 +1,7 @@
 import "./CompleteTransaction.css";
 import { Link, Navigate } from "react-router-dom";
 import "./CompleteTransaction.css";
+import { useSelector } from "react-redux";
 
 function CompleteTransaction() {
   const user = useSelector((state) => state.session.user);
