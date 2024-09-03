@@ -1,10 +1,13 @@
 import "./CompleteTransaction.css"
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import "./CompleteTransaction.css"
 
 function CompleteTransaction(){
+    const user = useSelector((state) => state.session.user);
+    if (!user) return <Navigate to="/" replace={true} />;
+
     const now = new Date();
-    
+
     // Get the current year, month, day, hour, minute, second, and millisecond
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-based
@@ -13,10 +16,10 @@ function CompleteTransaction(){
     const minute = String(now.getMinutes()).padStart(2, '0');
     const second = String(now.getSeconds()).padStart(2, '0');
     const millisecond = String(now.getMilliseconds()).padStart(3, '0');
-    
+
     // You can add a random element to ensure uniqueness
     const randomPart = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
-    
+
     // Combine them to create an order number
     const orderNumber = `${year}${month}${day}${hour}${minute}${second}${millisecond}${randomPart}`;
 
@@ -27,7 +30,7 @@ function CompleteTransaction(){
             <Link to="/"><button>Return to Homepage</button></Link>
         </div>
         </main>
-        
+
     )
 }
 

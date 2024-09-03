@@ -1,7 +1,7 @@
 import "./Cart.css";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import {
   getAllCartItems,
   deleteCartItem,
@@ -13,6 +13,8 @@ import { thunkAllProducts } from "../../redux/product";
 function Cart() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
+
+  const user = useSelector((state) => state.session.user);
   const cartObj = useSelector((state) => state.cart?.cartItems);
   const allProducts = useSelector((state) => state.products?.allProducts);
 
@@ -33,6 +35,8 @@ function Cart() {
     await dispatch(deleteCartItem(cartItemId));
     // dispatch(getAllCartItems());
   };
+
+  if (!user) return <Navigate to="/" replace={true} />;
 
   const handleClearCart = async () => {
     await dispatch(clearCart());

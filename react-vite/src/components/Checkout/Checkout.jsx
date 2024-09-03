@@ -1,5 +1,5 @@
 import "./Checkout.css";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, Navigate } from "react-router-dom";
 import { clearCart, getAllCartItems } from "../../redux/cart";
 import { useDispatch, useSelector } from "react-redux";
 import { updateInventory } from "../../redux/product";
@@ -9,6 +9,8 @@ import { thunkAllProducts } from "../../redux/product";
 function Checkout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const user = useSelector((state) => state.session.user);
   const cartObj = useSelector((state) => state.cart?.cartItems);
   const allProducts = useSelector((state) => state.products?.allProducts);
   const cartArr = cartObj ? Object.values(cartObj) : [];
@@ -60,11 +62,9 @@ function Checkout() {
         const errs = await res.json()
         setErrors(errs.errors);
       })
-
-    // dispatch(updateInventory()).then(() => {
-    //   dispatch(clearCart());
-    //   navigate("/successful-transaction");
   };
+
+  if (!user) return <Navigate to="/" replace={true} />;
 
   if (!cartObj || !allProducts) return (<main>
 <div className="center-loading">
