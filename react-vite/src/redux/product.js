@@ -408,6 +408,7 @@ export const deleteProductImage = (image) => async (dispatch) => {
 
 // Update inventory thunk
 export const updateInventory = () => async (dispatch) => {
+  console.log('inside thunk for update inv')
   const response = await fetch(`/api/products/successful-transaction`, {
     method: "PUT",
   });
@@ -415,13 +416,16 @@ export const updateInventory = () => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     data.products.forEach((item) => {
+      console.log('before updateProduct', item)
       dispatch(updateProduct(item));
     });
     data.deleted_products.forEach((item) => {
+      console.log('before removeProduct', item)
       dispatch(removeProduct(item.id));
     });
     return data;
   }
+  console.log("response is thunk",response)
   return response;
 };
 
@@ -489,6 +493,8 @@ function productReducer(state = initialState, action) {
 
       // Update allProducts
       if (state.allProducts) {
+        console.log("allproducts",state.allProducts)
+        console.log('prodId',state.allProducts[prodId])
         const newAllProducts = {
           ...state.allProducts,
           [prodId]: {
@@ -520,7 +526,9 @@ function productReducer(state = initialState, action) {
       }
 
       // Update productsCurrent;
-      if (state.productsCurrent) {
+      if (state.productsCurrent[prodId]) {
+        console.log("productsCurrent",state.productsCurrent)
+        console.log('prodId',state.productsCurrent[prodId])
         const newProductsCurrent = {
           ...state.productsCurrent,
           [prodId]: {
@@ -697,6 +705,7 @@ function productReducer(state = initialState, action) {
     case CLEAR_CURRENT: {
       const newState = { ...state };
       delete newState.productsCurrent;
+      console.log('current', newState)
       return newState;
     }
     // }

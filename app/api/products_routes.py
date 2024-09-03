@@ -238,37 +238,8 @@ def delete_image(imageId):
 # Get all products
 @products_routes.route("/", methods=["GET"])
 def get_all_products():
-
-    # products = db.session.query(Product).options(
-    #     joinedload(Product.seller),
-    #     joinedload(Product.images),
-    #     joinedload(Product.reviews),
-    # ).all()
-    # 174.059814453125 ms
-    # 176.099853515625 ms
-    # 550.406005859375 ms
-    # 256.68896484375 ms
-    # 216.72900390625 ms
-
-
-    # products = db.session.query(Product).options(
-    #     subqueryload(Product.seller),
-    #     subqueryload(Product.images),
-    #     subqueryload(Product.reviews),
-    # ).all()
-    # allProducts: 175.169921875 ms
-    # allProducts: 140.258056640625 ms
-    # allProducts: 419.89697265625 ms
-    # allProducts: 136.43701171875 ms
-    # llProducts: 235.68701171875 ms
     products = Product.query.all()
-    # users = User.query.all
-    # reviews = db.session.query(
-    #     func.sum(Review.stars).label("stars_total"),
-    #     func.count(Review.id).label('review_count')
-    # ).group_by(Review.product_id).all
-    # previewImgs = ProductImage.query.filter(ProductImage.preview == True).all
-    print('IN ALL PRODUCTS ROUTE')
+
 
     return [product.to_dict_x_seller() for product in products]
 

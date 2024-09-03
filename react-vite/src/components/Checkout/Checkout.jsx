@@ -43,21 +43,23 @@ function Checkout() {
     return errorObj;
   }
 
-  const handleCompleteTransaction = (e) => {
+  const handleCompleteTransaction = async(e) => {
     e.preventDefault();
     const formErrors = validateForm();
     if (Object.values(formErrors).length > 0) {
       setErrors(formErrors);
       return;
     }
-
-    const result = dispatch(updateInventory());
-    if (result.errors) {
-      setErrors(result.errors);
-    } else {
-      dispatch(clearCart());
-      navigate("/successful-transaction");
-    }
+    console.log('before dispatch')
+    dispatch(updateInventory())
+      .then(() => {
+        dispatch(clearCart());
+        navigate("/successful-transaction");
+      })
+      .catch(async(res) => {
+        const errs = await res.json()
+        setErrors(errs.errors);
+      })
 
     // dispatch(updateInventory()).then(() => {
     //   dispatch(clearCart());
