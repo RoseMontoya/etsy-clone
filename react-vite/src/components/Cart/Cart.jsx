@@ -126,8 +126,7 @@ function Cart() {
                     <h4 className="cart-item-title">{product.title}</h4>
                   </Link>
                   <p className="cart-item-seller">
-                    Sold by: {product.seller.first_name}{" "}
-                    {product.seller.last_name}
+                    Sold by: {product.seller.username}
                   </p>
                   <p className="cart-item-price">${product.price.toFixed(2)}</p>
                   <div className="cart-item-quantity">
