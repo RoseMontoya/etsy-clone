@@ -1,12 +1,17 @@
+// React Imports
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
-import { productById, editProduct } from "../../redux/product";
+
+// Redux Imports
 import {
   addProductImage,
   updateProductImage,
   deleteProductImage,
-} from "../../redux/product";
+  productById, editProduct
+} from "../../redux";
+
+// Design Imports
 import "./ProductForm.css";
 
 function EditProductForm() {

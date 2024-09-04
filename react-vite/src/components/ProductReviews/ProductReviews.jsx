@@ -1,12 +1,15 @@
+// React Imports
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteReview, getAllReviews } from "../../redux/review";
-import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
-import ReviewFormModal from "../ReviewFormModal";
-import "./ProductReview.css";
+
+// Redux/Component Imports
+import { deleteReview, getAllReviews } from "../../redux";
+import { OpenModalMenuItem, ReviewFormModal, DeleteReview } from "../";
+import { Stars } from "../SubComponents";
 import { useModal } from "../../context/Modal";
-import DeleteReview from "../DeleteReviewModal";
-import Stars from "../SubComponents/Stars";
+
+// Design Imports
+import "./ProductReview.css";
 import { FaCheck } from "react-icons/fa";
 
 function formatDate(dateString) {

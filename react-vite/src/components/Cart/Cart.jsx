@@ -1,14 +1,19 @@
-import "./Cart.css";
+// React Imports
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+
+// Redux Imports
 import {
   getAllCartItems,
   deleteCartItem,
   clearCart,
   updateCartItemQuantity,
-} from "../../redux/cart";
-import { thunkAllProducts } from "../../redux/product";
+  thunkAllProducts,
+} from "../../redux";
+
+// Design Imports
+import "./Cart.css";
 
 function Cart() {
   const dispatch = useDispatch();

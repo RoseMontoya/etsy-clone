@@ -1,3 +1,4 @@
+// React Imports
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,11 +9,8 @@ import { favoritesByUserId } from "../../redux/favorite";
 import { getAllCartItems, addToCart } from "../../redux/cart";
 
 // component imports
-import ProductReviews from "../ProductReviews";
-import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
-import ReviewFormModal from "../ReviewFormModal";
-import { useModal } from "../../context/Modal"; // Import the modal context
-import LoginFormModal from "../LoginFormModal";
+import { ProductReviews, OpenModalMenuItem, ReviewFormModal, LoginFormModal} from '../'
+import { useModal } from "../../context/Modal";
 import { Stars, Heart, OwnProductConflictModal } from "../SubComponents";
 
 // Design imports

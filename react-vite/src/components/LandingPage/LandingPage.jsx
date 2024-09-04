@@ -1,8 +1,11 @@
-import "./LandingPage.css";
+// React Imports
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { thunkRandomProduct } from "../../redux/product";
 import { Link } from "react-router-dom";
+// Redux Imports
+import { thunkRandomProduct } from "../../redux";
+// Design Imports
+import "./LandingPage.css";
 
 function LandingPage() {
   const dispatch = useDispatch();

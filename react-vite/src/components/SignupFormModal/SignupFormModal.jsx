@@ -1,9 +1,12 @@
+// React Imports
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+// Component/Redux Imports
 import { useModal } from "../../context/Modal";
-import { thunkSignup } from "../../redux/session";
-import "./SignupForm.css";
+import { thunkSignup } from "../../redux";
+// Design Imports
 import { IoMdClose } from "react-icons/io";
+import "./SignupForm.css";
 
 function SignupFormModal() {
   const dispatch = useDispatch();

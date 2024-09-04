@@ -1,16 +1,24 @@
+// React Imports
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { thunkAllProducts } from "../../redux/product";
-import { addToCart, getAllCartItems } from "../../redux/cart";
-import { favoritesByUserId } from "../../redux/favorite";
-import { Heart, Stars, OwnProductConflictModal } from "../SubComponents";
-import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
-import LoginFormModal from "../LoginFormModal";
-import { useModal } from "../../context/Modal"; // Import the modal context
-import "./ProductList.css";
 
+// Redux Imports
+import {
+  thunkAllProducts,
+  addToCart,
+  getAllCartItems,
+  favoritesByUserId,
+} from "../../redux";
+
+// Component Imports
+import { OpenModalMenuItem, LoginFormModal } from "../";
+import { Heart, Stars, OwnProductConflictModal } from "../SubComponents";
+import { useModal } from "../../context/Modal";
+
+// Design Imports
 import { FaPlus } from "react-icons/fa6";
+import "./ProductList.css";
 
 function ProductList() {
   const dispatch = useDispatch();

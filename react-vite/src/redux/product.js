@@ -473,7 +473,7 @@ function productReducer(state = initialState, action) {
       }
 
       // Update productsCurrent
-      if (state.productsCurrent[prodId]) {
+      if (state.productsCurrent && state.productsCurrent[prodId]) {
         const newProductsCurrent = {
           ...state.productsCurrent,
           [prodId]: {

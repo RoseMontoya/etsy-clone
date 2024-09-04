@@ -1,10 +1,14 @@
+// React Imports
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { thunkLogout } from "../../redux/session";
+
+// Redux/Component Imports
+import { thunkLogout, getAllCartItems } from "../../redux";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
-import { getAllCartItems } from "../../redux/cart";
+
+// Design Imports
 import "./ProfileButton.css";
 
 function ProfileButton() {

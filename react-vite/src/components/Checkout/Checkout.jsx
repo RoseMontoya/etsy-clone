@@ -1,10 +1,18 @@
-import "./Checkout.css";
-import { useNavigate, Link, Navigate } from "react-router-dom";
-import { clearCart, getAllCartItems } from "../../redux/cart";
-import { useDispatch, useSelector } from "react-redux";
-import { updateInventory } from "../../redux/product";
+// React Imports
 import { useEffect, useState } from "react";
-import { thunkAllProducts } from "../../redux/product";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, Link, Navigate } from "react-router-dom";
+
+// Redux Imports
+import {
+  clearCart,
+  getAllCartItems,
+  updateInventory,
+  thunkAllProducts,
+} from "../../redux";
+
+// Design Imports
+import "./Checkout.css";
 
 function Checkout() {
   const dispatch = useDispatch();

@@ -1,9 +1,13 @@
+// React Imports
 import { useState } from "react";
-import { thunkLogin } from "../../redux/session";
 import { useDispatch } from "react-redux";
+
+// Component/Redux Imports
+import { thunkLogin } from "../../redux/session";
 import { useModal } from "../../context/Modal";
-import SignupFormModal from "../SignupFormModal/SignupFormModal";
-import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
+import { SignupFormModal, OpenModalMenuItem } from '../'
+
+// Design Imports
 import { IoMdClose } from "react-icons/io";
 import "./LoginForm.css";
 

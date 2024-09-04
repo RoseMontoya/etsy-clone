@@ -1,10 +1,15 @@
-import { useModal } from "../../context/Modal";
-import { useDispatch, useSelector } from "react-redux";
+// React Imports
 import { useEffect, useState } from "react";
-import { createReview, editReview } from "../../redux/review";
-import Stars from "../SubComponents/Stars";
-import "./ReviewFormModal.css";
+import { useDispatch, useSelector } from "react-redux";
+
+// Redux/Component Imports
+import { createReview, editReview } from "../../redux";
+import {Stars} from "../SubComponents";
+import { useModal } from "../../context/Modal";
+
+// Design Imports
 import { IoMdClose } from "react-icons/io";
+import "./ReviewFormModal.css";
 
 function ReviewFormModal({ productId, formType, reviewId, sellerId }) {
   const dispatch = useDispatch();

@@ -1,8 +1,11 @@
+// React Imports
+import { useSelector } from "react-redux";
 import { NavLink, Link } from "react-router-dom";
+// Component Imports
 import ProfileButton from "./ProfileButton";
+// Design Imports
 import { PiShoppingCartSimpleBold } from "react-icons/pi";
 import "./Navigation.css";
-import { useSelector } from "react-redux";
 
 function Navigation() {
   const user = useSelector((state) => state.session.user);

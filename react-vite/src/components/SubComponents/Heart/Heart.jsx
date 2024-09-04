@@ -1,11 +1,11 @@
-import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { addFavorite, removeFavorite } from "../../../redux/favorite";
+import { useDispatch, useSelector } from "react-redux";
+import { addFavorite, removeFavorite } from "../../../redux";
+import OwnProductConflictModal from "../OwnProductConflictModal";
+import { useModal } from "../../../context/Modal";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import "./Heart.css";
-import OwnProductConflictModal from "../OwnProductConflictModal";
-import { useModal } from "../../../context/Modal"; // Import the modal context
 
 function Heart({ initial, productId, sellerId }) {
   const dispatch = useDispatch();

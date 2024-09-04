@@ -1,13 +1,22 @@
+// React Imports
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate } from "react-router-dom";
-import { favoritesByUserId } from "../../redux/favorite";
-import { addToCart, getAllCartItems } from "../../redux/cart";
-import { useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+
+// Redux Imports
+import {
+  favoritesByUserId,
+  addToCart,
+  getAllCartItems,
+  thunkAllProducts,
+} from "../../redux";
+
+// Helper Imports
 import { Heart } from "../SubComponents";
+
+// Design Imports
 import { TiStarFullOutline } from "react-icons/ti";
 import "./FavoritesPage.css";
-import { thunkAllProducts } from "../../redux/product";
 
 function FavoritesPage() {
   const dispatch = useDispatch();

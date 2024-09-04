@@ -1,11 +1,16 @@
+// React Imports
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
-import "./ProductManage.css";
-import { productByUserId, deleteProduct } from "../../redux/product";
-import { IoSettingsOutline } from "react-icons/io5";
+
+// Redux/Component Imports
+import { productByUserId, deleteProduct } from "../../redux";
 import ConfirmDeleteModal from "./ConfirmDeletionModal";
 import { useModal } from "../../context/Modal";
+
+// Design Imports
+import { IoSettingsOutline } from "react-icons/io5";
+import "./ProductManage.css";
 
 function ProductManage() {
   const dispatch = useDispatch();
