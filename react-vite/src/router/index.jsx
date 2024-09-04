@@ -14,11 +14,7 @@ import {
   ProductList,
   ProductManage,
 } from "../components";
-import Homeliving from "../components/NavButtonComponent/HomeLiving";
-import Accessories from "../components/NavButtonComponent/Accessories";
-import Crafting from "../components/NavButtonComponent/Crafting";
-import Clothing from "../components/NavButtonComponent/Clothing";
-import Jewelry from "../components/NavButtonComponent/Jewelry";
+import ProductsByCategory from "../components/NavButtonComponent/ProductsByCategory";
 
 export const router = createBrowserRouter([
   {
@@ -65,24 +61,8 @@ export const router = createBrowserRouter([
         element: <CompleteTransaction />,
       },
       {
-        path: "/products/homeliving",
-        element: <Homeliving />,
-      },
-      {
-        path: "/products/accessories",
-        element: <Accessories />,
-      },
-      {
-        path: "/products/crafting",
-        element: <Crafting />,
-      },
-      {
-        path: "/products/clothing",
-        element: <Clothing />,
-      },
-      {
-        path: "/products/jewelry",
-        element: <Jewelry />,
+        path: "/products/categories/:categoryId",
+        element: <ProductsByCategory />,
       },
     ],
   },

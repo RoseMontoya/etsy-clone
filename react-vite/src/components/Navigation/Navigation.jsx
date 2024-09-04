@@ -13,6 +13,14 @@ function Navigation() {
   const cartObj = useSelector((state) => state.cart?.cartItems);
   const cartArr = cartObj ? Object.values(cartObj) : [];
 
+  const categories = [
+    { type: "Home & Living", categoryId: 1 },
+    { type: "Accessories", categoryId: 2 },
+    { type: "Crafting", categoryId: 3 },
+    { type: "Jewelry", categoryId: 4 },
+    { type: "Clothing", categoryId: 5 },
+  ];
+
   return (
     <nav>
       <div className="nav_container">
@@ -22,21 +30,13 @@ function Navigation() {
         <div className="grey-hover">
           <Link to="/products">All Products</Link>
         </div>
-        <div className="grey-hover">
-          <Link to="/products/homeliving">Home & Living</Link>
-        </div>
-        <div className="grey-hover">
-          <Link to="/products/accessories">Accessories</Link>
-        </div>
-        <div className="grey-hover">
-          <Link to="/products/crafting">Crafting</Link>
-        </div>
-        <div className="grey-hover">
-          <Link to="/products/jewelry">Jewelry</Link>
-        </div>
-        <div className="grey-hover">
-          <Link to="/products/clothing">Clothing</Link>
-        </div>
+        {categories.map((category, index) => (
+          <div key={index} className="grey-hover">
+            <Link to={`/products/categories/${category.categoryId}`}>
+              {category.type}
+            </Link>
+          </div>
+        ))}
         <ul>
           <li className="inline">
             <ProfileButton />
