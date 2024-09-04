@@ -48,7 +48,7 @@ function ProductList() {
   }, [dispatch, productsObj, favoritesObj, user]);
 
   // Show loading spinner if products are not yet loaded
-  if (!productsObj) <Loading />;
+  if (!productsObj) return <Loading />;
 
   if (products.length === 0)
     return (
@@ -57,10 +57,17 @@ function ProductList() {
           <h2>No products for sell. Please check back later.</h2>
         </div>
       </main>
-  );
+    );
 
   // Show message if there are no products to display
-  if (products.length === 0) return (<main><div className="center-in-page"><h2>No products for sell. Please check back later.</h2></div></main>)
+  if (products.length === 0)
+    return (
+      <main>
+        <div className="center-in-page">
+          <h2>No products for sell. Please check back later.</h2>
+        </div>
+      </main>
+    );
 
   // Function to handle adding a product to the cart
   const handleAddToCart = (product) => {

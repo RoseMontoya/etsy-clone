@@ -105,13 +105,13 @@ function Checkout() {
       .catch(async (res) => {
         const errs = await res.json();
         setErrors(errs.errors);
-    });
+      });
   };
 
-// Show loading indicator if cart items or products are not loaded
-if (!user) return <Navigate to="/" replace={true} />;
+  // Show loading indicator if cart items or products are not loaded
+  if (!user) return <Navigate to="/" replace={true} />;
 
-  if (!cartObj || !allProducts) <Loading />;
+  if (!cartObj || !allProducts) return <Loading />;
 
   // Function to calculate the total price of all items in the cart
   const cartTotal = (cartArr) => {
@@ -129,7 +129,8 @@ if (!user) return <Navigate to="/" replace={true} />;
     return total.toFixed(2);
   };
 
-  // Function to format the expiration date input  const expDateFormatter = (expdate) =>
+  // Function to format the expiration date input
+  const expDateFormatter = (expdate) =>
     expdate.replace(/\//g, "").substring(0, 2) +
     (expdate.length > 2 ? "/" : "") +
     expdate.replace(/\//g, "").substring(2, 4);

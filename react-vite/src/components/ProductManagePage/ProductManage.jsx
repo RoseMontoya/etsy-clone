@@ -26,7 +26,7 @@ function ProductManage() {
   // Get current user and products from Redux store
   const user = useSelector((state) => state.session.user);
   const productsObj = useSelector((state) => state.products?.productsCurrent);
-  const products = productsObj? Object.values(productsObj): []
+  const products = productsObj ? Object.values(productsObj) : [];
 
   // Toggle the dropdown menu for the clicked product
   const toggleMenu = (e, productId) => {
@@ -59,22 +59,7 @@ function ProductManage() {
   }, [dispatch, productsObj]);
 
   // Display loading spinner while products are being fetched
-  if (!productsObj) return (<main>
-    <div className="center-loading">
-          <div className="lds-roller">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-          <p>Loading...</p>
-          </div>
-      </main>
-  );
+  if (!productsObj) return <Loading />;
 
   // Display message when there are no products
   if (products?.length === 0)
@@ -89,7 +74,7 @@ function ProductManage() {
           </span>
         </div>
       </main>
-  );
+    );
 
   // Handle click event to open confirmation modal for deleting a product
   const handleDeleteClick = (productId) => {

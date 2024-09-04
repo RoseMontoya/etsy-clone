@@ -44,7 +44,7 @@ function FavoritesPage() {
   if (!user) return <Navigate to="/" replace={true} />;
 
   // Show loading spinner if favorites are not yet loaded
-  if (!favorites) <Loading />;
+  if (!favorites) return <Loading />;
 
   // Handler to add a product to the cart
   const handleAddToCart = (product) => {

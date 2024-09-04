@@ -1,7 +1,7 @@
 // React Imports
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Redux Imports
 import {
@@ -58,7 +58,7 @@ function Cart() {
   };
 
   // Show loading indicator if cart items or products are not loaded
-  if (!cartObj || !allProducts) <Loading />;
+  if (!cartObj || !allProducts) return <Loading />;
 
   // Display message if the cart is empty
   if (cartArr.length === 0) {

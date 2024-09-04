@@ -34,7 +34,7 @@ function LandingPage() {
   }, [dispatch, randomProduct]);
 
   // Show loading spinner while the random product is being fetched
-  if (!randomProduct) <Loading />;
+  if (!randomProduct) return <Loading />;
 
   return (
     <div className="landing-page">

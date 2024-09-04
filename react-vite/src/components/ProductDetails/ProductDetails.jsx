@@ -111,7 +111,7 @@ function ProductDetails() {
   }
 
   // Check if product is loaded
-  if (!product) <Loading />;
+  if (!product) return <Loading />;
 
   const handleAddToCart = () => {
     if (!user) {

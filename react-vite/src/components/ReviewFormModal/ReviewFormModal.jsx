@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 // Redux/Component Imports
 import { createReview, editReview } from "../../redux";
-import {Stars} from "../SubComponents";
+import { Stars } from "../SubComponents";
 import { useModal } from "../../context/Modal";
 
 // Design Imports
@@ -61,7 +61,7 @@ function ReviewFormModal({ productId, formType, reviewId, sellerId }) {
     }
 
     // Automatically uncheck recommendation if rating is below 3 stars
-    if (rating < 3 && recommendation) setRecommendation(false)
+    if (rating < 3 && recommendation) setRecommendation(false);
   }, [formType, prevRev, rating, recommendation]);
 
   return (
