@@ -14,6 +14,9 @@ import {
 // Design Imports
 import "./Checkout.css";
 
+// Helper Imports
+import Loading from "../SubComponents";
+
 function Checkout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -100,24 +103,7 @@ function Checkout() {
 
   if (!user) return <Navigate to="/" replace={true} />;
 
-  if (!cartObj || !allProducts)
-    return (
-      <main>
-        <div className="center-loading">
-          <div className="lds-roller">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-          <p>Loading...</p>
-        </div>
-      </main>
-    );
+  if (!cartObj || !allProducts) <Loading />;
 
   const cartTotal = (cartArr) => {
     let total = 0;

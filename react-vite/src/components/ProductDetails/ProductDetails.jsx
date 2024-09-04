@@ -9,7 +9,12 @@ import { favoritesByUserId } from "../../redux/favorite";
 import { getAllCartItems, addToCart } from "../../redux/cart";
 
 // component imports
-import { ProductReviews, OpenModalMenuItem, ReviewFormModal, LoginFormModal} from '../'
+import {
+  ProductReviews,
+  OpenModalMenuItem,
+  ReviewFormModal,
+  LoginFormModal,
+} from "../";
 import { useModal } from "../../context/Modal";
 import { Stars, Heart, OwnProductConflictModal } from "../SubComponents";
 
@@ -17,6 +22,9 @@ import { Stars, Heart, OwnProductConflictModal } from "../SubComponents";
 import "./ProductDetails.css";
 import { FaGreaterThan } from "react-icons/fa6";
 import { FaLessThan } from "react-icons/fa6";
+
+// Helper Imports
+import Loading from "../SubComponents";
 
 function ProductDetails() {
   const { productId } = useParams();
@@ -98,25 +106,7 @@ function ProductDetails() {
   }
 
   // Check if product is loaded
-  if (!product) {
-    return (
-      <main>
-        <div className="center-loading">
-          <div className="lds-roller">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-          <p>Loading...</p>
-        </div>
-      </main>
-    );
-  }
+  if (!product) <Loading />;
 
   const handleAddToCart = () => {
     if (!user) {

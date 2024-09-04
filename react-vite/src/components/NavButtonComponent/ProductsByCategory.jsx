@@ -11,6 +11,9 @@ import { useModal } from "../../context/Modal"; // Import the modal context
 
 import { FaPlus } from "react-icons/fa6";
 
+// Helper Imports
+import Loading from "../SubComponents";
+
 function ProductsByCategory() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -36,24 +39,7 @@ function ProductsByCategory() {
     }
   }, [dispatch, productsObj, favoritesObj, user]);
 
-  if (!productsObj)
-    return (
-      <main>
-        <div className="center-loading">
-          <div className="lds-roller">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-          <p>Loading...</p>
-        </div>
-      </main>
-    );
+  if (!productsObj) <Loading />;
 
   if (products.length === 0)
     return (

@@ -13,6 +13,7 @@ import {
 
 // Helper Imports
 import { Heart } from "../SubComponents";
+import Loading from "../SubComponents";
 
 // Design Imports
 import { TiStarFullOutline } from "react-icons/ti";
@@ -37,24 +38,7 @@ function FavoritesPage() {
 
   if (!user) return <Navigate to="/" replace={true} />;
 
-  if (!favorites)
-    return (
-      <main>
-        <div className="center-loading">
-          <div className="lds-roller">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-          <p>Loading...</p>
-        </div>
-      </main>
-    );
+  if (!favorites) <Loading />;
 
   const handleAddToCart = (product) => {
     const cartItem = {

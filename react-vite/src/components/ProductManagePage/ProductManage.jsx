@@ -12,6 +12,9 @@ import { useModal } from "../../context/Modal";
 import { IoSettingsOutline } from "react-icons/io5";
 import "./ProductManage.css";
 
+// Helper Imports
+import Loading from "../SubComponents";
+
 function ProductManage() {
   const dispatch = useDispatch();
   const buttonRef = useRef();
@@ -54,24 +57,7 @@ function ProductManage() {
 
   if (!user) return <Navigate to="/" replace={true} />;
 
-  if (!productsObj)
-    return (
-      <main>
-        <div className="center-loading">
-          <div className="lds-roller">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-          <p>Loading...</p>
-        </div>
-      </main>
-    );
+  if (!productsObj) <Loading />;
 
   if (products?.length === 0)
     return (

@@ -7,6 +7,9 @@ import { thunkRandomProduct } from "../../redux";
 // Design Imports
 import "./LandingPage.css";
 
+// Helper Imports
+import Loading from "../SubComponents";
+
 function LandingPage() {
   const dispatch = useDispatch();
   const [productId, setProductId] = useState(0);
@@ -24,25 +27,7 @@ function LandingPage() {
     }
   }, [dispatch, randomProduct]);
 
-  if (!randomProduct) {
-    return (
-      <main>
-        <div className="center-loading">
-          <div className="lds-roller">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-          <p>Loading...</p>
-        </div>
-      </main>
-    );
-  }
+  if (!randomProduct) <Loading />;
 
   return (
     <div className="landing-page">
