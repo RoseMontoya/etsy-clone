@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./CompleteTransaction.css"
 
 function CompleteTransaction(){
+    // Get the current date and time
     const now = new Date();
     
     // Get the current year, month, day, hour, minute, second, and millisecond

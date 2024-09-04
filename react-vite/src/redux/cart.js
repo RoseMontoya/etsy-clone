@@ -1,9 +1,11 @@
+// Action types
 const GET_CART = "cart/get-cart";
 const DELETE_ALLCART = "cart/delete-cart";
 const DELETE_CART_ITEM = "cart/detelet-cart-item";
 const ADD_TO_CART = "cart/add-to-cart";
 const EDIT_QUANTITY_ITEM = "cart/edit-quantity-item";
 const PRODUCT_DELETED = "cart/product-deleted";
+
 //Action to add 1 item in cart
 const addToCartAction = (cartItem) => ({
   type: ADD_TO_CART,
@@ -33,11 +35,13 @@ export const deleteAllCartItemsAction = () => ({
   type: DELETE_ALLCART,
 });
 
+// Action to handle when a product is deleted from the inventory
 export const productDeletedCart = (productId) => ({
   type: PRODUCT_DELETED,
   productId,
 });
 
+// Thunk action to delete a cart item by its ID
 export const deleteCartItem = (cartItemId) => async (dispatch) => {
   const response = await fetch(`/api/cart/item/${cartItemId}`, {
     method: "DELETE",
@@ -51,6 +55,7 @@ export const deleteCartItem = (cartItemId) => async (dispatch) => {
   }
 };
 
+// Thunk action to update the quantity of a cart item
 export const updateCartItemQuantity =
   (cartItemId, quantity) => async (dispatch) => {
     const response = await fetch(`/api/cart/${cartItemId}/edit`, {
@@ -68,8 +73,9 @@ export const updateCartItemQuantity =
       const errors = await response.json();
       return errors;
     }
-  };
+};
 
+// Thunk action to add a product to the cart
 export const addToCart =
   (productId, quantity = 1, gift = false, cartId = null) =>
   async (dispatch) => {
@@ -95,8 +101,9 @@ export const addToCart =
       const errors = await response.json();
       return errors;
     }
-  };
+};
 
+// Thunk action to clear all items from the cart
 export const clearCart = () => async (dispatch) => {
   const response = await fetch(`/api/cart/clear`, {
     method: "DELETE",
@@ -111,6 +118,7 @@ export const clearCart = () => async (dispatch) => {
   }
 };
 
+// Thunk action to get all cart items for the current user
 export const getAllCartItems = () => async (dispatch) => {
   const response = await fetch(`/api/cart/`);
 
@@ -123,8 +131,11 @@ export const getAllCartItems = () => async (dispatch) => {
   const errors = await response.json();
   return errors;
 };
+
+// Initial state
 const initialState = {};
 
+// Reducer
 const cartReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_CART: {

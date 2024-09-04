@@ -1,35 +1,42 @@
+// Action types
 const GET_FAV = "favorites/getFav";
 const ADD_FAV = "favorites/addFav";
 const REMOVE_FAV = "favorites/removeFav";
 const PRODUCT_DELETED = 'favorites/productDeleted'
 const CLEAR_FAVS = 'favorites/clearFavs'
 
+// Action creator to get all favorites for a user
 const getFav = (userId, favorites) => ({
   type: GET_FAV,
   payload: favorites,
   userId,
 });
 
+// Action creator to add a favorite
 const addFav = (favorite) => ({
   type: ADD_FAV,
   payload: favorite,
 });
 
+// Action creator to remove a favorite
 const removeFav = (favorite) => ({
   type: REMOVE_FAV,
   payload: favorite,
 });
 
+// Action creator to clear all favorites
 export const clearFavs = () => ({
   type: CLEAR_FAVS
 })
 
+// Action creator to handle product deletion from favorites
 export const productDeletedFav = (productId, userId) => ({
   type: PRODUCT_DELETED,
   productId,
   userId
 })
 
+// Thunk action to fetch all favorites by user ID
 export const favoritesByUserId = (userId) => async (dispatch) => {
   const response = await fetch("/api/favorites/current");
   const data = await response.json();
@@ -40,6 +47,7 @@ export const favoritesByUserId = (userId) => async (dispatch) => {
   return data;
 };
 
+// Thunk action to add a favorite by product ID
 export const addFavorite = (productId) => async (dispatch) => {
   const response = await fetch("/api/favorites/", {
     method: "POST",
@@ -55,6 +63,7 @@ export const addFavorite = (productId) => async (dispatch) => {
   return response;
 };
 
+// Thunk action to remove a favorite by product ID
 export const removeFavorite = (productId) => async (dispatch) => {
   const response = await fetch(`/api/favorites/${productId}`, {
     method: "DELETE",
@@ -68,8 +77,10 @@ export const removeFavorite = (productId) => async (dispatch) => {
   return response;
 };
 
+// Initial state
 const initialState = {};
 
+// Favorites reducer
 function favoriteReducer(state = initialState, action) {
   switch (action.type) {
     case GET_FAV: {

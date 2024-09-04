@@ -11,7 +11,7 @@ from sqlalchemy.orm import joinedload, subqueryload
 from ..forms import ReviewForm, ProductForm, ProductImageForm
 import random
 
-
+# Defining blueprint for product-related routes
 products_routes = Blueprint("products", __name__)
 
 
@@ -19,9 +19,10 @@ products_routes = Blueprint("products", __name__)
 @products_routes.route("/current", methods=["GET"])
 @login_required
 def product_manage():
-    # Find Products
+    # Query for all products where the seller is the current user
     products = Product.query.filter(Product.seller_id == current_user.id).all()
 
+    # Return the products and the user ID as a JSON response
     return {
         "products": [product.to_dict() for product in products],
         "user_id": current_user.id,
@@ -31,27 +32,28 @@ def product_manage():
 # Get a random product
 @products_routes.route("/random")
 def get_random_product():
-    # if not current_user.is_anonymous:
-    #     count = Product.query.filter(Product.seller_id != current_user.id).count()
-    # else:
+    # Get the total count of products
     count = Product.query.count()
+
+    # Generate a random product ID within the range of existing products
     randomKey = random.randint(1, count)
+
+    # Query for a random product using the generated ID
     product = Product.query.filter(Product.id == randomKey).first()
+
+    # Return the product details as a JSON response
     return product.to_dict_combined()
-    # images = ProductImage.query.filter(ProductImage.product_id == product.id).all()
-    # productD["product_images"] = {image.id: image.to_dict() for image in images}
-    # return productD
 
 
 @products_routes.route('/preview-images')
 def get_preview_images():
     previewImgs = ProductImage.query.filter(ProductImage.preview == True).all()
 
-    print('IN PREVIEW IMAGE ROUTE')
+    # print('IN PREVIEW IMAGE ROUTE')
 
     return [image.to_dict() for image in previewImgs]
 
-
+# Route to get all preview images
 @products_routes.route('/<int:product_id>/images')
 def get_product_images(product_id):
     images = ProductImage.query.filter(ProductImage.product_id == product_id).all()
@@ -136,10 +138,6 @@ def product_by_id(productId):
             "error": {"message": "Product could not be found.", "error": str(e)}
         }, 404
 
-    # Find Product Images and add to product
-    # images = ProductImage.query.filter(ProductImage.product_id == productId).all()
-    # product["product_images"] = {image.id: image.to_dict() for image in images}
-
     return product
 
 
@@ -223,7 +221,7 @@ def update_product_image(imageId):
         print("Form errors:", form.errors)
         return form.errors, 400
 
-
+# Delete an image from a product
 @products_routes.route("/images/<int:imageId>", methods=["DELETE"])
 @login_required
 def delete_image(imageId):
@@ -238,38 +236,8 @@ def delete_image(imageId):
 # Get all products
 @products_routes.route("/", methods=["GET"])
 def get_all_products():
-
-    # products = db.session.query(Product).options(
-    #     joinedload(Product.seller),
-    #     joinedload(Product.images),
-    #     joinedload(Product.reviews),
-    # ).all()
-    # 174.059814453125 ms
-    # 176.099853515625 ms
-    # 550.406005859375 ms
-    # 256.68896484375 ms
-    # 216.72900390625 ms
-
-
-    # products = db.session.query(Product).options(
-    #     subqueryload(Product.seller),
-    #     subqueryload(Product.images),
-    #     subqueryload(Product.reviews),
-    # ).all()
-    # allProducts: 175.169921875 ms
-    # allProducts: 140.258056640625 ms
-    # allProducts: 419.89697265625 ms
-    # allProducts: 136.43701171875 ms
-    # llProducts: 235.68701171875 ms
     products = Product.query.all()
-    # users = User.query.all
-    # reviews = db.session.query(
-    #     func.sum(Review.stars).label("stars_total"),
-    #     func.count(Review.id).label('review_count')
-    # ).group_by(Review.product_id).all
-    # previewImgs = ProductImage.query.filter(ProductImage.preview == True).all
-    print('IN ALL PRODUCTS ROUTE')
-
+    # print('IN ALL PRODUCTS ROUTE')
     return [product.to_dict_x_seller() for product in products]
 
 
@@ -298,9 +266,7 @@ def decrease_inventory_edit():
 
     db.session.commit()
 
-
     # Save changes to the database
-
     return jsonify(
         {"products": updated_products, "deleted_products": deleted_products}
     ), 200

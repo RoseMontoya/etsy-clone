@@ -5,9 +5,12 @@ from ..models.cart import Cart, CartItem
 from ..models import db
 # from app.models import User
 
+##All Prefixed are in __init__.py
+
+# Defining blueprint for carts routes
 cart_routes = Blueprint("cart", __name__)
 
-
+# Route to edit the quantity of a specific item in the cart
 @cart_routes.route("/<int:cart_item_id>/edit", methods=["PUT"])
 @login_required
 def edit_cart_item_quantity(cart_item_id):
@@ -31,8 +34,7 @@ def edit_cart_item_quantity(cart_item_id):
 
     return cart_item.to_dict(), 200
 
-
-##All Prefixed are in __init__.py
+# Route to get all items in the current user's cart
 @cart_routes.route("/", methods=["GET"])
 @login_required
 def get_cart():
@@ -40,7 +42,7 @@ def get_cart():
     print("BACKEND ==========>", cart)
     return cart.to_dict()
 
-
+# Route to add a product to the current user's cart
 @cart_routes.route("/add/", methods=["POST"])
 @login_required
 def add_to_cart():

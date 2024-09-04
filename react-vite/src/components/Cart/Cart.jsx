@@ -12,10 +12,13 @@ import { thunkAllProducts } from "../../redux/product";
 
 function Cart() {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  // Select the cart items and all products from the Redux store
   const cartObj = useSelector((state) => state.cart?.cartItems);
   const allProducts = useSelector((state) => state.products?.allProducts);
 
+  // Convert cart items object to an array
   const cartArr = cartObj ? Object.values(cartObj) : [];
 
 
@@ -28,16 +31,19 @@ function Cart() {
     }
   }, [dispatch, cartObj, allProducts]);
 
+  // Handler to delete a specific cart item
   const handleDelete = async (cartItemId, e) => {
     e.stopPropagation(); // Prevent click from propagating to the Link
     await dispatch(deleteCartItem(cartItemId));
     // dispatch(getAllCartItems());
   };
 
+  // Handler to clear entire cart
   const handleClearCart = async () => {
     await dispatch(clearCart());
   };
 
+  // Handler to update the quantity of a cart item
   const handleQuantityChange = async (cartItemId, newQuantity) => {
     try {
       await dispatch(updateCartItemQuantity(cartItemId, newQuantity));
@@ -46,6 +52,7 @@ function Cart() {
     }
   };
 
+  // Show loading indicator if cart items or products are not loaded
   if (!cartObj || !allProducts) return (<main>
     <div className="center-loading">
           <div className="lds-roller">
@@ -63,6 +70,7 @@ function Cart() {
       </main>
   ) ;
 
+  // Display message if the cart is empty
   if (cartArr.length === 0) {
     return (
       <main>
@@ -76,6 +84,7 @@ function Cart() {
     );
   }
 
+  // Calculate the total price of all items in the cart
   const cartTotal = (cartArr) => {
     let total = 0;
     for (let item of cartArr) {

@@ -4,9 +4,10 @@ from app.forms import LoginForm
 from app.forms import SignUpForm
 from flask_login import current_user, login_user, logout_user, login_required
 
+# Define a blueprint for auth-related routes
 auth_routes = Blueprint("auth", __name__)
 
-
+# Route to authenticate a user and return their data if authenticated
 @auth_routes.route("/")
 def authenticate():
     """
@@ -16,7 +17,7 @@ def authenticate():
         return current_user.to_dict()
     return {"errors": {"message": "Unauthorized"}}, 401
 
-
+# Route to log a user in
 @auth_routes.route("/login", methods=["POST"])
 def login():
     """
@@ -34,7 +35,7 @@ def login():
         return user.to_dict()
     return form.errors, 401
 
-
+# Route to log a user out
 @auth_routes.route("/logout")
 def logout():
     """
@@ -43,7 +44,7 @@ def logout():
     logout_user()
     return {"message": "User logged out"}
 
-
+# Route to sign up a new user
 @auth_routes.route("/signup", methods=["POST"])
 def sign_up():
     """
@@ -77,7 +78,7 @@ def sign_up():
         return new_user.to_dict()
     return form.errors, 401
 
-
+# Route to handle unauthorized access attempts
 @auth_routes.route("/unauthorized")
 def unauthorized():
     """

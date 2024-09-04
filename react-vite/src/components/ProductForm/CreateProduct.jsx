@@ -9,6 +9,7 @@ import {
 import "./ProductForm.css";
 
 function NewProductForm() {
+  // State hooks to manage form inputs and error messages
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [inventory, setInventory] = useState(0);
@@ -25,11 +26,14 @@ function NewProductForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // Get the current user from the Redux store
   const user = useSelector((state) => state.session.user);
 
+  // Function to validate form inputs before submission
   const validateForm = () => {
     const errorObj = {};
 
+    // Validate title, description, inventory, price, and category
     if (!title) errorObj.title = "Title is required."
     if (!description) errorObj.description = "Description is required."
     if (description.length < 10) errorObj.description = "Description must be at least 10 characters long. Please provide more details on your product."
@@ -37,6 +41,7 @@ function NewProductForm() {
     if (price <= 0) errorObj.price = "Price must be greater than zero."
     if (!categoryId) errorObj.category = "Category is required."
 
+    // Validate image URLs with a regex
     const imageUrlValid = /\.(jpeg|jpg|gif|png)$/;
     if (!previewImageUrl.match(imageUrlValid)) {
       errorObj.previewImageUrl = "A valid image URL is required for the preview image.";
@@ -45,9 +50,11 @@ function NewProductForm() {
     return errorObj;
   }
 
-
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate the form and set errors if validation fails
     const formErrors = validateForm();
     if (Object.values(formErrors).length > 0) {
       setErrors(formErrors);
@@ -56,6 +63,7 @@ function NewProductForm() {
 
     setErrors({});
 
+    // Create a new product object
     const new_product = {
       title,
       description,
@@ -65,9 +73,12 @@ function NewProductForm() {
       seller_id: user.id,
     };
 
+    // Dispatch addProduct action to add the new product
     const result = await dispatch(addProduct(new_product));
 
     const productId = result.id;
+
+    // Prepare an array of images to upload
     let imageArray = [
       {
         product_id: productId,
@@ -75,6 +86,8 @@ function NewProductForm() {
         preview: true,
       },
     ];
+
+    // Add additional images if provided
     if (image1Url)
       imageArray.push({
         product_id: productId,
@@ -106,11 +119,15 @@ function NewProductForm() {
         preview: false,
       });
 
+    // Dispatch addProductImage for each image
     await Promise.all(
       imageArray.map((image) => dispatch(addProductImage(image, user.id)))
     );
+
+    // Fetch the updated product list for the user
     dispatch(productByUserId());
 
+    // Handle errors or navigate to the new product page
     if (result.errors) {
       setErrors(result.errors);
     } else {
@@ -119,6 +136,7 @@ function NewProductForm() {
 
   };
 
+  // Helper function to format the price input as a decimal
   const formatDecimal = (input) => {
     let value = parseFloat(input.value);
     if (!isNaN(value)) {

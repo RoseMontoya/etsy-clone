@@ -5,8 +5,8 @@ from flask_login import current_user
 
 home_routes = Blueprint("home", __name__)
 
-
 ##All Prefixed are in __init__.py
+# Route for home page
 @home_routes.route("/")
 def get_home_page():
     products = Product.query.all()

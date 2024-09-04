@@ -16,6 +16,8 @@ function ProductList() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { setModalContent } = useModal(); // Use the modal context to trigger the login modal
+
+  // Select products, user, and favorites from the Redux store
   const productsObj = useSelector((state) => state.products?.allProducts);
   const user = useSelector((state) => state.session.user);
   const rawProducts = productsObj ? Object.values(productsObj) : [];
@@ -23,9 +25,11 @@ function ProductList() {
   const favoritesObj = useSelector((state) => state.favorites?.[user?.id]);
   const favProducts = favoritesObj
     ? Object.values(favoritesObj).map((fav) => fav.product_id)
-    : [];
+    : []
+  ;
 
   useEffect(() => {
+    // Fetch all products and user favorites if not already loaded
     if (!productsObj) {
       dispatch(thunkAllProducts());
     }
@@ -34,8 +38,7 @@ function ProductList() {
     }
   }, [dispatch, productsObj, favoritesObj, user]);
 
-
-
+  // Show loading spinner while products are being fetched
   if (!productsObj) return (<main>
       <div className="center-loading">
             <div className="lds-roller">
@@ -50,10 +53,13 @@ function ProductList() {
             </div>
             <p>Loading...</p>
             </div>
-        </main>)
+        </main>
+  )
 
+  // Show message if no products are available in the selected category
   if (products.length === 0) return (<main><div className="center-in-page"><h2>No products for sell. Please check back later.</h2></div></main>)
 
+  // Handler to add a product to the cart
   const handleAddToCart = (product) => {
     if (!user) {
       // If the user is not logged in, open the login modal
@@ -67,11 +73,14 @@ function ProductList() {
       cart_id: user.cart_id,
       product: product, // The entire product object
     };
+
+    // If the user tries to add their own product to the cart, show a warning modal
     if (user.id === cartItem.product.seller.id) {
       setModalContent(<OwnProductConflictModal />);
       return;
     }
 
+    // Add the item to the cart and navigate to the cart page
     dispatch(addToCart(cartItem)).then(() => {
       dispatch(getAllCartItems()).then(() => {
         navigate("/cart"); // Redirect to the cart page after updating the cart

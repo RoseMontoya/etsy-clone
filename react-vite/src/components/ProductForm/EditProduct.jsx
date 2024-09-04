@@ -10,6 +10,7 @@ import {
 import "./ProductForm.css";
 
 function EditProductForm() {
+  // State hooks for managing form fields and error messages
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [inventory, setInventory] = useState();
@@ -26,6 +27,8 @@ function EditProductForm() {
   const { productId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // Get user and product details from Redux store
   const user = useSelector((state) => state.session.user);
   const product = useSelector(
     (state) => state.products.productById?.[productId]
@@ -46,10 +49,12 @@ function EditProductForm() {
   }
   console.log(editProduct)
 
+  // useEffect to load product data if not already available
   useEffect(() => {
     if (!product) {
       dispatch(productById(productId));
     } else {
+      // Initialize form fields with existing product data
       setTitle(product.title || "");
       setDescription(product.description || "");
       setInventory(product.inventory || "");
@@ -58,6 +63,7 @@ function EditProductForm() {
     }
   }, [dispatch, productId, product]);
 
+  // useEffect to initialize image state variables
   useEffect(() => {
     if (!previewImage) {
       setPreviewImage(images[0] || "");
@@ -69,6 +75,7 @@ function EditProductForm() {
     }
   }, [images, previewImage]);
 
+  // Function to validate form inputs
   const validateForm = () => {
     const errorObj = {};
 
@@ -85,9 +92,11 @@ function EditProductForm() {
     return errorObj;
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validate form and show errors if necessary
     const formErrors = validateForm();
     if (Object.values(formErrors).length > 0) {
       setErrors(formErrors);
@@ -96,6 +105,7 @@ function EditProductForm() {
 
     setErrors({});
 
+    // Prepare the updated product data
     const updated_product = {
       id: product.id,
       title,
@@ -106,10 +116,12 @@ function EditProductForm() {
       seller_id: user.id,
     };
 
+    // Prepare arrays to manage image updates
     const imagesUpdate = [previewImage];
     const imagesDelete = [];
     const imagesAdd = [];
 
+    // Check if image URLs are present and determine if they should be updated, deleted, or added
     if (image1.url && images[1]) {
       imagesUpdate.push(image1);
     } else if (!image1.url && images[1]) {
@@ -150,6 +162,7 @@ function EditProductForm() {
       imagesAdd.push(image5);
     }
 
+    // Dispatch the editProduct action and handle image updates
     dispatch(editProduct(updated_product))
       .then((res) => {
         imagesAdd.map(async (image) => {
@@ -160,9 +173,13 @@ function EditProductForm() {
           };
           dispatch(addProductImage(newImage, user.id));
         });
+
+        // Update existing images
         imagesUpdate.map(async (image) => {
           dispatch(updateProductImage(image, user.id));
         });
+
+        // Delete images that have been removed
         imagesDelete.map(async (image) => {
           dispatch(deleteProductImage(image));
         });
@@ -170,6 +187,7 @@ function EditProductForm() {
         if (res.errors) {
           setErrors(res.errors);
         } else {
+          // Navigate to the updated product page
           navigate(`/products/${res.id}`);
         }
       })
@@ -178,6 +196,7 @@ function EditProductForm() {
       });
   };
 
+  // Helper function to format price input as a decimal
   const formatDecimal = (input) => {
     let value = parseFloat(input.value);
     if (!isNaN(value)) {
