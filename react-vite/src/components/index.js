@@ -16,11 +16,4 @@ import ProductReviews from "./ProductReviews";
 import ReviewFormModal from './ReviewFormModal'
 import SignupFormModal from './SignupFormModal';
 
-
-
-
-
-
-
-
 export { Cart, Checkout, CompleteTransaction, DeleteReview, FavoritesPage, Footer, LandingPage, LoginFormModal, OpenModalMenuItem, ProfileButton, Navigation, OpenModalButton, ProductDetails, NewProductForm, EditProductForm, ProductList, ProductManage, ProductReviews, ReviewFormModal, SignupFormModal }

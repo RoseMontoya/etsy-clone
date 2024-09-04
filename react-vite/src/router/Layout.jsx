@@ -1,9 +1,11 @@
+// React Imports
 import { useEffect, useState } from "react";
-import { Outlet, ScrollRestoration } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { Outlet, ScrollRestoration } from "react-router-dom";
+
+// Redux/Component Imports
 import { ModalProvider, Modal } from "../context/Modal";
-import { thunkAuthenticate } from "../redux/session";
-// import Navigation from "../components";
+import { thunkAuthenticate } from "../redux";
 import { Footer, Navigation } from "../components";
 
 export default function Layout() {

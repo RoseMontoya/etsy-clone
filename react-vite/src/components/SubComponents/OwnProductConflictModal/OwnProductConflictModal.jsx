@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useModal } from "../../../context/Modal";
-import "./OwnProductConflictModal.css"; // Assuming you have modal CSS
 import { IoMdClose } from "react-icons/io";
+import "./OwnProductConflictModal.css";
 
 const OwnProductConflictModal = () => {
   const { closeModal } = useModal(); // Use context to handle modal closing

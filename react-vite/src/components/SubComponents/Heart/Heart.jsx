@@ -1,8 +1,11 @@
+// React Imports
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+// Redux/Component Imports
 import { addFavorite, removeFavorite } from "../../../redux";
 import OwnProductConflictModal from "../OwnProductConflictModal";
 import { useModal } from "../../../context/Modal";
+// Design Imports
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import "./Heart.css";
