@@ -21,7 +21,7 @@ import { FaPlus } from "react-icons/fa6";
 import "./ProductList.css";
 
 // Helper Imports
-import Loading from "../SubComponents";
+import { Loading } from "../SubComponents";
 
 function ProductList() {
   const dispatch = useDispatch();

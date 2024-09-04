@@ -15,7 +15,7 @@ import {
 import "./Checkout.css";
 
 // Helper Imports
-import Loading from "../SubComponents";
+import { Loading } from "../SubComponents";
 
 function Checkout() {
   const dispatch = useDispatch();
