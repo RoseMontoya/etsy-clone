@@ -23,6 +23,11 @@ h1 {
   font-weight: 300;
 }
 
+nav {
+  border-bottom: 1px solid #dee2e6; /* Bottom border for separation */
+  padding: 0px 20px;
+}
+
 /*logo */
 .nav_icon {
   width: 30px;
@@ -33,12 +38,12 @@ h1 {
 }
 
 .nav_container {
-  padding: 0px 20px;
   display: flex;
   justify-content: space-between; /* Distributes space between items */
   align-items: center; /* Centers items vertically */
+  max-width: 1200px;
+  margin: 0px auto;
   height: 60px; /* Height of the navbar */
-  border-bottom: 1px solid #dee2e6; /* Bottom border for separation */
 }
 
 .icon-shopping {
@@ -61,7 +66,6 @@ h1 {
 
 .icon-shopping:hover svg {
   color: #122767;
-
 }
 
 .cart-count-badge {
@@ -86,5 +90,4 @@ h1 {
 
 .icon-shopping:hover .cart-count-badge {
   background-color: #122767;
-
 }

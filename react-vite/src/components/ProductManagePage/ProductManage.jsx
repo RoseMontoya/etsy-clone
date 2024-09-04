@@ -125,9 +125,12 @@ function ProductManage() {
               <div className="man-prod-options">
                 {showDropDownId === product.id && (
                   <div className="drop_down_container">
-                    <p className="drop_down_item">
-                      <Link to={`/products/${product.id}/edit`}>Edit</Link>
-                    </p>
+                    <Link
+                      to={`/products/${product.id}/edit`}
+                      className="drop_down_item"
+                    >
+                      <p>Edit</p>
+                    </Link>
                     <p
                       onClick={() => handleDeleteClick(product.id)}
                       className="drop_down_item"
