@@ -13,7 +13,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import "./ProductManage.css";
 
 // Helper Imports
-import Loading from "../SubComponents";
+import { Loading } from "../SubComponents";
 
 function ProductManage() {
   const dispatch = useDispatch();

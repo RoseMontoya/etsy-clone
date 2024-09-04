@@ -12,7 +12,7 @@ import { useModal } from "../../context/Modal"; // Import the modal context
 import { FaPlus } from "react-icons/fa6";
 
 // Helper Imports
-import Loading from "../SubComponents";
+import { Loading } from "../SubComponents";
 
 function ProductsByCategory() {
   const dispatch = useDispatch();

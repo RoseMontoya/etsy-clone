@@ -13,7 +13,7 @@ import {
 
 // Helper Imports
 import { Heart } from "../SubComponents";
-import Loading from "../SubComponents";
+import { Loading } from "../SubComponents";
 
 // Design Imports
 import { TiStarFullOutline } from "react-icons/ti";

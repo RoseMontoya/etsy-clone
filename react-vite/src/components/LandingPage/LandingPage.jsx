@@ -8,7 +8,7 @@ import { thunkRandomProduct } from "../../redux";
 import "./LandingPage.css";
 
 // Helper Imports
-import Loading from "../SubComponents";
+import { Loading } from "../SubComponents";
 
 function LandingPage() {
   const dispatch = useDispatch();

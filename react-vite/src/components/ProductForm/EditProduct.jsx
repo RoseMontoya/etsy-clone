@@ -8,7 +8,8 @@ import {
   addProductImage,
   updateProductImage,
   deleteProductImage,
-  productById, editProduct
+  productById,
+  editProduct,
 } from "../../redux";
 
 // Design Imports

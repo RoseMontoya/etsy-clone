@@ -16,7 +16,7 @@ import {
 import "./Cart.css";
 
 // Helper Imports
-import Loading from "../SubComponents";
+import { Loading } from "../SubComponents";
 
 function Cart() {
   const dispatch = useDispatch();
