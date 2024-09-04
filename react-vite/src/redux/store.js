@@ -11,6 +11,7 @@ import reviewsReducer from "./review";
 import favoriteReducer from "./favorite";
 import cartReducer from "./cart";
 
+// combining all reducers
 const rootReducer = combineReducers({
   session: sessionReducer,
   products: productReducer,

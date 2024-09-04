@@ -2,9 +2,12 @@ from flask import Blueprint, jsonify, request
 from flask_login import current_user, login_required
 from ..models import db, Product, Cart, CartItem
 
+##All Prefixed are in __init__.py
+
+# Defining blueprint for carts routes
 cart_routes = Blueprint("cart", __name__)
 
-
+# Route to edit the quantity of a specific item in the cart
 @cart_routes.route("/<int:cart_item_id>/edit", methods=["PUT"])
 @login_required
 def edit_cart_item_quantity(cart_item_id):
@@ -28,15 +31,14 @@ def edit_cart_item_quantity(cart_item_id):
 
     return cart_item.to_dict(), 200
 
-
-##All Prefixed are in __init__.py
+# Route to get all items in the current user's cart
 @cart_routes.route("/", methods=["GET"])
 @login_required
 def get_cart():
     cart = Cart.query.filter(Cart.user_id == current_user.id).first()
     return cart.to_dict()
 
-
+# Route to add a product to the current user's cart
 @cart_routes.route("/add/", methods=["POST"])
 @login_required
 def add_to_cart():

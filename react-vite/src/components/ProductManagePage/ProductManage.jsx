@@ -20,13 +20,15 @@ function ProductManage() {
   const buttonRef = useRef();
   const { setModalContent, closeModal } = useModal();
 
+  // Track which product's dropdown is open
   const [showDropDownId, setShowDropDownId] = useState(null); // Track the product ID
 
+  // Get current user and products from Redux store
   const user = useSelector((state) => state.session.user);
   const productsObj = useSelector((state) => state.products?.productsCurrent);
+  const products = productsObj? Object.values(productsObj): []
 
-  const products = productsObj ? Object.values(productsObj) : [];
-
+  // Toggle the dropdown menu for the clicked product
   const toggleMenu = (e, productId) => {
     e.stopPropagation();
     if (showDropDownId === productId) {
@@ -50,15 +52,31 @@ function ProductManage() {
   }, [showDropDownId]);
 
   useEffect(() => {
+    // Fetch user's products if not already loaded
     if (!productsObj) {
       dispatch(productByUserId());
     }
   }, [dispatch, productsObj]);
 
-  if (!user) return <Navigate to="/" replace={true} />;
+  // Display loading spinner while products are being fetched
+  if (!productsObj) return (<main>
+    <div className="center-loading">
+          <div className="lds-roller">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <p>Loading...</p>
+          </div>
+      </main>
+  );
 
-  if (!productsObj) <Loading />;
-
+  // Display message when there are no products
   if (products?.length === 0)
     return (
       <main>
@@ -71,8 +89,9 @@ function ProductManage() {
           </span>
         </div>
       </main>
-    );
+  );
 
+  // Handle click event to open confirmation modal for deleting a product
   const handleDeleteClick = (productId) => {
     setModalContent(
       <ConfirmDeleteModal
@@ -82,6 +101,7 @@ function ProductManage() {
     );
   };
 
+  // Function to handle the deletion confirmation
   const handleDeleteConfirm = async (productId) => {
     await dispatch(deleteProduct(productId, user.id));
     closeModal();

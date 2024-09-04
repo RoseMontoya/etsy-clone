@@ -21,11 +21,13 @@ function Checkout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // Select cart items and products from the Redux store
   const user = useSelector((state) => state.session.user);
   const cartObj = useSelector((state) => state.cart?.cartItems);
   const allProducts = useSelector((state) => state.products?.allProducts);
   const cartArr = cartObj ? Object.values(cartObj) : [];
 
+  // State variables for handling form input and errors
   const [cardName, setCardName] = useState("");
   const [cardNumber, setCardNumber] = useState("");
   const [cardExpiration, setCardExpiration] = useState("");
@@ -34,6 +36,7 @@ function Checkout() {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
+    // Fetch cart items and products if they are not already loaded
     if (!cartObj) {
       dispatch(getAllCartItems());
     }
@@ -42,6 +45,7 @@ function Checkout() {
     }
   }, [dispatch, cartObj, allProducts]);
 
+  // Function to validate form input fields
   const validateForm = () => {
     const errorObj = {};
 
@@ -83,13 +87,16 @@ function Checkout() {
     return errorObj;
   };
 
+  // Handler to complete the transaction
   const handleCompleteTransaction = async (e) => {
     e.preventDefault();
+    // Validate the form fields
     const formErrors = validateForm();
     if (Object.values(formErrors).length > 0) {
       setErrors(formErrors);
       return;
     }
+    // Update inventory and clear the cart on successful transaction
     dispatch(updateInventory())
       .then(() => {
         dispatch(clearCart());
@@ -98,13 +105,15 @@ function Checkout() {
       .catch(async (res) => {
         const errs = await res.json();
         setErrors(errs.errors);
-      });
+    });
   };
 
-  if (!user) return <Navigate to="/" replace={true} />;
+// Show loading indicator if cart items or products are not loaded
+if (!user) return <Navigate to="/" replace={true} />;
 
   if (!cartObj || !allProducts) <Loading />;
 
+  // Function to calculate the total price of all items in the cart
   const cartTotal = (cartArr) => {
     let total = 0;
     for (let item of cartArr) {
@@ -120,7 +129,7 @@ function Checkout() {
     return total.toFixed(2);
   };
 
-  const expDateFormatter = (expdate) =>
+  // Function to format the expiration date input  const expDateFormatter = (expdate) =>
     expdate.replace(/\//g, "").substring(0, 2) +
     (expdate.length > 2 ? "/" : "") +
     expdate.replace(/\//g, "").substring(2, 4);

@@ -1,6 +1,7 @@
 import { productDeletedCart } from "./cart";
 import { productDeletedFav } from "./favorite";
 
+// Action types
 const GET_PRODUCTS = "product/getProducts";
 const PRODUCT_BY_ID = "product/getProductById";
 const PRODUCT_BY_CURRENT_USER = "product/getProductByCurrentUser";
@@ -12,37 +13,44 @@ const UPDATE_IMAGE = "image/updateImage";
 const DELETE_IMAGE = "image/deleteImage";
 const CLEAR_CURRENT = "products/clearCurrent";
 
+// Action creator for get all products
 const getProducts = (products) => ({
   type: GET_PRODUCTS,
   payload: products,
 });
 
+// Action creator for get product by product id
 const getProductById = (product) => ({
   type: PRODUCT_BY_ID,
   payload: product,
 });
 
+// Action creator to get products by current user
 const getProductByCurrentUser = (products, user_id) => ({
   type: PRODUCT_BY_CURRENT_USER,
   payload: products,
   user_id,
 });
 
+// Action creator to create a product
 const createProduct = (product) => ({
   type: CREATE_PRODUCT,
   payload: product,
 });
 
+// Action creator to update a product
 const updateProduct = (product) => ({
   type: UPDATE_PRODUCT,
   payload: product,
 });
 
+// Action creator to remove a product
 const removeProduct = (productId) => ({
   type: DELETE_PRODUCT,
   payload: productId,
 });
 
+// Action creator to create an image for a product
 const createImage = (product, userId) => {
   return {
     type: CREATE_IMAGE,
@@ -51,6 +59,7 @@ const createImage = (product, userId) => {
   };
 };
 
+// Action creator to update an image for a product
 const updateImage = (image, userId) => {
   return {
     type: UPDATE_IMAGE,
@@ -59,6 +68,7 @@ const updateImage = (image, userId) => {
   };
 };
 
+// Action creator to delete an image for a product
 const deleteImage = (image) => {
   return {
     type: DELETE_IMAGE,
@@ -66,12 +76,14 @@ const deleteImage = (image) => {
   };
 };
 
+// Action creator to clear cart
 export const clearCurrent = () => {
   return {
     type: CLEAR_CURRENT,
   };
 };
 
+// Thunk to handle changes in reviews
 export const reviewChange = (userId) => async (dispatch) => {
   const response = await fetch(`/api/users/${userId}/products`);
 
@@ -83,6 +95,7 @@ export const reviewChange = (userId) => async (dispatch) => {
   }
 };
 
+// Thunk to fetch all products
 export const thunkAllProducts = () => async (dispatch) => {
   const fetches = [
     fetch("/api/products/"),
@@ -158,6 +171,7 @@ export const thunkAllProducts = () => async (dispatch) => {
   return data[0];
 };
 
+// Thunk to fetch a random product
 export const thunkRandomProduct = () => async (dispatch) => {
   const res = await fetch(`/api/products/random`);
 
@@ -204,6 +218,7 @@ export const thunkRandomProduct = () => async (dispatch) => {
   return product;
 };
 
+// Thunk to fetch product by ID
 export const productById = (productId) => async (dispatch) => {
   const fetches = [
     fetch(`/api/products/${productId}`),
@@ -349,6 +364,7 @@ export const updateProductImage = (image, userId) => async (dispatch) => {
   }
 };
 
+// Thunk to delete a product image
 export const deleteProductImage = (image) => async (dispatch) => {
   const response = await fetch(`/api/products/images/${image.id}`, {
     method: "DELETE",
@@ -381,8 +397,10 @@ export const updateInventory = () => async (dispatch) => {
   return response;
 };
 
+// Initial state
 const initialState = { productById: {} };
 
+// Products reducer
 function productReducer(state = initialState, action) {
   switch (action.type) {
     case GET_PRODUCTS: {

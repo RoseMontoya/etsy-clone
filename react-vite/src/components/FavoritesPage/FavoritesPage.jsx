@@ -22,12 +22,17 @@ import "./FavoritesPage.css";
 function FavoritesPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // Select the current user, their favorites, and all products from the Redux store
   const user = useSelector((state) => state.session.user);
   const favorites = useSelector((state) => state.favorites?.[user?.id]);
   const allProducts = useSelector((state) => state.products.allProducts);
+
+  // Convert the favorites object to an array for easier iteration
   const favoritesArray = favorites ? Object.values(favorites) : [];
 
   useEffect(() => {
+    // Fetch user favorites and all products if not already loaded
     if (!favorites) {
       dispatch(favoritesByUserId(user.id));
     }
@@ -38,8 +43,10 @@ function FavoritesPage() {
 
   if (!user) return <Navigate to="/" replace={true} />;
 
+  // Show loading spinner if favorites are not yet loaded
   if (!favorites) <Loading />;
 
+  // Handler to add a product to the cart
   const handleAddToCart = (product) => {
     const cartItem = {
       product_id: product.id,
@@ -48,6 +55,8 @@ function FavoritesPage() {
       cart_id: user.cart_id,
       product: product, // The entire product object
     };
+
+    // Dispatch action to add the item to the cart, then fetch all cart items, and navigate to the cart page
     dispatch(addToCart(cartItem)).then(() => {
       dispatch(getAllCartItems()).then(() => {
         navigate("/cart"); // Redirect to the cart page after updating the cart

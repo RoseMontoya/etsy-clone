@@ -12,6 +12,7 @@ import { useModal } from "../../context/Modal";
 import "./ProductReview.css";
 import { FaCheck } from "react-icons/fa";
 
+// Function to format dates
 function formatDate(dateString) {
   const date = new Date(dateString);
   const options = { year: "numeric", month: "short", day: "numeric" };
@@ -22,30 +23,31 @@ function ProductReviews({ productId, sellerId }) {
   const dispatch = useDispatch();
   const { closeModal, setModalContent } = useModal();
 
+  // Select reviews for the specific product from Redux store
   const reviewsObj = useSelector(
     (state) => state.reviews.reviewsByProdId?.[productId]
   );
-  const user = useSelector((state) => state.session.user?.username);
+  const user = useSelector(state => state.session.user?.username) // Get the current user's username
 
+  // Convert reviews object to an array
   const reviews = reviewsObj ? Object.values(reviewsObj) : [];
 
   useEffect(() => {
+    // Fetch reviews if they are not already in the Redux store
     if (!reviewsObj) {
       dispatch(getAllReviews(productId));
     }
   }, [dispatch, productId, reviewsObj]);
 
+  // Display loading message if reviews are not loaded yet
   if (!reviewsObj) return <h2>Loading...</h2>;
 
+  // Handle review deletion by opening a confirmation modal
   const handleDelete = (reviewId) => {
-    setModalContent(
-      <DeleteReview
-        onDelete={() => deleteConfirm(reviewId, productId)}
-        onClose={() => closeModal()}
-      />
-    );
-  };
+     setModalContent(<DeleteReview onDelete={() => deleteConfirm(reviewId, productId)} onClose={() => closeModal()}/>)
+  }
 
+  // Confirm deletion of a review and close the modal
   const deleteConfirm = async (reviewId, productId) => {
     await dispatch(deleteReview(reviewId, productId, sellerId));
     closeModal();

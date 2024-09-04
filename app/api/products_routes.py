@@ -7,7 +7,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from ..models import db, Product, ProductImage, Review, Cart, CartItem
 from ..forms import ReviewForm, ProductForm, ProductImageForm
 
-
+# Defining blueprint for product-related routes
 products_routes = Blueprint("products", __name__)
 
 
@@ -15,9 +15,10 @@ products_routes = Blueprint("products", __name__)
 @products_routes.route("/current", methods=["GET"])
 @login_required
 def product_manage():
-    # Find Products
+    # Query for all products where the seller is the current user
     products = Product.query.filter(Product.seller_id == current_user.id).all()
 
+    # Return the products and the user ID as a JSON response
     return {
         "products": [product.to_dict() for product in products],
         "user_id": current_user.id,
@@ -27,9 +28,16 @@ def product_manage():
 # Get a random product
 @products_routes.route("/random")
 def get_random_product():
+    # Get the total count of products
     count = Product.query.count()
+
+    # Generate a random product ID within the range of existing products
     randomKey = random.randint(1, count)
+
+    # Query for a random product using the generated ID
     product = Product.query.filter(Product.id == randomKey).first()
+
+    # Return the product details as a JSON response
     return product.to_dict_combined()
 
 
@@ -37,10 +45,12 @@ def get_random_product():
 def get_preview_images():
     previewImgs = ProductImage.query.filter(ProductImage.preview == True).all()
 
+    # print('IN PREVIEW IMAGE ROUTE')
+
     return [image.to_dict() for image in previewImgs]
 
-
-@products_routes.route("/<int:product_id>/images")
+# Route to get all preview images
+@products_routes.route('/<int:product_id>/images')
 def get_product_images(product_id):
     images = ProductImage.query.filter(ProductImage.product_id == product_id).all()
     return jsonify({image.id: image.to_dict() for image in images})
@@ -207,7 +217,7 @@ def update_product_image(imageId):
         print("Form errors:", form.errors)
         return form.errors, 400
 
-
+# Delete an image from a product
 @products_routes.route("/images/<int:imageId>", methods=["DELETE"])
 @login_required
 def delete_image(imageId):
@@ -223,7 +233,7 @@ def delete_image(imageId):
 @products_routes.route("/", methods=["GET"])
 def get_all_products():
     products = Product.query.all()
-
+    # print('IN ALL PRODUCTS ROUTE')
     return [product.to_dict_x_seller() for product in products]
 
 
