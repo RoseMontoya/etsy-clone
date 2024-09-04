@@ -58,6 +58,8 @@ function ProductManage() {
     }
   }, [dispatch, productsObj]);
 
+  if (!user) return <Navigate to="/" replace={true} />;
+
   // Display loading spinner while products are being fetched
   if (!productsObj) return <Loading />;
 

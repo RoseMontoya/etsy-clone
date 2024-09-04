@@ -37,7 +37,7 @@ function Footer() {
             <a href="https://github.com/o0saraho0">
               <FaGithub />
             </a>
-            <a href="www.linkedin.com/in/sarah-yue-jiang">
+            <a href="https://www.linkedin.com/in/sarah-yue-jiang/">
               <FaLinkedin />
             </a>
           </div>
