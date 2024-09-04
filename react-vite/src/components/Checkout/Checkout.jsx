@@ -35,10 +35,38 @@ function Checkout() {
     const errorObj = {};
 
     if (!cardName) errorObj.cardName = "Name is required.";
-    if (!cardNumber) errorObj.cardNumber = "Card number is required.";
-    if (!cardExpiration)
+
+    const cardNumberRegex = /^\d{13,19}$/;
+    if (!cardNumber) {
+      errorObj.cardNumber = "Card number is required.";
+    } else if (!cardNumberRegex.test(cardNumber.replace(/\s+/g, ""))) {
+      errorObj.cardNumber = "Invalid card number.";
+    }
+
+    const expDateRegex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/;
+    if (!cardExpiration) {
       errorObj.cardExpiration = "Card expiration date is required.";
-    if (!cardCvv) errorObj.cardCvv = "CVV is required.";
+    } else if (!expDateRegex.test(cardExpiration)) {
+      errorObj.cardExpiration = "Invalid expiration date.";
+    } else {
+      const [month, year] = cardExpiration.split("/");
+      const currentYear = new Date().getFullYear() % 100;
+      const currentMonth = new Date().getMonth() + 1;
+      if (
+        Number(year) < currentYear ||
+        (Number(year) === currentYear && Number(month) < currentMonth)
+      ) {
+        errorObj.cardExpiration = "Expiration date cannot be in the past.";
+      }
+    }
+
+    const cvvRegex = /^[0-9]{3,4}$/;
+    if (!cardCvv) {
+      errorObj.cardCvv = "CVV is required.";
+    } else if (!cvvRegex.test(cardCvv)) {
+      errorObj.cardCvv = "Invalid CVV.";
+    }
+
     if (!billingAddress)
       errorObj.billingAddress = "Billing address is required.";
     return errorObj;
