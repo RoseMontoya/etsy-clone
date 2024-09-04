@@ -1,12 +1,11 @@
+import random
+
 from flask import Blueprint, request, jsonify
-from ..models import db
-from ..models.product import Product, ProductImage
-from ..models.review import Review
-from ..models.cart import Cart, CartItem
 from flask_login import current_user, login_required
 from sqlalchemy.exc import SQLAlchemyError
+
+from ..models import db, Product, ProductImage, Review, Cart, CartItem
 from ..forms import ReviewForm, ProductForm, ProductImageForm
-import random
 
 
 products_routes = Blueprint("products", __name__)

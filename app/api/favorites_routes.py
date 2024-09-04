@@ -1,7 +1,6 @@
 from flask import Blueprint, request
-from ..models import db
-from ..models.favorite import Favorite
 from flask_login import current_user, login_required
+from ..models import db, Favorite
 
 favorites_routes = Blueprint("favorites", __name__)
 

@@ -1,6 +1,6 @@
 from flask import Blueprint
-from ..models.product import Product
 from flask_login import current_user
+from ..models import Product
 
 home_routes = Blueprint("home", __name__)
 
