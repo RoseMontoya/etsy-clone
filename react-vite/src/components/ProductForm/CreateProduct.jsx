@@ -138,7 +138,7 @@ function NewProductForm() {
 
   return (
     <main>
-      <form onSubmit={handleSubmit} className="product_form">
+      <form onSubmit={handleSubmit} className="product_form" encType="multipart/form-data">
         <div>
           <label>
             <h3>Title</h3>
@@ -181,8 +181,8 @@ function NewProductForm() {
             value={inventory}
             onChange={(e) => setInventory(e.target.value)}
             onBlur={(e) => {
-              const formated = parseInt(e.target.value);
-              setInventory(formated);
+              const formatted = parseInt(e.target.value);
+              setInventory(formatted);
             }}
           />
           {errors.inventory && <p className="error">{errors.inventory}</p>}
@@ -203,8 +203,8 @@ function NewProductForm() {
             }}
             step="0.01"
             onBlur={(e) => {
-              const formated = formatDecimal(e.target);
-              setPrice(formated);
+              const formatted = formatDecimal(e.target);
+              setPrice(formatted);
             }}
           />
           {errors.price && <p className="error">{errors.price}</p>}
@@ -239,9 +239,10 @@ function NewProductForm() {
           </label>
           <p>Submit at least one photo to publish your product.</p>
           <input
-            type="text"
-            value={previewImageUrl}
-            onChange={(e) => setPreviewImageUrl(e.target.value)}
+            type="file"
+            // value={previewImageUrl}
+            onChange={(e) => setPreviewImageUrl(e.target.files[0])}
+            accept="image/*"
           />
 
           {previewImageUrl ? (

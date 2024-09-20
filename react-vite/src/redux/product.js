@@ -318,7 +318,7 @@ export const deleteProduct = (productId, userId) => async (dispatch) => {
 export const addProductImage = (image, userId) => async (dispatch) => {
   const response = await fetch("/api/products/images/new", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "multipart/form-data" },
     body: JSON.stringify(image),
   });
   if (response.ok) {

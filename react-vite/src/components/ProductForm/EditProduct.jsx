@@ -194,7 +194,7 @@ function EditProductForm() {
 
   return (
     <main>
-      <form onSubmit={handleSubmit} className="product_form">
+      <form onSubmit={handleSubmit} className="product_form" encType="multipart/form-data">
         <div>
           <label>
             <h3>Title</h3>

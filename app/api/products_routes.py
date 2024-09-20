@@ -6,6 +6,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from ..models import db, Product, ProductImage, Review, Cart, CartItem
 from ..forms import ReviewForm, ProductForm, ProductImageForm
+from .aws_helpers import get_unique_filename, upload_file_to_s3
 
 
 products_routes = Blueprint("products", __name__)
@@ -174,9 +175,22 @@ def create_images():
     form["csrf_token"].data = request.cookies["csrf_token"]
 
     if form.validate_on_submit():
+        image = form.data["image"]
+        image.filename = get_unique_filename(image.filename)
+        upload = upload_file_to_s3(image)
+
+        print(upload)
+
+        if "url" not in upload:
+        # if the dictionary doesn't have a url key
+        # it means that there was an error when you tried to upload
+        # so you send back that error message (and you printed it above)
+            return {"errors": upload}, 400
+
+        url = upload["url"]
         new_image = ProductImage(
             product_id=form.data["product_id"],
-            url=form.data["url"],
+            url=url,
             preview=form.data["preview"],
         )
         db.session.add(new_image)
