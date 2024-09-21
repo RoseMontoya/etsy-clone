@@ -12,14 +12,20 @@ import { Loading } from "../SubComponents";
 
 function LandingPage() {
   const dispatch = useDispatch();
+
+  // State to keep track of the random product's ID
   const [productId, setProductId] = useState(0);
+
+  // Get the current user from the Redux store
   let user = useSelector((state) => state.session.user);
 
+  // Get the random product from the Redux store using the product ID
   let randomProduct = useSelector((state) => {
     return state.products.productById?.[productId];
   });
 
   useEffect(() => {
+    // Fetch a random product if it hasn't been loaded yet
     if (!randomProduct) {
       dispatch(thunkRandomProduct()).then((res) => {
         setProductId(res.id);
@@ -27,11 +33,11 @@ function LandingPage() {
     }
   }, [dispatch, randomProduct]);
 
+  // Show loading spinner while the random product is being fetched
   if (!randomProduct) return <Loading />;
-  console.log("random",randomProduct)
 
   return (
-    <div className="landing-page">
+    <main className="landing-page">
       {user?.email ? (
         <>
           <div className="welcome-message">
@@ -54,6 +60,7 @@ function LandingPage() {
           </div>
         </>
       ) : (
+        // Display a message and featured product for users who are not logged in
         <div className="no-user-message">
           <h2>There&apos;s a person</h2>
           <h2>behind every piece</h2>
@@ -74,7 +81,7 @@ function LandingPage() {
           </div>
         </div>
       )}
-    </div>
+    </main>
   );
 }
 

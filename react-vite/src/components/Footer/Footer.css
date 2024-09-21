@@ -2,14 +2,20 @@ footer {
   height: 12vh;
   background-color: rgb(247, 245, 245);
   padding: 25px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+
   /* position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
   z-index: 5;; */
+}
+
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0px auto;
 }
 
 .team {

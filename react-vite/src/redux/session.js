@@ -2,18 +2,22 @@ import { deleteAllCartItemsAction } from "./cart";
 import { clearCurrent } from "./product";
 import { clearFavs } from "./favorite";
 
+// Action types
 const SET_USER = "session/setUser";
 const REMOVE_USER = "session/removeUser";
 
+// Action creator for setting user
 const setUser = (user) => ({
   type: SET_USER,
   payload: user,
 });
 
+// Action creator for removing user
 const removeUser = () => ({
   type: REMOVE_USER,
 });
 
+// Thunk for authenticating user
 export const thunkAuthenticate = () => async (dispatch) => {
   const response = await fetch("/api/auth/");
   if (response.ok) {
@@ -26,6 +30,7 @@ export const thunkAuthenticate = () => async (dispatch) => {
   }
 };
 
+// Thunk for logging in user
 export const thunkLogin = (credentials) => async (dispatch) => {
   const response = await fetch("/api/auth/login", {
     method: "POST",
@@ -44,6 +49,7 @@ export const thunkLogin = (credentials) => async (dispatch) => {
   }
 };
 
+// Thunk for signing up a user
 export const thunkSignup = (user) => async (dispatch) => {
   const response = await fetch("/api/auth/signup", {
     method: "POST",
@@ -62,6 +68,7 @@ export const thunkSignup = (user) => async (dispatch) => {
   }
 };
 
+// Thunk for logging out
 export const thunkLogout = () => async (dispatch) => {
   await fetch("/api/auth/logout");
   dispatch(removeUser());
@@ -70,8 +77,10 @@ export const thunkLogout = () => async (dispatch) => {
   dispatch(clearCurrent());
 };
 
+// Initial state
 const initialState = { user: null };
 
+// Session reducer
 function sessionReducer(state = initialState, action) {
   switch (action.type) {
     case SET_USER:

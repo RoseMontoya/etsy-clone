@@ -10,6 +10,7 @@ import "./Navigation.css";
 function Navigation() {
   const user = useSelector((state) => state.session.user);
 
+  // Select cart from the Redux store
   const cartObj = useSelector((state) => state.cart?.cartItems);
   const cartArr = cartObj ? Object.values(cartObj) : [];
 

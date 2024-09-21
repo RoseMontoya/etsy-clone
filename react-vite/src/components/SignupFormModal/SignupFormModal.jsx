@@ -9,16 +9,16 @@ import { IoMdClose } from "react-icons/io";
 import "./SignupForm.css";
 
 function SignupFormModal() {
-  const dispatch = useDispatch();
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [first_name, setFirst_Name] = useState("");
-  const [last_name, setLast_Name] = useState("");
-  const [errors, setErrors] = useState({});
-  const [allFieldsFilled, setAllFieldsFilled] = useState(false);
-  const { closeModal } = useModal();
+  const dispatch = useDispatch(); // Hook to dispatch Redux actions
+  const [email, setEmail] = useState(""); // State for email input
+  const [username, setUsername] = useState(""); // State for username input
+  const [password, setPassword] = useState(""); // State for password input
+  const [confirmPassword, setConfirmPassword] = useState(""); // State for confirm password input
+  const [first_name, setFirst_Name] = useState(""); // State for first name input
+  const [last_name, setLast_Name] = useState(""); // State for last name input
+  const [errors, setErrors] = useState({}); // State to store form validation errors
+  const [allFieldsFilled, setAllFieldsFilled] = useState(false); // State to check if all required fields are filled
+  const { closeModal } = useModal(); // Hook to manage modal state
 
   useEffect(() => {
     // Check if all fields are filled out
@@ -30,12 +30,13 @@ function SignupFormModal() {
       first_name &&
       last_name
     ) {
-      setAllFieldsFilled(true);
+      setAllFieldsFilled(true); // Enable the submit button
     } else {
-      setAllFieldsFilled(false);
+      setAllFieldsFilled(false); // Disable the submit button
     }
   }, [email, username, password, confirmPassword, first_name, last_name]);
 
+  // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -59,6 +60,7 @@ function SignupFormModal() {
       newErrors.email = "Please enter a valid email address.";
     }
 
+    // If there are any errors, set them and prevent form submission
     if (Object.keys(newErrors).length > 0) {
       return setErrors(newErrors);
     }

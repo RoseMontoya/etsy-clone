@@ -39,7 +39,7 @@ function ProductsByCategory() {
     }
   }, [dispatch, productsObj, favoritesObj, user]);
 
-  if (!productsObj) <Loading />;
+  if (!productsObj) return <Loading />;
 
   if (products.length === 0)
     return (

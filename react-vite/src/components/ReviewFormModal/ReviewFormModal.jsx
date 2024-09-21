@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 // Redux/Component Imports
 import { createReview, editReview } from "../../redux";
-import {Stars} from "../SubComponents";
+import { Stars } from "../SubComponents";
 import { useModal } from "../../context/Modal";
 
 // Design Imports
@@ -12,24 +12,31 @@ import { IoMdClose } from "react-icons/io";
 import "./ReviewFormModal.css";
 
 function ReviewFormModal({ productId, formType, reviewId, sellerId }) {
-  const dispatch = useDispatch();
-  const [review, setReview] = useState("");
-  const [rating, setRating] = useState(0);
-  const [recommendation, setRecommendation] = useState(false);
-  const [errors, setErrors] = useState({});
-  const { closeModal } = useModal();
+  const dispatch = useDispatch(); // Hook to dispatch Redux actions
+  const [review, setReview] = useState(""); // State to store the review text
+  const [rating, setRating] = useState(0); // State to store the star rating
+  const [recommendation, setRecommendation] = useState(false); // State to store recommendation status
+  const [errors, setErrors] = useState({}); // State to store validation errors
+  const { closeModal } = useModal(); // Hook to manage modal state
 
+  // if (rating < 3) setRecommendation(false)
+
+  // Handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent the default form submission behavior
 
-    setErrors({});
+    setErrors({}); // Clear previous errors
 
+    // Create a payload object with the current review details
     const payload = { productId, review, stars: rating, recommendation };
 
+    // If editing, add the review ID to the payload
     if (reviewId) payload["id"] = reviewId;
 
+    // Determine which Redux thunk to dispatch based on form type
     const thunkAction = formType === "create" ? createReview : editReview;
 
+    // Dispatch the thunk action and handle errors if any
     dispatch(thunkAction(payload, sellerId)).then(async (res) => {
       if (res.status) {
         const errors = await res.json();
@@ -40,16 +47,20 @@ function ReviewFormModal({ productId, formType, reviewId, sellerId }) {
     });
   };
 
+  // Selector to get the previous review if editing
   const prevRev = useSelector(
     (state) => state.reviews.reviewsByProdId?.[productId]?.[reviewId]
   );
 
+  // Effect to set form fields if editing an existing review
   useEffect(() => {
     if (formType === "edit" && !rating) {
       setRating(prevRev.stars);
       setReview(prevRev.review);
       setRecommendation(prevRev.recommendation);
     }
+
+    // Automatically uncheck recommendation if rating is below 3 stars
     if (rating < 3 && recommendation) setRecommendation(false);
   }, [formType, prevRev, rating, recommendation]);
 

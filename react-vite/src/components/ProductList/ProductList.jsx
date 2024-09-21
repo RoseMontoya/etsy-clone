@@ -27,6 +27,8 @@ function ProductList() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { setModalContent } = useModal(); // Use the modal context to trigger the login modal
+
+  // Selectors to access Redux state
   const productsObj = useSelector((state) => state.products?.allProducts);
   const user = useSelector((state) => state.session.user);
   const products = productsObj ? Object.values(productsObj) : [];
@@ -36,6 +38,7 @@ function ProductList() {
     : [];
 
   useEffect(() => {
+    // Fetch all products and user favorites if not already available
     if (!productsObj) {
       dispatch(thunkAllProducts());
     }
@@ -44,7 +47,8 @@ function ProductList() {
     }
   }, [dispatch, productsObj, favoritesObj, user]);
 
-  if (!productsObj) <Loading />;
+  // Show loading spinner if products are not yet loaded
+  if (!productsObj) return <Loading />;
 
   if (products.length === 0)
     return (
@@ -55,6 +59,17 @@ function ProductList() {
       </main>
     );
 
+  // Show message if there are no products to display
+  if (products.length === 0)
+    return (
+      <main>
+        <div className="center-in-page">
+          <h2>No products for sell. Please check back later.</h2>
+        </div>
+      </main>
+    );
+
+  // Function to handle adding a product to the cart
   const handleAddToCart = (product) => {
     if (!user) {
       // If the user is not logged in, open the login modal
@@ -69,10 +84,13 @@ function ProductList() {
       product: product, // The entire product object
     };
 
+    // Check if the user is trying to add their own product to the cart
     if (user.id === cartItem.product.seller.id) {
       setModalContent(<OwnProductConflictModal />);
       return;
     }
+
+    // Add the product to the cart and navigate to the cart page
     dispatch(addToCart(cartItem)).then(() => {
       dispatch(getAllCartItems()).then(() => {
         navigate("/cart"); // Redirect to the cart page after updating the cart

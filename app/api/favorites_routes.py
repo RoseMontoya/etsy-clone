@@ -2,8 +2,8 @@ from flask import Blueprint, request
 from flask_login import current_user, login_required
 from ..models import db, Favorite
 
+# Defining blueprint for favorites routes
 favorites_routes = Blueprint("favorites", __name__)
-
 
 @favorites_routes.route("/current")
 @login_required
@@ -12,7 +12,7 @@ def get_favorites():
 
     return [favorite.to_dict() for favorite in favorites]
 
-
+# Route to remove a product from the current user's favorites
 @favorites_routes.route("/<int:productId>", methods=["DELETE"])
 @login_required
 def remove_favorites(productId):
@@ -29,8 +29,8 @@ def remove_favorites(productId):
 
     return {"errors": {"message": "Favorite could not be found."}}, 404
 
-
-@favorites_routes.route("/", methods=["POST"])
+# Route to add a product to the current user's favorites
+@favorites_routes.route("/", methods=['POST'])
 @login_required
 def add_favorites():
     productId = request.get_json()

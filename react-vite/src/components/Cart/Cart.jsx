@@ -1,7 +1,7 @@
 // React Imports
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Redux Imports
 import {
@@ -22,10 +22,11 @@ function Cart() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const user = useSelector((state) => state.session.user);
+  // Select the cart items and all products from the Redux store
   const cartObj = useSelector((state) => state.cart?.cartItems);
   const allProducts = useSelector((state) => state.products?.allProducts);
 
+  // Convert cart items object to an array
   const cartArr = cartObj ? Object.values(cartObj) : [];
 
   useEffect(() => {
@@ -37,17 +38,17 @@ function Cart() {
     }
   }, [dispatch, cartObj, allProducts]);
 
+  // Handler to delete a specific cart item
   const handleDelete = async (cartItemId, e) => {
     e.stopPropagation(); // Prevent click from propagating to the Link
     await dispatch(deleteCartItem(cartItemId));
   };
 
-  if (!user) return <Navigate to="/" replace={true} />;
-
   const handleClearCart = async () => {
     await dispatch(clearCart());
   };
 
+  // Handler to update the quantity of a cart item
   const handleQuantityChange = async (cartItemId, newQuantity) => {
     try {
       await dispatch(updateCartItemQuantity(cartItemId, newQuantity));
@@ -56,8 +57,10 @@ function Cart() {
     }
   };
 
-  if (!cartObj || !allProducts) <Loading />;
+  // Show loading indicator if cart items or products are not loaded
+  if (!cartObj || !allProducts) return <Loading />;
 
+  // Display message if the cart is empty
   if (cartArr.length === 0) {
     return (
       <main>
@@ -69,6 +72,7 @@ function Cart() {
     );
   }
 
+  // Calculate the total price of all items in the cart
   const cartTotal = (cartArr) => {
     let total = 0;
     for (let item of cartArr) {
