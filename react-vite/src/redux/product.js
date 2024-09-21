@@ -331,9 +331,10 @@ export const deleteProduct = (productId, userId) => async (dispatch) => {
 
 // Add Image Thunk
 export const addProductImage = (image, userId) => async (dispatch) => {
+  console.log('add image', image)
   const response = await fetch("/api/products/images/new", {
     method: "POST",
-    headers: { "Content-Type": "multipart/form-data" },
+    // headers: { "Content-Type": "multipart/form-data" },
     body: JSON.stringify(image),
   });
   if (response.ok) {
@@ -350,7 +351,7 @@ export const addProductImage = (image, userId) => async (dispatch) => {
 export const updateProductImage = (image, userId) => async (dispatch) => {
   const response = await fetch(`/api/products/images/${image.id}`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    // headers: { "Content-Type": "application/json" },
     body: JSON.stringify(image),
   });
 

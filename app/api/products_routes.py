@@ -183,10 +183,12 @@ def create_product():
 def create_images():
     form = ProductImageForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
+    print("FORMMMMMM", form.data)
 
     if form.validate_on_submit():
         image = form.data["image"]
-        image.filename = get_unique_filename(image.filename)
+        image.filename = get_unique_filename(image["filename"])
+        print("~~~~~~~~~~~~~~~~~", image)
         upload = upload_file_to_s3(image)
 
         print(upload)
@@ -203,6 +205,7 @@ def create_images():
             url=url,
             preview=form.data["preview"],
         )
+        print('HEERRERERERE', new_image)
         db.session.add(new_image)
         db.session.commit()
         return new_image.to_dict(), 201

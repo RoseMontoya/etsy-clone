@@ -49,8 +49,7 @@ function NewProductForm() {
     if (!categoryId) errorObj.category = "Category is required."
 
     // Validate image URLs with a regex
-    const imageUrlValid = /\.(jpeg|jpg|gif|png)$/;
-    if (!previewImageUrl.match(imageUrlValid)) {
+    if (!previewImageUrl.type.match(/image\/\w*/)) {
       errorObj.previewImageUrl =
         "A valid image URL is required for the preview image.";
     }
@@ -83,6 +82,7 @@ function NewProductForm() {
 
     // Dispatch addProduct action to add the new product
     const result = await dispatch(addProduct(new_product));
+    if (result.errors) setErrors(result.errors);
 
     const productId = result.id;
 
@@ -128,16 +128,25 @@ function NewProductForm() {
       });
 
     setImagesLoading(true)
-    await Promise.all(
-      imageArray.map((image) => dispatch(addProductImage(image, user.id)))
-    );
+    try {
+      await Promise.all(
+        imageArray.map((image) => {
+          const formData = new FormData();
+          formData.append('product_id', image.product_id);
+          formData.append('url', image.url);
+          formData.append('preview', image.preview);
+          dispatch(addProductImage(formData, user.id))
+        })
+      );
+    } catch (e) {
+      console.log(e)
+      setErrors(e.errors)
+    }
     setImagesLoading(false)
-    dispatch(productByUserId());
+    // dispatch(productByUserId());
 
     // Handle errors or navigate to the new product page
-    if (result.errors) {
-      setErrors(result.errors);
-    } else {
+    if (!errors) {
       navigate(`/products/${productId}`);
     }
   };
@@ -153,7 +162,7 @@ function NewProductForm() {
 
   return (
     <main>
-      <form onSubmit={handleSubmit} className="product_form" encType="multipart/form-data">
+      <form method="POST" onSubmit={handleSubmit} className="product_form" encType="multipart/form-data">
         <div>
           <label>
             <h3>Title</h3>
@@ -257,13 +266,15 @@ function NewProductForm() {
             type="file"
             onChange={(e) => setPreviewImageUrl(e.target.files[0])}
             accept="image/*, video/*"
+            name="url"
           />
 
-          {previewImageUrl ? (
+          {previewImageUrl && previewImageUrl.type.match(/image\/\w*/) ? (
             <img
               className="previewImagesize"
-              src={previewImageUrl}
+              src={URL.createObjectURL(previewImageUrl)}
               alt="Preview if Image is valid"
+
             />
           ) : null}
           {errors.previewImageUrl && (
