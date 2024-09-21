@@ -25,6 +25,7 @@ function NewProductForm() {
   const [image3Url, setImage3Url] = useState("");
   const [image4Url, setImage4Url] = useState("");
   const [image5Url, setImage5Url] = useState("");
+  const [imagesLoading, setImagesLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
   const dispatch = useDispatch();
@@ -116,9 +117,11 @@ function NewProductForm() {
         preview: false,
       });
 
+    setImagesLoading(true)
     await Promise.all(
       imageArray.map((image) => dispatch(addProductImage(image, user.id)))
     );
+    setImagesLoading(false)
     dispatch(productByUserId());
 
     if (result.errors) {
@@ -240,9 +243,8 @@ function NewProductForm() {
           <p>Submit at least one photo to publish your product.</p>
           <input
             type="file"
-            // value={previewImageUrl}
             onChange={(e) => setPreviewImageUrl(e.target.files[0])}
-            accept="image/*"
+            accept="image/*, video/*"
           />
 
           {previewImageUrl ? (
@@ -259,9 +261,9 @@ function NewProductForm() {
         <div>
           <label>Image URL:</label>
           <input
-            type="text"
-            value={image1Url}
-            onChange={(e) => setImage1Url(e.target.value)}
+            type="file"
+            onChange={(e) => setImage1Url(e.target.files[0])}
+            accept="image/*, video/*"
           />
 
           {image1Url ? (
@@ -275,9 +277,9 @@ function NewProductForm() {
         <div>
           <label>Image URL:</label>
           <input
-            type="text"
-            value={image2Url}
-            onChange={(e) => setImage2Url(e.target.value)}
+            type="file"
+            onChange={(e) => setImage2Url(e.target.files[0])}
+            accept="image/*, video/*"
           />
 
           {image2Url ? (
@@ -291,9 +293,9 @@ function NewProductForm() {
         <div>
           <label>Image URL:</label>
           <input
-            type="text"
-            value={image3Url}
-            onChange={(e) => setImage3Url(e.target.value)}
+            type="file"
+            onChange={(e) => setImage3Url(e.target.files[0])}
+            accept="image/*, video/*"
           />
 
           {image3Url ? (
@@ -307,9 +309,9 @@ function NewProductForm() {
         <div>
           <label>Image URL:</label>
           <input
-            type="text"
-            value={image4Url}
-            onChange={(e) => setImage4Url(e.target.value)}
+            type="file"
+            onChange={(e) => setImage4Url(e.target.files[0])}
+            accept="image/*, video/*"
           />
 
           {image4Url ? (
@@ -323,9 +325,9 @@ function NewProductForm() {
         <div>
           <label>Image URL:</label>
           <input
-            type="text"
-            value={image5Url}
-            onChange={(e) => setImage5Url(e.target.value)}
+            type="file"
+            onChange={(e) => setImage5Url(e.target.files[0])}
+            accept="image/*, video/*"
           />
 
           {image5Url ? (
@@ -336,7 +338,7 @@ function NewProductForm() {
             />
           ) : null}
         </div>
-        <button type="submit">Publish Your Product</button>
+        <button type="submit">{imagesLoading? "Loading" : "Publish Your Product"}</button>
       </form>
     </main>
   );

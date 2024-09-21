@@ -27,7 +27,8 @@ function LandingPage() {
     }
   }, [dispatch, randomProduct]);
 
-  if (!randomProduct) <Loading />;
+  if (!randomProduct) return <Loading />;
+  console.log("random",randomProduct)
 
   return (
     <div className="landing-page">
