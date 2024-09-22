@@ -334,8 +334,7 @@ export const addProductImage = (image, userId) => async (dispatch) => {
   console.log('add image', image)
   const response = await fetch("/api/products/images/new", {
     method: "POST",
-    // headers: { "Content-Type": "multipart/form-data" },
-    body: JSON.stringify(image),
+    body: image,
   });
   if (response.ok) {
     const newImage = await response.json();

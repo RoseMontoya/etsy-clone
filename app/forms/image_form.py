@@ -7,6 +7,6 @@ from app.api.aws_helpers import ALLOWED_EXTENSIONS
 
 class ProductImageForm(FlaskForm):
     product_id = IntegerField("Product Id", validators=[DataRequired(), NumberRange(min=0)])
-    url = FileField("Image File", validators=[FileRequired(), FileAllowed(list(ALLOWED_EXTENSIONS))])
+    image = FileField("Image File", validators=[FileRequired(), FileAllowed(list(ALLOWED_EXTENSIONS))])
     preview = BooleanField("Preview")
     submit = SubmitField("Submit")
