@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { thunkRandomProduct } from "../../redux";
 // Design Imports
 import "./LandingPage.css";
+import { IoRefreshCircleOutline } from "react-icons/io5";
 
 // Helper Imports
 import { Loading } from "../SubComponents";
@@ -32,6 +33,12 @@ function LandingPage() {
       });
     }
   }, [dispatch, randomProduct]);
+
+  const handleRefreshClick = () => {
+    dispatch(thunkRandomProduct()).then((res) => {
+      setProductId(res.id);
+    });
+  };
 
   // Show loading spinner while the random product is being fetched
   if (!randomProduct) return <Loading />;
@@ -72,11 +79,14 @@ function LandingPage() {
                 <button>See this product</button>
               </Link>
             </div>
-            <div style={{ position: "relative" }}>
+            <div className="random-pic" style={{ position: "relative" }}>
               <img
                 src={randomProduct.preview_image}
                 alt={randomProduct.title}
               />
+              <div className="refresh-icon" onClick={handleRefreshClick}>
+                <IoRefreshCircleOutline />
+              </div>
             </div>
           </div>
         </div>
