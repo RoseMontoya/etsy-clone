@@ -15,6 +15,7 @@ import {
   ProductManage,
 } from "../components";
 import ProductsByCategory from "../components/NavButtonComponent/ProductsByCategory";
+import NotFoundPage from "../components/SubComponents/NotFound";
 
 export const router = createBrowserRouter([
   {
@@ -63,6 +64,10 @@ export const router = createBrowserRouter([
       {
         path: "/products/categories/:categoryId",
         element: <ProductsByCategory />,
+      },
+      {
+        path: "*",
+        element: <NotFoundPage />,
       },
     ],
   },
