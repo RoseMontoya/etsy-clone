@@ -111,7 +111,7 @@
   height: 150px;
   object-fit: cover;
   border-radius: 8px;
-  margin-right: 20px;
+  margin-left: 15px;
 }
 
 .no-user-message h2 {
@@ -245,4 +245,22 @@
   width: 30%;
   height: auto; /* Adjust this as needed */
   flex-direction: column;
+}
+
+.random-pic {
+  display: flex;
+  justify-content: center;
+}
+
+.refresh-icon {
+  font-size: x-large;
+  width: fit-content;
+  position: relative;
+  bottom: 10px;
+  left: 10px;
+}
+
+.refresh-icon:hover {
+  color: lightgray;
+  cursor: pointer;
 }
