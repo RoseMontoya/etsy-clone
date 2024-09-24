@@ -1,5 +1,5 @@
 footer {
-  height: 12vh;
+  height: 14vh;
   background-color: rgb(247, 245, 245);
   padding: 25px;
 
@@ -24,6 +24,23 @@ footer {
   align-items: center;
   text-align: center;
   margin: 0px 60px;
+}
+
+.team-member {
+  display: flex;
+  align-items: center;
+}
+
+.team-member img {
+  height: 60px;
+  width: auto;
+  aspect-ratio: 1 / 1;
+  border-radius: 50px;
+  margin-right: 15px;
+}
+
+.team-member img:hover {
+  cursor: pointer;
 }
 
 .team-link {
