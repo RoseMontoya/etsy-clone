@@ -183,6 +183,7 @@ def create_product():
 def create_images():
     form = ProductImageForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
+    print(form)
 
     if form.validate_on_submit():
         image = form.data["image"]
@@ -214,11 +215,12 @@ def create_images():
 def update_product_image(imageId):
     form = ProductImageForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
-
+    print("~~~~~~~~~~~~",form)
     if form.validate_on_submit():
-        image = ProductImage.query.get(imageId)
-        if image:
-            remove_file_from_s3(image['url'])
+        prev_image = ProductImage.query.get(imageId)
+        # print(image.url)
+        if prev_image:
+            remove_file_from_s3(prev_image.url)
 
             image = form.data["image"]
             image.filename = get_unique_filename(image.filename)
@@ -229,10 +231,10 @@ def update_product_image(imageId):
             if "url" not in upload:
                 return {"errors": upload}, 400
 
-            image.url = upload['url']
+            prev_image.url = upload['url']
 
             db.session.commit()
-            return image.to_dict(), 200
+            return prev_image.to_dict(), 200
         else:
             return {"error": "Image not found"}, 404
     else:

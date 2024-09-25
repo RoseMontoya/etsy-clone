@@ -358,7 +358,7 @@ function NewProductForm() {
             />
           ) : null}
         </div>
-        <button type="submit">{imagesLoading? "Loading" : "Publish Your Product"}</button>
+        <button id="prod-form-submit" type="submit">{imagesLoading? "Loading" : "Publish Your Product"}</button>
       </form>
     </main>
   );

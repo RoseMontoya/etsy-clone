@@ -100,6 +100,7 @@ function EditProductForm() {
     return errorObj;
   };
 
+  const imagesDelete = [];
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -125,12 +126,11 @@ function EditProductForm() {
     };
 
     // Prepare arrays to manage image updates
-    const imagesUpdate = [previewImage];
-    const imagesDelete = [];
+    const imagesUpdate = previewImage.file? [previewImage] : [];
     const imagesAdd = [];
 
     // Check if image URLs are present and determine if they should be updated, deleted, or added
-    if (image1.url && images[1]) {
+    if (image1.file && images[1]) {
       imagesUpdate.push(image1);
     } else if (!image1.url && images[1]) {
       imagesDelete.push(image1);
@@ -138,7 +138,7 @@ function EditProductForm() {
       imagesAdd.push(image1);
     }
 
-    if (image2.url && images[2]) {
+    if (image2.file && images[2]) {
       imagesUpdate.push(image2);
     } else if (!image2.url && images[2]) {
       imagesDelete.push(image2);
@@ -146,7 +146,7 @@ function EditProductForm() {
       imagesAdd.push(image2);
     }
 
-    if (image3.url && images[3]) {
+    if (image3.file && images[3]) {
       imagesUpdate.push(image3);
     } else if (!image3.url && images[3]) {
       imagesDelete.push(image3);
@@ -154,7 +154,7 @@ function EditProductForm() {
       imagesAdd.push(image3);
     }
 
-    if (image4.url && images[4]) {
+    if (image4.file && images[4]) {
       imagesUpdate.push(image4);
     } else if (!image4.url && images[4]) {
       imagesDelete.push(image4);
@@ -162,7 +162,7 @@ function EditProductForm() {
       imagesAdd.push(image4);
     }
 
-    if (image5.url && images[5]) {
+    if (image5.file && images[5]) {
       imagesUpdate.push(image5);
     } else if (!image5.url && images[5]) {
       imagesDelete.push(image5);
@@ -179,7 +179,7 @@ function EditProductForm() {
         await Promise.all(imagesAdd.map(async (image) => {
           const formData = new FormData();
           formData.append('product_id', res.id);
-          formData.append('image', image.url);
+          formData.append('image', image.file);
           formData.append('preview', false);
           return dispatch(addProductImage(formData, user.id));
         }));
@@ -188,20 +188,21 @@ function EditProductForm() {
         await Promise.all(imagesUpdate.map(async (image) => {
           const formData = new FormData();
           formData.append('product_id', image.product_id);
-          formData.append('image', image.url);
+          formData.append('image', image.file);
           formData.append('preview', image.preview);
           return dispatch(updateProductImage(formData, user.id, image.id));
         }));
 
         // Delete images that have been removed
         await Promise.all(imagesDelete.map(async (image) => {
+          console.log(imagesDelete, image)
           return dispatch(deleteProductImage(image));
         }));
-        setImagesLoading(false)
-    } catch (e) {
-      console.log(e)
-      setErrors(e.errors)
-    }
+      } catch (e) {
+        setErrors(e)
+        console.log(errors)
+      }
+      setImagesLoading(false)
 
     // Navigate to the new product page
     if (!Object.values(errors).length && !imagesLoading) {
@@ -221,7 +222,7 @@ function EditProductForm() {
 
   return (
     <main>
-      <form onSubmit={handleSubmit} className="product_form" encType="multipart/form-data">
+      <form method="POST" onSubmit={handleSubmit} className="product_form" encType="multipart/form-data">
         <div>
           <label>
             <h3>Title</h3>
@@ -321,33 +322,40 @@ function EditProductForm() {
           <p>Submit at least one photo to publish your product.</p>
           <input
             onChange={(e) =>
-              setPreviewImage({ ...previewImage, url: URL.createObjectURL(e.target.files[0]) })
+              setPreviewImage({ ...previewImage, url: URL.createObjectURL(e.target.files[0]), file: e.target.files[0] })
             }
             type="file"
             accept="image/*, video/*"
-            required
           />
           {previewImage.url ? (
+            <>
             <img
               className="previewImagesize"
               src={previewImage.url}
               alt="Preview if Image is valid"
             />
+            <button className="del-img" onClick={() => {imagesDelete.push(previewImage.id); setPreviewImage('')}}>Delete</button>
+            </>
+
           ) : null}
+
         </div>
         <div>
           <label>Image URL:</label>
           <input
             type="file"
             accept="image/*, video/*"
-            onChange={(e) => setImage1({ ...image1, url: URL.createObjectURL(e.target.files[0]) })}
+            onChange={(e) => setImage1({ ...image1, file: e.target.files[0], url: URL.createObjectURL(e.target.files[0])})}
           />
           {image1.url ? (
+            <>
             <img
               className="previewImagesize"
               src={image1.url}
               alt="Preview if Image is valid"
             />
+            <button className="del-img" onClick={() => {imagesDelete.push(image1.id); setImage1('')}}>Delete</button>
+            </>
           ) : null}
         </div>
         <div>
@@ -355,14 +363,17 @@ function EditProductForm() {
           <input
             type="file"
             accept="image/*, video/*"
-            onChange={(e) => setImage2({ ...image2, url: URL.createObjectURL(e.target.files[0]) })}
+            onChange={(e) => setImage2({ ...image2, url: URL.createObjectURL(e.target.files[0]), file: e.target.files[0] })}
           />
           {image2.url ? (
+            <>
             <img
               className="previewImagesize"
               src={image2.url}
               alt="Preview if Image is valid"
             />
+            <button className="del-img" onClick={() => {imagesDelete.push(image2.id); setImage2('')}}>Delete</button>
+            </>
           ) : null}
         </div>
         <div>
@@ -370,14 +381,18 @@ function EditProductForm() {
           <input
             type="file"
             accept="image/*, video/*"
-            onChange={(e) => setImage3({ ...image3, url: URL.createObjectURL(e.target.files[0]) })}
+            onChange={(e) => setImage3({ ...image3, url: URL.createObjectURL(e.target.files[0]), file: e.target.files[0] })}
           />
           {image3.url ? (
+            <>
             <img
               className="previewImagesize"
               src={image3.url}
               alt="Preview if Image is valid"
             />
+            <button className="del-img" onClick={() => {imagesDelete.push(image3.id); setImage3('')}}>Delete</button>
+
+            </>
           ) : null}
         </div>
         <div>
@@ -385,14 +400,17 @@ function EditProductForm() {
           <input
             type="file"
             accept="image/*, video/*"
-            onChange={(e) => setImage4({ ...image4, url: URL.createObjectURL(e.target.files[0]) })}
+            onChange={(e) => setImage4({ ...image4, url: URL.createObjectURL(e.target.files[0]), file: e.target.files[0] })}
           />
           {image4.url ? (
+            <>
             <img
               className="previewImagesize"
               src={image4.url}
               alt="Preview if Image is valid"
             />
+            <button className="del-img" onClick={() => {imagesDelete.push(image4.id); setImage4('')}}>Delete</button>
+            </>
           ) : null}
         </div>
         <div>
@@ -400,17 +418,20 @@ function EditProductForm() {
           <input
             type="file"
             accept="image/*, video/*"
-            onChange={(e) => setImage5({ ...image5, url: URL.createObjectURL(e.target.files[0]) })}
+            onChange={(e) => setImage5({ ...image5, url: URL.createObjectURL(e.target.files[0]), file: e.target.files[0] })}
           />
           {image5.url ? (
+            <>
             <img
               className="previewImagesize"
               src={image5.url}
               alt="Preview if Image is valid"
             />
+            <button className="del-img" onClick={() => {imagesDelete.push(image5); setImage5('')}}>Delete</button>
+            </>
           ) : null}
         </div>
-        <button type="submit">{imagesLoading? "Loading" : "Update Your Product"}</button>
+        <button id="prod-form-submit" type="submit">{imagesLoading? "Loading" : "Update Your Product"}</button>
       </form>
     </main>
   );

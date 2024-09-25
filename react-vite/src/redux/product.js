@@ -331,7 +331,7 @@ export const deleteProduct = (productId, userId) => async (dispatch) => {
 
 // Add Image Thunk
 export const addProductImage = (image, userId) => async (dispatch) => {
-  console.log('add image', image)
+
   const response = await fetch("/api/products/images/new", {
     method: "POST",
     body: image,
@@ -342,7 +342,8 @@ export const addProductImage = (image, userId) => async (dispatch) => {
     return newImage;
   } else {
     const error = await response.json();
-    return error;
+    console.log('ERROR',error)
+    throw error;
   }
 };
 
@@ -359,12 +360,14 @@ export const updateProductImage = (image, userId, imageId) => async (dispatch) =
     return updatedImage;
   } else {
     const error = await response.json();
+    console.log('error', error)
     return error;
   }
 };
 
 // Thunk to delete a product image
 export const deleteProductImage = (image) => async (dispatch) => {
+  console.log('image', image)
   const response = await fetch(`/api/products/images/${image.id}`, {
     method: "DELETE",
   });
