@@ -143,7 +143,7 @@ function NewProductForm() {
       setErrors(e.errors)
     }
 
-    // Handle errors or navigate to the new product page
+    // Navigate to the new product page
     if (!Object.values(errors).length && !imagesLoading) {
       navigate(`/products/${productId}`);
     }

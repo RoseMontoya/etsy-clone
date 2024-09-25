@@ -347,11 +347,10 @@ export const addProductImage = (image, userId) => async (dispatch) => {
 };
 
 // Update Product Images
-export const updateProductImage = (image, userId) => async (dispatch) => {
-  const response = await fetch(`/api/products/images/${image.id}`, {
+export const updateProductImage = (image, userId, imageId) => async (dispatch) => {
+  const response = await fetch(`/api/products/images/${imageId}`, {
     method: "PUT",
-    // headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(image),
+    body: image,
   });
 
   if (response.ok) {

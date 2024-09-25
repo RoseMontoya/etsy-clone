@@ -28,6 +28,8 @@ function EditProductForm() {
   const [image3, setImage3] = useState("");
   const [image4, setImage4] = useState("");
   const [image5, setImage5] = useState("");
+
+  const [imagesLoading, setImagesLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
   const { productId } = useParams();
@@ -169,37 +171,43 @@ function EditProductForm() {
     }
 
     // Dispatch the editProduct action and handle image updates
-    dispatch(editProduct(updated_product))
-      .then((res) => {
-        imagesAdd.map(async (image) => {
-          const newImage = {
-            product_id: res.id,
-            url: image.url,
-            preview: false,
-          };
-          dispatch(addProductImage(newImage, user.id));
-        });
+    const res = await dispatch(editProduct(updated_product))
+    if (res.errors) setErrors(res.errors)
+
+    setImagesLoading(true)
+    try {
+        await Promise.all(imagesAdd.map(async (image) => {
+          const formData = new FormData();
+          formData.append('product_id', res.id);
+          formData.append('image', image.url);
+          formData.append('preview', false);
+          return dispatch(addProductImage(formData, user.id));
+        }));
 
         // Update existing images
-        imagesUpdate.map(async (image) => {
-          dispatch(updateProductImage(image, user.id));
-        });
+        await Promise.all(imagesUpdate.map(async (image) => {
+          const formData = new FormData();
+          formData.append('product_id', image.product_id);
+          formData.append('image', image.url);
+          formData.append('preview', image.preview);
+          return dispatch(updateProductImage(formData, user.id, image.id));
+        }));
 
         // Delete images that have been removed
-        imagesDelete.map(async (image) => {
-          dispatch(deleteProductImage(image));
-        });
+        await Promise.all(imagesDelete.map(async (image) => {
+          return dispatch(deleteProductImage(image));
+        }));
+        setImagesLoading(false)
+    } catch (e) {
+      console.log(e)
+      setErrors(e.errors)
+    }
 
-        if (res.errors) {
-          setErrors(res.errors);
-        } else {
-          // Navigate to the updated product page
-          navigate(`/products/${res.id}`);
-        }
-      })
-      .catch((err) => {
-        console.error("Failed to update product:", err);
-      });
+    // Navigate to the new product page
+    if (!Object.values(errors).length && !imagesLoading) {
+      navigate(`/products/${res.id}`);
+    }
+
   };
 
   // Helper function to format price input as a decimal
@@ -256,8 +264,8 @@ function EditProductForm() {
             value={inventory}
             onChange={(e) => setInventory(e.target.value)}
             onBlur={(e) => {
-              const formated = parseInt(e.target.value);
-              setInventory(formated);
+              const formatted = parseInt(e.target.value);
+              setInventory(formatted);
             }}
           />
           {errors.inventory && <p className="error">{errors.inventory}</p>}
@@ -276,8 +284,8 @@ function EditProductForm() {
             onChange={(e) => setPrice(e.target.value)}
             step="0.01"
             onBlur={(e) => {
-              const formated = formatDecimal(e.target);
-              setPrice(formated);
+              const formatted = formatDecimal(e.target);
+              setPrice(formatted);
             }}
           />
           {errors.price && <p className="error">{errors.price}</p>}
@@ -312,11 +320,11 @@ function EditProductForm() {
           </label>
           <p>Submit at least one photo to publish your product.</p>
           <input
-            type="text"
-            value={previewImage.url}
             onChange={(e) =>
-              setPreviewImage({ ...previewImage, url: e.target.value })
+              setPreviewImage({ ...previewImage, url: URL.createObjectURL(e.target.files[0]) })
             }
+            type="file"
+            accept="image/*, video/*"
             required
           />
           {previewImage.url ? (
@@ -330,9 +338,9 @@ function EditProductForm() {
         <div>
           <label>Image URL:</label>
           <input
-            type="text"
-            value={image1.url}
-            onChange={(e) => setImage1({ ...image1, url: e.target.value })}
+            type="file"
+            accept="image/*, video/*"
+            onChange={(e) => setImage1({ ...image1, url: URL.createObjectURL(e.target.files[0]) })}
           />
           {image1.url ? (
             <img
@@ -345,9 +353,9 @@ function EditProductForm() {
         <div>
           <label>Image URL:</label>
           <input
-            type="text"
-            value={image2.url}
-            onChange={(e) => setImage2({ ...image2, url: e.target.value })}
+            type="file"
+            accept="image/*, video/*"
+            onChange={(e) => setImage2({ ...image2, url: URL.createObjectURL(e.target.files[0]) })}
           />
           {image2.url ? (
             <img
@@ -360,9 +368,9 @@ function EditProductForm() {
         <div>
           <label>Image URL:</label>
           <input
-            type="text"
-            value={image3.url}
-            onChange={(e) => setImage3({ ...image3, url: e.target.value })}
+            type="file"
+            accept="image/*, video/*"
+            onChange={(e) => setImage3({ ...image3, url: URL.createObjectURL(e.target.files[0]) })}
           />
           {image3.url ? (
             <img
@@ -375,9 +383,9 @@ function EditProductForm() {
         <div>
           <label>Image URL:</label>
           <input
-            type="text"
-            value={image4.url}
-            onChange={(e) => setImage4({ ...image4, url: e.target.value })}
+            type="file"
+            accept="image/*, video/*"
+            onChange={(e) => setImage4({ ...image4, url: URL.createObjectURL(e.target.files[0]) })}
           />
           {image4.url ? (
             <img
@@ -390,9 +398,9 @@ function EditProductForm() {
         <div>
           <label>Image URL:</label>
           <input
-            type="text"
-            value={image5.url}
-            onChange={(e) => setImage5({ ...image5, url: e.target.value })}
+            type="file"
+            accept="image/*, video/*"
+            onChange={(e) => setImage5({ ...image5, url: URL.createObjectURL(e.target.files[0]) })}
           />
           {image5.url ? (
             <img
@@ -402,7 +410,7 @@ function EditProductForm() {
             />
           ) : null}
         </div>
-        <button type="submit">Update Your Product</button>
+        <button type="submit">{imagesLoading? "Loading" : "Update Your Product"}</button>
       </form>
     </main>
   );
