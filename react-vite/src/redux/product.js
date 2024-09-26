@@ -361,7 +361,7 @@ export const updateProductImage = (image, userId, imageId) => async (dispatch) =
   } else {
     const error = await response.json();
     console.log('error', error)
-    return error;
+    throw error;
   }
 };
 
@@ -372,12 +372,13 @@ export const deleteProductImage = (image) => async (dispatch) => {
     method: "DELETE",
   });
 
+  const data = await response.json();
   if (response.ok) {
-    const data = await response.json();
     dispatch(deleteImage(image));
     return data;
-  }
-  return response;
+  } else {
+    throw data
+  };
 };
 
 // Update inventory thunk

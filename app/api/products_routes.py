@@ -248,7 +248,7 @@ def delete_image(imageId):
     prevImg = ProductImage.query.get(imageId)
 
     if prevImg:
-        remove_file_from_s3(prevImg['url'])
+        remove_file_from_s3(prevImg.url)
 
         db.session.delete(prevImg)
         db.session.commit()

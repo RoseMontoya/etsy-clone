@@ -195,7 +195,6 @@ function EditProductForm() {
 
         // Delete images that have been removed
         await Promise.all(imagesDelete.map(async (image) => {
-          console.log(imagesDelete, image)
           return dispatch(deleteProductImage(image));
         }));
       } catch (e) {
@@ -334,7 +333,7 @@ function EditProductForm() {
               src={previewImage.url}
               alt="Preview if Image is valid"
             />
-            <button className="del-img" onClick={() => {imagesDelete.push(previewImage.id); setPreviewImage('')}}>Delete</button>
+            <button className="del-img" onClick={() => {imagesDelete.push(previewImage); setPreviewImage({...previewImage, url: ''})}}>Delete</button>
             </>
 
           ) : null}
@@ -354,7 +353,7 @@ function EditProductForm() {
               src={image1.url}
               alt="Preview if Image is valid"
             />
-            <button className="del-img" onClick={() => {imagesDelete.push(image1.id); setImage1('')}}>Delete</button>
+            <button className="del-img" onClick={() => {imagesDelete.push(image1); setImage1({...image1, url: ''})}}>Delete</button>
             </>
           ) : null}
         </div>
@@ -372,7 +371,7 @@ function EditProductForm() {
               src={image2.url}
               alt="Preview if Image is valid"
             />
-            <button className="del-img" onClick={() => {imagesDelete.push(image2.id); setImage2('')}}>Delete</button>
+            <button className="del-img" onClick={() => {imagesDelete.push(image2); setImage2({...image2, url: ''})}}>Delete</button>
             </>
           ) : null}
         </div>
@@ -390,7 +389,7 @@ function EditProductForm() {
               src={image3.url}
               alt="Preview if Image is valid"
             />
-            <button className="del-img" onClick={() => {imagesDelete.push(image3.id); setImage3('')}}>Delete</button>
+            <button className="del-img" onClick={() => {imagesDelete.push(image3); setImage3({...image3, url: ''})}}>Delete</button>
 
             </>
           ) : null}
@@ -409,7 +408,7 @@ function EditProductForm() {
               src={image4.url}
               alt="Preview if Image is valid"
             />
-            <button className="del-img" onClick={() => {imagesDelete.push(image4.id); setImage4('')}}>Delete</button>
+            <button className="del-img" onClick={() => {imagesDelete.push(image4); setImage4({...image4, url: ''})}}>Delete</button>
             </>
           ) : null}
         </div>
@@ -427,7 +426,7 @@ function EditProductForm() {
               src={image5.url}
               alt="Preview if Image is valid"
             />
-            <button className="del-img" onClick={() => {imagesDelete.push(image5); setImage5('')}}>Delete</button>
+            <button className="del-img" onClick={() => {imagesDelete.push(image5); setImage5({...image5, url: ''})}}>Delete</button>
             </>
           ) : null}
         </div>
