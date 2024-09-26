@@ -44,7 +44,7 @@ function LandingPage() {
   if (!randomProduct) return <Loading />;
 
   return (
-    <div className="landing-page">
+    <main className="landing-page">
       {user?.email ? (
         <>
           <div className="welcome-message">
@@ -91,7 +91,7 @@ function LandingPage() {
           </div>
         </div>
       )}
-    </div>
+    </main>
   );
 }
 

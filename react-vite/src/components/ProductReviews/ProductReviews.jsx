@@ -27,7 +27,7 @@ function ProductReviews({ productId, sellerId }) {
   const reviewsObj = useSelector(
     (state) => state.reviews.reviewsByProdId?.[productId]
   );
-  const user = useSelector(state => state.session.user?.username) // Get the current user's username
+  const user = useSelector((state) => state.session.user?.username); // Get the current user's username
 
   // Convert reviews object to an array
   const reviews = reviewsObj ? Object.values(reviewsObj) : [];
@@ -44,8 +44,13 @@ function ProductReviews({ productId, sellerId }) {
 
   // Handle review deletion by opening a confirmation modal
   const handleDelete = (reviewId) => {
-     setModalContent(<DeleteReview onDelete={() => deleteConfirm(reviewId, productId)} onClose={() => closeModal()}/>)
-  }
+    setModalContent(
+      <DeleteReview
+        onDelete={() => deleteConfirm(reviewId, productId)}
+        onClose={() => closeModal()}
+      />
+    );
+  };
 
   // Confirm deletion of a review and close the modal
   const deleteConfirm = async (reviewId, productId) => {

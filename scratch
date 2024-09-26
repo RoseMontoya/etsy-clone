@@ -1,62 +1,4 @@
-// React Imports
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
-
-// Redux Imports
-import {
-  addProduct,
-  addProductImage,
-} from "../../redux";
-
-// Design Imports
-import "./ProductForm.css";
-
-function NewProductForm() {
-  // State hooks to manage form inputs and error messages
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [inventory, setInventory] = useState(0);
-  const [price, setPrice] = useState(0);
-  const [categoryId, setCategoryId] = useState(0);
-  const [previewImageUrl, setPreviewImageUrl] = useState("");
-  const [image1Url, setImage1Url] = useState("");
-  const [image2Url, setImage2Url] = useState("");
-  const [image3Url, setImage3Url] = useState("");
-  const [image4Url, setImage4Url] = useState("");
-  const [image5Url, setImage5Url] = useState("");
-  const [imagesLoading, setImagesLoading] = useState(false);
-  const [errors, setErrors] = useState({});
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  // Get the current user from the Redux store
-  const user = useSelector((state) => state.session.user);
-  if (!user) return <Navigate to="/" replace={true} />;
-
-  // Function to validate form inputs before submission
-  const validateForm = () => {
-    const errorObj = {};
-
-    // Validate title, description, inventory, price, and category
-    if (!title) errorObj.title = "Title is required."
-    if (!description) errorObj.description = "Description is required."
-    if (description.length < 10) errorObj.description = "Description must be at least 10 characters long. Please provide more details on your product."
-    if (inventory <= 0) errorObj.inventory = "Inventory must be at least 1. Please enter a positive value."
-    if (price <= 0) errorObj.price = "Price must be greater than zero."
-    if (!categoryId) errorObj.category = "Category is required."
-
-    // Validate image URLs with a regex
-    if (!previewImageUrl.type.match(/image\/\w*/)) {
-      errorObj.previewImageUrl =
-        "A valid image URL is required for the preview image.";
-    }
-
-    return errorObj;
-  }
-
-  // Handle form submission
+// Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -132,19 +74,21 @@ function NewProductForm() {
         imageArray.map((image) => {
           const formData = new FormData();
           formData.append('product_id', image.product_id);
-          formData.append('image', image.url);
+          formData.append('url', image.url);
           formData.append('preview', image.preview);
-          return dispatch(addProductImage(formData, user.id))
+          // console.log("formData", formData)
+          dispatch(addProductImage(formData, user.id))
         })
       );
-      setImagesLoading(false)
     } catch (e) {
       console.log(e)
       setErrors(e.errors)
     }
+    setImagesLoading(false)
+    // dispatch(productByUserId());
 
-    // Navigate to the new product page
-    if (!Object.values(errors).length && !imagesLoading) {
+    // Handle errors or navigate to the new product page
+    if (!errors) {
       navigate(`/products/${productId}`);
     }
   };
@@ -264,6 +208,7 @@ function NewProductForm() {
             type="file"
             onChange={(e) => setPreviewImageUrl(e.target.files[0])}
             accept="image/*, video/*"
+            name="url"
           />
 
           {previewImageUrl && previewImageUrl.type.match(/image\/\w*/) ? (
@@ -289,7 +234,7 @@ function NewProductForm() {
           {image1Url ? (
             <img
               className="previewImagesize"
-              src={URL.createObjectURL(image1Url)}
+              src={image1Url}
               alt="Preview if Image is valid"
             />
           ) : null}
@@ -305,7 +250,7 @@ function NewProductForm() {
           {image2Url ? (
             <img
               className="previewImagesize"
-              src={URL.createObjectURL(image2Url)}
+              src={image2Url}
               alt="Preview if Image is valid"
             />
           ) : null}
@@ -321,7 +266,7 @@ function NewProductForm() {
           {image3Url ? (
             <img
               className="previewImagesize"
-              src={URL.createObjectURL(image3Url)}
+              src={image3Url}
               alt="Preview if Image is valid"
             />
           ) : null}
@@ -337,7 +282,7 @@ function NewProductForm() {
           {image4Url ? (
             <img
               className="previewImagesize"
-              src={URL.createObjectURL(image4Url)}
+              src={image4Url}
               alt="Preview if Image is valid"
             />
           ) : null}
@@ -353,15 +298,67 @@ function NewProductForm() {
           {image5Url ? (
             <img
               className="previewImagesize"
-              src={URL.createObjectURL(image5Url)}
+              src={image5Url}
               alt="Preview if Image is valid"
             />
           ) : null}
         </div>
-        <button id="prod-form-submit" type="submit">{imagesLoading? "Loading" : "Publish Your Product"}</button>
+        <button type="submit">{imagesLoading? "Loading" : "Publish Your Product"}</button>
       </form>
     </main>
   );
 }
 
-export default NewProductForm;
+// Add Image Thunk
+export const addProductImage = (image, userId) => async (dispatch) => {
+    console.log('add image', image)
+    const response = await fetch("/api/products/images/new", {
+      method: "POST",
+      // headers: { "Content-Type": "multipart/form-data" },
+      body: JSON.stringify(image),
+    });
+    if (response.ok) {
+      const newImage = await response.json();
+      dispatch(createImage(newImage, userId));
+      return newImage;
+    } else {
+      const error = await response.json();
+      return error;
+    }
+  };
+
+
+  @products_routes.route("/images/new", methods=["POST"])
+  @login_required
+  def create_images():
+      form = ProductImageForm()
+      form["csrf_token"].data = request.cookies["csrf_token"]
+      print("FORMMMMMM", form.data)
+
+      if form.validate_on_submit():
+          image = form.data["image"]
+          image.filename = get_unique_filename(image["filename"])
+          print("~~~~~~~~~~~~~~~~~", image)
+          upload = upload_file_to_s3(image)
+
+          print(upload)
+
+          if "url" not in upload:
+          # if the dictionary doesn't have a url key
+          # it means that there was an error when you tried to upload
+          # so you send back that error message (and you printed it above)
+              return {"errors": upload}, 400
+
+          url = upload["url"]
+          new_image = ProductImage(
+              product_id=form.data["product_id"],
+              url=url,
+              preview=form.data["preview"],
+          )
+          print('HEERRERERERE', new_image)
+          db.session.add(new_image)
+          db.session.commit()
+          return new_image.to_dict(), 201
+      else:
+          print("Form errors:", form.errors)
+          return form.errors, 400
