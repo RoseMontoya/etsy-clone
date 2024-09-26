@@ -324,7 +324,7 @@ function EditProductForm() {
               setPreviewImage({ ...previewImage, url: URL.createObjectURL(e.target.files[0]), file: e.target.files[0] })
             }
             type="file"
-            accept="image/*, video/*"
+            accept=".pdf, .png, .jpg, .jpeg, .gif"
           />
           {previewImage.url ? (
             <>
@@ -343,7 +343,7 @@ function EditProductForm() {
           <label>Image URL:</label>
           <input
             type="file"
-            accept="image/*, video/*"
+            accept=".pdf, .png, .jpg, .jpeg, .gif"
             onChange={(e) => setImage1({ ...image1, file: e.target.files[0], url: URL.createObjectURL(e.target.files[0])})}
           />
           {image1.url ? (
@@ -361,7 +361,7 @@ function EditProductForm() {
           <label>Image URL:</label>
           <input
             type="file"
-            accept="image/*, video/*"
+            accept=".pdf, .png, .jpg, .jpeg, .gif"
             onChange={(e) => setImage2({ ...image2, url: URL.createObjectURL(e.target.files[0]), file: e.target.files[0] })}
           />
           {image2.url ? (
@@ -379,7 +379,7 @@ function EditProductForm() {
           <label>Image URL:</label>
           <input
             type="file"
-            accept="image/*, video/*"
+            accept=".pdf, .png, .jpg, .jpeg, .gif"
             onChange={(e) => setImage3({ ...image3, url: URL.createObjectURL(e.target.files[0]), file: e.target.files[0] })}
           />
           {image3.url ? (
@@ -398,7 +398,7 @@ function EditProductForm() {
           <label>Image URL:</label>
           <input
             type="file"
-            accept="image/*, video/*"
+            accept=".pdf, .png, .jpg, .jpeg, .gif"
             onChange={(e) => setImage4({ ...image4, url: URL.createObjectURL(e.target.files[0]), file: e.target.files[0] })}
           />
           {image4.url ? (
@@ -416,7 +416,7 @@ function EditProductForm() {
           <label>Image URL:</label>
           <input
             type="file"
-            accept="image/*, video/*"
+            accept=".pdf, .png, .jpg, .jpeg, .gif"
             onChange={(e) => setImage5({ ...image5, url: URL.createObjectURL(e.target.files[0]), file: e.target.files[0] })}
           />
           {image5.url ? (

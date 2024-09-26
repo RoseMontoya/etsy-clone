@@ -263,7 +263,7 @@ function NewProductForm() {
           <input
             type="file"
             onChange={(e) => setPreviewImageUrl(e.target.files[0])}
-            accept="image/*, video/*"
+            accept=".pdf, .png, .jpg, .jpeg, .gif"
           />
 
           {previewImageUrl && previewImageUrl.type.match(/image\/\w*/) ? (
@@ -283,7 +283,7 @@ function NewProductForm() {
           <input
             type="file"
             onChange={(e) => setImage1Url(e.target.files[0])}
-            accept="image/*, video/*"
+            accept=".pdf, .png, .jpg, .jpeg, .gif"
           />
 
           {image1Url ? (
@@ -299,7 +299,7 @@ function NewProductForm() {
           <input
             type="file"
             onChange={(e) => setImage2Url(e.target.files[0])}
-            accept="image/*, video/*"
+            accept=".pdf, .png, .jpg, .jpeg, .gif"
           />
 
           {image2Url ? (
@@ -315,7 +315,7 @@ function NewProductForm() {
           <input
             type="file"
             onChange={(e) => setImage3Url(e.target.files[0])}
-            accept="image/*, video/*"
+            accept=".pdf, .png, .jpg, .jpeg, .gif"
           />
 
           {image3Url ? (
@@ -331,7 +331,7 @@ function NewProductForm() {
           <input
             type="file"
             onChange={(e) => setImage4Url(e.target.files[0])}
-            accept="image/*, video/*"
+            accept=".pdf, .png, .jpg, .jpeg, .gif"
           />
 
           {image4Url ? (
@@ -347,7 +347,7 @@ function NewProductForm() {
           <input
             type="file"
             onChange={(e) => setImage5Url(e.target.files[0])}
-            accept="image/*, video/*"
+            accept=".pdf, .png, .jpg, .jpeg, .gif"
           />
 
           {image5Url ? (
