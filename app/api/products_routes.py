@@ -183,7 +183,7 @@ def create_product():
 def create_images():
     form = ProductImageForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
-    print(form)
+    print("~~~~~~~~~~~~",form)
 
     if form.validate_on_submit():
         image = form.data["image"]

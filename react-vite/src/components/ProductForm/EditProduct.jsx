@@ -177,6 +177,7 @@ function EditProductForm() {
     setImagesLoading(true)
     try {
         await Promise.all(imagesAdd.map(async (image) => {
+          console.log("IMAGE", image)
           const formData = new FormData();
           formData.append('product_id', res.id);
           formData.append('image', image.file);
@@ -186,6 +187,7 @@ function EditProductForm() {
 
         // Update existing images
         await Promise.all(imagesUpdate.map(async (image) => {
+          console.log("IMAGE", image)
           const formData = new FormData();
           formData.append('product_id', image.product_id);
           formData.append('image', image.file);
