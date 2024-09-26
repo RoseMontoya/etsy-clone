@@ -7,7 +7,6 @@ import { Navigate, useNavigate } from "react-router-dom";
 import {
   addProduct,
   addProductImage,
-  productByUserId,
 } from "../../redux";
 
 // Design Imports
@@ -26,6 +25,7 @@ function NewProductForm() {
   const [image3Url, setImage3Url] = useState("");
   const [image4Url, setImage4Url] = useState("");
   const [image5Url, setImage5Url] = useState("");
+  const [imagesLoading, setImagesLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
   const dispatch = useDispatch();
@@ -48,8 +48,7 @@ function NewProductForm() {
     if (!categoryId) errorObj.category = "Category is required."
 
     // Validate image URLs with a regex
-    const imageUrlValid = /\.(jpeg|jpg|gif|png)$/;
-    if (!previewImageUrl.match(imageUrlValid)) {
+    if (!previewImageUrl.type.match(/image\/\w*/)) {
       errorObj.previewImageUrl =
         "A valid image URL is required for the preview image.";
     }
@@ -82,6 +81,7 @@ function NewProductForm() {
 
     // Dispatch addProduct action to add the new product
     const result = await dispatch(addProduct(new_product));
+    if (result.errors) setErrors(result.errors);
 
     const productId = result.id;
 
@@ -126,18 +126,25 @@ function NewProductForm() {
         preview: false,
       });
 
-    // Dispatch addProductImage for each image
-    await Promise.all(
-      imageArray.map((image) => dispatch(addProductImage(image, user.id)))
-    );
+    setImagesLoading(true)
+    try {
+      await Promise.all(
+        imageArray.map((image) => {
+          const formData = new FormData();
+          formData.append('product_id', image.product_id);
+          formData.append('image', image.url);
+          formData.append('preview', image.preview);
+          return dispatch(addProductImage(formData, user.id))
+        })
+      );
+      setImagesLoading(false)
+    } catch (e) {
+      console.log(e)
+      setErrors(e.errors)
+    }
 
-    // Fetch the updated product list for the user
-    dispatch(productByUserId());
-
-    // Handle errors or navigate to the new product page
-    if (result.errors) {
-      setErrors(result.errors);
-    } else {
+    // Navigate to the new product page
+    if (!Object.values(errors).length && !imagesLoading) {
       navigate(`/products/${productId}`);
     }
   };
@@ -153,7 +160,7 @@ function NewProductForm() {
 
   return (
     <main>
-      <form onSubmit={handleSubmit} className="product_form">
+      <form method="POST" onSubmit={handleSubmit} className="product_form" encType="multipart/form-data">
         <div>
           <label>
             <h3>Title</h3>
@@ -196,8 +203,8 @@ function NewProductForm() {
             value={inventory}
             onChange={(e) => setInventory(e.target.value)}
             onBlur={(e) => {
-              const formated = parseInt(e.target.value);
-              setInventory(formated);
+              const formatted = parseInt(e.target.value);
+              setInventory(formatted);
             }}
           />
           {errors.inventory && <p className="error">{errors.inventory}</p>}
@@ -218,8 +225,8 @@ function NewProductForm() {
             }}
             step="0.01"
             onBlur={(e) => {
-              const formated = formatDecimal(e.target);
-              setPrice(formated);
+              const formatted = formatDecimal(e.target);
+              setPrice(formatted);
             }}
           />
           {errors.price && <p className="error">{errors.price}</p>}
@@ -254,16 +261,17 @@ function NewProductForm() {
           </label>
           <p>Submit at least one photo to publish your product.</p>
           <input
-            type="text"
-            value={previewImageUrl}
-            onChange={(e) => setPreviewImageUrl(e.target.value)}
+            type="file"
+            onChange={(e) => setPreviewImageUrl(e.target.files[0])}
+            accept="image/*, video/*"
           />
 
-          {previewImageUrl ? (
+          {previewImageUrl && previewImageUrl.type.match(/image\/\w*/) ? (
             <img
               className="previewImagesize"
-              src={previewImageUrl}
+              src={URL.createObjectURL(previewImageUrl)}
               alt="Preview if Image is valid"
+
             />
           ) : null}
           {errors.previewImageUrl && (
@@ -273,15 +281,15 @@ function NewProductForm() {
         <div>
           <label>Image URL:</label>
           <input
-            type="text"
-            value={image1Url}
-            onChange={(e) => setImage1Url(e.target.value)}
+            type="file"
+            onChange={(e) => setImage1Url(e.target.files[0])}
+            accept="image/*, video/*"
           />
 
           {image1Url ? (
             <img
               className="previewImagesize"
-              src={image1Url}
+              src={URL.createObjectURL(image1Url)}
               alt="Preview if Image is valid"
             />
           ) : null}
@@ -289,15 +297,15 @@ function NewProductForm() {
         <div>
           <label>Image URL:</label>
           <input
-            type="text"
-            value={image2Url}
-            onChange={(e) => setImage2Url(e.target.value)}
+            type="file"
+            onChange={(e) => setImage2Url(e.target.files[0])}
+            accept="image/*, video/*"
           />
 
           {image2Url ? (
             <img
               className="previewImagesize"
-              src={image2Url}
+              src={URL.createObjectURL(image2Url)}
               alt="Preview if Image is valid"
             />
           ) : null}
@@ -305,15 +313,15 @@ function NewProductForm() {
         <div>
           <label>Image URL:</label>
           <input
-            type="text"
-            value={image3Url}
-            onChange={(e) => setImage3Url(e.target.value)}
+            type="file"
+            onChange={(e) => setImage3Url(e.target.files[0])}
+            accept="image/*, video/*"
           />
 
           {image3Url ? (
             <img
               className="previewImagesize"
-              src={image3Url}
+              src={URL.createObjectURL(image3Url)}
               alt="Preview if Image is valid"
             />
           ) : null}
@@ -321,15 +329,15 @@ function NewProductForm() {
         <div>
           <label>Image URL:</label>
           <input
-            type="text"
-            value={image4Url}
-            onChange={(e) => setImage4Url(e.target.value)}
+            type="file"
+            onChange={(e) => setImage4Url(e.target.files[0])}
+            accept="image/*, video/*"
           />
 
           {image4Url ? (
             <img
               className="previewImagesize"
-              src={image4Url}
+              src={URL.createObjectURL(image4Url)}
               alt="Preview if Image is valid"
             />
           ) : null}
@@ -337,20 +345,20 @@ function NewProductForm() {
         <div>
           <label>Image URL:</label>
           <input
-            type="text"
-            value={image5Url}
-            onChange={(e) => setImage5Url(e.target.value)}
+            type="file"
+            onChange={(e) => setImage5Url(e.target.files[0])}
+            accept="image/*, video/*"
           />
 
           {image5Url ? (
             <img
               className="previewImagesize"
-              src={image5Url}
+              src={URL.createObjectURL(image5Url)}
               alt="Preview if Image is valid"
             />
           ) : null}
         </div>
-        <button type="submit">Publish Your Product</button>
+        <button id="prod-form-submit" type="submit">{imagesLoading? "Loading" : "Publish Your Product"}</button>
       </form>
     </main>
   );

@@ -6,6 +6,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from ..models import db, Product, ProductImage, Review, Cart, CartItem
 from ..forms import ReviewForm, ProductForm, ProductImageForm
+from .aws_helpers import get_unique_filename, upload_file_to_s3, remove_file_from_s3
 
 # Defining blueprint for product-related routes
 products_routes = Blueprint("products", __name__)
@@ -182,11 +183,22 @@ def create_product():
 def create_images():
     form = ProductImageForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
+    print(form)
 
     if form.validate_on_submit():
+        image = form.data["image"]
+        image.filename = get_unique_filename(image.filename)
+        upload = upload_file_to_s3(image)
+
+        print(upload)
+
+        if "url" not in upload:
+            return {"errors": upload}, 400
+
+        url = upload["url"]
         new_image = ProductImage(
             product_id=form.data["product_id"],
-            url=form.data["url"],
+            url=url,
             preview=form.data["preview"],
         )
         db.session.add(new_image)
@@ -203,14 +215,26 @@ def create_images():
 def update_product_image(imageId):
     form = ProductImageForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
-
+    print("~~~~~~~~~~~~",form)
     if form.validate_on_submit():
-        image = ProductImage.query.get(imageId)
-        if image:
-            image.url = form.data["url"]
+        prev_image = ProductImage.query.get(imageId)
+        # print(image.url)
+        if prev_image:
+            remove_file_from_s3(prev_image.url)
+
+            image = form.data["image"]
+            image.filename = get_unique_filename(image.filename)
+            upload = upload_file_to_s3(image)
+
+            print(upload)
+
+            if "url" not in upload:
+                return {"errors": upload}, 400
+
+            prev_image.url = upload['url']
 
             db.session.commit()
-            return image.to_dict(), 200
+            return prev_image.to_dict(), 200
         else:
             return {"error": "Image not found"}, 404
     else:
@@ -224,6 +248,8 @@ def delete_image(imageId):
     prevImg = ProductImage.query.get(imageId)
 
     if prevImg:
+        remove_file_from_s3(prevImg.url)
+
         db.session.delete(prevImg)
         db.session.commit()
         return prevImg.to_dict()

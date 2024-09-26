@@ -331,10 +331,10 @@ export const deleteProduct = (productId, userId) => async (dispatch) => {
 
 // Add Image Thunk
 export const addProductImage = (image, userId) => async (dispatch) => {
+
   const response = await fetch("/api/products/images/new", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(image),
+    body: image,
   });
   if (response.ok) {
     const newImage = await response.json();
@@ -342,16 +342,16 @@ export const addProductImage = (image, userId) => async (dispatch) => {
     return newImage;
   } else {
     const error = await response.json();
-    return error;
+    console.log('ERROR',error)
+    throw error;
   }
 };
 
 // Update Product Images
-export const updateProductImage = (image, userId) => async (dispatch) => {
-  const response = await fetch(`/api/products/images/${image.id}`, {
+export const updateProductImage = (image, userId, imageId) => async (dispatch) => {
+  const response = await fetch(`/api/products/images/${imageId}`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(image),
+    body: image,
   });
 
   if (response.ok) {
@@ -360,22 +360,25 @@ export const updateProductImage = (image, userId) => async (dispatch) => {
     return updatedImage;
   } else {
     const error = await response.json();
-    return error;
+    console.log('error', error)
+    throw error;
   }
 };
 
 // Thunk to delete a product image
 export const deleteProductImage = (image) => async (dispatch) => {
+  console.log('image', image)
   const response = await fetch(`/api/products/images/${image.id}`, {
     method: "DELETE",
   });
 
+  const data = await response.json();
   if (response.ok) {
-    const data = await response.json();
     dispatch(deleteImage(image));
     return data;
+  } else {
+    throw data
   }
-  return response;
 };
 
 // Update inventory thunk
