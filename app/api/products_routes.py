@@ -183,7 +183,6 @@ def create_product():
 def create_images():
     form = ProductImageForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
-    print("~~~~~~~~~~~~",form)
 
     if form.validate_on_submit():
         image = form.data["image"]
@@ -215,27 +214,22 @@ def create_images():
 def update_product_image(imageId):
     form = ProductImageForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
-    print("~~~~~~~~~~~~",form)
+
     if form.validate_on_submit():
         prev_image = ProductImage.query.get(imageId)
-        # print(image.url)
         if prev_image:
-            print("HERE")
             remove_file_from_s3(prev_image.url)
 
             image = form.data["image"]
-            print("HERE2")
             image.filename = get_unique_filename(image.filename)
-            print("HERE3")
             upload = upload_file_to_s3(image)
 
-            print('upload',upload)
+            print(upload)
 
             if "url" not in upload:
                 return {"errors": upload}, 400
 
             prev_image.url = upload['url']
-            print("HERE4", prev_image)
 
             db.session.commit()
             return prev_image.to_dict(), 200
