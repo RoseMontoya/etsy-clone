@@ -1,20 +1,33 @@
-import "./Checkout.css";
-import { useNavigate, Link, Navigate } from "react-router-dom";
-import { clearCart, getAllCartItems } from "../../redux/cart";
-import { useDispatch, useSelector } from "react-redux";
-import { updateInventory } from "../../redux/product";
+// React Imports
 import { useEffect, useState } from "react";
-import { thunkAllProducts } from "../../redux/product";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, Link, Navigate } from "react-router-dom";
+
+// Redux Imports
+import {
+  clearCart,
+  getAllCartItems,
+  updateInventory,
+  thunkAllProducts,
+} from "../../redux";
+
+// Design Imports
+import "./Checkout.css";
+
+// Helper Imports
+import { Loading } from "../SubComponents";
 
 function Checkout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // Select cart items and products from the Redux store
   const user = useSelector((state) => state.session.user);
   const cartObj = useSelector((state) => state.cart?.cartItems);
   const allProducts = useSelector((state) => state.products?.allProducts);
   const cartArr = cartObj ? Object.values(cartObj) : [];
 
+  // State variables for handling form input and errors
   const [cardName, setCardName] = useState("");
   const [cardNumber, setCardNumber] = useState("");
   const [cardExpiration, setCardExpiration] = useState("");
@@ -23,6 +36,7 @@ function Checkout() {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
+    // Fetch cart items and products if they are not already loaded
     if (!cartObj) {
       dispatch(getAllCartItems());
     }
@@ -31,26 +45,58 @@ function Checkout() {
     }
   }, [dispatch, cartObj, allProducts]);
 
+  // Function to validate form input fields
   const validateForm = () => {
     const errorObj = {};
 
     if (!cardName) errorObj.cardName = "Name is required.";
-    if (!cardNumber) errorObj.cardNumber = "Card number is required.";
-    if (!cardExpiration)
+
+    const cardNumberRegex = /^\d{13,19}$/;
+    if (!cardNumber) {
+      errorObj.cardNumber = "Card number is required.";
+    } else if (!cardNumberRegex.test(cardNumber.replace(/\s+/g, ""))) {
+      errorObj.cardNumber = "Invalid card number.";
+    }
+
+    const expDateRegex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/;
+    if (!cardExpiration) {
       errorObj.cardExpiration = "Card expiration date is required.";
-    if (!cardCvv) errorObj.cardCvv = "CVV is required.";
+    } else if (!expDateRegex.test(cardExpiration)) {
+      errorObj.cardExpiration = "Invalid expiration date.";
+    } else {
+      const [month, year] = cardExpiration.split("/");
+      const currentYear = new Date().getFullYear() % 100;
+      const currentMonth = new Date().getMonth() + 1;
+      if (
+        Number(year) < currentYear ||
+        (Number(year) === currentYear && Number(month) < currentMonth)
+      ) {
+        errorObj.cardExpiration = "Expiration date cannot be in the past.";
+      }
+    }
+
+    const cvvRegex = /^[0-9]{3,4}$/;
+    if (!cardCvv) {
+      errorObj.cardCvv = "CVV is required.";
+    } else if (!cvvRegex.test(cardCvv)) {
+      errorObj.cardCvv = "Invalid CVV.";
+    }
+
     if (!billingAddress)
       errorObj.billingAddress = "Billing address is required.";
     return errorObj;
   };
 
+  // Handler to complete the transaction
   const handleCompleteTransaction = async (e) => {
     e.preventDefault();
+    // Validate the form fields
     const formErrors = validateForm();
     if (Object.values(formErrors).length > 0) {
       setErrors(formErrors);
       return;
     }
+    // Update inventory and clear the cart on successful transaction
     dispatch(updateInventory())
       .then(() => {
         dispatch(clearCart());
@@ -62,27 +108,12 @@ function Checkout() {
       });
   };
 
+  // Show loading indicator if cart items or products are not loaded
   if (!user) return <Navigate to="/" replace={true} />;
 
-  if (!cartObj || !allProducts)
-    return (
-      <main>
-        <div className="center-loading">
-          <div className="lds-roller">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-          <p>Loading...</p>
-        </div>
-      </main>
-    );
+  if (!cartObj || !allProducts) return <Loading />;
 
+  // Function to calculate the total price of all items in the cart
   const cartTotal = (cartArr) => {
     let total = 0;
     for (let item of cartArr) {
@@ -98,6 +129,7 @@ function Checkout() {
     return total.toFixed(2);
   };
 
+  // Function to format the expiration date input
   const expDateFormatter = (expdate) =>
     expdate.replace(/\//g, "").substring(0, 2) +
     (expdate.length > 2 ? "/" : "") +

@@ -1,12 +1,12 @@
-import "./CompleteTransaction.css";
 import { Link, Navigate } from "react-router-dom";
-import "./CompleteTransaction.css";
 import { useSelector } from "react-redux";
+import "./CompleteTransaction.css";
 
 function CompleteTransaction() {
   const user = useSelector((state) => state.session.user);
   if (!user) return <Navigate to="/" replace={true} />;
 
+    // Get the current date and time
   const now = new Date();
 
   // Get the current year, month, day, hour, minute, second, and millisecond

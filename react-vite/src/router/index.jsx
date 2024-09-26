@@ -1,20 +1,21 @@
 import { createBrowserRouter } from "react-router-dom";
-import LandingPage from "../components/LandingPage";
-import ProductList from "../components/ProductList";
+
+// Component Imports
 import Layout from "./Layout";
-import ProductDetails from "../components/ProductDetails";
-import FavoritesPage from "../components/FavoritesPage/FavoritesPage";
-import ProductManage from "../components/ProductManagePage/ProductManage";
-import NewProductForm from "../components/ProductForm/CreateProduct";
-import EditProductForm from "../components/ProductForm/EditProduct";
-import Cart from "../components/Cart/Cart";
-import Checkout from "../components/Checkout/Checkout";
-import CompleteTransaction from "../components/CompleteTransaction/CompleteTransaction";
-import Homeliving from "../components/NavButtonComponent/HomeLiving";
-import Accessories from "../components/NavButtonComponent/Accessories";
-import Crafting from "../components/NavButtonComponent/Crafting";
-import Clothing from "../components/NavButtonComponent/Clothing";
-import Jewelry from "../components/NavButtonComponent/Jewelry";
+import {
+  Cart,
+  Checkout,
+  CompleteTransaction,
+  FavoritesPage,
+  LandingPage,
+  ProductDetails,
+  NewProductForm,
+  EditProductForm,
+  ProductList,
+  ProductManage,
+} from "../components";
+import ProductsByCategory from "../components/NavButtonComponent/ProductsByCategory";
+import NotFoundPage from "../components/SubComponents/NotFound";
 
 export const router = createBrowserRouter([
   {
@@ -61,24 +62,12 @@ export const router = createBrowserRouter([
         element: <CompleteTransaction />,
       },
       {
-        path: "/products/homeliving",
-        element: <Homeliving />,
+        path: "/products/categories/:categoryId",
+        element: <ProductsByCategory />,
       },
       {
-        path: "/products/accessories",
-        element: <Accessories />,
-      },
-      {
-        path: "/products/crafting",
-        element: <Crafting />,
-      },
-      {
-        path: "/products/clothing",
-        element: <Clothing />,
-      },
-      {
-        path: "/products/jewelry",
-        element: <Jewelry />,
+        path: "*",
+        element: <NotFoundPage />,
       },
     ],
   },

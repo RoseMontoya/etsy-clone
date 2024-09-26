@@ -1,24 +1,34 @@
+// React Imports
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
-import "./ProductManage.css";
-import { productByUserId, deleteProduct } from "../../redux/product";
-import { IoSettingsOutline } from "react-icons/io5";
+
+// Redux/Component Imports
+import { productByUserId, deleteProduct } from "../../redux";
 import ConfirmDeleteModal from "./ConfirmDeletionModal";
 import { useModal } from "../../context/Modal";
+
+// Design Imports
+import { IoSettingsOutline } from "react-icons/io5";
+import "./ProductManage.css";
+
+// Helper Imports
+import { Loading } from "../SubComponents";
 
 function ProductManage() {
   const dispatch = useDispatch();
   const buttonRef = useRef();
   const { setModalContent, closeModal } = useModal();
 
+  // Track which product's dropdown is open
   const [showDropDownId, setShowDropDownId] = useState(null); // Track the product ID
 
+  // Get current user and products from Redux store
   const user = useSelector((state) => state.session.user);
   const productsObj = useSelector((state) => state.products?.productsCurrent);
-
   const products = productsObj ? Object.values(productsObj) : [];
 
+  // Toggle the dropdown menu for the clicked product
   const toggleMenu = (e, productId) => {
     e.stopPropagation();
     if (showDropDownId === productId) {
@@ -42,6 +52,7 @@ function ProductManage() {
   }, [showDropDownId]);
 
   useEffect(() => {
+    // Fetch user's products if not already loaded
     if (!productsObj) {
       dispatch(productByUserId());
     }
@@ -49,25 +60,10 @@ function ProductManage() {
 
   if (!user) return <Navigate to="/" replace={true} />;
 
-  if (!productsObj)
-    return (
-      <main>
-        <div className="center-loading">
-          <div className="lds-roller">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-          <p>Loading...</p>
-        </div>
-      </main>
-    );
+  // Display loading spinner while products are being fetched
+  if (!productsObj) return <Loading />;
 
+  // Display message when there are no products
   if (products?.length === 0)
     return (
       <main>
@@ -82,6 +78,7 @@ function ProductManage() {
       </main>
     );
 
+  // Handle click event to open confirmation modal for deleting a product
   const handleDeleteClick = (productId) => {
     setModalContent(
       <ConfirmDeleteModal
@@ -91,6 +88,7 @@ function ProductManage() {
     );
   };
 
+  // Function to handle the deletion confirmation
   const handleDeleteConfirm = async (productId) => {
     await dispatch(deleteProduct(productId, user.id));
     closeModal();
@@ -127,9 +125,12 @@ function ProductManage() {
               <div className="man-prod-options">
                 {showDropDownId === product.id && (
                   <div className="drop_down_container">
-                    <p className="drop_down_item">
-                      <Link to={`/products/${product.id}/edit`}>Edit</Link>
-                    </p>
+                    <Link
+                      to={`/products/${product.id}/edit`}
+                      className="drop_down_item"
+                    >
+                      <p>Edit</p>
+                    </Link>
                     <p
                       onClick={() => handleDeleteClick(product.id)}
                       className="drop_down_item"

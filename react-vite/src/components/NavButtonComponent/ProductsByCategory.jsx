@@ -1,25 +1,30 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { thunkAllProducts } from "../../redux/product";
 import { addToCart, getAllCartItems } from "../../redux/cart";
 import { favoritesByUserId } from "../../redux/favorite";
 import { Heart, Stars, OwnProductConflictModal } from "../SubComponents";
-import "./Category.css";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import { useModal } from "../../context/Modal"; // Import the modal context
 
 import { FaPlus } from "react-icons/fa6";
 
-function ProductList() {
+// Helper Imports
+import { Loading } from "../SubComponents";
+
+function ProductsByCategory() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { categoryId } = useParams();
   const { setModalContent } = useModal(); // Use the modal context to trigger the login modal
   const productsObj = useSelector((state) => state.products?.allProducts);
   const user = useSelector((state) => state.session.user);
   const rawProducts = productsObj ? Object.values(productsObj) : [];
-  const products = rawProducts.filter((product) => product.category_id === 4);
+  const products = rawProducts.filter(
+    (product) => product.category_id === Number(categoryId)
+  );
   const favoritesObj = useSelector((state) => state.favorites?.[user?.id]);
   const favProducts = favoritesObj
     ? Object.values(favoritesObj).map((fav) => fav.product_id)
@@ -34,24 +39,7 @@ function ProductList() {
     }
   }, [dispatch, productsObj, favoritesObj, user]);
 
-  if (!productsObj)
-    return (
-      <main>
-        <div className="center-loading">
-          <div className="lds-roller">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-          <p>Loading...</p>
-        </div>
-      </main>
-    );
+  if (!productsObj) return <Loading />;
 
   if (products.length === 0)
     return (
@@ -162,4 +150,4 @@ function ProductList() {
   );
 }
 
-export default ProductList;
+export default ProductsByCategory;

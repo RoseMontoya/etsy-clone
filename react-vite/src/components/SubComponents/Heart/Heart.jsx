@@ -1,46 +1,55 @@
-import { useDispatch, useSelector } from "react-redux";
+// React Imports
 import { useState } from "react";
-import { addFavorite, removeFavorite } from "../../../redux/favorite";
+import { useDispatch, useSelector } from "react-redux";
+// Redux/Component Imports
+import { addFavorite, removeFavorite } from "../../../redux";
+import OwnProductConflictModal from "../OwnProductConflictModal";
+import { useModal } from "../../../context/Modal";
+// Design Imports
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import "./Heart.css";
-import OwnProductConflictModal from "../OwnProductConflictModal";
-import { useModal } from "../../../context/Modal"; // Import the modal context
 
 function Heart({ initial, productId, sellerId }) {
   const dispatch = useDispatch();
   const { setModalContent } = useModal(); // Use the modal context to trigger the login modal
-  const [favorited, setFavorited] = useState(initial);
-  const user = useSelector((state) => state.session.user);
+  const [favorited, setFavorited] = useState(initial); // State to track if the product is favorited
+  const user = useSelector((state) => state.session.user); // Selector to get the current user from the Redux store
 
+  // Function to handle unfavoriting a product
   const handleUnfavorite = (productId) => {
+    // If the user is the seller of the product, show a modal instead of removing from favorites
     if (user.id === sellerId) {
       setModalContent(<OwnProductConflictModal />);
       return;
     }
 
+    // Dispatch the action to remove the product from favorites
     dispatch(removeFavorite(productId)).then(() => {
       const popUpRemoved = document.getElementById("remove_fav");
-      popUpRemoved.style.display = "block";
+      popUpRemoved.style.display = "block"; // Show "Removed from favorites" notification
       setTimeout(() => {
-        popUpRemoved.style.display = "none";
+        popUpRemoved.style.display = "none"; // Hide notification after 2 seconds
       }, 2000);
-      setFavorited(false);
+      setFavorited(false); // Update state to reflect that the product is no longer favorited
     });
   };
 
+  // Function to handle favoriting a product
   const handleFavorite = (productId) => {
+    // If the user is the seller of the product, show a modal instead of adding to favorites
     if (user.id === sellerId) {
       setModalContent(<OwnProductConflictModal />);
       return;
     }
+    // Dispatch the action to add the product to favorites
     dispatch(addFavorite(productId)).then(() => {
       const popUpSaved = document.getElementById("add_fav");
-      popUpSaved.style.display = "block";
+      popUpSaved.style.display = "block"; // Show "Added to favorites" notification
       setTimeout(() => {
-        popUpSaved.style.display = "none";
+        popUpSaved.style.display = "none"; // Hide notification after 2 seconds
       }, 2000);
-      setFavorited(true);
+      setFavorited(true); // Update state to reflect that the product is now favorited
     });
   };
 

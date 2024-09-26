@@ -1,22 +1,32 @@
+// React Imports
 import { useState } from "react";
-import { thunkLogin } from "../../redux/session";
 import { useDispatch } from "react-redux";
+
+// Component/Redux Imports
+import { thunkLogin } from "../../redux/session";
 import { useModal } from "../../context/Modal";
-import SignupFormModal from "../SignupFormModal/SignupFormModal";
-import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
+import { SignupFormModal, OpenModalMenuItem } from '../'
+
+// Design Imports
 import { IoMdClose } from "react-icons/io";
 import "./LoginForm.css";
 
 function LoginFormModal({ text }) {
   const dispatch = useDispatch();
+
+  // State for storing user input and form errors
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+
+  // Close modal function from context
   const { closeModal } = useModal();
 
+  // Handler for form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Dispatch login thunk action
     const serverResponse = await dispatch(
       thunkLogin({
         email,
@@ -24,6 +34,7 @@ function LoginFormModal({ text }) {
       })
     );
 
+    // Handle errors if the response contains errors
     if (serverResponse) {
       setErrors(serverResponse);
     } else {
@@ -31,14 +42,17 @@ function LoginFormModal({ text }) {
     }
   };
 
-  //DemoUser Set up
+  // Handler for demo user login
   const handleDemoLogin = async () => {
     const demoUser = {
       email: "john.doe@example.com",
       password: "password1",
     };
+
+    // Dispatch login action with demo user credentials
     const serverResponse = await dispatch(thunkLogin(demoUser));
 
+    // Handle errors if the response contains errors
     if (serverResponse) {
       setErrors(serverResponse);
     } else {

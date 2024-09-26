@@ -1,21 +1,34 @@
+// React Imports
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { thunkAllProducts } from "../../redux/product";
-import { addToCart, getAllCartItems } from "../../redux/cart";
-import { favoritesByUserId } from "../../redux/favorite";
+
+// Redux Imports
+import {
+  thunkAllProducts,
+  addToCart,
+  getAllCartItems,
+  favoritesByUserId,
+} from "../../redux";
+
+// Component Imports
+import { OpenModalMenuItem, LoginFormModal } from "../";
 import { Heart, Stars, OwnProductConflictModal } from "../SubComponents";
-import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
-import LoginFormModal from "../LoginFormModal";
-import { useModal } from "../../context/Modal"; // Import the modal context
+import { useModal } from "../../context/Modal";
+
+// Design Imports
+import { FaPlus } from "react-icons/fa6";
 import "./ProductList.css";
 
-import { FaPlus } from "react-icons/fa6";
+// Helper Imports
+import { Loading } from "../SubComponents";
 
 function ProductList() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { setModalContent } = useModal(); // Use the modal context to trigger the login modal
+
+  // Selectors to access Redux state
   const productsObj = useSelector((state) => state.products?.allProducts);
   const user = useSelector((state) => state.session.user);
   const products = productsObj ? Object.values(productsObj) : [];
@@ -25,6 +38,7 @@ function ProductList() {
     : [];
 
   useEffect(() => {
+    // Fetch all products and user favorites if not already available
     if (!productsObj) {
       dispatch(thunkAllProducts());
     }
@@ -33,24 +47,8 @@ function ProductList() {
     }
   }, [dispatch, productsObj, favoritesObj, user]);
 
-  if (!productsObj)
-    return (
-      <main>
-        <div className="center-loading">
-          <div className="lds-roller">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-          <p>Loading...</p>
-        </div>
-      </main>
-    );
+  // Show loading spinner if products are not yet loaded
+  if (!productsObj) return <Loading />;
 
   if (products.length === 0)
     return (
@@ -61,6 +59,17 @@ function ProductList() {
       </main>
     );
 
+  // Show message if there are no products to display
+  if (products.length === 0)
+    return (
+      <main>
+        <div className="center-in-page">
+          <h2>No products for sell. Please check back later.</h2>
+        </div>
+      </main>
+    );
+
+  // Function to handle adding a product to the cart
   const handleAddToCart = (product) => {
     if (!user) {
       // If the user is not logged in, open the login modal
@@ -75,10 +84,13 @@ function ProductList() {
       product: product, // The entire product object
     };
 
+    // Check if the user is trying to add their own product to the cart
     if (user.id === cartItem.product.seller.id) {
       setModalContent(<OwnProductConflictModal />);
       return;
     }
+
+    // Add the product to the cart and navigate to the cart page
     dispatch(addToCart(cartItem)).then(() => {
       dispatch(getAllCartItems()).then(() => {
         navigate("/cart"); // Redirect to the cart page after updating the cart

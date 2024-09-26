@@ -1,5 +1,4 @@
 from .db import db, SCHEMA, environment, add_prefix_for_prod
-
 from sqlalchemy.sql import func
 
 

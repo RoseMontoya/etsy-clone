@@ -1,3 +1,4 @@
+// React Imports
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,11 +9,13 @@ import { favoritesByUserId } from "../../redux/favorite";
 import { getAllCartItems, addToCart } from "../../redux/cart";
 
 // component imports
-import ProductReviews from "../ProductReviews";
-import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
-import ReviewFormModal from "../ReviewFormModal";
-import { useModal } from "../../context/Modal"; // Import the modal context
-import LoginFormModal from "../LoginFormModal";
+import {
+  ProductReviews,
+  OpenModalMenuItem,
+  ReviewFormModal,
+  LoginFormModal,
+} from "../";
+import { useModal } from "../../context/Modal";
 import { Stars, Heart, OwnProductConflictModal } from "../SubComponents";
 
 // Design imports
@@ -20,13 +23,21 @@ import "./ProductDetails.css";
 import { FaGreaterThan } from "react-icons/fa6";
 import { FaLessThan } from "react-icons/fa6";
 
+// Helper Imports
+import { Loading } from "../SubComponents";
+
 function ProductDetails() {
-  const { productId } = useParams();
+  const { productId } = useParams(); // Get the product ID from the URL params
   const dispatch = useDispatch();
-  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+
+  const [errors, setErrors] = useState({});
+
+  // Get the user from the Redux store
   const user = useSelector((state) => state.session.user);
   const { setModalContent } = useModal(); // Use the modal context to trigger the login modal
+
+  // Get the specific product details from the Redux store
   const product = useSelector(
     (state) => state.products.productById?.[productId]
   );
@@ -100,25 +111,7 @@ function ProductDetails() {
   }
 
   // Check if product is loaded
-  if (!product) {
-    return (
-      <main>
-        <div className="center-loading">
-          <div className="lds-roller">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-          <p>Loading...</p>
-        </div>
-      </main>
-    );
-  }
+  if (!product) return <Loading />;
 
   const handleAddToCart = () => {
     if (!user) {
@@ -134,11 +127,13 @@ function ProductDetails() {
       product: product, // The entire product object
     };
 
+    // Show modal if user tries to add their own product to the cart
     if (user.id === cartItem.product.seller.id) {
       setModalContent(<OwnProductConflictModal />);
       return;
     }
 
+    // Add to cart and navigate to cart page
     dispatch(addToCart(cartItem)).then(() => {
       dispatch(getAllCartItems()).then(() => {
         navigate("/cart"); // Redirect to the cart page after updating the cart
@@ -166,6 +161,7 @@ function ProductDetails() {
     setMainImgId(newid);
   };
 
+  // Handler for the back button click in the image carousel
   const backClick = () => {
     if (mainImgId == 0) {
       setMainImage(images[images.length - 1].url);
@@ -176,6 +172,7 @@ function ProductDetails() {
     }
   };
 
+  // Handler for the forward button click in the image carousel
   const forwardClick = () => {
     if (mainImgId == images.length - 1) {
       setMainImage(images[0].url);
